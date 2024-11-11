@@ -1,0 +1,22 @@
+services:
+  ndc-rest:
+    image: ghcr.io/hasura/ndc-rest:${NDC_REST_VERSION:-v0.4.0}
+    ports:
+      - 8080:8080
+    depends_on:
+      ollama:
+        required: true
+        condition: service_started
+    volumes:
+      - ./schema:/etc/connector:ro
+    environment:
+      OLLAMA_SERVER_URL: http://ollama:11434
+      OLLAMA_TIMEOUT: 600
+      HASURA_LOG_LEVEL: debug
+
+  ollama:
+    build:
+      context: testdata/config
+      dockerfile: Dockerfile
+    ports:
+      - 11434:11434

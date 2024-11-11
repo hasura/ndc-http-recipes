@@ -1,0 +1,4765 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-rest/refs/heads/main/ndc-rest-schema/jsonschema/ndc-rest-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "http://localhost:4445",
+          "env": "HYDRA_ADMIN_SERVER_URL"
+        }
+      }
+    ]
+  },
+  "functions": {
+    "hydraGetJsonWebKey": {
+      "request": {
+        "url": "/admin/keys/{set}/{kid}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "kid": {
+          "description": "JSON Web Key ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "kid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "set": {
+          "description": "JSON Web Key Set ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "set",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get JSON Web Key",
+      "result_type": {
+        "name": "JsonWebKeySet",
+        "type": "named"
+      }
+    },
+    "hydraGetJsonWebKeySet": {
+      "request": {
+        "url": "/admin/keys/{set}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "set": {
+          "description": "JSON Web Key Set ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "set",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a JSON Web Key Set",
+      "result_type": {
+        "name": "JsonWebKeySet",
+        "type": "named"
+      }
+    },
+    "hydraGetOAuth2Client": {
+      "request": {
+        "url": "/admin/clients/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The id of the OAuth 2.0 Client.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get an OAuth 2.0 Client",
+      "result_type": {
+        "name": "OAuth2Client",
+        "type": "named"
+      }
+    },
+    "hydraGetOAuth2ConsentRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/consent",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "consent_challenge": {
+          "description": "OAuth 2.0 Consent Request Challenge",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "consent_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get OAuth 2.0 Consent Request",
+      "result_type": {
+        "name": "OAuth2ConsentRequest",
+        "type": "named"
+      }
+    },
+    "hydraGetOAuth2LoginRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/login",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "login_challenge": {
+          "description": "OAuth 2.0 Login Request Challenge",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "login_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get OAuth 2.0 Login Request",
+      "result_type": {
+        "name": "OAuth2LoginRequest",
+        "type": "named"
+      }
+    },
+    "hydraGetOAuth2LogoutRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/logout",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "logout_challenge": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "logout_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get OAuth 2.0 Session Logout Request",
+      "result_type": {
+        "name": "OAuth2LogoutRequest",
+        "type": "named"
+      }
+    },
+    "hydraGetTrustedOAuth2JwtGrantIssuer": {
+      "request": {
+        "url": "/admin/trust/grants/jwt-bearer/issuers/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The id of the desired grant",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Trusted OAuth2 JWT Bearer Grant Type Issuer",
+      "result_type": {
+        "name": "TrustedOAuth2JwtGrantIssuer",
+        "type": "named"
+      }
+    },
+    "hydraGetVersion": {
+      "request": {
+        "url": "/version",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Return Running Software Version.",
+      "result_type": {
+        "name": "GetVersion200Response",
+        "type": "named"
+      }
+    },
+    "hydraIsAlive": {
+      "request": {
+        "url": "/health/alive",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Check HTTP Server Status",
+      "result_type": {
+        "name": "HealthStatus",
+        "type": "named"
+      }
+    },
+    "hydraListOAuth2Clients": {
+      "request": {
+        "url": "/admin/clients",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "client_name": {
+          "description": "The name of the clients to filter by.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "client_name",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "owner": {
+          "description": "The owner of the clients to filter by.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "owner",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "description": "Items per Page\n\nThis is the number of items per page to return.\nFor details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int64",
+              "maximum": 500,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "Next Page Token\n\nThe next page token.\nFor details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "minimum": 1
+            }
+          }
+        }
+      },
+      "description": "List OAuth 2.0 Clients",
+      "result_type": {
+        "element_type": {
+          "name": "OAuth2Client",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "hydraListOAuth2ConsentSessions": {
+      "request": {
+        "url": "/admin/oauth2/auth/sessions/consent",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "login_session_id": {
+          "description": "The login session id to list the consent sessions for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "login_session_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "description": "Items per Page\n\nThis is the number of items per page to return.\nFor details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int64",
+              "maximum": 500,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "Next Page Token\n\nThe next page token.\nFor details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "minimum": 1
+            }
+          }
+        },
+        "subject": {
+          "description": "The subject to list the consent sessions for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List OAuth 2.0 Consent Sessions of a Subject",
+      "result_type": {
+        "element_type": {
+          "name": "OAuth2ConsentSession",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "hydraListTrustedOAuth2JwtGrantIssuers": {
+      "request": {
+        "url": "/admin/trust/grants/jwt-bearer/issuers",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "DefaultItems": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "DefaultItems",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int64"
+            }
+          }
+        },
+        "MaxItems": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "MaxItems",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int64"
+            }
+          }
+        },
+        "issuer": {
+          "description": "If optional \"issuer\" is supplied, only jwt-bearer grants with this issuer will be returned.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "issuer",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List Trusted OAuth2 JWT Bearer Grant Type Issuers",
+      "result_type": {
+        "element_type": {
+          "name": "TrustedOAuth2JwtGrantIssuer",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    }
+  },
+  "object_types": {
+    "AcceptOAuth2ConsentRequest": {
+      "fields": {
+        "context": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        },
+        "grant_access_token_audience": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "grant_scope": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "handled_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "remember": {
+          "description": "Remember, if set to true, tells ORY Hydra to remember this consent authorization and reuse it if the same\nclient asks the same user for the same, or a subset of, scope.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "remember_for": {
+          "description": "RememberFor sets how long the consent authorization should be remembered for in seconds. If set to `0`, the\nauthorization will be remembered indefinitely.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "session": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AcceptOAuth2ConsentRequestSession",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AcceptOAuth2ConsentRequestSession": {
+      "fields": {
+        "access_token": {
+          "description": "AccessToken sets session data for the access and refresh token, as well as any future tokens issued by the\nrefresh grant. Keep in mind that this data will be available to anyone performing OAuth 2.0 Challenge Introspection.\nIf only your services can perform OAuth 2.0 Challenge Introspection, this is usually fine. But if third parties\ncan access that endpoint as well, sensitive data from the session might be exposed to them. Use with care!",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        },
+        "id_token": {
+          "description": "IDToken sets session data for the OpenID Connect ID token. Keep in mind that the session'id payloads are readable\nby anyone that has access to the ID Challenge. Use with care!",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        }
+      }
+    },
+    "AcceptOAuth2LoginRequest": {
+      "fields": {
+        "acr": {
+          "description": "ACR sets the Authentication AuthorizationContext Class Reference value for this authentication session. You can use it\nto express that, for example, a user authenticated using two factor authentication.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "amr": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "context": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        },
+        "extend_session_lifespan": {
+          "description": "Extend OAuth2 authentication session lifespan\n\nIf set to `true`, the OAuth2 authentication cookie lifespan is extended. This is for example useful if you want the user to be able to use `prompt=none` continuously.\n\nThis value can only be set to `true` if the user has an authentication, which is the case if the `skip` value is `true`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "force_subject_identifier": {
+          "description": "ForceSubjectIdentifier forces the \"pairwise\" user ID of the end-user that authenticated. The \"pairwise\" user ID refers to the\n(Pairwise Identifier Algorithm)[http://openid.net/specs/openid-connect-core-1_0.html#PairwiseAlg] of the OpenID\nConnect specification. It allows you to set an obfuscated subject (\"user\") identifier that is unique to the client.\n\nPlease note that this changes the user ID on endpoint /userinfo and sub claim of the ID Token. It does not change the\nsub claim in the OAuth 2.0 Introspection.\n\nPer default, ORY Hydra handles this value with its own algorithm. In case you want to set this yourself\nyou can use this field. Please note that setting this field has no effect if `pairwise` is not configured in\nORY Hydra or the OAuth 2.0 Client does not expect a pairwise identifier (set via `subject_type` key in the client's\nconfiguration).\n\nPlease also be aware that ORY Hydra is unable to properly compute this value during authentication. This implies\nthat you have to compute this value on every authentication process (probably depending on the client ID or some\nother unique value).\n\nIf you fail to compute the proper value, then authentication processes which have id_token_hint set might fail.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "identity_provider_session_id": {
+          "description": "IdentityProviderSessionID is the session ID of the end-user that authenticated.\nIf specified, we will use this value to propagate the logout.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "remember": {
+          "description": "Remember, if set to true, tells ORY Hydra to remember this user by telling the user agent (browser) to store\na cookie with authentication data. If the same user performs another OAuth 2.0 Authorization Request, he/she\nwill not be asked to log in again.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "remember_for": {
+          "description": "RememberFor sets how long the authentication should be remembered for in seconds. If set to `0`, the\nauthorization will be remembered for the duration of the browser session (using a session cookie).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "subject": {
+          "description": "Subject is the user ID of the end-user that authenticated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreateJsonWebKeySet": {
+      "description": "Create JSON Web Key Set Request Body",
+      "fields": {
+        "alg": {
+          "description": "JSON Web Key Algorithm\n\nThe algorithm to be used for creating the key. Supports `RS256`, `ES256`, `ES512`, `HS512`, and `HS256`.",
+          "type": {
+            "name": "JsonWebKeyAlgorithm",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kid": {
+          "description": "JSON Web Key ID\n\nThe Key ID of the key to be created.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "use": {
+          "description": "JSON Web Key Use\n\nThe \"use\" (public key use) parameter identifies the intended use of\nthe public key. The \"use\" parameter is employed to indicate whether\na public key is used for encrypting data or verifying the signature\non data. Valid values are \"enc\" and \"sig\".",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetVersion200Response": {
+      "fields": {
+        "version": {
+          "description": "The version of Ory Hydra.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "HealthStatus": {
+      "fields": {
+        "status": {
+          "description": "Status always contains \"ok\".",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IntrospectOAuth2TokenRequest": {
+      "fields": {
+        "scope": {
+          "description": "An optional, space separated list of required scopes. If the access token was not granted one of the\nscopes, the result of active will be false.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token": {
+          "description": "The string value of the token. For access tokens, this\nis the \"access_token\" value returned from the token endpoint\ndefined in OAuth 2.0. For refresh tokens, this is the \"refresh_token\"\nvalue returned.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IntrospectedOAuth2Token": {
+      "description": "Introspection contains an access token's session data as specified by\n[IETF RFC 7662](https://tools.ietf.org/html/rfc7662)",
+      "fields": {
+        "active": {
+          "description": "Active is a boolean indicator of whether or not the presented token\nis currently active.  The specifics of a token's \"active\" state\nwill vary depending on the implementation of the authorization\nserver and the information it keeps about its tokens, but a \"true\"\nvalue return for the \"active\" property will generally indicate\nthat a given token has been issued by this authorization server,\nhas not been revoked by the resource owner, and is within its\ngiven time window of validity (e.g., after its issuance time and\nbefore its expiration time).",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "aud": {
+          "description": "Audience contains a list of the token's intended audiences.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "client_id": {
+          "description": "ID is aclient identifier for the OAuth 2.0 client that\nrequested this token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "exp": {
+          "description": "Expires at is an integer timestamp, measured in the number of seconds\nsince January 1 1970 UTC, indicating when this token will expire.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "ext": {
+          "description": "Extra is arbitrary data set by the session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "iat": {
+          "description": "Issued at is an integer timestamp, measured in the number of seconds\nsince January 1 1970 UTC, indicating when this token was\noriginally issued.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "iss": {
+          "description": "IssuerURL is a string representing the issuer of this token",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "nbf": {
+          "description": "NotBefore is an integer timestamp, measured in the number of seconds\nsince January 1 1970 UTC, indicating when this token is not to be\nused before.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "obfuscated_subject": {
+          "description": "ObfuscatedSubject is set when the subject identifier algorithm was set to \"pairwise\" during authorization.\nIt is the `sub` value of the ID Token that was issued.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "scope": {
+          "description": "Scope is a JSON string containing a space-separated list of\nscopes associated with this token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sub": {
+          "description": "Subject of the token, as defined in JWT [RFC7519].\nUsually a machine-readable identifier of the resource owner who\nauthorized this token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_type": {
+          "description": "TokenType is the introspected token's type, typically `Bearer`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_use": {
+          "description": "TokenUse is the introspected token's use, for example `access_token` or `refresh_token`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "username": {
+          "description": "Username is a human-readable identifier for the resource owner who\nauthorized this token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "JsonPatch": {
+      "description": "A JSONPatch document as defined by RFC 6902",
+      "fields": {
+        "from": {
+          "description": "This field is used together with operation \"move\" and uses JSON Pointer notation.\n\nLearn more [about JSON Pointers](https://datatracker.ietf.org/doc/html/rfc6901#section-5).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "op": {
+          "description": "The operation to be performed. One of \"add\", \"remove\", \"replace\", \"move\", \"copy\", or \"test\".",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "path": {
+          "description": "The path to the target path. Uses JSON pointer notation.\n\nLearn more [about JSON Pointers](https://datatracker.ietf.org/doc/html/rfc6901#section-5).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The value to be used within the operations.\n\nLearn more [about JSON Pointers](https://datatracker.ietf.org/doc/html/rfc6901#section-5).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        }
+      }
+    },
+    "JsonWebKey": {
+      "fields": {
+        "alg": {
+          "description": "The \"alg\" (algorithm) parameter identifies the algorithm intended for\nuse with the key.  The values used should either be registered in the\nIANA \"JSON Web Signature and Encryption Algorithms\" registry\nestablished by [JWA] or be a value that contains a Collision-\nResistant Name.",
+          "type": {
+            "name": "JsonWebKeyAlgorithm",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "crv": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "d": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "dp": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "dq": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "e": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "k": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kid": {
+          "description": "The \"kid\" (key ID) parameter is used to match a specific key.  This\nis used, for instance, to choose among a set of keys within a JWK Set\nduring key rollover.  The structure of the \"kid\" value is\nunspecified.  When \"kid\" values are used within a JWK Set, different\nkeys within the JWK Set SHOULD use distinct \"kid\" values.  (One\nexample in which different keys might use the same \"kid\" value is if\nthey have different \"kty\" (key type) values but are considered to be\nequivalent alternatives by the application using them.)  The \"kid\"\nvalue is a case-sensitive string.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kty": {
+          "description": "The \"kty\" (key type) parameter identifies the cryptographic algorithm\nfamily used with the key, such as \"RSA\" or \"EC\". \"kty\" values should\neither be registered in the IANA \"JSON Web Key Types\" registry\nestablished by [JWA] or be a value that contains a Collision-\nResistant Name.  The \"kty\" value is a case-sensitive string.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "n": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "p": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "q": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "qi": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "use": {
+          "description": "Use (\"public key use\") identifies the intended use of\nthe public key. The \"use\" parameter is employed to indicate whether\na public key is used for encrypting data or verifying the signature\non data. Values are commonly \"sig\" (signature) or \"enc\" (encryption).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "x": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "x5c": {
+          "description": "The \"x5c\" (X.509 certificate chain) parameter contains a chain of one\nor more PKIX certificates [RFC5280].  The certificate chain is\nrepresented as a JSON array of certificate value strings.  Each\nstring in the array is a base64-encoded (Section 4 of [RFC4648] --\nnot base64url-encoded) DER [ITU.X690.1994] PKIX certificate value.\nThe PKIX certificate containing the key value MUST be the first\ncertificate.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "y": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "JsonWebKeySet": {
+      "description": "JSON Web Key Set",
+      "fields": {
+        "keys": {
+          "description": "List of JSON Web Keys\n\nThe value of the \"keys\" parameter is an array of JSON Web Key (JWK)\nvalues. By default, the order of the JWK values within the array does\nnot imply an order of preference among them, although applications\nof JWK Sets can choose to assign a meaning to the order for their\npurposes, if desired.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "JsonWebKey",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "OAuth2Client": {
+      "description": "OAuth 2.0 Clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are\ngenerated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.",
+      "fields": {
+        "access_token_strategy": {
+          "description": "OAuth 2.0 Access Token Strategy\n\nAccessTokenStrategy is the strategy used to generate access tokens.\nValid options are `jwt` and `opaque`. `jwt` is a bad idea, see https://www.ory.sh/docs/hydra/advanced#json-web-tokens\nSetting the stragegy here overrides the global setting in `strategies.access_token`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "allowed_cors_origins": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "audience": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "authorization_code_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "authorization_code_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "authorization_code_grant_refresh_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "backchannel_logout_session_required": {
+          "description": "OpenID Connect Back-Channel Logout Session Required\n\nBoolean value specifying whether the RP requires that a sid (session ID) Claim be included in the Logout\nToken to identify the RP session with the OP when the backchannel_logout_uri is used.\nIf omitted, the default value is false.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "backchannel_logout_uri": {
+          "description": "OpenID Connect Back-Channel Logout URI\n\nRP URL that will cause the RP to log itself out when sent a Logout Token by the OP.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_credentials_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "client_id": {
+          "description": "OAuth 2.0 Client ID\n\nThe ID is immutable. If no ID is provided, a UUID4 will be generated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_name": {
+          "description": "OAuth 2.0 Client Name\n\nThe human-readable name of the client to be presented to the\nend-user during authorization.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_secret": {
+          "description": "OAuth 2.0 Client Secret\n\nThe secret will be included in the create request as cleartext, and then\nnever again. The secret is kept in hashed format and is not recoverable once lost.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_secret_expires_at": {
+          "description": "OAuth 2.0 Client Secret Expires At\n\nThe field is currently not supported and its value is always 0.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "client_uri": {
+          "description": "OAuth 2.0 Client URI\n\nClientURI is a URL string of a web page providing information about the client.\nIf present, the server SHOULD display this URL to the end-user in\na clickable fashion.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "contacts": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "created_at": {
+          "description": "OAuth 2.0 Client Creation Date\n\nCreatedAt returns the timestamp of the client's creation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "frontchannel_logout_session_required": {
+          "description": "OpenID Connect Front-Channel Logout Session Required\n\nBoolean value specifying whether the RP requires that iss (issuer) and sid (session ID) query parameters be\nincluded to identify the RP session with the OP when the frontchannel_logout_uri is used.\nIf omitted, the default value is false.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "frontchannel_logout_uri": {
+          "description": "OpenID Connect Front-Channel Logout URI\n\nRP URL that will cause the RP to log itself out when rendered in an iframe by the OP. An iss (issuer) query\nparameter and a sid (session ID) query parameter MAY be included by the OP to enable the RP to validate the\nrequest and to determine which of the potentially multiple sessions is to be logged out; if either is\nincluded, both MUST be.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "grant_types": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OAuth2GrantType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "implicit_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "implicit_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "jwks": {
+          "description": "OAuth 2.0 Client JSON Web Key Set\n\nClient's JSON Web Key Set [JWK] document, passed by value. The semantics of the jwks parameter are the same as\nthe jwks_uri parameter, other than that the JWK Set is passed by value, rather than by reference. This parameter\nis intended only to be used by Clients that, for some reason, are unable to use the jwks_uri parameter, for\ninstance, by native applications that might not have a location to host the contents of the JWK Set. If a Client\ncan use jwks_uri, it MUST NOT use jwks. One significant downside of jwks is that it does not enable key rotation\n(which jwks_uri does, as described in Section 10 of OpenID Connect Core 1.0 [OpenID.Core]). The jwks_uri and jwks\nparameters MUST NOT be used together.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        },
+        "jwks_uri": {
+          "description": "OAuth 2.0 Client JSON Web Key Set URL\n\nURL for the Client's JSON Web Key Set [JWK] document. If the Client signs requests to the Server, it contains\nthe signing key(s) the Server uses to validate signatures from the Client. The JWK Set MAY also contain the\nClient's encryption keys(s), which are used by the Server to encrypt responses to the Client. When both signing\nand encryption keys are made available, a use (Key Use) parameter value is REQUIRED for all keys in the referenced\nJWK Set to indicate each key's intended usage. Although some algorithms allow the same key to be used for both\nsignatures and encryption, doing so is NOT RECOMMENDED, as it is less secure. The JWK x5c parameter MAY be used\nto provide X.509 representations of keys provided. When used, the bare key values MUST still be present and MUST\nmatch those in the certificate.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "jwt_bearer_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "logo_uri": {
+          "description": "OAuth 2.0 Client Logo URI\n\nA URL string referencing the client's logo.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        },
+        "owner": {
+          "description": "OAuth 2.0 Client Owner\n\nOwner is a string identifying the owner of the OAuth 2.0 Client.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "policy_uri": {
+          "description": "OAuth 2.0 Client Policy URI\n\nPolicyURI is a URL string that points to a human-readable privacy policy document\nthat describes how the deployment organization collects, uses,\nretains, and discloses personal data.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "post_logout_redirect_uris": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "redirect_uris": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "refresh_token_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "refresh_token_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "refresh_token_grant_refresh_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "registration_access_token": {
+          "description": "OpenID Connect Dynamic Client Registration Access Token\n\nRegistrationAccessToken can be used to update, get, or delete the OAuth2 Client. It is sent when creating a client\nusing Dynamic Client Registration.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "registration_client_uri": {
+          "description": "OpenID Connect Dynamic Client Registration URL\n\nRegistrationClientURI is the URL used to update, get, or delete the OAuth2 Client.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "request_object_signing_alg": {
+          "description": "OpenID Connect Request Object Signing Algorithm\n\nJWS [JWS] alg algorithm [JWA] that MUST be used for signing Request Objects sent to the OP. All Request Objects\nfrom this Client MUST be rejected, if not signed with this algorithm.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2SigningAlgorithm",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "request_uris": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_types": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OAuth2ResponseType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "scope": {
+          "description": "OAuth 2.0 Client Scope\n\nScope is a string containing a space-separated list of scope values (as\ndescribed in Section 3.3 of OAuth 2.0 [RFC6749]) that the client\ncan use when requesting access tokens.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2Scope",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sector_identifier_uri": {
+          "description": "OpenID Connect Sector Identifier URI\n\nURL using the https scheme to be used in calculating Pseudonymous Identifiers by the OP. The URL references a\nfile with a single JSON array of redirect_uri values.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "skip_consent": {
+          "description": "SkipConsent skips the consent screen for this client. This field can only\nbe set from the admin API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "skip_logout_consent": {
+          "description": "SkipLogoutConsent skips the logout consent screen for this client. This field can only\nbe set from the admin API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subject_type": {
+          "description": "OpenID Connect Subject Type\n\nThe `subject_types_supported` Discovery parameter contains a\nlist of the supported subject_type values for this server. Valid types include `pairwise` and `public`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OpenIDConnectSubjectType",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_endpoint_auth_method": {
+          "description": "OAuth 2.0 Token Endpoint Authentication Method\n\nRequested Client Authentication method for the Token Endpoint. The options are:\n\n`client_secret_basic`: (default) Send `client_id` and `client_secret` as `application/x-www-form-urlencoded` encoded in the HTTP Authorization header.\n`client_secret_post`: Send `client_id` and `client_secret` as `application/x-www-form-urlencoded` in the HTTP body.\n`private_key_jwt`: Use JSON Web Tokens to authenticate the client.\n`none`: Used for public clients (native apps, mobile apps) which can not have secrets.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TokenEndpointAuthMethod",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_endpoint_auth_signing_alg": {
+          "description": "OAuth 2.0 Token Endpoint Signing Algorithm\n\nRequested Client Authentication signing algorithm for the Token Endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2SigningAlgorithm",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "tos_uri": {
+          "description": "OAuth 2.0 Client Terms of Service URI\n\nA URL string pointing to a human-readable terms of service\ndocument for the client that describes a contractual relationship\nbetween the end-user and the client that the end-user accepts when\nauthorizing the client.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "updated_at": {
+          "description": "OAuth 2.0 Client Last Update Date\n\nUpdatedAt returns the timestamp of the last update.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "userinfo_signed_response_alg": {
+          "description": "OpenID Connect Request Userinfo Signed Response Algorithm\n\nJWS alg algorithm [JWA] REQUIRED for signing UserInfo Responses. If this is specified, the response will be JWT\n[JWT] serialized, and signed using JWS. The default, if omitted, is for the UserInfo Response to return the Claims\nas a UTF-8 encoded JSON object using the application/json content-type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2SigningAlgorithm",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OAuth2ClientTokenLifespans": {
+      "description": "Lifespans of different token types issued for this OAuth 2.0 Client.",
+      "fields": {
+        "authorization_code_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "authorization_code_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "authorization_code_grant_refresh_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "client_credentials_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "implicit_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "implicit_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "jwt_bearer_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "refresh_token_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "refresh_token_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "refresh_token_grant_refresh_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        }
+      }
+    },
+    "OAuth2ConsentRequest": {
+      "fields": {
+        "acr": {
+          "description": "ACR represents the Authentication AuthorizationContext Class Reference value for this authentication session. You can use it\nto express that, for example, a user authenticated using two factor authentication.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "amr": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "challenge": {
+          "description": "ID is the identifier (\"authorization challenge\") of the consent authorization request. It is used to\nidentify the session.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client": {
+          "description": "OAuth 2.0 Clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are\ngenerated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2Client",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "context": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        },
+        "login_challenge": {
+          "description": "LoginChallenge is the login challenge this consent challenge belongs to. It can be used to associate\na login and consent request in the login \u0026 consent app.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "login_session_id": {
+          "description": "LoginSessionID is the login session ID. If the user-agent reuses a login session (via cookie / remember flag)\nthis ID will remain the same. If the user-agent did not have an existing authentication session (e.g. remember is false)\nthis will be a new random value. This value is used as the \"sid\" parameter in the ID Token and in OIDC Front-/Back-\nchannel logout. It's value can generally be used to associate consecutive login requests by a certain user.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "oidc_context": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2ConsentRequestOpenIDConnectContext",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "request_url": {
+          "description": "RequestURL is the original OAuth 2.0 Authorization URL requested by the OAuth 2.0 client. It is the URL which\ninitiates the OAuth 2.0 Authorization Code or OAuth 2.0 Implicit flow. This URL is typically not needed, but\nmight come in handy if you want to deal with additional request parameters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "requested_access_token_audience": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "requested_scope": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "skip": {
+          "description": "Skip, if true, implies that the client has requested the same scopes from the same user previously.\nIf true, you must not ask the user to grant the requested scopes. You must however either allow or deny the\nconsent request using the usual API call.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subject": {
+          "description": "Subject is the user ID of the end-user that authenticated. Now, that end user needs to grant or deny the scope\nrequested by the OAuth 2.0 client.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OAuth2ConsentRequestOpenIDConnectContext": {
+      "fields": {
+        "acr_values": {
+          "description": "ACRValues is the Authentication AuthorizationContext Class Reference requested in the OAuth 2.0 Authorization request.\nIt is a parameter defined by OpenID Connect and expresses which level of authentication (e.g. 2FA) is required.\n\nOpenID Connect defines it as follows:\n\u003e Requested Authentication AuthorizationContext Class Reference values. Space-separated string that specifies the acr values\nthat the Authorization Server is being requested to use for processing this Authentication Request, with the\nvalues appearing in order of preference. The Authentication AuthorizationContext Class satisfied by the authentication\nperformed is returned as the acr Claim Value, as specified in Section 2. The acr Claim is requested as a\nVoluntary Claim by this parameter.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "display": {
+          "description": "Display is a string value that specifies how the Authorization Server displays the authentication and consent user interface pages to the End-User.\nThe defined values are:\npage: The Authorization Server SHOULD display the authentication and consent UI consistent with a full User Agent page view. If the display parameter is not specified, this is the default display mode.\npopup: The Authorization Server SHOULD display the authentication and consent UI consistent with a popup User Agent window. The popup User Agent window should be of an appropriate size for a login-focused dialog and should not obscure the entire window that it is popping up over.\ntouch: The Authorization Server SHOULD display the authentication and consent UI consistent with a device that leverages a touch interface.\nwap: The Authorization Server SHOULD display the authentication and consent UI consistent with a \"feature phone\" type display.\n\nThe Authorization Server MAY also attempt to detect the capabilities of the User Agent and present an appropriate display.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id_token_hint_claims": {
+          "description": "IDTokenHintClaims are the claims of the ID Token previously issued by the Authorization Server being passed as a hint about the\nEnd-User's current or past authenticated session with the Client.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "login_hint": {
+          "description": "LoginHint hints about the login identifier the End-User might use to log in (if necessary).\nThis hint can be used by an RP if it first asks the End-User for their e-mail address (or other identifier)\nand then wants to pass that value as a hint to the discovered authorization service. This value MAY also be a\nphone number in the format specified for the phone_number Claim. The use of this parameter is optional.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ui_locales": {
+          "description": "UILocales is the End-User'id preferred languages and scripts for the user interface, represented as a\nspace-separated list of BCP47 [RFC5646] language tag values, ordered by preference. For instance, the value\n\"fr-CA fr en\" represents a preference for French as spoken in Canada, then French (without a region designation),\nfollowed by English (without a region designation). An error SHOULD NOT result if some or all of the requested\nlocales are not supported by the OpenID Provider.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "OAuth2ConsentSession": {
+      "description": "A completed OAuth 2.0 Consent Session.",
+      "fields": {
+        "consent_request": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2ConsentRequest",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "context": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": null
+          }
+        },
+        "expires_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2ConsentSessionExpiresAt",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "grant_access_token_audience": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "grant_scope": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "handled_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "remember": {
+          "description": "Remember Consent\n\nRemember, if set to true, tells ORY Hydra to remember this consent authorization and reuse it if the same\nclient asks the same user for the same, or a subset of, scope.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "remember_for": {
+          "description": "Remember Consent For\n\nRememberFor sets how long the consent authorization should be remembered for in seconds. If set to `0`, the\nauthorization will be remembered indefinitely.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "session": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AcceptOAuth2ConsentRequestSession",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "OAuth2ConsentSessionExpiresAt": {
+      "fields": {
+        "access_token": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "authorize_code": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id_token": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "par_context": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "refresh_token": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "OAuth2LoginRequest": {
+      "fields": {
+        "challenge": {
+          "description": "ID is the identifier (\"login challenge\") of the login request. It is used to\nidentify the session.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client": {
+          "description": "OAuth 2.0 Clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are\ngenerated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.",
+          "type": {
+            "name": "OAuth2Client",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "oidc_context": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2ConsentRequestOpenIDConnectContext",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "request_url": {
+          "description": "RequestURL is the original OAuth 2.0 Authorization URL requested by the OAuth 2.0 client. It is the URL which\ninitiates the OAuth 2.0 Authorization Code or OAuth 2.0 Implicit flow. This URL is typically not needed, but\nmight come in handy if you want to deal with additional request parameters.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "requested_access_token_audience": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "requested_scope": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "session_id": {
+          "description": "SessionID is the login session ID. If the user-agent reuses a login session (via cookie / remember flag)\nthis ID will remain the same. If the user-agent did not have an existing authentication session (e.g. remember is false)\nthis will be a new random value. This value is used as the \"sid\" parameter in the ID Token and in OIDC Front-/Back-\nchannel logout. It's value can generally be used to associate consecutive login requests by a certain user.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "skip": {
+          "description": "Skip, if true, implies that the client has requested the same scopes from the same user previously.\nIf true, you can skip asking the user to grant the requested scopes, and simply forward the user to the redirect URL.\n\nThis feature allows you to update / set session information.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subject": {
+          "description": "Subject is the user ID of the end-user that authenticated. Now, that end user needs to grant or deny the scope\nrequested by the OAuth 2.0 client. If this value is set and `skip` is true, you MUST include this subject type\nwhen accepting the login request, or the request will fail.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OAuth2LogoutRequest": {
+      "fields": {
+        "challenge": {
+          "description": "Challenge is the identifier (\"logout challenge\") of the logout authentication request. It is used to\nidentify the session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client": {
+          "description": "OAuth 2.0 Clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are\ngenerated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2Client",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "request_url": {
+          "description": "RequestURL is the original Logout URL requested.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "rp_initiated": {
+          "description": "RPInitiated is set to true if the request was initiated by a Relying Party (RP), also known as an OAuth 2.0 Client.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "sid": {
+          "description": "SessionID is the login session ID that was requested to log out.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subject": {
+          "description": "Subject is the user for whom the logout was request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OAuth2RedirectTo": {
+      "description": "Contains a redirect URL used to complete a login, consent, or logout request.",
+      "fields": {
+        "redirect_to": {
+          "description": "RedirectURL is the URL which you should redirect the user's browser to once the authentication process is completed.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RejectOAuth2Request": {
+      "fields": {
+        "error": {
+          "description": "The error should follow the OAuth2 error format (e.g. `invalid_request`, `login_required`).\n\nDefaults to `request_denied`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "error_debug": {
+          "description": "Debug contains information to help resolve the problem as a developer. Usually not exposed\nto the public but only in the server logs.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "error_description": {
+          "description": "Description of the error in a human readable format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "error_hint": {
+          "description": "Hint to help resolve the error.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status_code": {
+          "description": "Represents the HTTP status code of the error (e.g. 401 or 403)\n\nDefaults to 400",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "TrustOAuth2JwtGrantIssuer": {
+      "description": "Trust OAuth2 JWT Bearer Grant Type Issuer Request Body",
+      "fields": {
+        "allow_any_subject": {
+          "description": "The \"allow_any_subject\" indicates that the issuer is allowed to have any principal as the subject of the JWT.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "expires_at": {
+          "description": "The \"expires_at\" indicates, when grant will expire, so we will reject assertion from \"issuer\" targeting \"subject\".",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "issuer": {
+          "description": "The \"issuer\" identifies the principal that issued the JWT assertion (same as \"iss\" claim in JWT).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "jwk": {
+          "type": {
+            "name": "JsonWebKey",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "scope": {
+          "description": "The \"scope\" contains list of scope values (as described in Section 3.3 of OAuth 2.0 [RFC6749])",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subject": {
+          "description": "The \"subject\" identifies the principal that is the subject of the JWT.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "TrustedOAuth2JwtGrantIssuer": {
+      "description": "OAuth2 JWT Bearer Grant Type Issuer Trust Relationship",
+      "fields": {
+        "allow_any_subject": {
+          "description": "The \"allow_any_subject\" indicates that the issuer is allowed to have any principal as the subject of the JWT.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "created_at": {
+          "description": "The \"created_at\" indicates, when grant was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "expires_at": {
+          "description": "The \"expires_at\" indicates, when grant will expire, so we will reject assertion from \"issuer\" targeting \"subject\".",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "issuer": {
+          "description": "The \"issuer\" identifies the principal that issued the JWT assertion (same as \"iss\" claim in JWT).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "public_key": {
+          "description": "OAuth2 JWT Bearer Grant Type Issuer Trusted JSON Web Key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrustedOAuth2JwtGrantJsonWebKey",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "scope": {
+          "description": "The \"scope\" contains list of scope values (as described in Section 3.3 of OAuth 2.0 [RFC6749])",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subject": {
+          "description": "The \"subject\" identifies the principal that is the subject of the JWT.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "TrustedOAuth2JwtGrantJsonWebKey": {
+      "description": "OAuth2 JWT Bearer Grant Type Issuer Trusted JSON Web Key",
+      "fields": {
+        "kid": {
+          "description": "The \"key_id\" is key unique identifier (same as kid header in jws/jwt).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "set": {
+          "description": "The \"set\" is basically a name for a group(set) of keys. Will be the same as \"issuer\" in grant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "hydraAcceptOAuth2ConsentRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/consent/accept",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /admin/oauth2/auth/requests/consent/accept",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AcceptOAuth2ConsentRequest",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "consent_challenge": {
+          "description": "OAuth 2.0 Consent Request Challenge",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "consent_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Accept OAuth 2.0 Consent Request",
+      "result_type": {
+        "name": "OAuth2RedirectTo",
+        "type": "named"
+      }
+    },
+    "hydraAcceptOAuth2LoginRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/login/accept",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /admin/oauth2/auth/requests/login/accept",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AcceptOAuth2LoginRequest",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "login_challenge": {
+          "description": "OAuth 2.0 Login Request Challenge",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "login_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Accept OAuth 2.0 Login Request",
+      "result_type": {
+        "name": "OAuth2RedirectTo",
+        "type": "named"
+      }
+    },
+    "hydraAcceptOAuth2LogoutRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/logout/accept",
+        "method": "put",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "logout_challenge": {
+          "description": "OAuth 2.0 Logout Request Challenge",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "logout_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Accept OAuth 2.0 Session Logout Request",
+      "result_type": {
+        "name": "OAuth2RedirectTo",
+        "type": "named"
+      }
+    },
+    "hydraCreateJsonWebKeySet": {
+      "request": {
+        "url": "/admin/keys/{set}",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /admin/keys/{set}",
+          "type": {
+            "name": "CreateJsonWebKeySet",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "set": {
+          "description": "The JSON Web Key Set ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "set",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Create JSON Web Key",
+      "result_type": {
+        "name": "JsonWebKeySet",
+        "type": "named"
+      }
+    },
+    "hydraCreateOAuth2Client": {
+      "request": {
+        "url": "/admin/clients",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /admin/clients",
+          "type": {
+            "name": "OAuth2Client",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create OAuth 2.0 Client",
+      "result_type": {
+        "name": "OAuth2Client",
+        "type": "named"
+      }
+    },
+    "hydraDeleteJsonWebKey": {
+      "request": {
+        "url": "/admin/keys/{set}/{kid}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "kid": {
+          "description": "The JSON Web Key ID (kid)",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "kid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "set": {
+          "description": "The JSON Web Key Set",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "set",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete JSON Web Key",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "hydraDeleteJsonWebKeySet": {
+      "request": {
+        "url": "/admin/keys/{set}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "set": {
+          "description": "The JSON Web Key Set",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "set",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete JSON Web Key Set",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "hydraDeleteOAuth2Client": {
+      "request": {
+        "url": "/admin/clients/{id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The id of the OAuth 2.0 Client.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete OAuth 2.0 Client",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "hydraDeleteOAuth2Token": {
+      "request": {
+        "url": "/admin/oauth2/tokens",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "client_id": {
+          "description": "OAuth 2.0 Client ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete OAuth 2.0 Access Tokens from specific OAuth 2.0 Client",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "hydraDeleteTrustedOAuth2JwtGrantIssuer": {
+      "request": {
+        "url": "/admin/trust/grants/jwt-bearer/issuers/{id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The id of the desired grant",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete Trusted OAuth2 JWT Bearer Grant Type Issuer",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "hydraIntrospectOAuth2Token": {
+      "request": {
+        "url": "/admin/oauth2/introspect",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /admin/oauth2/introspect",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IntrospectOAuth2TokenRequest",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Introspect OAuth2 Access and Refresh Tokens",
+      "result_type": {
+        "name": "IntrospectedOAuth2Token",
+        "type": "named"
+      }
+    },
+    "hydraPatchOAuth2Client": {
+      "request": {
+        "url": "/admin/clients/{id}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /admin/clients/{id}",
+          "type": {
+            "element_type": {
+              "name": "JsonPatch",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "The id of the OAuth 2.0 Client.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Patch OAuth 2.0 Client",
+      "result_type": {
+        "name": "OAuth2Client",
+        "type": "named"
+      }
+    },
+    "hydraRejectOAuth2ConsentRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/consent/reject",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /admin/oauth2/auth/requests/consent/reject",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RejectOAuth2Request",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "consent_challenge": {
+          "description": "OAuth 2.0 Consent Request Challenge",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "consent_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Reject OAuth 2.0 Consent Request",
+      "result_type": {
+        "name": "OAuth2RedirectTo",
+        "type": "named"
+      }
+    },
+    "hydraRejectOAuth2LoginRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/login/reject",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /admin/oauth2/auth/requests/login/reject",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RejectOAuth2Request",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "login_challenge": {
+          "description": "OAuth 2.0 Login Request Challenge",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "login_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Reject OAuth 2.0 Login Request",
+      "result_type": {
+        "name": "OAuth2RedirectTo",
+        "type": "named"
+      }
+    },
+    "hydraRejectOAuth2LogoutRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/logout/reject",
+        "method": "put",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "logout_challenge": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "logout_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Reject OAuth 2.0 Session Logout Request",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "hydraRevokeOAuth2ConsentSessions": {
+      "request": {
+        "url": "/admin/oauth2/auth/sessions/consent",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "all": {
+          "description": "Revoke All Consent Sessions\n\nIf set to `true` deletes all consent sessions by the Subject that have been granted.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "all",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "client": {
+          "description": "OAuth 2.0 Client ID\n\nIf set, deletes only those consent sessions that have been granted to the specified OAuth 2.0 Client ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "client",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subject": {
+          "description": "OAuth 2.0 Consent Subject\n\nThe subject whose consent sessions should be deleted.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Revoke OAuth 2.0 Consent Sessions of a Subject",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "hydraRevokeOAuth2LoginSessions": {
+      "request": {
+        "url": "/admin/oauth2/auth/sessions/login",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "sid": {
+          "description": "OAuth 2.0 Subject\n\nThe subject to revoke authentication sessions for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "sid",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subject": {
+          "description": "OAuth 2.0 Subject\n\nThe subject to revoke authentication sessions for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "style": "form",
+            "explode": true,
+            "name": "subject",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Revokes OAuth 2.0 Login Sessions by either a Subject or a SessionID",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "hydraSetJsonWebKey": {
+      "request": {
+        "url": "/admin/keys/{set}/{kid}",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /admin/keys/{set}/{kid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JsonWebKey",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "kid": {
+          "description": "JSON Web Key ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "kid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "set": {
+          "description": "The JSON Web Key Set ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "set",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Set JSON Web Key",
+      "result_type": {
+        "name": "JsonWebKey",
+        "type": "named"
+      }
+    },
+    "hydraSetJsonWebKeySet": {
+      "request": {
+        "url": "/admin/keys/{set}",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /admin/keys/{set}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JsonWebKeySet",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "set": {
+          "description": "The JSON Web Key Set ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "set",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update a JSON Web Key Set",
+      "result_type": {
+        "name": "JsonWebKeySet",
+        "type": "named"
+      }
+    },
+    "hydraSetOAuth2Client": {
+      "request": {
+        "url": "/admin/clients/{id}",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /admin/clients/{id}",
+          "type": {
+            "name": "OAuth2Client",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "OAuth 2.0 Client ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Set OAuth 2.0 Client",
+      "result_type": {
+        "name": "OAuth2Client",
+        "type": "named"
+      }
+    },
+    "hydraSetOAuth2ClientLifespans": {
+      "request": {
+        "url": "/admin/clients/{id}/lifespans",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /admin/clients/{id}/lifespans",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2ClientTokenLifespans",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "OAuth 2.0 Client ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "style": "simple",
+            "explode": false,
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Set OAuth2 Client Token Lifespans",
+      "result_type": {
+        "name": "OAuth2Client",
+        "type": "named"
+      }
+    },
+    "hydraTrustOAuth2JwtGrantIssuer": {
+      "request": {
+        "url": "/admin/trust/grants/jwt-bearer/issuers",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /admin/trust/grants/jwt-bearer/issuers",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrustOAuth2JwtGrantIssuer",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Trust OAuth2 JWT Bearer Grant Type Issuer",
+      "result_type": {
+        "name": "TrustedOAuth2JwtGrantIssuer",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int64"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "JsonWebKeyAlgorithm": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "RS256",
+          "RS512",
+          "ES256",
+          "ES512",
+          "EdDSA"
+        ],
+        "type": "enum"
+      }
+    },
+    "OAuth2GrantType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "authorization_code",
+          "implicit",
+          "client_credentials",
+          "refresh_token"
+        ],
+        "type": "enum"
+      }
+    },
+    "OAuth2ResponseType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "code",
+          "token",
+          "id_token"
+        ],
+        "type": "enum"
+      }
+    },
+    "OAuth2Scope": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "offline_access",
+          "offline",
+          "openid"
+        ],
+        "type": "enum"
+      }
+    },
+    "OAuth2SigningAlgorithm": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "none",
+          "RS256",
+          "ES256"
+        ],
+        "type": "enum"
+      }
+    },
+    "OpenIDConnectSubjectType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "public",
+          "pairwise"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "TokenEndpointAuthMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "client_secret_post",
+          "client_secret_basic",
+          "client_secret_jwt",
+          "private_key_jwt",
+          "none"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}

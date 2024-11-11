@@ -1,0 +1,62 @@
+services:
+  ndc-rest:
+    image: ghcr.io/hasura/ndc-rest:${NDC_REST_VERSION:-v0.4.0}
+    ports:
+      - 8080:8080
+    depends_on:
+      kratos:
+        required: true
+        condition: service_healthy
+    volumes:
+      - ./schema:/etc/connector:ro
+    environment:
+      KRATOS_PUBLIC_SERVER_URL: http://kratos:4433
+      KRATOS_ADMIN_SERVER_URL: http://kratos:4434/admin
+      HASURA_LOG_LEVEL: debug
+
+  kratos-migrate:
+    image: oryd/kratos:v1.3.1
+    environment:
+      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
+    volumes:
+      - type: volume
+        source: kratos-sqlite
+        target: /var/lib/sqlite
+        read_only: false
+      - type: bind
+        source: ./testdata/config/email-password
+        target: /etc/config/kratos
+    command: -c /etc/config/kratos/kratos.yml migrate sql -e --yes
+    restart: on-failure
+
+  kratos:
+    depends_on:
+      kratos-migrate:
+        required: true
+        condition: service_completed_successfully
+    image: oryd/kratos:v1.3.1
+    ports:
+      - "4433:4433" # public
+      - "4434:4434" # admin
+    restart: unless-stopped
+    environment:
+      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+      - LOG_LEVEL=trace
+    command: serve -c /etc/config/kratos/kratos.yml --dev --watch-courier
+    volumes:
+      - type: volume
+        source: kratos-sqlite
+        target: /var/lib/sqlite
+        read_only: false
+      - type: bind
+        source: ./testdata/config/email-password
+        target: /etc/config/kratos
+    healthcheck:
+      test: ["CMD", "kratos", "remote", "status", "-e", "http://localhost:4434"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+      start_period: 1s
+
+volumes:
+  kratos-sqlite:

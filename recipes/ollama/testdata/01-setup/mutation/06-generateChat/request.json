@@ -1,0 +1,54 @@
+{
+  "collection_relationships": {},
+  "operations": [
+    {
+      "type": "procedure",
+      "name": "generateChat",
+      "arguments": {
+        "body": {
+          "keep_alive": "5m",
+          "messages": [
+            { "role": "system", "content": "You are a helpful assistant." },
+            { "role": "user", "content": "Hello!" }
+          ],
+          "model": "qwen2:0.5b-instruct-q4_0",
+          "stream": false
+        }
+      },
+      "fields": {
+        "fields": {
+          "done": {
+            "column": "done",
+            "type": "column"
+          },
+          "done_reason": {
+            "column": "done_reason",
+            "type": "column"
+          },
+          "message": {
+            "column": "message",
+            "fields": {
+              "fields": {
+                "images": {
+                  "column": "images",
+                  "type": "column"
+                },
+                "role": {
+                  "column": "role",
+                  "type": "column"
+                }
+              },
+              "type": "object"
+            },
+            "type": "column"
+          },
+          "model": {
+            "column": "model",
+            "type": "column"
+          }
+        },
+        "type": "object"
+      }
+    }
+  ]
+}

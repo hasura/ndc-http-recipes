@@ -1,0 +1,2473 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-rest/refs/heads/main/ndc-rest-schema/jsonschema/ndc-rest-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "http://127.0.0.1:11434",
+          "env": "OLLAMA_SERVER_URL"
+        }
+      }
+    ],
+    "version": "0.1.44"
+  },
+  "functions": {
+    "getBlob": {
+      "request": {
+        "url": "/api/blobs/{digest}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "digest": {
+          "description": "The SHA256 digest of the blob",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "digest",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Ensures that the file blob used for a FROM or ADAPTER field exists on \nthe server. This is checking your Ollama server and not Ollama.ai.\n",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "getModels": {
+      "request": {
+        "url": "/api/tags",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "List models that are available locally",
+      "result_type": {
+        "name": "ListResponse",
+        "type": "named"
+      }
+    },
+    "getOllamaVersion": {
+      "request": {
+        "url": "/api/version",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Return the Ollama server version",
+      "result_type": {
+        "name": "GetOllamaVersionResult",
+        "type": "named"
+      }
+    },
+    "getRunningModels": {
+      "request": {
+        "url": "/api/ps",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "List running models",
+      "result_type": {
+        "name": "ProcessResponse",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "ChatRequest": {
+      "description": "Request to generate a response in a chat",
+      "fields": {
+        "format": {
+          "description": "Format to return the response in (e.g. \"json\")",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "keep_alive": {
+          "description": "A string representing the duration",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "messages": {
+          "description": "Messages of the chat - can be used to keep a chat memory",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Message",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "model": {
+          "description": "The model name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "options": {
+          "description": "Advanced model and runner options for generation and chat requests\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Options",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "stream": {
+          "description": "Enable streaming of returned response",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ChatResponse": {
+      "description": "Response from a chat request",
+      "fields": {
+        "created_at": {
+          "description": "Timestamp of the response",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "done": {
+          "description": "Specifies if the response is complete",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "done_reason": {
+          "description": "Reason the model stopped generating text",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "eval_count": {
+          "description": "Count of evaluations",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "eval_duration": {
+          "description": "Duration of evaluations",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "load_duration": {
+          "description": "Load duration of the request",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "message": {
+          "description": "A message in a chat",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Message",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "model": {
+          "description": "The model name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "prompt_eval_count": {
+          "description": "Count of prompt evaluations",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "prompt_eval_duration": {
+          "description": "Duration of prompt evaluations",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "total_duration": {
+          "description": "Total duration of the request",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "CopyRequest": {
+      "description": "Request to copy a model",
+      "fields": {
+        "destination": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "source": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreateRequest": {
+      "description": "Request to create a model",
+      "fields": {
+        "model": {
+          "description": "The name of the model to create",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "modelfile": {
+          "description": "The modelfile content",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "path": {
+          "description": "The path to the model file",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "quantize": {
+          "description": "Specifies the quantization level of the model",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "stream": {
+          "description": "If false the response will be returned as a single response object, \nrather than a stream of objects\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "DeleteRequest": {
+      "description": "Request to delete a model",
+      "fields": {
+        "model": {
+          "description": "The name of the model to delete",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "EmbeddingRequest": {
+      "description": "Request to generate embeddings",
+      "fields": {
+        "keep_alive": {
+          "description": "A string representing the duration",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "model": {
+          "description": "The name of model to generate embeddings from",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "options": {
+          "description": "Advanced model and runner options for generation and chat requests\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Options",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "prompt": {
+          "description": "The text to generate embeddings for",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "EmbeddingResponse": {
+      "description": "Response from an embedding request",
+      "fields": {
+        "embedding": {
+          "description": "The generated embeddings",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Float64",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "number"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "GenerateRequest": {
+      "description": "Request to generate a response",
+      "fields": {
+        "context": {
+          "description": "The context parameter returned from a previous request to generate, \nthis can be used to keep a short conversational memory\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Int32",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "format": {
+          "description": "The format to return a response in. Currently the only accepted \nvalue is json\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "images": {
+          "description": "A list of base64-encoded images (for multimodal models such as \nllava)        \n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Bytes",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "byte"
+            }
+          }
+        },
+        "keep_alive": {
+          "description": "A string representing the duration",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "model": {
+          "description": "The model name",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "options": {
+          "description": "Advanced model and runner options for generation and chat requests\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Options",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "prompt": {
+          "description": "The prompt to generate a response for",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "raw": {
+          "description": "If true no formatting will be applied to the prompt. You may choose \nto use the raw parameter if you are specifying a full templated \nprompt in your request to the API\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "stream": {
+          "description": "If false the response will be returned as a single response object, \nrather than a stream of objects\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "system": {
+          "description": "System message to (overrides what is defined in the Modelfile)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "template": {
+          "description": "The prompt template to use (overrides what is defined in the \nModelfile)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GenerateResponse": {
+      "description": "Response from a generate request",
+      "fields": {
+        "context": {
+          "description": "When done, encoding of the conversation used in this response\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Int32",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "created_at": {
+          "description": "Timestamp of the response",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "done": {
+          "description": "Specifies if the response is complete",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "eval_count": {
+          "description": "When done, number of tokens in the response",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "eval_duration": {
+          "description": "When done, time in nanoseconds spent generating the response \n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "load_duration": {
+          "description": "When done, time spent in nanoseconds loading the model",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "model": {
+          "description": "The model name that generated the response",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "prompt_eval_count": {
+          "description": "When done, number of tokens in the prompt",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "prompt_eval_duration": {
+          "description": "When done, time spent in nanoseconds evaluating the prompt\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "response": {
+          "description": "The textual response itself. When done, empty if the response was \nstreamed, if not streamed, this will contain the full response\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "total_duration": {
+          "description": "When done, time spent generating the response",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "GetOllamaVersionResult": {
+      "fields": {
+        "version": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListModelResponse": {
+      "description": "Response from a list request",
+      "fields": {
+        "details": {
+          "description": "Details about a model",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ModelDetails",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "digest": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "model": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "modified_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "ListResponse": {
+      "description": "Response from a list request",
+      "fields": {
+        "models": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListModelResponse",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "Message": {
+      "description": "A message in a chat",
+      "fields": {
+        "content": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "images": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Bytes",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "byte"
+            }
+          }
+        },
+        "role": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ModelDetails": {
+      "description": "Details about a model",
+      "fields": {
+        "families": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "family": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "format": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "parameter_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "parent_model": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "quantization_level": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Options": {
+      "description": "Advanced model and runner options for generation and chat requests\n",
+      "fields": {
+        "f16_kv": {
+          "description": "Indicates whether to use 16-bit floating point precision for \nkey-value pairs, reducing memory usage. \n(Default: false)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "frequency_penalty": {
+          "description": "Penalizes tokens based on their frequency in the generated text so \nfar. A higher value reduces the likelihood of frequent tokens being \ngenerated again, promoting more diverse outputs. \n(Default: 0.8)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "logits_all": {
+          "description": "Specifies whether to output logits for all tokens. \n(Default: false)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "low_vram": {
+          "description": "Indicates whether to optimize the model for low VRAM usage. \n(Default: false)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "main_gpu": {
+          "description": "Specifies the primary GPU to use for processing. \n(Default: 0)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "mirostat": {
+          "description": "Enable Mirostat sampling for controlling perplexity. \n(default: 0, 0 = disabled, 1 = Mirostat, 2 = Mirostat 2.0)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "mirostat_eta": {
+          "description": "Influences how quickly the algorithm responds to feedback from the \ngenerated text. A lower learning rate will result in slower \nadjustments, while a higher learning rate will make the algorithm \nmore responsive. \n(Default: 0.1)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "mirostat_tau": {
+          "description": "Controls the balance between coherence and diversity of the output.\nA lower value will result in more focused and coherent text. \n(Default: 5.0)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "num_batch": {
+          "description": "Specifies the number of batches for processing. \n(Default: 512)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "num_ctx": {
+          "description": "Sets the size of the context window used to generate the next token. \n(Default: 2048)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "num_gpu": {
+          "description": "Specifies the number of GPUs to use. A value of -1 uses all \navailable GPUs. \n(Default: -1)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "num_keep": {
+          "description": "Specifies the number of tokens from the beginning of \nthe context ot retain when the context limit is reached. \n(Default: 4)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "num_predict": {
+          "description": "Maximum number of tokens to predict when generating text. \n(Default: 128, -1 = infinite generation, -2 = fill context)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "num_thread": {
+          "description": "Specifies the number of threads to use for processing. A value of \n0 uses all available threads. \n(Default: 0)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "numa": {
+          "description": "Indicates whether to use Non-Uniform Memory Access (NUMA) for \noptimizing memory usage and performance on multi-processor systems. \n(Default: false)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "penalize_newline": {
+          "description": "Determines whether the model should penalize the generation of \nnewlines, which can help control the structure and formatting of \nthe output. \n(Default: true)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "presence_penalty": {
+          "description": "Applies a penalty to tokens that have already appeared in the \ngenerated text, encouraging the model to introduce new tokens. A \nhigher value increases this penalty, promoting more varied and less \nrepetitive output. \n(Default: 0.8)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "repeat_last_n": {
+          "description": "Sets how far back for the model to look back to prevent repetition. \n(Default: 64, 0 = disabled, -1 = num_ctx)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "repeat_penalty": {
+          "description": "Sets how strongly to penalize repetitions. A higher value \n(e.g., 1.5) will penalize repetitions more strongly, while a lower \nvalue (e.g., 0.9) will be more lenient. \n(Default: 1.1)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "seed": {
+          "description": "Sets the random number seed to use for generation. Setting this to \na specific number will make the model generate the same text for \nthe same prompt. \n(Default: 0)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "stop": {
+          "description": "Sets the stop sequences to use. When this pattern is encountered \nthe LLM will stop generating text and return. Multiple stop patterns \nmay be set by specifying multiple separate stop parameters in a \nmodelfile.\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "temperature": {
+          "description": "The temperature of the model. Increasing the temperature will make \nthe model answer more creatively. \n(Default: 0.8)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "tfs_z": {
+          "description": "Tail free sampling is used to reduce the impact of less probable \ntokens from the output. A higher value (e.g., 2.0) will reduce the \nimpact more, while a value of 1.0 disables this setting. \n(default: 1)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "top_k": {
+          "description": "Reduces the probability of generating nonsense. A higher value \n(e.g. 100) will give more diverse answers, while a lower value \n(e.g. 10) will be more conservative. \n(Default: 40)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "top_p": {
+          "description": "Works together with top-k. A higher value (e.g., 0.95) will lead to \nmore diverse text, while a lower value (e.g., 0.5) will generate \nmore focused and conservative text. \n(Default: 0.9)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "typical_p": {
+          "description": "Controls the selection of typical words based on their probability \ndistribution. A higher value (e.g., 0.95) focuses on more typical \nwords, reducing the chance of unusual words being selected. \n(Default: 1.0)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "number"
+            ],
+            "format": "float"
+          }
+        },
+        "use_mlock": {
+          "description": "Determines whether to use memory locking to prevent swapping the \nmodel out of RAM. \n(Default: false)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "use_mmap": {
+          "description": "Determines whether to use memory-mapped files for loading the model, \nimproving performance on large models. \n(Default: true)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "vocab_only": {
+          "description": "Indicates whether to only load the vocabulary without the full model. \n(Default: false)\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ProcessModelResponse": {
+      "description": "Running model description",
+      "fields": {
+        "details": {
+          "description": "Details about a model",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ModelDetails",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "digest": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "model": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "size_vram": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "ProcessResponse": {
+      "description": "Response with a list of running models",
+      "fields": {
+        "models": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ProcessModelResponse",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ProgressResponse": {
+      "description": "The response returned from various streaming endpoints",
+      "fields": {
+        "completed": {
+          "description": "The completed size of the task",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "digest": {
+          "description": "The SHA256 digest of the blob",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "The status of the request",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "total": {
+          "description": "The total size of the task",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "PullRequest": {
+      "description": "Request to pull a model",
+      "fields": {
+        "insecure": {
+          "description": "allow insecure connections to the library. Only use this if you are\n pulling from your own library during development.\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "model": {
+          "description": "The name of the model to pull",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "stream": {
+          "description": "If false the response will be returned as a single response object, \nrather than a stream of objects\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "PushRequest": {
+      "description": "Request to push a model",
+      "fields": {
+        "insecure": {
+          "description": "Whether to allow insecure connections to the library. Only use this \nif you are pushing to your library during development\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "model": {
+          "description": "The name of the model to push in the form of \u003cnamespace\u003e/\u003cmodel\u003e:\u003ctag\u003e\n",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "stream": {
+          "description": "If false the response will be returned as a single response object, \nrather than a stream of objects\n",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ShowRequest": {
+      "description": "Request to show a model",
+      "fields": {
+        "model": {
+          "description": "The name of the model to show",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ShowResponse": {
+      "description": "Response from a show request",
+      "fields": {
+        "details": {
+          "description": "Details about a model",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ModelDetails",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "license": {
+          "description": "The model license",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "messages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Message",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "modelfile": {
+          "description": "The modelfile content",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "parameters": {
+          "description": "The model parameters",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "system": {
+          "description": "The model system message/prompt",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "template": {
+          "description": "The model template",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "copyModel": {
+      "request": {
+        "url": "/api/copy",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/copy",
+          "type": {
+            "name": "CopyRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Copy a model. Creates a model with another name from an existing model.\n",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "createBlob": {
+      "request": {
+        "url": "/api/blobs/{digest}",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/octet-stream"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/blobs/{digest}",
+          "type": {
+            "name": "Binary",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "digest": {
+          "description": "The SHA256 digest of the blob",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "digest",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Create a blob from a file on the server",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "createModel": {
+      "request": {
+        "url": "/api/create",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/create",
+          "type": {
+            "name": "CreateRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a model from a Modelfile. It is recommended to set modelfile to \nthe content of the Modelfile rather than just set path. This is a \nrequirement for remote create. Remote model creation must also create \nany file blobs, fields such as FROM and ADAPTER, explicitly with the \nserver using Create a Blob and the value to the path indicated in the \nresponse.\n",
+      "result_type": {
+        "name": "ProgressResponse",
+        "type": "named"
+      }
+    },
+    "deleteModel": {
+      "request": {
+        "url": "/api/delete",
+        "method": "delete",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of DELETE /api/delete",
+          "type": {
+            "name": "DeleteRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Delete a model and its data",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "generateChat": {
+      "request": {
+        "url": "/api/chat",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/chat",
+          "type": {
+            "name": "ChatRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Generate the next message in a chat with a provided model. This is a \nstreaming endpoint, so there will be a series of responses. Streaming \ncan be disabled using \"stream\": false. The final response object will \ninclude statistics and additional data from the request.\n",
+      "result_type": {
+        "name": "ChatResponse",
+        "type": "named"
+      }
+    },
+    "generateEmbeddings": {
+      "request": {
+        "url": "/api/embeddings",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/embeddings",
+          "type": {
+            "name": "EmbeddingRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Generate embeddings from a model",
+      "result_type": {
+        "name": "EmbeddingResponse",
+        "type": "named"
+      }
+    },
+    "generateResponse": {
+      "request": {
+        "url": "/api/generate",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/generate",
+          "type": {
+            "name": "GenerateRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Generate a response for a given prompt with a provided model. This is \na streaming endpoint, so there will be a series of responses. The final \nresponse object will include statistics and additional data from the \nrequest.\n",
+      "result_type": {
+        "name": "GenerateResponse",
+        "type": "named"
+      }
+    },
+    "pullModel": {
+      "request": {
+        "url": "/api/pull",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/pull",
+          "type": {
+            "name": "PullRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Download a model from the ollama library. Cancelled pulls are resumed \nfrom where they left off, and multiple calls will share the same \ndownload progress.\n",
+      "result_type": {
+        "name": "ProgressResponse",
+        "type": "named"
+      }
+    },
+    "pushModel": {
+      "request": {
+        "url": "/api/push",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/push",
+          "type": {
+            "name": "PushRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Upload a model to a model library. Requires registering for ollama.ai \nand adding a public key first.'\n",
+      "result_type": {
+        "name": "ProgressResponse",
+        "type": "named"
+      }
+    },
+    "showModel": {
+      "request": {
+        "url": "/api/show",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/show",
+          "type": {
+            "name": "ShowRequest",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Show information about a model including details, modelfile, template, \nparameters, license, and system prompt.\n",
+      "result_type": {
+        "name": "ShowResponse",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Binary": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "bytes"
+      }
+    },
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Bytes": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "bytes"
+      }
+    },
+    "Float32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float32"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    }
+  }
+}

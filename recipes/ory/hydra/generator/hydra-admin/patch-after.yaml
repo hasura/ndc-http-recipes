@@ -1,0 +1,120 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/json-patch.json
+- op: remove
+  path: /settings/securitySchemes
+- op: replace
+  path: /settings/servers
+  value:
+    - url:
+        env: HYDRA_ADMIN_SERVER_URL
+        value: http://localhost:4445
+- op: add
+  path: /scalar_types/TokenEndpointAuthMethod
+  value:
+    aggregate_functions: {}
+    comparison_operators: {}
+    representation:
+      one_of:
+        - client_secret_post
+        - client_secret_basic
+        - client_secret_jwt
+        - private_key_jwt
+        - none
+      type: enum
+- op: replace
+  path: /object_types/OAuth2Client/fields/token_endpoint_auth_method/type/underlying_type/name
+  value: TokenEndpointAuthMethod
+- op: add
+  path: /scalar_types/OpenIDConnectSubjectType
+  value:
+    aggregate_functions: {}
+    comparison_operators: {}
+    representation:
+      one_of:
+        - public
+        - pairwise
+      type: enum
+- op: replace
+  path: /object_types/OAuth2Client/fields/subject_type/type/underlying_type/name
+  value: OpenIDConnectSubjectType
+- op: add
+  path: /scalar_types/OAuth2GrantType
+  value:
+    aggregate_functions: {}
+    comparison_operators: {}
+    representation:
+      one_of:
+        - authorization_code
+        - implicit
+        - client_credentials
+        - refresh_token
+      type: enum
+- op: replace
+  path: /object_types/OAuth2Client/fields/grant_types/type/underlying_type/element_type/name
+  value: OAuth2GrantType
+- op: add
+  path: /scalar_types/OAuth2ResponseType
+  value:
+    aggregate_functions: {}
+    comparison_operators: {}
+    representation:
+      one_of:
+        - code
+        - token
+        - id_token
+      type: enum
+- op: replace
+  path: /object_types/OAuth2Client/fields/response_types/type/underlying_type/element_type/name
+  value: OAuth2ResponseType
+- op: add
+  path: /scalar_types/OAuth2Scope
+  value:
+    aggregate_functions: {}
+    comparison_operators: {}
+    representation:
+      one_of:
+        - offline_access
+        - offline
+        - openid
+      type: enum
+- op: replace
+  path: /object_types/OAuth2Client/fields/scope/type/underlying_type/name
+  value: OAuth2Scope
+- op: add
+  path: /scalar_types/OAuth2SigningAlgorithm
+  value:
+    aggregate_functions: {}
+    comparison_operators: {}
+    representation:
+      one_of:
+        - none
+        - RS256
+        - ES256
+      type: enum
+- op: replace
+  path: /object_types/OAuth2Client/fields/token_endpoint_auth_signing_alg/type/underlying_type/name
+  value: OAuth2SigningAlgorithm
+- op: replace
+  path: /object_types/OAuth2Client/fields/userinfo_signed_response_alg/type/underlying_type/name
+  value: OAuth2SigningAlgorithm
+- op: replace
+  path: /object_types/OAuth2Client/fields/request_object_signing_alg/type/underlying_type/name
+  value: OAuth2SigningAlgorithm
+- op: add
+  path: /scalar_types/JsonWebKeyAlgorithm
+  value:
+    aggregate_functions: {}
+    comparison_operators: {}
+    representation:
+      one_of:
+        - RS256
+        - RS512
+        - ES256
+        - ES512
+        - EdDSA
+      type: enum
+- op: replace
+  path: /object_types/CreateJsonWebKeySet/fields/alg/type/name
+  value: JsonWebKeyAlgorithm
+- op: replace
+  path: /object_types/JsonWebKey/fields/alg/type/name
+  value: JsonWebKeyAlgorithm

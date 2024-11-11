@@ -1,0 +1,32 @@
+services:
+  ndc-rest:
+    image: ghcr.io/hasura/ndc-rest:${NDC_REST_VERSION:-v0.4.0}
+    ports:
+      - 8080:8080
+    volumes:
+      - ./schema:/etc/connector:ro
+    depends_on:
+      oathkeeper:
+        required: true
+        condition: service_healthy
+    environment:
+      OATHKEEPER_SERVER_URL: http://oathkeeper:4456
+      HASURA_LOG_LEVEL: debug
+
+  oathkeeper:
+    image: oryd/oathkeeper:v0.40.7
+    ports:
+      - "4455:4455"
+      - "4456:4456"
+    command: serve --config=/etc/config/oathkeeper/config.yaml
+    volumes:
+      - type: bind
+        source: ./testdata/config
+        target: /etc/config/oathkeeper
+    healthcheck:
+      test:
+        ["CMD", "oathkeeper", "health", "ready", "-e", "http://localhost:4456"]
+      interval: 1s
+      timeout: 1s
+      retries: 10
+      start_period: 1s

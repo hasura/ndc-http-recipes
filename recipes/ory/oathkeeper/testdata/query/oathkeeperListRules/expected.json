@@ -1,0 +1,63 @@
+[
+  {
+    "rows": [
+      {
+        "__value": [
+          {
+            "authenticators": [{ "config": null, "handler": "anonymous" }],
+            "authorizer": { "config": null, "handler": "allow" },
+            "description": "",
+            "id": "allow-anonymous-with-header-mutator",
+            "match": {
+              "methods": ["GET"],
+              "url": "http://\u003c127.0.0.1|localhost\u003e:4455/anything/header"
+            },
+            "mutators": [
+              {
+                "config": { "headers": { "X-User": "{{ print .Subject }}" } },
+                "handler": "header"
+              }
+            ],
+            "upstream": {
+              "preserve_host": false,
+              "strip_path": "",
+              "url": "https://httpbin.org/anything/header"
+            }
+          },
+          {
+            "authenticators": [{ "config": null, "handler": "anonymous" }],
+            "authorizer": { "config": null, "handler": "deny" },
+            "description": "",
+            "id": "deny-anonymous",
+            "match": {
+              "methods": ["GET"],
+              "url": "http://\u003c127.0.0.1|localhost\u003e:4455/anything/deny"
+            },
+            "mutators": [{ "config": null, "handler": "noop" }],
+            "upstream": {
+              "preserve_host": false,
+              "strip_path": "",
+              "url": "https://httpbin.org/anything/deny"
+            }
+          },
+          {
+            "authenticators": [{ "config": null, "handler": "anonymous" }],
+            "authorizer": { "config": null, "handler": "allow" },
+            "description": "",
+            "id": "allow-anonymous-with-id-token-mutator",
+            "match": {
+              "methods": ["GET"],
+              "url": "http://\u003c127.0.0.1|localhost\u003e:4455/anything/id_token"
+            },
+            "mutators": [{ "config": null, "handler": "id_token" }],
+            "upstream": {
+              "preserve_host": false,
+              "strip_path": "",
+              "url": "https://httpbin.org/anything/id_token"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

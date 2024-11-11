@@ -1,0 +1,1996 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-rest/refs/heads/main/ndc-rest-schema/jsonschema/ndc-rest-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "http://localhost:4433/api/kratos/public",
+          "env": "KRATOS_PUBLIC_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "sessionCookie": {
+        "type": "apiKey",
+        "value": {
+          "env": "KRATOS_PUBLIC_SESSION_COOKIE"
+        },
+        "in": "cookie",
+        "name": "ory_kratos_session"
+      },
+      "sessionToken": {
+        "type": "apiKey",
+        "value": {
+          "env": "KRATOS_PUBLIC_SESSION_TOKEN"
+        },
+        "in": "header",
+        "name": "X-Session-Token"
+      }
+    }
+  },
+  "functions": {
+    "kratosGetSchema": {
+      "request": {
+        "url": "/schemas/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "ID must be set to the ID of schema you want to get",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get a Traits Schema Definition",
+      "result_type": {
+        "name": "JsonSchema",
+        "type": "named"
+      }
+    },
+    "kratosGetSelfServiceError": {
+      "request": {
+        "url": "/self-service/errors",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "error": {
+          "description": "Error is the container's ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "error",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get User-Facing Self-Service Errors",
+      "result_type": {
+        "name": "ErrorContainer",
+        "type": "named"
+      }
+    },
+    "kratosGetSelfServiceLoginFlow": {
+      "request": {
+        "url": "/self-service/login/flows",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The Login Flow ID\n\nThe value for this parameter comes from `flow` URL Query parameter sent to your\napplication (e.g. `/login?flow=abcde`).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Login Flow",
+      "result_type": {
+        "name": "LoginFlow",
+        "type": "named"
+      }
+    },
+    "kratosGetSelfServiceRecoveryFlow": {
+      "request": {
+        "url": "/self-service/recovery/flows",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The Flow ID\n\nThe value for this parameter comes from `request` URL Query parameter sent to your\napplication (e.g. `/recovery?flow=abcde`).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get information about a recovery flow",
+      "result_type": {
+        "name": "RecoveryFlow",
+        "type": "named"
+      }
+    },
+    "kratosGetSelfServiceRegistrationFlow": {
+      "request": {
+        "url": "/self-service/registration/flows",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The Registration Flow ID\n\nThe value for this parameter comes from `flow` URL Query parameter sent to your\napplication (e.g. `/registration?flow=abcde`).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Registration Flow",
+      "result_type": {
+        "name": "RegistrationFlow",
+        "type": "named"
+      }
+    },
+    "kratosGetSelfServiceSettingsFlow": {
+      "request": {
+        "url": "/self-service/settings/flows",
+        "method": "get",
+        "security": [
+          {
+            "sessionToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "ID is the Settings Flow ID\n\nThe value for this parameter comes from `flow` URL Query parameter sent to your\napplication (e.g. `/settings?flow=abcde`).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Settings Flow",
+      "result_type": {
+        "name": "SettingsFlow",
+        "type": "named"
+      }
+    },
+    "kratosGetSelfServiceVerificationFlow": {
+      "request": {
+        "url": "/self-service/verification/flows",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The Flow ID\n\nThe value for this parameter comes from `request` URL Query parameter sent to your\napplication (e.g. `/verification?flow=abcde`).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Verification Flow",
+      "result_type": {
+        "name": "VerificationFlow",
+        "type": "named"
+      }
+    },
+    "kratosInitializeSelfServiceLoginViaAPIFlow": {
+      "request": {
+        "url": "/self-service/login/api",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "refresh": {
+          "description": "Refresh a login session\n\nIf set to true, this will refresh an existing login session by\nasking the user to sign in again. This will reset the\nauthenticated_at time of the session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "name": "refresh",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Initialize Login Flow for API clients",
+      "result_type": {
+        "name": "LoginFlow",
+        "type": "named"
+      }
+    },
+    "kratosInitializeSelfServiceRecoveryViaAPIFlow": {
+      "request": {
+        "url": "/self-service/recovery/api",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Initialize Recovery Flow for API Clients",
+      "result_type": {
+        "name": "RecoveryFlow",
+        "type": "named"
+      }
+    },
+    "kratosInitializeSelfServiceRegistrationViaAPIFlow": {
+      "request": {
+        "url": "/self-service/registration/api",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Initialize Registration Flow for API clients",
+      "result_type": {
+        "name": "RegistrationFlow",
+        "type": "named"
+      }
+    },
+    "kratosInitializeSelfServiceSettingsViaAPIFlow": {
+      "request": {
+        "url": "/self-service/settings/api",
+        "method": "get",
+        "security": [
+          {
+            "sessionToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Initialize Settings Flow for API Clients",
+      "result_type": {
+        "name": "SettingsFlow",
+        "type": "named"
+      }
+    },
+    "kratosInitializeSelfServiceVerificationViaAPIFlow": {
+      "request": {
+        "url": "/self-service/verification/api",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Initialize Verification Flow for API Clients",
+      "result_type": {
+        "name": "VerificationFlow",
+        "type": "named"
+      }
+    },
+    "kratosWhoami": {
+      "request": {
+        "url": "/sessions/whoami",
+        "method": "get",
+        "security": [
+          {
+            "sessionToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Authorization": {
+          "description": "in: authorization",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "name": "Authorization",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "Cookie": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "name": "Cookie",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Check Who the Current HTTP Session Belongs To",
+      "result_type": {
+        "name": "Session",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "CompleteSelfServiceLoginFlowWithPasswordMethod": {
+      "fields": {
+        "csrf_token": {
+          "description": "Sending the anti-csrf token is only required for browser login flows.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "identifier": {
+          "description": "Identifier is the email or username of the user trying to log in.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "password": {
+          "description": "The user's password.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CompleteSelfServiceSettingsFlowWithPasswordMethod": {
+      "fields": {
+        "csrf_token": {
+          "description": "CSRFToken is the anti-CSRF token\n\ntype: string",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "password": {
+          "description": "Password is the updated password\n\ntype: string",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ErrorContainer": {
+      "fields": {
+        "errors": {
+          "description": "Errors in the container",
+          "type": {
+            "element_type": {
+              "name": "JSON",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "rest": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        }
+      }
+    },
+    "Identity": {
+      "fields": {
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "recovery_addresses": {
+          "description": "RecoveryAddresses contains all the addresses that can be used to recover an identity.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "RecoveryAddress",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "schema_id": {
+          "description": "SchemaID is the ID of the JSON Schema to be used for validating the identity's traits.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "schema_url": {
+          "description": "SchemaURL is the URL of the endpoint where the identity's traits schema can be fetched from.\n\nformat: url",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "traits": {
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "verifiable_addresses": {
+          "description": "VerifiableAddresses contains all the addresses that can be verified by the user.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "VerifiableAddress",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "LoginFlow": {
+      "description": "This object represents a login flow. A login flow is initiated at the \"Initiate Login API / Browser Flow\"\nendpoint by a client.\n\nOnce a login flow is completed successfully, a session cookie or session token will be issued.",
+      "fields": {
+        "active": {
+          "description": "and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_at": {
+          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to log in,\na new flow has to be initiated.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "forced": {
+          "description": "Forced stores whether this login flow should enforce re-authentication.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "issued_at": {
+          "description": "IssuedAt is the time (UTC) when the flow started.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "request_url": {
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The flow type can either be `api` or `browser`.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ui": {
+          "description": "Container represents a HTML Form. The container can work with both HTTP Form and JSON requests",
+          "type": {
+            "name": "UiContainer",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "LoginViaApiResponse": {
+      "description": "The Response for Login Flows via API",
+      "fields": {
+        "session": {
+          "type": {
+            "name": "Session",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "session_token": {
+          "description": "The Session Token\n\nA session token is equivalent to a session cookie, but it can be sent in the HTTP Authorization\nHeader:\n\nAuthorization: bearer ${session-token}\n\nThe session token is only issued for API flows, not for Browser flows!",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RecoveryAddress": {
+      "fields": {
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "value": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "via": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RecoveryFlow": {
+      "description": "This request is used when an identity wants to recover their account.\n\nWe recommend reading the [Account Recovery Documentation](../self-service/flows/password-reset-account-recovery)",
+      "fields": {
+        "active": {
+          "description": "Active, if set, contains the registration method that is being used. It is initially\nnot set.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_at": {
+          "description": "ExpiresAt is the time (UTC) when the request expires. If the user still wishes to update the setting,\na new request has to be initiated.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "issued_at": {
+          "description": "IssuedAt is the time (UTC) when the request occurred.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "messages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UiText",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "methods": {
+          "description": "Methods contains context for all account recovery methods. If a registration request has been\nprocessed, but for example the password is incorrect, this will contain error messages.",
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "request_url": {
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "state": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The flow type can either be `api` or `browser`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RegistrationFlow": {
+      "fields": {
+        "active": {
+          "description": "and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_at": {
+          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to log in,\na new flow has to be initiated.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "issued_at": {
+          "description": "IssuedAt is the time (UTC) when the flow occurred.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "messages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UiText",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "methods": {
+          "description": "Methods contains context for all enabled registration methods. If a registration flow has been\nprocessed, but for example the password is incorrect, this will contain error messages.",
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "request_url": {
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The flow type can either be `api` or `browser`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RegistrationViaApiResponse": {
+      "description": "The Response for Registration Flows via API",
+      "fields": {
+        "identity": {
+          "type": {
+            "name": "Identity",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "session": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Session",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "session_token": {
+          "description": "The Session Token\n\nThis field is only set when the session hook is configured as a post-registration hook.\n\nA session token is equivalent to a session cookie, but it can be sent in the HTTP Authorization\nHeader:\n\nAuthorization: bearer ${session-token}\n\nThe session token is only issued for API flows, not for Browser flows!",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RevokeSession": {
+      "fields": {
+        "session_token": {
+          "description": "The Session Token\n\nInvalidate this session token.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Session": {
+      "fields": {
+        "active": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "authenticated_at": {
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "expires_at": {
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "identity": {
+          "type": {
+            "name": "Identity",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "issued_at": {
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "SettingsFlow": {
+      "description": "This flow is used when an identity wants to update settings\n(e.g. profile data, passwords, ...) in a selfservice manner.\n\nWe recommend reading the [User Settings Documentation](../self-service/flows/user-settings)",
+      "fields": {
+        "active": {
+          "description": "Active, if set, contains the registration method that is being used. It is initially\nnot set.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_at": {
+          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to update the setting,\na new flow has to be initiated.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "identity": {
+          "type": {
+            "name": "Identity",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "issued_at": {
+          "description": "IssuedAt is the time (UTC) when the flow occurred.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "messages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UiText",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "methods": {
+          "description": "Methods contains context for all enabled registration methods. If a settings flow has been\nprocessed, but for example the first name is empty, this will contain error messages.",
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "request_url": {
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "state": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The flow type can either be `api` or `browser`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SettingsViaApiResponse": {
+      "description": "The Response for Settings Flows via API",
+      "fields": {
+        "flow": {
+          "description": "This flow is used when an identity wants to update settings\n(e.g. profile data, passwords, ...) in a selfservice manner.\n\nWe recommend reading the [User Settings Documentation](../self-service/flows/user-settings)",
+          "type": {
+            "name": "SettingsFlow",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "identity": {
+          "type": {
+            "name": "Identity",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "UiContainer": {
+      "description": "Container represents a HTML Form. The container can work with both HTTP Form and JSON requests",
+      "fields": {
+        "action": {
+          "description": "Action should be used as the form action URL `\u003cform action=\"{{ .Action }}\" method=\"post\"\u003e`.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "messages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UiText",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "method": {
+          "description": "Method is the form method (e.g. POST)",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "nodes": {
+          "type": {
+            "element_type": {
+              "name": "UiNode",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "UiNode": {
+      "description": "Nodes are represented as HTML elements or their native UI equivalents. For example,\na node can be an `\u003cimg\u003e` tag, or an `\u003cinput element\u003e` but also `some plain text`.",
+      "fields": {
+        "attributes": {
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "rest": {
+            "type": null
+          }
+        },
+        "group": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "messages": {
+          "type": {
+            "element_type": {
+              "name": "UiText",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "UiText": {
+      "fields": {
+        "context": {
+          "description": "The message's context. Useful when customizing messages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "name": "Int64",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "text": {
+          "description": "The message text. Written in american english.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "VerifiableAddress": {
+      "fields": {
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "status": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "verified": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "verified_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "via": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "VerificationFlow": {
+      "description": "Used to verify an out-of-band communication\nchannel such as an email address or a phone number.\n\nFor more information head over to: https://www.ory.sh/docs/kratos/self-service/flows/verify-email-account-activation",
+      "fields": {
+        "active": {
+          "description": "Active, if set, contains the registration method that is being used. It is initially\nnot set.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_at": {
+          "description": "ExpiresAt is the time (UTC) when the request expires. If the user still wishes to verify the address,\na new request has to be initiated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid4"
+          }
+        },
+        "issued_at": {
+          "description": "IssuedAt is the time (UTC) when the request occurred.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "messages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UiText",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "rest": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "methods": {
+          "description": "Methods contains context for all account verification methods. If a registration request has been\nprocessed, but for example the password is incorrect, this will contain error messages.",
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "request_url": {
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "state": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The flow type can either be `api` or `browser`.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "kratosCompleteSelfServiceLoginFlowWithPasswordMethod": {
+      "request": {
+        "url": "/self-service/login/methods/password",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /self-service/login/methods/password",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CompleteSelfServiceLoginFlowWithPasswordMethod",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "flow": {
+          "description": "The Flow ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "rest": {
+            "name": "flow",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Complete Login Flow with Username/Email Password Method",
+      "result_type": {
+        "name": "LoginViaApiResponse",
+        "type": "named"
+      }
+    },
+    "kratosCompleteSelfServiceRegistrationFlowWithPasswordMethod": {
+      "request": {
+        "url": "/self-service/registration/methods/password",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /self-service/registration/methods/password",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "flow": {
+          "description": "Flow is flow ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "name": "flow",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Complete Registration Flow with Username/Email Password Method",
+      "result_type": {
+        "name": "RegistrationViaApiResponse",
+        "type": "named"
+      }
+    },
+    "kratosCompleteSelfServiceSettingsFlowWithPasswordMethod": {
+      "request": {
+        "url": "/self-service/settings/methods/password",
+        "method": "post",
+        "security": [
+          {
+            "sessionToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /self-service/settings/methods/password",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CompleteSelfServiceSettingsFlowWithPasswordMethod",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "flow": {
+          "description": "Flow is flow ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "name": "flow",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Complete Settings Flow with Username/Email Password Method",
+      "result_type": {
+        "name": "SettingsViaApiResponse",
+        "type": "named"
+      }
+    },
+    "kratosCompleteSelfServiceSettingsFlowWithProfileMethod": {
+      "request": {
+        "url": "/self-service/settings/methods/profile",
+        "method": "post",
+        "security": [
+          {
+            "sessionToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /self-service/settings/methods/profile",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "in": "body"
+          }
+        },
+        "flow": {
+          "description": "Flow is flow ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "rest": {
+            "name": "flow",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Complete Settings Flow with Profile Method",
+      "result_type": {
+        "name": "SettingsFlow",
+        "type": "named"
+      }
+    },
+    "kratosRevokeSession": {
+      "request": {
+        "url": "/sessions",
+        "method": "delete",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of DELETE /sessions",
+          "type": {
+            "name": "RevokeSession",
+            "type": "named"
+          },
+          "rest": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Revoke and Invalidate a Session",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int64"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "JsonSchema": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    }
+  }
+}
