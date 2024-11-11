@@ -1,6 +1,6 @@
-# REST Connector Recipes
+# HTTP Connector Recipes
 
-This repository centralizes pre-built recipes of popular API services that support OpenAPI documentation.
+This repository centralizes pre-built recipes of popular API services for the HTTP connector.
 
 ## License
 

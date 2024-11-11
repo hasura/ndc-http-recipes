@@ -13,7 +13,7 @@ All reports are thoroughly investigated by a set of community volunteers.
 
 ### When Should I Report a Vulnerability?
 
-- You think you have discovered a potential security vulnerability in the ndc-rest or related components.
+- You think you have discovered a potential security vulnerability in the ndc-http or related components.
 - You are unsure how a vulnerability affects the SDK.
 - You think you discovered a vulnerability in another project that connector depends on (e.g. Docker, etc).
 - You want to report any other security risk that could potentially harm connector users.
