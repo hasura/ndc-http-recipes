@@ -1,4 +1,4 @@
-# REST Connector configuration for Ollama API
+# HTTP Connector configuration for Ollama API
 
 > [!NOTE]
 > The OpenAPI pull request is still in review. The final API schema may be different.

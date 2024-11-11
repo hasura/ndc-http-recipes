@@ -1,4 +1,4 @@
-# REST Connector configuration for Ory
+# HTTP Connector configuration for Ory
 
 ## Hydra
 

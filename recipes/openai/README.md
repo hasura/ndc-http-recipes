@@ -1,4 +1,4 @@
-# REST Connector configuration for OpenAI API
+# HTTP Connector configuration for OpenAI API
 
 This configuration is built from [OpenAI's OpenAPI Specification](https://github.com/openai/openai-openapi).
 
