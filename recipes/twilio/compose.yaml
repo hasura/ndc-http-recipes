@@ -1,0 +1,18 @@
+services:
+  ndc-http:
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.4.0}
+    ports:
+      - 8080:8080
+    volumes:
+      - ./schema:/etc/connector:ro
+    environment:
+      TWILIO_ACCOUNT_SID: account_sid
+      TWILIO_AUTH_TOKEN: random_token
+      TWILIO_SERVER_URL: http://mock-api-v2010:4010
+      HASURA_LOG_LEVEL: debug
+
+  mock-api-v2010:
+    image: stoplight/prism:5.12.1
+    command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/twilio/twilio-oai/refs/tags/${VERSION}/spec/json/twilio_api_v2010.json"
+    ports:
+      - "4010"

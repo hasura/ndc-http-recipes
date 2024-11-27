@@ -11,20 +11,15 @@
     ],
     "securitySchemes": {
       "sessionCookie": {
-        "type": "apiKey",
-        "value": {
-          "env": "KRATOS_ADMIN_SESSION_COOKIE"
-        },
-        "in": "cookie",
-        "name": "ory_kratos_session"
+        "type": "cookie"
       },
       "sessionToken": {
         "type": "apiKey",
+        "in": "header",
+        "name": "X-Session-Token",
         "value": {
           "env": "KRATOS_ADMIN_SESSION_TOKEN"
-        },
-        "in": "header",
-        "name": "X-Session-Token"
+        }
       }
     }
   },
@@ -103,7 +98,7 @@
       },
       "arguments": {
         "id": {
-          "description": "The Login Flow ID\n\nThe value for this parameter comes from `flow` URL Query parameter sent to your\napplication (e.g. `/login?flow=abcde`).",
+          "description": "The Login Flow ID  The value for this parameter comes from `flow` URL Query parameter sent to your application (e.g. `/login?flow=abcde`).",
           "type": {
             "name": "String",
             "type": "named"
@@ -135,7 +130,7 @@
       },
       "arguments": {
         "id": {
-          "description": "The Flow ID\n\nThe value for this parameter comes from `request` URL Query parameter sent to your\napplication (e.g. `/recovery?flow=abcde`).",
+          "description": "The Flow ID  The value for this parameter comes from `request` URL Query parameter sent to your application (e.g. `/recovery?flow=abcde`).",
           "type": {
             "name": "String",
             "type": "named"
@@ -167,7 +162,7 @@
       },
       "arguments": {
         "id": {
-          "description": "The Registration Flow ID\n\nThe value for this parameter comes from `flow` URL Query parameter sent to your\napplication (e.g. `/registration?flow=abcde`).",
+          "description": "The Registration Flow ID  The value for this parameter comes from `flow` URL Query parameter sent to your application (e.g. `/registration?flow=abcde`).",
           "type": {
             "name": "String",
             "type": "named"
@@ -204,7 +199,7 @@
       },
       "arguments": {
         "id": {
-          "description": "ID is the Settings Flow ID\n\nThe value for this parameter comes from `flow` URL Query parameter sent to your\napplication (e.g. `/settings?flow=abcde`).",
+          "description": "ID is the Settings Flow ID  The value for this parameter comes from `flow` URL Query parameter sent to your application (e.g. `/settings?flow=abcde`).",
           "type": {
             "name": "String",
             "type": "named"
@@ -236,7 +231,7 @@
       },
       "arguments": {
         "id": {
-          "description": "The Flow ID\n\nThe value for this parameter comes from `request` URL Query parameter sent to your\napplication (e.g. `/verification?flow=abcde`).",
+          "description": "The Flow ID  The value for this parameter comes from `request` URL Query parameter sent to your application (e.g. `/verification?flow=abcde`).",
           "type": {
             "name": "String",
             "type": "named"
@@ -334,7 +329,7 @@
           }
         },
         "per_page": {
-          "description": "Items per Page\n\nThis is the number of items per page.",
+          "description": "Items per Page  This is the number of items per page.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -382,7 +377,7 @@
           }
         },
         "traits": {
-          "description": "Traits represent an identity's traits. The identity is able to create, modify, and delete traits\nin a self-service manner. The input will always be validated against the JSON Schema defined\nin `schema_url`.",
+          "description": "Traits represent an identity's traits. The identity is able to create, modify, and delete traits in a self-service manner. The input will always be validated against the JSON Schema defined in `schema_url`.",
           "type": {
             "name": "JSON",
             "type": "named"
@@ -398,7 +393,7 @@
     "CreateRecoveryLink": {
       "fields": {
         "expires_in": {
-          "description": "Link Expires In\n\nThe recovery link will expire at that point in time. Defaults to the configuration value of\n`selfservice.flows.recovery.request_lifespan`.",
+          "description": "Link Expires In  The recovery link will expire at that point in time. Defaults to the configuration value of `selfservice.flows.recovery.request_lifespan`.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -508,7 +503,7 @@
           }
         },
         "schema_url": {
-          "description": "SchemaURL is the URL of the endpoint where the identity's traits schema can be fetched from.\n\nformat: url",
+          "description": "SchemaURL is the URL of the endpoint where the identity's traits schema can be fetched from.  format: url",
           "type": {
             "name": "String",
             "type": "named"
@@ -599,7 +594,7 @@
       }
     },
     "LoginFlow": {
-      "description": "This object represents a login flow. A login flow is initiated at the \"Initiate Login API / Browser Flow\"\nendpoint by a client.\n\nOnce a login flow is completed successfully, a session cookie or session token will be issued.",
+      "description": "This object represents a login flow. A login flow is initiated at the \"Initiate Login API / Browser Flow\" endpoint by a client.  Once a login flow is completed successfully, a session cookie or session token will be issued.",
       "fields": {
         "active": {
           "description": "and so on.",
@@ -617,7 +612,7 @@
           }
         },
         "expires_at": {
-          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to log in,\na new flow has to be initiated.",
+          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to log in, a new flow has to be initiated.",
           "type": {
             "name": "TimestampTZ",
             "type": "named"
@@ -670,7 +665,7 @@
           }
         },
         "request_url": {
-          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used to forward information contained in the URL's path or query for example.",
           "type": {
             "name": "String",
             "type": "named"
@@ -746,10 +741,10 @@
       }
     },
     "RecoveryFlow": {
-      "description": "This request is used when an identity wants to recover their account.\n\nWe recommend reading the [Account Recovery Documentation](../self-service/flows/password-reset-account-recovery)",
+      "description": "This request is used when an identity wants to recover their account.  We recommend reading the [Account Recovery Documentation](../self-service/flows/password-reset-account-recovery)",
       "fields": {
         "active": {
-          "description": "Active, if set, contains the registration method that is being used. It is initially\nnot set.",
+          "description": "Active, if set, contains the registration method that is being used. It is initially not set.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -764,7 +759,7 @@
           }
         },
         "expires_at": {
-          "description": "ExpiresAt is the time (UTC) when the request expires. If the user still wishes to update the setting,\na new request has to be initiated.",
+          "description": "ExpiresAt is the time (UTC) when the request expires. If the user still wishes to update the setting, a new request has to be initiated.",
           "type": {
             "name": "TimestampTZ",
             "type": "named"
@@ -819,7 +814,7 @@
           }
         },
         "methods": {
-          "description": "Methods contains context for all account recovery methods. If a registration request has been\nprocessed, but for example the password is incorrect, this will contain error messages.",
+          "description": "Methods contains context for all account recovery methods. If a registration request has been processed, but for example the password is incorrect, this will contain error messages.",
           "type": {
             "name": "JSON",
             "type": "named"
@@ -831,7 +826,7 @@
           }
         },
         "request_url": {
-          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used to forward information contained in the URL's path or query for example.",
           "type": {
             "name": "String",
             "type": "named"
@@ -873,7 +868,7 @@
     "RecoveryLink": {
       "fields": {
         "expires_at": {
-          "description": "Recovery Link Expires At\n\nThe timestamp when the recovery link expires.",
+          "description": "Recovery Link Expires At  The timestamp when the recovery link expires.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -889,7 +884,7 @@
           }
         },
         "recovery_link": {
-          "description": "Recovery Link\n\nThis link can be used to recover the account.",
+          "description": "Recovery Link  This link can be used to recover the account.",
           "type": {
             "name": "String",
             "type": "named"
@@ -920,7 +915,7 @@
           }
         },
         "expires_at": {
-          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to log in,\na new flow has to be initiated.",
+          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to log in, a new flow has to be initiated.",
           "type": {
             "name": "TimestampTZ",
             "type": "named"
@@ -975,7 +970,7 @@
           }
         },
         "methods": {
-          "description": "Methods contains context for all enabled registration methods. If a registration flow has been\nprocessed, but for example the password is incorrect, this will contain error messages.",
+          "description": "Methods contains context for all enabled registration methods. If a registration flow has been processed, but for example the password is incorrect, this will contain error messages.",
           "type": {
             "name": "JSON",
             "type": "named"
@@ -987,7 +982,7 @@
           }
         },
         "request_url": {
-          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used to forward information contained in the URL's path or query for example.",
           "type": {
             "name": "String",
             "type": "named"
@@ -1016,10 +1011,10 @@
       }
     },
     "SettingsFlow": {
-      "description": "This flow is used when an identity wants to update settings\n(e.g. profile data, passwords, ...) in a selfservice manner.\n\nWe recommend reading the [User Settings Documentation](../self-service/flows/user-settings)",
+      "description": "This flow is used when an identity wants to update settings (e.g. profile data, passwords, ...) in a selfservice manner.  We recommend reading the [User Settings Documentation](../self-service/flows/user-settings)",
       "fields": {
         "active": {
-          "description": "Active, if set, contains the registration method that is being used. It is initially\nnot set.",
+          "description": "Active, if set, contains the registration method that is being used. It is initially not set.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1034,7 +1029,7 @@
           }
         },
         "expires_at": {
-          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to update the setting,\na new flow has to be initiated.",
+          "description": "ExpiresAt is the time (UTC) when the flow expires. If the user still wishes to update the setting, a new flow has to be initiated.",
           "type": {
             "name": "TimestampTZ",
             "type": "named"
@@ -1100,7 +1095,7 @@
           }
         },
         "methods": {
-          "description": "Methods contains context for all enabled registration methods. If a settings flow has been\nprocessed, but for example the first name is empty, this will contain error messages.",
+          "description": "Methods contains context for all enabled registration methods. If a settings flow has been processed, but for example the first name is empty, this will contain error messages.",
           "type": {
             "name": "JSON",
             "type": "named"
@@ -1112,7 +1107,7 @@
           }
         },
         "request_url": {
-          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used to forward information contained in the URL's path or query for example.",
           "type": {
             "name": "String",
             "type": "named"
@@ -1155,7 +1150,7 @@
       "description": "Container represents a HTML Form. The container can work with both HTTP Form and JSON requests",
       "fields": {
         "action": {
-          "description": "Action should be used as the form action URL `\u003cform action=\"{{ .Action }}\" method=\"post\"\u003e`.",
+          "description": "Action should be used as the form action URL ``.",
           "type": {
             "name": "String",
             "type": "named"
@@ -1212,7 +1207,7 @@
       }
     },
     "UiNode": {
-      "description": "Nodes are represented as HTML elements or their native UI equivalents. For example,\na node can be an `\u003cimg\u003e` tag, or an `\u003cinput element\u003e` but also `some plain text`.",
+      "description": "Nodes are represented as HTML elements or their native UI equivalents. For example, a node can be an `` tag, or an `` but also `some plain text`.",
       "fields": {
         "attributes": {
           "type": {
@@ -1318,7 +1313,7 @@
     "UpdateIdentity": {
       "fields": {
         "schema_id": {
-          "description": "SchemaID is the ID of the JSON Schema to be used for validating the identity's traits. If set\nwill update the Identity's SchemaID.",
+          "description": "SchemaID is the ID of the JSON Schema to be used for validating the identity's traits. If set will update the Identity's SchemaID.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1333,7 +1328,7 @@
           }
         },
         "traits": {
-          "description": "Traits represent an identity's traits. The identity is able to create, modify, and delete traits\nin a self-service manner. The input will always be validated against the JSON Schema defined\nin `schema_id`.",
+          "description": "Traits represent an identity's traits. The identity is able to create, modify, and delete traits in a self-service manner. The input will always be validated against the JSON Schema defined in `schema_id`.",
           "type": {
             "name": "JSON",
             "type": "named"
@@ -1422,10 +1417,10 @@
       }
     },
     "VerificationFlow": {
-      "description": "Used to verify an out-of-band communication\nchannel such as an email address or a phone number.\n\nFor more information head over to: https://www.ory.sh/docs/kratos/self-service/flows/verify-email-account-activation",
+      "description": "Used to verify an out-of-band communication channel such as an email address or a phone number.  For more information head over to: https://www.ory.sh/docs/kratos/self-service/flows/verify-email-account-activation",
       "fields": {
         "active": {
-          "description": "Active, if set, contains the registration method that is being used. It is initially\nnot set.",
+          "description": "Active, if set, contains the registration method that is being used. It is initially not set.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1440,7 +1435,7 @@
           }
         },
         "expires_at": {
-          "description": "ExpiresAt is the time (UTC) when the request expires. If the user still wishes to verify the address,\na new request has to be initiated.",
+          "description": "ExpiresAt is the time (UTC) when the request expires. If the user still wishes to verify the address, a new request has to be initiated.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1501,7 +1496,7 @@
           }
         },
         "methods": {
-          "description": "Methods contains context for all account verification methods. If a registration request has been\nprocessed, but for example the password is incorrect, this will contain error messages.",
+          "description": "Methods contains context for all account verification methods. If a registration request has been processed, but for example the password is incorrect, this will contain error messages.",
           "type": {
             "name": "JSON",
             "type": "named"
@@ -1513,7 +1508,7 @@
           }
         },
         "request_url": {
-          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used\nto forward information contained in the URL's path or query for example.",
+          "description": "RequestURL is the initial URL that was requested from Ory Kratos. It can be used to forward information contained in the URL's path or query for example.",
           "type": {
             "type": "nullable",
             "underlying_type": {

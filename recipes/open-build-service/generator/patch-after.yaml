@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/json-patch.json
+- op: remove
+  path: /settings/servers/0/url/value
+- op: move
+  path: /procedures/postSourceProjectNamePackageNameCmdDiff/arguments/file
+  from: /procedures/postSourceProjectNamePackageNameCmdDiff/arguments/file[]
+- op: replace
+  path: /procedures/postSourceProjectNamePackageNameCmdDiff/arguments/file
+  value:
+    description: Limit diff to the given file names.
+    type:
+      type: nullable
+      underlying_type:
+        type: array
+        element_type:
+          type: named
+          name: String
+    http:
+      name: file
+      in: query
+      schema:
+        type: ["array"]
+        items:
+          type: ["string"]
+- op: move
+  path: /procedures/postSourceProjectNamePackageNameCmdLinkdiff/arguments/file
+  from: /procedures/postSourceProjectNamePackageNameCmdLinkdiff/arguments/file[]
+- op: replace
+  path: /procedures/postSourceProjectNamePackageNameCmdLinkdiff/arguments/file
+  value:
+    description: Limit diff to the given file names.
+    type:
+      type: nullable
+      underlying_type:
+        type: array
+        element_type:
+          type: named
+          name: String
+    http:
+      name: file
+      in: query
+      schema:
+        type: ["array"]
+        items:
+          type: ["string"]
+- op: move
+  path: /procedures/postSourceProjectNamePackageNameCmdServicediff/arguments/file
+  from: /procedures/postSourceProjectNamePackageNameCmdServicediff/arguments/file[]
+- op: replace
+  path: /procedures/postSourceProjectNamePackageNameCmdServicediff/arguments/file
+  value:
+    description: Limit diff to the given file names.
+    type:
+      type: nullable
+      underlying_type:
+        type: array
+        element_type:
+          type: named
+          name: String
+    http:
+      name: file
+      in: query
+      schema:
+        type: ["array"]
+        items:
+          type: ["string"]
+- op: replace
+  path: /functions/getBuildProjectNameRepositoryNameArchitectureNamePackageNameFileName/request/response/contentType
+  value: application/octet-stream
+- op: remove
+  path: /functions/getBuildProjectNameRepositoryNameArchitectureNamePackageNameFileNameViewFileinfo/arguments/view
+- op: replace
+  path: /object_types/GetCommentCommentIdHistoryResult/fields
+  value:
+    comment_count:
+      type:
+        type: "nullable"
+        underlying_type:
+          name: Int32
+          type: named
+      http:
+        type: ["integer"]
+        xml:
+          attribute: true
+          name: comment
+    comment:
+      type:
+        type: nullable
+        underlying_type:
+          element_type:
+            name: GetCommentsUserResultComment
+            type: named
+          type: array
+      http:
+        type:
+          - array
+        items:
+          type:
+            - object
