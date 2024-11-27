@@ -1,0 +1,2588 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://marketplace.twilio.com",
+          "env": "TWILIO_MARKETPLACE_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "accountSid_authToken": {
+        "type": "basic",
+        "header": "",
+        "username": {
+          "env": "TWILIO_ACCOUNT_SID"
+        },
+        "password": {
+          "env": "TWILIO_AUTH_TOKEN"
+        }
+      }
+    },
+    "security": [
+      {
+        "accountSid_authToken": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "marketplaceFetchAvailableAddOn": {
+      "request": {
+        "url": "/v1/AvailableAddOns/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The SID of the AvailableAddOn resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XB[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch an instance of an Add-on currently available to be installed.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1AvailableAddOn",
+        "type": "named"
+      }
+    },
+    "marketplaceFetchAvailableAddOnExtension": {
+      "request": {
+        "url": "/v1/AvailableAddOns/{AvailableAddOnSid}/Extensions/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "AvailableAddOnSid": {
+          "description": "The SID of the AvailableAddOn resource with the extension to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "AvailableAddOnSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XB[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The SID of the AvailableAddOn Extension resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XF[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch an instance of an Extension for the Available Add-on.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1AvailableAddOnAvailableAddOnExtension",
+        "type": "named"
+      }
+    },
+    "marketplaceFetchInstalledAddOn": {
+      "request": {
+        "url": "/v1/InstalledAddOns/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The SID of the InstalledAddOn resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XE[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch an instance of an Add-on currently installed on this Account.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1InstalledAddOn",
+        "type": "named"
+      }
+    },
+    "marketplaceFetchInstalledAddOnExtension": {
+      "request": {
+        "url": "/v1/InstalledAddOns/{InstalledAddOnSid}/Extensions/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "InstalledAddOnSid": {
+          "description": "The SID of the InstalledAddOn resource with the extension to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "InstalledAddOnSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XE[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The SID of the InstalledAddOn Extension resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XF[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch an instance of an Extension for the Installed Add-on.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnExtension",
+        "type": "named"
+      }
+    },
+    "marketplaceFetchModuleDataManagement": {
+      "request": {
+        "url": "/v1/Listing/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique identifier of a Listing.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XB[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "This endpoint returns the data of a given Listing. To find a Listing's SID, use the [Available Add-ons resource](/docs/marketplace/api/available-add-ons) or view its Listing details page in the Console by visiting the [Catalog](https://console.twilio.com/us1/develop/add-ons/catalog) or the [My Listings tab](https://console.twilio.com/us1/develop/add-ons/publish/my-listings) and selecting the Listing.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1ModuleDataManagement",
+        "type": "named"
+      }
+    },
+    "marketplaceListAvailableAddOn": {
+      "request": {
+        "url": "/v1/AvailableAddOns",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of Add-ons currently available to be installed.",
+      "result_type": {
+        "name": "MarketplaceListAvailableAddOnResult",
+        "type": "named"
+      }
+    },
+    "marketplaceListAvailableAddOnExtension": {
+      "request": {
+        "url": "/v1/AvailableAddOns/{AvailableAddOnSid}/Extensions",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "AvailableAddOnSid": {
+          "description": "The SID of the AvailableAddOn resource with the extensions to read.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "AvailableAddOnSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XB[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of Extensions for the Available Add-on.",
+      "result_type": {
+        "name": "MarketplaceListAvailableAddOnExtensionResult",
+        "type": "named"
+      }
+    },
+    "marketplaceListInstalledAddOn": {
+      "request": {
+        "url": "/v1/InstalledAddOns",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of Add-ons currently installed on this Account.",
+      "result_type": {
+        "name": "MarketplaceListInstalledAddOnResult",
+        "type": "named"
+      }
+    },
+    "marketplaceListInstalledAddOnExtension": {
+      "request": {
+        "url": "/v1/InstalledAddOns/{InstalledAddOnSid}/Extensions",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "InstalledAddOnSid": {
+          "description": "The SID of the InstalledAddOn resource with the extensions to read.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "InstalledAddOnSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XE[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of Extensions for the Installed Add-on.",
+      "result_type": {
+        "name": "MarketplaceListInstalledAddOnExtensionResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "MarketplaceCreateInstalledAddOnBody": {
+      "fields": {
+        "AcceptTermsOfService": {
+          "description": "Whether the Terms of Service were accepted.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "AvailableAddOnSid": {
+          "description": "The SID of the AvaliableAddOn to install.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^XB[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "Configuration": {
+          "description": "The JSON object that represents the configuration of the new Add-on being installed.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "UniqueName": {
+          "description": "An application-defined string that uniquely identifies the resource. This value must be unique within the Account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceCreateReferralConversionBody": {
+      "fields": {
+        "referral_account_sid": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "MarketplaceListAvailableAddOnExtensionResult": {
+      "fields": {
+        "extensions": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "MarketplaceMarketplaceV1AvailableAddOnAvailableAddOnExtension",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MarketplaceListAvailableAddOnExtensionResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceListAvailableAddOnExtensionResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceListAvailableAddOnResult": {
+      "fields": {
+        "available_add_ons": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "MarketplaceMarketplaceV1AvailableAddOn",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MarketplaceListAvailableAddOnResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceListAvailableAddOnResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceListInstalledAddOnExtensionResult": {
+      "fields": {
+        "extensions": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnExtension",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MarketplaceListInstalledAddOnExtensionResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceListInstalledAddOnExtensionResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceListInstalledAddOnResult": {
+      "fields": {
+        "installed_add_ons": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "MarketplaceMarketplaceV1InstalledAddOn",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MarketplaceListInstalledAddOnResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceListInstalledAddOnResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1AvailableAddOn": {
+      "fields": {
+        "configuration_schema": {
+          "description": "The JSON object with the configuration that must be provided when installing a given Add-on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "description": {
+          "description": "A short description of the Add-on's functionality.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "The URLs of related resources.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "uri-map"
+          }
+        },
+        "pricing_type": {
+          "description": "How customers are charged for using this Add-on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the AvailableAddOn resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^XB[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1AvailableAddOnAvailableAddOnExtension": {
+      "fields": {
+        "available_add_on_sid": {
+          "description": "The SID of the AvailableAddOn resource to which this extension applies.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^XB[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "product_name": {
+          "description": "The name of the Product this Extension is used within.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the AvailableAddOnExtension resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^XF[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "unique_name": {
+          "description": "An application-defined string that uniquely identifies the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1InstalledAddOn": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the InstalledAddOn resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "configuration": {
+          "description": "The JSON object that represents the current configuration of installed Add-on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "date_created": {
+          "description": "The date and time in GMT when the resource was created specified in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "description": {
+          "description": "A short description of the Add-on's functionality.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "The URLs of related resources.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "uri-map"
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the InstalledAddOn resource. This Sid can also be found in the Console on that specific Add-ons page as the 'Available Add-on Sid'.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^XE[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "unique_name": {
+          "description": "An application-defined string that uniquely identifies the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnExtension": {
+      "fields": {
+        "enabled": {
+          "description": "Whether the Extension will be invoked.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "installed_add_on_sid": {
+          "description": "The SID of the InstalledAddOn resource to which this extension applies.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^XE[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "product_name": {
+          "description": "The name of the Product this Extension is used within.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the InstalledAddOn Extension resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^XF[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "unique_name": {
+          "description": "An application-defined string that uniquely identifies the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnUsage": {
+      "fields": {
+        "billable_items": {
+          "type": {
+            "element_type": {
+              "name": "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnUsageBillableItems",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "total_submitted": {
+          "description": "Total amount in local currency that was billed in this request. Aggregates all billable_items that were successfully submitted.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnUsageBillableItems": {
+      "fields": {
+        "quantity": {
+          "description": "Total amount in local currency that was billed for this Billing Item. Can be any floating number greater than 0.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "sid": {
+          "description": "BillingSid to use for billing.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "submitted": {
+          "description": "Whether the billing event was successfully generated for this Billable Item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnUsageInput": {
+      "fields": {
+        "billable_items": {
+          "type": {
+            "element_type": {
+              "name": "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnUsageBillableItems",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1ModuleDataManagement": {
+      "fields": {
+        "configuration": {
+          "description": "A JSON object for providing listing specific configuration. Contains button setup, notification url, among others.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "description": {
+          "description": "A JSON object describing the module and is displayed under the Description tab of the Module detail page. You can define the main body of the description, highlight key features or aspects of the module and if applicable, provide code samples for developers",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "documentation": {
+          "description": "A JSON object for providing comprehensive information, instructions, and resources related to the module",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "module_info": {
+          "description": "A JSON object containing essential attributes that define a module. This information is presented on the Module detail page in the Twilio Marketplace Catalog. You can pass the following attributes in the JSON object",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "policies": {
+          "description": "A JSON object describing the module's privacy and legal policies and is displayed under the Policies tab of the Module detail page. The maximum file size for Policies is 5MB",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "pricing": {
+          "description": "A JSON object for providing Listing specific pricing information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "sid": {
+          "description": "ModuleSid that identifies this Listing.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^XB[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "support": {
+          "description": "A JSON object containing information on how customers can obtain support for the module. Use this parameter to provide details such as contact information and support description.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "url": {
+          "description": "URL to query the subresource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "MarketplaceMarketplaceV1ReferralConversion": {
+      "fields": {
+        "converted_account_sid": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "MarketplaceUpdateInstalledAddOnBody": {
+      "fields": {
+        "Configuration": {
+          "description": "Valid JSON object that conform to the configuration schema exposed by the associated AvailableAddOn resource. This is only required by Add-ons that need to be configured",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "UniqueName": {
+          "description": "An application-defined string that uniquely identifies the resource. This value must be unique within the Account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceUpdateInstalledAddOnExtensionBody": {
+      "fields": {
+        "Enabled": {
+          "description": "Whether the Extension should be invoked.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "MarketplaceUpdateModuleDataManagementBody": {
+      "fields": {
+        "Configuration": {
+          "description": "A JSON object for providing Listing-specific configuration. Contains button setup, notification URL, and more.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Description": {
+          "description": "A JSON object describing the Listing. You can define the main body of the description, highlight key features or aspects of the Listing, and provide code samples for developers if applicable.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Documentation": {
+          "description": "A JSON object for providing comprehensive information, instructions, and resources related to the Listing.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ModuleInfo": {
+          "description": "A JSON object containing essential attributes that define a Listing.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Policies": {
+          "description": "A JSON object describing the Listing's privacy and legal policies. The maximum file size for Policies is 5MB.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Pricing": {
+          "description": "A JSON object for providing Listing's purchase options.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Support": {
+          "description": "A JSON object containing information on how Marketplace users can obtain support for the Listing. Use this parameter to provide details such as contact information and support description.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "marketplaceCreateBillingUsage": {
+      "request": {
+        "url": "/v1/InstalledAddOns/{InstalledAddOnSid}/Usage",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "InstalledAddOnSid": {
+          "description": "Customer Installation SID to report usage on.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "InstalledAddOnSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XE[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/InstalledAddOns/{InstalledAddOnSid}/Usage",
+          "type": {
+            "name": "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnUsageInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Allows Twilio Marketplace publishers to manually report customer usage on No-code Partner Listings that they own.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnUsage",
+        "type": "named"
+      }
+    },
+    "marketplaceCreateInstalledAddOn": {
+      "request": {
+        "url": "/v1/InstalledAddOns",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/InstalledAddOns",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MarketplaceCreateInstalledAddOnBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Install an Add-on for the Account specified.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1InstalledAddOn",
+        "type": "named"
+      }
+    },
+    "marketplaceCreateReferralConversion": {
+      "request": {
+        "url": "/v1/ReferralConversion",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/ReferralConversion",
+          "type": {
+            "name": "MarketplaceCreateReferralConversionBody",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/ReferralConversion",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1ReferralConversion",
+        "type": "named"
+      }
+    },
+    "marketplaceDeleteInstalledAddOn": {
+      "request": {
+        "url": "/v1/InstalledAddOns/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The SID of the InstalledAddOn resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XE[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Remove an Add-on installation from your account",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "marketplaceUpdateInstalledAddOn": {
+      "request": {
+        "url": "/v1/InstalledAddOns/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The SID of the InstalledAddOn resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XE[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/InstalledAddOns/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MarketplaceUpdateInstalledAddOnBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update an Add-on installation for the Account specified.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1InstalledAddOn",
+        "type": "named"
+      }
+    },
+    "marketplaceUpdateInstalledAddOnExtension": {
+      "request": {
+        "url": "/v1/InstalledAddOns/{InstalledAddOnSid}/Extensions/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "InstalledAddOnSid": {
+          "description": "The SID of the InstalledAddOn resource with the extension to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "InstalledAddOnSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XE[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The SID of the InstalledAddOn Extension resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XF[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/InstalledAddOns/{InstalledAddOnSid}/Extensions/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MarketplaceUpdateInstalledAddOnExtensionBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update an Extension for an Add-on installation.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1InstalledAddOnInstalledAddOnExtension",
+        "type": "named"
+      }
+    },
+    "marketplaceUpdateModuleDataManagement": {
+      "request": {
+        "url": "/v1/Listing/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "SID that uniquely identifies the Listing.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^XB[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Listing/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MarketplaceUpdateModuleDataManagementBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "This endpoint updates the data of a given Listing. To find a Listing's SID, use the [Available Add-ons resource](https://www.twilio.com/docs/marketplace/api/available-add-ons) or view its Listing details page in the Console by visiting the [Catalog](https://console.twilio.com/us1/develop/add-ons/catalog) or the [My Listings tab](https://console.twilio.com/us1/develop/add-ons/publish/my-listings) and selecting the Listing. Only Listing owners are allowed to update the Listing.",
+      "result_type": {
+        "name": "MarketplaceMarketplaceV1ModuleDataManagement",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

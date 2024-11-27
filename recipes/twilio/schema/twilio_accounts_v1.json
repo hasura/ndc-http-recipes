@@ -1,0 +1,1777 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://accounts.twilio.com",
+          "env": "TWILIO_ACCOUNTS_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "accountSid_authToken": {
+        "type": "basic",
+        "header": "",
+        "username": {
+          "env": "TWILIO_ACCOUNT_SID"
+        },
+        "password": {
+          "env": "TWILIO_AUTH_TOKEN"
+        }
+      }
+    },
+    "security": [
+      {
+        "accountSid_authToken": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "accountsFetchCredentialAws": {
+      "request": {
+        "url": "/v1/Credentials/AWS/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the AWS resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^CR[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch the AWS credentials specified by the provided Credential Sid",
+      "result_type": {
+        "name": "AccountsAccountsV1CredentialCredentialAws",
+        "type": "named"
+      }
+    },
+    "accountsFetchCredentialPublicKey": {
+      "request": {
+        "url": "/v1/Credentials/PublicKeys/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the PublicKey resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^CR[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch the public key specified by the provided Credential Sid",
+      "result_type": {
+        "name": "AccountsAccountsV1CredentialCredentialPublicKey",
+        "type": "named"
+      }
+    },
+    "accountsFetchSafelist": {
+      "request": {
+        "url": "/v1/SafeList/Numbers",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PhoneNumber": {
+          "description": "The phone number to be fetched from SafeList. Phone numbers must be in [E.164 format](https://www.twilio.com/docs/glossary/what-e164).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PhoneNumber",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Check if a phone number exists in SafeList.",
+      "result_type": {
+        "name": "AccountsAccountsV1Safelist",
+        "type": "named"
+      }
+    },
+    "accountsListCredentialAws": {
+      "request": {
+        "url": "/v1/Credentials/AWS",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieves a collection of AWS Credentials belonging to the account used to make the request",
+      "result_type": {
+        "name": "AccountsListCredentialAwsResult",
+        "type": "named"
+      }
+    },
+    "accountsListCredentialPublicKey": {
+      "request": {
+        "url": "/v1/Credentials/PublicKeys",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieves a collection of Public Key Credentials belonging to the account used to make the request",
+      "result_type": {
+        "name": "AccountsListCredentialPublicKeyResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AccountsAccountsV1AuthTokenPromotion": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that the secondary Auth Token was created for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "auth_token": {
+          "description": "The promoted Auth Token that must be used to authenticate future API requests.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "date_created": {
+          "description": "The date and time in UTC when the resource was created specified in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "url": {
+          "description": "The URI for this resource, relative to `https://accounts.twilio.com`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "AccountsAccountsV1BulkConsents": {
+      "fields": {
+        "items": {
+          "description": "A list of objects where each object represents the result of processing a `correlation_id`. Each object contains the following fields: `correlation_id`, a unique 32-character UUID that maps the response to the original request; `error_code`, an integer where 0 indicates success and any non-zero value represents an error; and `error_messages`, an array of strings describing specific validation errors encountered. If the request is successful, the error_messages array will be empty.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        }
+      }
+    },
+    "AccountsAccountsV1BulkContacts": {
+      "fields": {
+        "items": {
+          "description": "A list of objects where each object represents the result of processing a `correlation_id`. Each object contains the following fields: `correlation_id`, a unique 32-character UUID that maps the response to the original request; `error_code`, an integer where 0 indicates success and any non-zero value represents an error; and `error_messages`, an array of strings describing specific validation errors encountered. If the request is successful, the error_messages array will be empty.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        }
+      }
+    },
+    "AccountsAccountsV1CredentialCredentialAws": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the AWS resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The date and time in GMT when the resource was created specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the AWS resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^CR[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The URI for this resource, relative to `https://accounts.twilio.com`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "AccountsAccountsV1CredentialCredentialPublicKey": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the Credential that the PublicKey resource belongs to.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The date and time in GMT when the resource was created specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that that we created to identify the PublicKey resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^CR[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The URI for this resource, relative to `https://accounts.twilio.com`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "AccountsAccountsV1Safelist": {
+      "fields": {
+        "phone_number": {
+          "description": "The phone number in SafeList.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the SafeList resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^GN[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "AccountsAccountsV1SecondaryAuthToken": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that the secondary Auth Token was created for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The date and time in UTC when the resource was created specified in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in UTC when the resource was last updated specified in [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "secondary_auth_token": {
+          "description": "The generated secondary Auth Token that can be used to authenticate future API requests.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The URI for this resource, relative to `https://accounts.twilio.com`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "AccountsCreateBulkConsentsBody": {
+      "fields": {
+        "Items": {
+          "description": "This is a list of objects that describes a contact's opt-in status. Each object contains the following fields: `contact_id`, which must be a string representing phone number in [E.164 format](https://www.twilio.com/docs/glossary/what-e164); `correlation_id`, a unique 32-character UUID used to uniquely map the request item with the response item; `sender_id`, which can be either a valid messaging service SID or a from phone number; `status`, a string representing the consent status. Can be one of [`opt-in`, `opt-out`]; and `source`, a string indicating the medium through which the consent was collected. Can be one of [`website`, `offline`, `opt-in-message`, `opt-out-message`, `others`].",
+          "type": {
+            "element_type": {
+              "name": "JSON",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": null
+            }
+          }
+        }
+      }
+    },
+    "AccountsCreateBulkContactsBody": {
+      "fields": {
+        "Items": {
+          "description": "A list of objects where each object represents a contact's details. Each object includes the following fields: `contact_id`, which must be a string representing phone number in [E.164 format](https://www.twilio.com/docs/glossary/what-e164); `correlation_id`, a unique 32-character UUID that maps the response to the original request; `country_iso_code`, a string representing the country using the ISO format (e.g., US for the United States); and `zip_code`, a string representing the postal code.",
+          "type": {
+            "element_type": {
+              "name": "JSON",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": null
+            }
+          }
+        }
+      }
+    },
+    "AccountsCreateCredentialAwsBody": {
+      "fields": {
+        "AccountSid": {
+          "description": "The SID of the Subaccount that this Credential should be associated with. Must be a valid Subaccount of the account issuing the request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "Credentials": {
+          "description": "A string that contains the AWS access credentials in the format `:`. For example, `AKIAIOSFODNN7EXAMPLE:wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY`",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "FriendlyName": {
+          "description": "A descriptive string that you create to describe the resource. It can be up to 64 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountsCreateCredentialPublicKeyBody": {
+      "fields": {
+        "AccountSid": {
+          "description": "The SID of the Subaccount that this Credential should be associated with. Must be a valid Subaccount of the account issuing the request",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "FriendlyName": {
+          "description": "A descriptive string that you create to describe the resource. It can be up to 64 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "PublicKey": {
+          "description": "A URL encoded representation of the public key. For example, `-----BEGIN PUBLIC KEY-----MIIBIjANB.pa9xQIDAQAB-----END PUBLIC KEY-----`",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountsCreateSafelistBody": {
+      "fields": {
+        "PhoneNumber": {
+          "description": "The phone number to be added in SafeList. Phone numbers must be in [E.164 format](https://www.twilio.com/docs/glossary/what-e164).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountsListCredentialAwsResult": {
+      "fields": {
+        "credentials": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AccountsAccountsV1CredentialCredentialAws",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsListCredentialAwsResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AccountsListCredentialAwsResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "AccountsListCredentialPublicKeyResult": {
+      "fields": {
+        "credentials": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AccountsAccountsV1CredentialCredentialPublicKey",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsListCredentialPublicKeyResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AccountsListCredentialPublicKeyResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "AccountsUpdateCredentialAwsBody": {
+      "fields": {
+        "FriendlyName": {
+          "description": "A descriptive string that you create to describe the resource. It can be up to 64 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountsUpdateCredentialPublicKeyBody": {
+      "fields": {
+        "FriendlyName": {
+          "description": "A descriptive string that you create to describe the resource. It can be up to 64 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "accountsCreateBulkConsents": {
+      "request": {
+        "url": "/v1/Consents/Bulk",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/Consents/Bulk",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsCreateBulkConsentsBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Consents/Bulk",
+      "result_type": {
+        "name": "AccountsAccountsV1BulkConsents",
+        "type": "named"
+      }
+    },
+    "accountsCreateBulkContacts": {
+      "request": {
+        "url": "/v1/Contacts/Bulk",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/Contacts/Bulk",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsCreateBulkContactsBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Contacts/Bulk",
+      "result_type": {
+        "name": "AccountsAccountsV1BulkContacts",
+        "type": "named"
+      }
+    },
+    "accountsCreateCredentialAws": {
+      "request": {
+        "url": "/v1/Credentials/AWS",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/Credentials/AWS",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsCreateCredentialAwsBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a new AWS Credential",
+      "result_type": {
+        "name": "AccountsAccountsV1CredentialCredentialAws",
+        "type": "named"
+      }
+    },
+    "accountsCreateCredentialPublicKey": {
+      "request": {
+        "url": "/v1/Credentials/PublicKeys",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/Credentials/PublicKeys",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsCreateCredentialPublicKeyBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a new Public Key Credential",
+      "result_type": {
+        "name": "AccountsAccountsV1CredentialCredentialPublicKey",
+        "type": "named"
+      }
+    },
+    "accountsCreateSafelist": {
+      "request": {
+        "url": "/v1/SafeList/Numbers",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/SafeList/Numbers",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsCreateSafelistBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Add a new phone number to SafeList.",
+      "result_type": {
+        "name": "AccountsAccountsV1Safelist",
+        "type": "named"
+      }
+    },
+    "accountsCreateSecondaryAuthToken": {
+      "request": {
+        "url": "/v1/AuthTokens/Secondary",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Create a new secondary Auth Token",
+      "result_type": {
+        "name": "AccountsAccountsV1SecondaryAuthToken",
+        "type": "named"
+      }
+    },
+    "accountsDeleteCredentialAws": {
+      "request": {
+        "url": "/v1/Credentials/AWS/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the AWS resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^CR[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Delete a Credential from your account",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "accountsDeleteCredentialPublicKey": {
+      "request": {
+        "url": "/v1/Credentials/PublicKeys/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the PublicKey resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^CR[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Delete a Credential from your account",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "accountsDeleteSafelist": {
+      "request": {
+        "url": "/v1/SafeList/Numbers",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PhoneNumber": {
+          "description": "The phone number to be removed from SafeList. Phone numbers must be in [E.164 format](https://www.twilio.com/docs/glossary/what-e164).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PhoneNumber",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Remove a phone number from SafeList.",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "accountsDeleteSecondaryAuthToken": {
+      "request": {
+        "url": "/v1/AuthTokens/Secondary",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Delete the secondary Auth Token from your account",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "accountsUpdateAuthTokenPromotion": {
+      "request": {
+        "url": "/v1/AuthTokens/Promote",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Promote the secondary Auth Token to primary. After promoting the new token, all requests to Twilio using your old primary Auth Token will result in an error.",
+      "result_type": {
+        "name": "AccountsAccountsV1AuthTokenPromotion",
+        "type": "named"
+      }
+    },
+    "accountsUpdateCredentialAws": {
+      "request": {
+        "url": "/v1/Credentials/AWS/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the AWS resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^CR[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Credentials/AWS/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsUpdateCredentialAwsBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Modify the properties of a given Account",
+      "result_type": {
+        "name": "AccountsAccountsV1CredentialCredentialAws",
+        "type": "named"
+      }
+    },
+    "accountsUpdateCredentialPublicKey": {
+      "request": {
+        "url": "/v1/Credentials/PublicKeys/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the PublicKey resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^CR[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Credentials/PublicKeys/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountsUpdateCredentialPublicKeyBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Modify the properties of a given Account",
+      "result_type": {
+        "name": "AccountsAccountsV1CredentialCredentialPublicKey",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

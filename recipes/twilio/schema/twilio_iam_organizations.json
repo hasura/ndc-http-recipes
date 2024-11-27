@@ -1,0 +1,1824 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://preview-iam.twilio.com",
+          "env": "TWILIO_IAM_ORGANIZATIONS_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "oAuth2ClientCredentials": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": "https://preview-iam.twilio.com/v1/token"
+          }
+        }
+      }
+    },
+    "security": [
+      {
+        "oAuth2ClientCredentials": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "iamOrganizationsFetchOrganizationAccount": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/Accounts/{AccountSid}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "AccountSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "AccountSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "AccountSid",
+              "pattern": "AC[0-9a-f]{32}"
+            }
+          }
+        },
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        }
+      },
+      "description": "Get details of organization account",
+      "result_type": {
+        "name": "IamOrganizationsPublicApiAccountResponse",
+        "type": "named"
+      }
+    },
+    "iamOrganizationsFetchOrganizationUser": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/scim/Users/{UserSid}",
+        "method": "get",
+        "response": {
+          "contentType": "application/scim+json"
+        }
+      },
+      "arguments": {
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "UserSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "UserSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "UserSid",
+              "pattern": "US[0-9a-f]{32}"
+            }
+          }
+        }
+      },
+      "description": "Get SCIM User",
+      "result_type": {
+        "name": "IamOrganizationsScimUser",
+        "type": "named"
+      }
+    },
+    "iamOrganizationsListOrganizationAccounts": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/Accounts",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "PageSize": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int32",
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "maxLength": 4096,
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "description": "List organization accounts",
+      "result_type": {
+        "name": "IamOrganizationsPublicApiAccountResponsePage",
+        "type": "named"
+      }
+    },
+    "iamOrganizationsListOrganizationUsers": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/scim/Users",
+        "method": "get",
+        "response": {
+          "contentType": "application/scim+json"
+        }
+      },
+      "arguments": {
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "filter": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "filter",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List SCIM Users",
+      "result_type": {
+        "name": "IamOrganizationsScimUserPage",
+        "type": "named"
+      }
+    },
+    "iamOrganizationsListRoleAssignments": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/RoleAssignments",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Identity": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Identity",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "Sid",
+              "pattern": "^[A-Z]{2}[0-9a-fA-F]{32}$"
+            }
+          }
+        },
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "PageSize": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int32",
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "maxLength": 4096,
+              "minLength": 1
+            }
+          }
+        },
+        "Scope": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Scope",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "Sid",
+              "pattern": "^[A-Z]{2}[0-9a-fA-F]{32}$"
+            }
+          }
+        }
+      },
+      "description": "List role assignments",
+      "result_type": {
+        "name": "IamOrganizationsPublicApiCreateRoleAssignmentResponsePage",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "IamOrganizationsCreateTokenBody": {
+      "fields": {
+        "audience": {
+          "description": "The targeted audience uri",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_id": {
+          "description": "A 34 character string that uniquely identifies this OAuth App.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_secret": {
+          "description": "The credential for confidential OAuth App.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "code": {
+          "description": "JWT token related to the authorization code grant type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "grant_type": {
+          "description": "Grant type is a credential representing resource owner's authorization which can be used by client to obtain access token.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "redirect_uri": {
+          "description": "The redirect uri",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "refresh_token": {
+          "description": "JWT token related to refresh access token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "scope": {
+          "description": "The scope of token",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IamOrganizationsOauthV1Token": {
+      "fields": {
+        "access_token": {
+          "description": "Token which carries the necessary information to access a Twilio resource directly.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_in": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "id_token": {
+          "description": "Token which carries the information necessary of user profile.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "refresh_token": {
+          "description": "Token which carries the information necessary to get a new access token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_type": {
+          "description": "Token type",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IamOrganizationsPublicApiAccountResponse": {
+      "description": "Page content",
+      "fields": {
+        "account_sid": {
+          "description": "Twilio account sid",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "AccountSid",
+            "pattern": "AC[0-9a-f]{32}"
+          }
+        },
+        "date_created": {
+          "description": "The date and time when the account was created in the system",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "Account friendly name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "owner_sid": {
+          "description": "Twilio account sid",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "UserSid",
+            "pattern": "US[0-9a-f]{32}"
+          }
+        },
+        "status": {
+          "description": "Account status",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IamOrganizationsPublicApiAccountResponseStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IamOrganizationsPublicApiAccountResponsePage": {
+      "fields": {
+        "content": {
+          "description": "Page content",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "IamOrganizationsPublicApiAccountResponse",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IamOrganizationsPublicApiAccountResponsePageMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "IamOrganizationsPublicApiAccountResponsePageMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "IamOrganizationsPublicApiCreateRoleAssignmentRequest": {
+      "fields": {
+        "identity": {
+          "description": "Twilio Sid representing identity of this assignment",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "Sid",
+            "pattern": "^[A-Z]{2}[0-9a-fA-F]{32}$"
+          }
+        },
+        "role_sid": {
+          "description": "Twilio Role Sid representing assigned role",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "IamRoleSid",
+            "pattern": "IX[0-9a-f]{32}"
+          }
+        },
+        "scope": {
+          "description": "Twilio Sid representing scope of this assignment",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "Sid",
+            "pattern": "^[A-Z]{2}[0-9a-fA-F]{32}$"
+          }
+        }
+      }
+    },
+    "IamOrganizationsPublicApiCreateRoleAssignmentResponsePage": {
+      "fields": {
+        "content": {
+          "description": "Page content",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "IamOrganizationsPublicApiRoleAssignmentResponse",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IamOrganizationsPublicApiCreateRoleAssignmentResponsePageMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "IamOrganizationsPublicApiCreateRoleAssignmentResponsePageMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "IamOrganizationsPublicApiRoleAssignmentResponse": {
+      "fields": {
+        "identity": {
+          "description": "Twilio Sid representing scope of this assignment",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "Sid",
+            "pattern": "^[A-Z]{2}[0-9a-fA-F]{32}$"
+          }
+        },
+        "role_sid": {
+          "description": "Twilio Role Sid representing assigned role",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "IamRoleSid",
+            "pattern": "IX[0-9a-f]{32}"
+          }
+        },
+        "scope": {
+          "description": "Twilio Sid representing identity of this assignment",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "Sid",
+            "pattern": "^[A-Z]{2}[0-9a-fA-F]{32}$"
+          }
+        },
+        "sid": {
+          "description": "Twilio Role Assignment Sid representing this role assignment",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "IamRoleAssignmentSid",
+            "pattern": "IY[0-9a-f]{32}"
+          }
+        }
+      }
+    },
+    "IamOrganizationsScimEmailAddress": {
+      "description": "Email address list of the user. Primary email must be defined if there are more than 1 email. Primary email must match the username.",
+      "fields": {
+        "primary": {
+          "description": "Indicates if this email address is the primary one",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of email address (e.g., work, home, etc.)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 64,
+            "minLength": 0
+          }
+        },
+        "value": {
+          "description": "The actual email address value",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 160,
+            "minLength": 2
+          }
+        }
+      }
+    },
+    "IamOrganizationsScimMeta": {
+      "description": "Meta",
+      "fields": {
+        "created": {
+          "description": "The date and time when the resource was created in the system",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "lastModified": {
+          "description": "The date and time when the resource was last modified",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "resourceType": {
+          "description": "Indicates the type of the resource",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "version": {
+          "description": "A version identifier for the resource. This can be used to manage resource versioning and concurrency control.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IamOrganizationsScimName": {
+      "description": "User's name",
+      "fields": {
+        "familyName": {
+          "description": "The user's last or family name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 0
+          }
+        },
+        "givenName": {
+          "description": "The user's first or given name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 0
+          }
+        }
+      }
+    },
+    "IamOrganizationsScimUser": {
+      "fields": {
+        "active": {
+          "description": "Indicates whether the user is active",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "displayName": {
+          "description": "User friendly display name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 0
+          }
+        },
+        "emails": {
+          "description": "Email address list of the user. Primary email must be defined if there are more than 1 email. Primary email must match the username.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "IamOrganizationsScimEmailAddress",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "externalId": {
+          "description": "External unique resource id defined by provisioning client",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 2
+          }
+        },
+        "id": {
+          "description": "Unique Twilio user sid",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "locale": {
+          "description": "User's locale",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "meta": {
+          "description": "Meta",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IamOrganizationsScimMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "User's name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IamOrganizationsScimName",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "schemas": {
+          "description": "An array of URIs that indicate the schemas supported for this user resource",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "timezone": {
+          "description": "User's time zone",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "userName": {
+          "description": "Unique username, MUST be same as primary email address",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 2
+          }
+        }
+      }
+    },
+    "IamOrganizationsScimUserPage": {
+      "fields": {
+        "Resources": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "IamOrganizationsScimUser",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "schemas": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "totalResults": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "iamOrganizationsCreateOrganizationUser": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/scim/Users",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/scim+json"
+        }
+      },
+      "arguments": {
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /Organizations/{OrganizationSid}/scim/Users",
+          "type": {
+            "name": "IamOrganizationsScimUser",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create SCIM User",
+      "result_type": {
+        "name": "IamOrganizationsScimUser",
+        "type": "named"
+      }
+    },
+    "iamOrganizationsCreateRoleAssignment": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/RoleAssignments",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /Organizations/{OrganizationSid}/RoleAssignments",
+          "type": {
+            "name": "IamOrganizationsPublicApiCreateRoleAssignmentRequest",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a role assignment",
+      "result_type": {
+        "name": "IamOrganizationsPublicApiRoleAssignmentResponse",
+        "type": "named"
+      }
+    },
+    "iamOrganizationsCreateToken": {
+      "request": {
+        "url": "/v1/token",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/token",
+          "type": {
+            "name": "IamOrganizationsCreateTokenBody",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Issues a new Access token (optionally identity_token \u0026 refresh_token) in exchange of Oauth grant",
+      "result_type": {
+        "name": "IamOrganizationsOauthV1Token",
+        "type": "named"
+      }
+    },
+    "iamOrganizationsDeleteOrganizationUser": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/scim/Users/{UserSid}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "UserSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "UserSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "UserSid",
+              "pattern": "US[0-9a-f]{32}"
+            }
+          }
+        }
+      },
+      "description": "Delete SCIM User",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "iamOrganizationsDeleteRoleAssignment": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/RoleAssignments/{RoleAssignmentSid}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "RoleAssignmentSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "RoleAssignmentSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "IamRoleAssignmentSid",
+              "pattern": "IY[0-9a-f]{32}"
+            }
+          }
+        }
+      },
+      "description": "Delete a role assignment",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "iamOrganizationsUpdateOrganizationUser": {
+      "request": {
+        "url": "/Organizations/{OrganizationSid}/scim/Users/{UserSid}",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/scim+json"
+        }
+      },
+      "arguments": {
+        "If-Match": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "If-Match",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "OrganizationSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "OrganizationSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "OrganizationSid",
+              "pattern": "OR[0-9a-f]{32}"
+            }
+          }
+        },
+        "UserSid": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "UserSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "UserSid",
+              "pattern": "US[0-9a-f]{32}"
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of PUT /Organizations/{OrganizationSid}/scim/Users/{UserSid}",
+          "type": {
+            "name": "IamOrganizationsScimUser",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update SCIM User",
+      "result_type": {
+        "name": "IamOrganizationsScimUser",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "IamOrganizationsPublicApiAccountResponseStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "active",
+          "suspended",
+          "pending_closure",
+          "closed"
+        ],
+        "type": "enum"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "Int64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int64"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

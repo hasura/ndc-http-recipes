@@ -1,0 +1,819 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://routes.twilio.com",
+          "env": "TWILIO_ROUTES_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "accountSid_authToken": {
+        "type": "basic",
+        "header": "",
+        "username": {
+          "env": "TWILIO_ACCOUNT_SID"
+        },
+        "password": {
+          "env": "TWILIO_AUTH_TOKEN"
+        }
+      }
+    },
+    "security": [
+      {
+        "accountSid_authToken": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "routesFetchPhoneNumber": {
+      "request": {
+        "url": "/v2/PhoneNumbers/{PhoneNumber}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PhoneNumber": {
+          "description": "The phone number in E.164 format",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "PhoneNumber",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Fetch the Inbound Processing Region assigned to a phone number.",
+      "result_type": {
+        "name": "RoutesRoutesV2PhoneNumber",
+        "type": "named"
+      }
+    },
+    "routesFetchSipDomain": {
+      "request": {
+        "url": "/v2/SipDomains/{SipDomain}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "SipDomain": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SipDomain",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "GET /v2/SipDomains/{SipDomain}",
+      "result_type": {
+        "name": "RoutesRoutesV2SipDomain",
+        "type": "named"
+      }
+    },
+    "routesFetchTrunks": {
+      "request": {
+        "url": "/v2/Trunks/{SipTrunkDomain}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "SipTrunkDomain": {
+          "description": "The absolute URL of the SIP Trunk",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SipTrunkDomain",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Fetch the Inbound Processing Region assigned to a SIP Trunk.",
+      "result_type": {
+        "name": "RoutesRoutesV2Trunks",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "RoutesRoutesV2PhoneNumber": {
+      "fields": {
+        "account_sid": {
+          "description": "The unique SID identifier of the Account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The date that this phone number was assigned an Inbound Processing Region, given in ISO 8601 format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date that the Inbound Processing Region was updated for this phone number, given in ISO 8601 format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "A human readable description of the Inbound Processing Region assignments for this phone number, up to 64 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "phone_number": {
+          "description": "The phone number in E.164 format",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "A 34 character string that uniquely identifies the Inbound Processing Region assignments for this phone number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^QQ[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "voice_region": {
+          "description": "The Inbound Processing Region used for this phone number for voice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RoutesRoutesV2SipDomain": {
+      "fields": {
+        "account_sid": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^QQ[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sip_domain": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "voice_region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RoutesRoutesV2Trunks": {
+      "fields": {
+        "account_sid": {
+          "description": "The unique SID identifier of the Account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The date that this SIP Trunk was assigned an Inbound Processing Region, given in ISO 8601 format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date that the Inbound Processing Region was updated for this SIP Trunk, given in ISO 8601 format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "A human readable description of the Inbound Processing Region assignments for this SIP Trunk, up to 64 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "A 34 character string that uniquely identifies the Inbound Processing Region assignments for this SIP Trunk.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^QQ[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sip_trunk_domain": {
+          "description": "The absolute URL of the SIP Trunk",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "voice_region": {
+          "description": "The Inbound Processing Region used for this SIP Trunk for voice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RoutesUpdatePhoneNumberBody": {
+      "fields": {
+        "FriendlyName": {
+          "description": "A human readable description of this resource, up to 64 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "VoiceRegion": {
+          "description": "The Inbound Processing Region used for this phone number for voice",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RoutesUpdateSipDomainBody": {
+      "fields": {
+        "FriendlyName": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "VoiceRegion": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RoutesUpdateTrunksBody": {
+      "fields": {
+        "FriendlyName": {
+          "description": "A human readable description of this resource, up to 64 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "VoiceRegion": {
+          "description": "The Inbound Processing Region used for this SIP Trunk for voice",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "routesUpdatePhoneNumber": {
+      "request": {
+        "url": "/v2/PhoneNumbers/{PhoneNumber}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PhoneNumber": {
+          "description": "The phone number in E.164 format",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "PhoneNumber",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v2/PhoneNumbers/{PhoneNumber}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RoutesUpdatePhoneNumberBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Assign an Inbound Processing Region to a phone number.",
+      "result_type": {
+        "name": "RoutesRoutesV2PhoneNumber",
+        "type": "named"
+      }
+    },
+    "routesUpdateSipDomain": {
+      "request": {
+        "url": "/v2/SipDomains/{SipDomain}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "SipDomain": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SipDomain",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v2/SipDomains/{SipDomain}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RoutesUpdateSipDomainBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v2/SipDomains/{SipDomain}",
+      "result_type": {
+        "name": "RoutesRoutesV2SipDomain",
+        "type": "named"
+      }
+    },
+    "routesUpdateTrunks": {
+      "request": {
+        "url": "/v2/Trunks/{SipTrunkDomain}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "SipTrunkDomain": {
+          "description": "The absolute URL of the SIP Trunk",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SipTrunkDomain",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v2/Trunks/{SipTrunkDomain}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RoutesUpdateTrunksBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Assign an Inbound Processing Region to a SIP Trunk",
+      "result_type": {
+        "name": "RoutesRoutesV2Trunks",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

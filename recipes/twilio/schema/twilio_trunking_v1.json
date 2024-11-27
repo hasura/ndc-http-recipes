@@ -1,0 +1,4097 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://trunking.twilio.com",
+          "env": "TWILIO_TRUNKING_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "accountSid_authToken": {
+        "type": "basic",
+        "header": "",
+        "username": {
+          "env": "TWILIO_ACCOUNT_SID"
+        },
+        "password": {
+          "env": "TWILIO_AUTH_TOKEN"
+        }
+      }
+    },
+    "security": [
+      {
+        "accountSid_authToken": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "trunkingFetchCredentialList": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/CredentialLists/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the CredentialList resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^CL[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to fetch the credential list.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{TrunkSid}/CredentialLists/{Sid}",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkCredentialList",
+        "type": "named"
+      }
+    },
+    "trunkingFetchIpAccessControlList": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/IpAccessControlLists/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the IpAccessControlList resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^AL[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to fetch the IP Access Control List.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{TrunkSid}/IpAccessControlLists/{Sid}",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkIpAccessControlList",
+        "type": "named"
+      }
+    },
+    "trunkingFetchOriginationUrl": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/OriginationUrls/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the OriginationUrl resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^OU[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to fetch the OriginationUrl.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{TrunkSid}/OriginationUrls/{Sid}",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkOriginationUrl",
+        "type": "named"
+      }
+    },
+    "trunkingFetchPhoneNumber": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/PhoneNumbers/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the PhoneNumber resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^PN[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to fetch the PhoneNumber resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{TrunkSid}/PhoneNumbers/{Sid}",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkPhoneNumber",
+        "type": "named"
+      }
+    },
+    "trunkingFetchRecording": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/Recording",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to fetch the recording settings.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{TrunkSid}/Recording",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkRecording",
+        "type": "named"
+      }
+    },
+    "trunkingFetchTrunk": {
+      "request": {
+        "url": "/v1/Trunks/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the Trunk resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{Sid}",
+      "result_type": {
+        "name": "TrunkingTrunkingV1Trunk",
+        "type": "named"
+      }
+    },
+    "trunkingListCredentialList": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/CredentialLists",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to read the credential lists.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{TrunkSid}/CredentialLists",
+      "result_type": {
+        "name": "TrunkingListCredentialListResult",
+        "type": "named"
+      }
+    },
+    "trunkingListIpAccessControlList": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/IpAccessControlLists",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to read the IP Access Control Lists.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "List all IP Access Control Lists for a Trunk",
+      "result_type": {
+        "name": "TrunkingListIpAccessControlListResult",
+        "type": "named"
+      }
+    },
+    "trunkingListOriginationUrl": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/OriginationUrls",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to read the OriginationUrl.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{TrunkSid}/OriginationUrls",
+      "result_type": {
+        "name": "TrunkingListOriginationUrlResult",
+        "type": "named"
+      }
+    },
+    "trunkingListPhoneNumber": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/PhoneNumbers",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to read the PhoneNumber resources.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks/{TrunkSid}/PhoneNumbers",
+      "result_type": {
+        "name": "TrunkingListPhoneNumberResult",
+        "type": "named"
+      }
+    },
+    "trunkingListTrunk": {
+      "request": {
+        "url": "/v1/Trunks",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Trunks",
+      "result_type": {
+        "name": "TrunkingListTrunkResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "TrunkingCreateCredentialListBody": {
+      "fields": {
+        "CredentialListSid": {
+          "description": "The SID of the [Credential List](https://www.twilio.com/docs/voice/sip/api/sip-credentiallist-resource) that you want to associate with the trunk. Once associated, we will authenticate access to the trunk against this list.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^CL[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "TrunkingCreateIpAccessControlListBody": {
+      "fields": {
+        "IpAccessControlListSid": {
+          "description": "The SID of the [IP Access Control List](https://www.twilio.com/docs/voice/sip/api/sip-ipaccesscontrollist-resource) that you want to associate with the trunk.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AL[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "TrunkingCreateOriginationUrlBody": {
+      "fields": {
+        "Enabled": {
+          "description": "Whether the URL is enabled. The default is `true`.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "FriendlyName": {
+          "description": "A descriptive string that you create to describe the resource. It can be up to 64 characters long.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Priority": {
+          "description": "The relative importance of the URI. Can be an integer from 0 to 65535, inclusive, and the default is 10. The lowest number represents the most important URI.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "SipUrl": {
+          "description": "The SIP address you want Twilio to route your Origination calls to. This must be a `sip:` schema.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "Weight": {
+          "description": "The value that determines the relative share of the load the URI should receive compared to other URIs with the same priority. Can be an integer from 1 to 65535, inclusive, and the default is 10. URLs with higher values receive more load than those with lower ones with the same priority.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingCreatePhoneNumberBody": {
+      "fields": {
+        "PhoneNumberSid": {
+          "description": "The SID of the [Incoming Phone Number](https://www.twilio.com/docs/phone-numbers/api/incomingphonenumber-resource) that you want to associate with the trunk.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^PN[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "TrunkingCreateTrunkBody": {
+      "fields": {
+        "CnamLookupEnabled": {
+          "description": "Whether Caller ID Name (CNAM) lookup should be enabled for the trunk. If enabled, all inbound calls to the SIP Trunk from the United States and Canada automatically perform a CNAM Lookup and display Caller ID data on your phone. See [CNAM Lookups](https://www.twilio.com/docs/sip-trunking#CNAM) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "DisasterRecoveryMethod": {
+          "description": "The HTTP method we should use to call the `disaster_recovery_url`. Can be: `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingV1DisasterRecoveryMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "http-method"
+          }
+        },
+        "DisasterRecoveryUrl": {
+          "description": "The URL we should call using the `disaster_recovery_method` if an error occurs while sending SIP traffic towards the configured Origination URL. We retrieve TwiML from the URL and execute the instructions like any other normal TwiML call. See [Disaster Recovery](https://www.twilio.com/docs/sip-trunking#disaster-recovery) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "DomainName": {
+          "description": "The unique address you reserve on Twilio to which you route your SIP traffic. Domain names can contain letters, digits, and `-` and must end with `pstn.twilio.com`. See [Termination Settings](https://www.twilio.com/docs/sip-trunking#termination) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "FriendlyName": {
+          "description": "A descriptive string that you create to describe the resource. It can be up to 64 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Secure": {
+          "description": "Whether Secure Trunking is enabled for the trunk. If enabled, all calls going through the trunk will be secure using SRTP for media and TLS for signaling. If disabled, then RTP will be used for media. See [Secure Trunking](https://www.twilio.com/docs/sip-trunking#securetrunking) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "TransferCallerId": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkEnumTransferCallerId",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "TransferMode": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkEnumTransferSetting",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingListCredentialListResult": {
+      "fields": {
+        "credential_lists": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TrunkingTrunkingV1TrunkCredentialList",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingListCredentialListResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingListCredentialListResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingListIpAccessControlListResult": {
+      "fields": {
+        "ip_access_control_lists": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TrunkingTrunkingV1TrunkIpAccessControlList",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingListIpAccessControlListResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingListIpAccessControlListResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingListOriginationUrlResult": {
+      "fields": {
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingListOriginationUrlResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "origination_urls": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TrunkingTrunkingV1TrunkOriginationUrl",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingListOriginationUrlResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingListPhoneNumberResult": {
+      "fields": {
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingListPhoneNumberResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "phone_numbers": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TrunkingTrunkingV1TrunkPhoneNumber",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingListPhoneNumberResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingListTrunkResult": {
+      "fields": {
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingListTrunkResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "trunks": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TrunkingTrunkingV1Trunk",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingListTrunkResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingTrunkingV1Trunk": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the Trunk resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "auth_type": {
+          "description": "The types of authentication mapped to the domain. Can be: `IP_ACL` and `CREDENTIAL_LIST`. If both are mapped, the values are returned in a comma delimited list. If empty, the domain will not receive any traffic.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "auth_type_set": {
+          "description": "Reserved.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "cnam_lookup_enabled": {
+          "description": "Whether Caller ID Name (CNAM) lookup is enabled for the trunk. If enabled, all inbound calls to the SIP Trunk from the United States and Canada automatically perform a CNAM Lookup and display Caller ID data on your phone. See [CNAM Lookups](https://www.twilio.com/docs/sip-trunking#CNAM) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "date_created": {
+          "description": "The date and time in GMT when the resource was created specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "disaster_recovery_method": {
+          "description": "The HTTP method we use to call the `disaster_recovery_url`. Can be: `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkingV1TrunkDisasterRecoveryMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "http-method"
+          }
+        },
+        "disaster_recovery_url": {
+          "description": "The URL we call using the `disaster_recovery_method` if an error occurs while sending SIP traffic towards the configured Origination URL. We retrieve TwiML from this URL and execute the instructions like any other normal TwiML call. See [Disaster Recovery](https://www.twilio.com/docs/sip-trunking#disaster-recovery) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "domain_name": {
+          "description": "The unique address you reserve on Twilio to which you route your SIP traffic. Domain names can contain letters, digits, and `-` and must end with `pstn.twilio.com`. See [Termination Settings](https://www.twilio.com/docs/sip-trunking#termination) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "The URLs of related resources.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "uri-map"
+          }
+        },
+        "recording": {
+          "description": "The recording settings for the trunk. Can be: `do-not-record`, `record-from-ringing`, `record-from-answer`. If set to `record-from-ringing` or `record-from-answer`, all calls going through the trunk will be recorded. The only way to change recording parameters is on a sub-resource of a Trunk after it has been created. e.g.`/Trunks/[Trunk_SID]/Recording -XPOST -d'Mode=record-from-answer'`. See [Recording](https://www.twilio.com/docs/sip-trunking#recording) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "secure": {
+          "description": "Whether Secure Trunking is enabled for the trunk. If enabled, all calls going through the trunk will be secure using SRTP for media and TLS for signaling. If disabled, then RTP will be used for media. See [Secure Trunking](https://www.twilio.com/docs/sip-trunking#securetrunking) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the Trunk resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^TK[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "transfer_caller_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkEnumTransferCallerId",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "transfer_mode": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkEnumTransferSetting",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingTrunkingV1TrunkCredentialList": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the CredentialList resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The date and time in GMT when the resource was created specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the CredentialList resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^CL[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "trunk_sid": {
+          "description": "The SID of the Trunk the credential list in associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^TK[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingTrunkingV1TrunkIpAccessControlList": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the IpAccessControlList resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The date and time in GMT when the resource was created specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the IpAccessControlList resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AL[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "trunk_sid": {
+          "description": "The SID of the Trunk the resource is associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^TK[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingTrunkingV1TrunkOriginationUrl": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the OriginationUrl resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The date and time in GMT when the resource was created specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "enabled": {
+          "description": "Whether the URL is enabled. The default is `true`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "priority": {
+          "description": "The relative importance of the URI. Can be an integer from 0 to 65535, inclusive, and the default is 10. The lowest number represents the most important URI.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the OriginationUrl resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^OU[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sip_url": {
+          "description": "The SIP address you want Twilio to route your Origination calls to. This must be a `sip:` schema.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "trunk_sid": {
+          "description": "The SID of the Trunk that owns the Origination URL.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^TK[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "weight": {
+          "description": "The value that determines the relative share of the load the URI should receive compared to other URIs with the same priority. Can be an integer from 1 to 65535, inclusive, and the default is 10. URLs with higher values receive more load than those with lower ones with the same priority.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingTrunkingV1TrunkPhoneNumber": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the PhoneNumber resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "address_requirements": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingPhoneNumberEnumAddressRequirement",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "api_version": {
+          "description": "The API version used to start a new TwiML session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "beta": {
+          "description": "Whether the phone number is new to the Twilio platform. Can be: `true` or `false`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "capabilities": {
+          "description": "The set of Boolean properties that indicate whether a phone number can receive calls or messages.  Capabilities are  `Voice`, `SMS`, and `MMS` and each capability can be: `true` or `false`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "string-map"
+          }
+        },
+        "date_created": {
+          "description": "The date and time in GMT when the resource was created specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The date and time in GMT when the resource was last updated specified in [RFC 2822](https://www.ietf.org/rfc/rfc2822.txt) format.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "The URLs of related resources.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "uri-map"
+          }
+        },
+        "phone_number": {
+          "description": "The phone number in [E.164](https://www.twilio.com/docs/glossary/what-e164) format, which consists of a + followed by the country code and subscriber number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "phone-number"
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the PhoneNumber resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^PN[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sms_application_sid": {
+          "description": "The SID of the application that handles SMS messages sent to the phone number. If an `sms_application_sid` is present, we ignore all `sms_*_url` values and use those of the application.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AP[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sms_fallback_method": {
+          "description": "The HTTP method we use to call `sms_fallback_url`. Can be: `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkingV1TrunkPhoneNumberSmsFallbackMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "http-method"
+          }
+        },
+        "sms_fallback_url": {
+          "description": "The URL that we call using the `sms_fallback_method` when an error occurs while retrieving or executing the TwiML from `sms_url`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "sms_method": {
+          "description": "The HTTP method we use to call `sms_url`. Can be: `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkingV1TrunkPhoneNumberSmsMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "http-method"
+          }
+        },
+        "sms_url": {
+          "description": "The URL we call using the `sms_method` when the phone number receives an incoming SMS message.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "status_callback": {
+          "description": "The URL we call using the `status_callback_method` to send status information to your application.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "status_callback_method": {
+          "description": "The HTTP method we use to call `status_callback`. Can be: `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkingV1TrunkPhoneNumberStatusCallbackMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "http-method"
+          }
+        },
+        "trunk_sid": {
+          "description": "The SID of the Trunk that handles calls to the phone number. If a `trunk_sid` is present, we ignore all of the voice URLs and voice applications and use those set on the Trunk. Setting a `trunk_sid` will automatically delete your `voice_application_sid` and vice versa.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^TK[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "voice_application_sid": {
+          "description": "The SID of the application that handles calls to the phone number. If a `voice_application_sid` is present, we ignore all of the voice URLs and use those set on the application. Setting a `voice_application_sid` will automatically delete your `trunk_sid` and vice versa.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AP[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "voice_caller_id_lookup": {
+          "description": "Whether we look up the caller's caller-ID name from the CNAM database ($0.01 per look up). Can be: `true` or `false`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "voice_fallback_method": {
+          "description": "The HTTP method that we use to call `voice_fallback_url`. Can be: `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkingV1TrunkPhoneNumberVoiceFallbackMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "http-method"
+          }
+        },
+        "voice_fallback_url": {
+          "description": "The URL that we call using the `voice_fallback_method` when an error occurs retrieving or executing the TwiML requested by `url`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "voice_method": {
+          "description": "The HTTP method we use to call `voice_url`. Can be: `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkingV1TrunkPhoneNumberVoiceMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "http-method"
+          }
+        },
+        "voice_url": {
+          "description": "The URL we call using the `voice_method` when the phone number receives a call. The `voice_url` is not be used if a `voice_application_sid` or a `trunk_sid` is set.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "TrunkingTrunkingV1TrunkRecording": {
+      "fields": {
+        "mode": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingRecordingEnumRecordingMode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "trim": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingRecordingEnumRecordingTrim",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingUpdateOriginationUrlBody": {
+      "fields": {
+        "Enabled": {
+          "description": "Whether the URL is enabled. The default is `true`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "FriendlyName": {
+          "description": "A descriptive string that you create to describe the resource. It can be up to 64 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Priority": {
+          "description": "The relative importance of the URI. Can be an integer from 0 to 65535, inclusive, and the default is 10. The lowest number represents the most important URI.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "SipUrl": {
+          "description": "The SIP address you want Twilio to route your Origination calls to. This must be a `sip:` schema. `sips` is NOT supported.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "Weight": {
+          "description": "The value that determines the relative share of the load the URI should receive compared to other URIs with the same priority. Can be an integer from 1 to 65535, inclusive, and the default is 10. URLs with higher values receive more load than those with lower ones with the same priority.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingUpdateRecordingBody": {
+      "fields": {
+        "Mode": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingRecordingEnumRecordingMode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Trim": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingRecordingEnumRecordingTrim",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "TrunkingUpdateTrunkBody": {
+      "fields": {
+        "CnamLookupEnabled": {
+          "description": "Whether Caller ID Name (CNAM) lookup should be enabled for the trunk. If enabled, all inbound calls to the SIP Trunk from the United States and Canada automatically perform a CNAM Lookup and display Caller ID data on your phone. See [CNAM Lookups](https://www.twilio.com/docs/sip-trunking#CNAM) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "DisasterRecoveryMethod": {
+          "description": "The HTTP method we should use to call the `disaster_recovery_url`. Can be: `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingV1DisasterRecoveryMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "http-method"
+          }
+        },
+        "DisasterRecoveryUrl": {
+          "description": "The URL we should call using the `disaster_recovery_method` if an error occurs while sending SIP traffic towards the configured Origination URL. We retrieve TwiML from the URL and execute the instructions like any other normal TwiML call. See [Disaster Recovery](https://www.twilio.com/docs/sip-trunking#disaster-recovery) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "DomainName": {
+          "description": "The unique address you reserve on Twilio to which you route your SIP traffic. Domain names can contain letters, digits, and `-` and must end with `pstn.twilio.com`. See [Termination Settings](https://www.twilio.com/docs/sip-trunking#termination) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "FriendlyName": {
+          "description": "A descriptive string that you create to describe the resource. It can be up to 64 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Secure": {
+          "description": "Whether Secure Trunking is enabled for the trunk. If enabled, all calls going through the trunk will be secure using SRTP for media and TLS for signaling. If disabled, then RTP will be used for media. See [Secure Trunking](https://www.twilio.com/docs/sip-trunking#securetrunking) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "TransferCallerId": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkEnumTransferCallerId",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "TransferMode": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingTrunkEnumTransferSetting",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "trunkingCreateCredentialList": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/CredentialLists",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "TrunkSid": {
+          "description": "The SID of the Trunk to associate the credential list with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Trunks/{TrunkSid}/CredentialLists",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingCreateCredentialListBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Trunks/{TrunkSid}/CredentialLists",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkCredentialList",
+        "type": "named"
+      }
+    },
+    "trunkingCreateIpAccessControlList": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/IpAccessControlLists",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "TrunkSid": {
+          "description": "The SID of the Trunk to associate the IP Access Control List with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Trunks/{TrunkSid}/IpAccessControlLists",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingCreateIpAccessControlListBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Associate an IP Access Control List with a Trunk",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkIpAccessControlList",
+        "type": "named"
+      }
+    },
+    "trunkingCreateOriginationUrl": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/OriginationUrls",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "TrunkSid": {
+          "description": "The SID of the Trunk to associate the resource with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Trunks/{TrunkSid}/OriginationUrls",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingCreateOriginationUrlBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Trunks/{TrunkSid}/OriginationUrls",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkOriginationUrl",
+        "type": "named"
+      }
+    },
+    "trunkingCreatePhoneNumber": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/PhoneNumbers",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "TrunkSid": {
+          "description": "The SID of the Trunk to associate the phone number with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Trunks/{TrunkSid}/PhoneNumbers",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingCreatePhoneNumberBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Trunks/{TrunkSid}/PhoneNumbers",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkPhoneNumber",
+        "type": "named"
+      }
+    },
+    "trunkingCreateTrunk": {
+      "request": {
+        "url": "/v1/Trunks",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/Trunks",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingCreateTrunkBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Trunks",
+      "result_type": {
+        "name": "TrunkingTrunkingV1Trunk",
+        "type": "named"
+      }
+    },
+    "trunkingDeleteCredentialList": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/CredentialLists/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the CredentialList resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^CL[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to delete the credential list.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "DELETE /v1/Trunks/{TrunkSid}/CredentialLists/{Sid}",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "trunkingDeleteIpAccessControlList": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/IpAccessControlLists/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the IpAccessControlList resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^AL[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to delete the IP Access Control List.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Remove an associated IP Access Control List from a Trunk",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "trunkingDeleteOriginationUrl": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/OriginationUrls/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the OriginationUrl resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^OU[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to delete the OriginationUrl.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "DELETE /v1/Trunks/{TrunkSid}/OriginationUrls/{Sid}",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "trunkingDeletePhoneNumber": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/PhoneNumbers/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the PhoneNumber resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^PN[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to delete the PhoneNumber resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "DELETE /v1/Trunks/{TrunkSid}/PhoneNumbers/{Sid}",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "trunkingDeleteTrunk": {
+      "request": {
+        "url": "/v1/Trunks/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the Trunk resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "DELETE /v1/Trunks/{Sid}",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "trunkingUpdateOriginationUrl": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/OriginationUrls/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the OriginationUrl resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^OU[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "TrunkSid": {
+          "description": "The SID of the Trunk from which to update the OriginationUrl.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Trunks/{TrunkSid}/OriginationUrls/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingUpdateOriginationUrlBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Trunks/{TrunkSid}/OriginationUrls/{Sid}",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkOriginationUrl",
+        "type": "named"
+      }
+    },
+    "trunkingUpdateRecording": {
+      "request": {
+        "url": "/v1/Trunks/{TrunkSid}/Recording",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "TrunkSid": {
+          "description": "The SID of the Trunk that will have its recording settings updated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "TrunkSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Trunks/{TrunkSid}/Recording",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingUpdateRecordingBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Trunks/{TrunkSid}/Recording",
+      "result_type": {
+        "name": "TrunkingTrunkingV1TrunkRecording",
+        "type": "named"
+      }
+    },
+    "trunkingUpdateTrunk": {
+      "request": {
+        "url": "/v1/Trunks/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The unique string that we created to identify the OriginationUrl resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^TK[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Trunks/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TrunkingUpdateTrunkBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "POST /v1/Trunks/{Sid}",
+      "result_type": {
+        "name": "TrunkingTrunkingV1Trunk",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "TrunkingPhoneNumberEnumAddressRequirement": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "none",
+          "any",
+          "local",
+          "foreign"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingRecordingEnumRecordingMode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "do-not-record",
+          "record-from-ringing",
+          "record-from-answer",
+          "record-from-ringing-dual",
+          "record-from-answer-dual"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingRecordingEnumRecordingTrim": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "trim-silence",
+          "do-not-trim"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingTrunkEnumTransferCallerId": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "from-transferee",
+          "from-transferor"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingTrunkEnumTransferSetting": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "disable-all",
+          "enable-all",
+          "sip-only"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingTrunkingV1TrunkDisasterRecoveryMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingTrunkingV1TrunkPhoneNumberSmsFallbackMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingTrunkingV1TrunkPhoneNumberSmsMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingTrunkingV1TrunkPhoneNumberStatusCallbackMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingTrunkingV1TrunkPhoneNumberVoiceFallbackMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingTrunkingV1TrunkPhoneNumberVoiceMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "TrunkingV1DisasterRecoveryMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

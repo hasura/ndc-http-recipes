@@ -1,0 +1,5928 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://proxy.twilio.com",
+          "env": "TWILIO_PROXY_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "accountSid_authToken": {
+        "type": "basic",
+        "header": "",
+        "username": {
+          "env": "TWILIO_ACCOUNT_SID"
+        },
+        "password": {
+          "env": "TWILIO_AUTH_TOKEN"
+        }
+      }
+    },
+    "security": [
+      {
+        "accountSid_authToken": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "proxyFetchInteraction": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) of the resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Interaction resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KI[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of Interactions for a given [Session](https://www.twilio.com/docs/proxy/api/session).",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceSessionInteraction",
+        "type": "named"
+      }
+    },
+    "proxyFetchMessageInteraction": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{ParticipantSid}/MessageInteractions/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ParticipantSid": {
+          "description": "The SID of the [Participant](https://www.twilio.com/docs/proxy/api/participant) resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ParticipantSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KP[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) of the resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the MessageInteraction resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KI[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{ParticipantSid}/MessageInteractions/{Sid}",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceSessionParticipantMessageInteraction",
+        "type": "named"
+      }
+    },
+    "proxyFetchParticipant": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) of the resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Participant resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KP[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch a specific Participant.",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceSessionParticipant",
+        "type": "named"
+      }
+    },
+    "proxyFetchPhoneNumber": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/PhoneNumbers/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the PhoneNumber resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the PhoneNumber resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^PN[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch a specific Phone Number.",
+      "result_type": {
+        "name": "ProxyProxyV1ServicePhoneNumber",
+        "type": "named"
+      }
+    },
+    "proxyFetchService": {
+      "request": {
+        "url": "/v1/Services/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Service resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Fetch a specific Service.",
+      "result_type": {
+        "name": "ProxyProxyV1Service",
+        "type": "named"
+      }
+    },
+    "proxyFetchSession": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Session resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Fetch a specific Session.",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceSession",
+        "type": "named"
+      }
+    },
+    "proxyFetchShortCode": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/ShortCodes/{Sid}",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) to fetch the resource from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the ShortCode resource to fetch.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^SC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Fetch a specific Short Code.",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceShortCode",
+        "type": "named"
+      }
+    },
+    "proxyListInteraction": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) to read the resources from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) to read the resources from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of all Interactions for a Session. A maximum of 100 records will be returned per page.",
+      "result_type": {
+        "name": "ProxyListInteractionResult",
+        "type": "named"
+      }
+    },
+    "proxyListMessageInteraction": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{ParticipantSid}/MessageInteractions",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "ParticipantSid": {
+          "description": "The SID of the [Participant](https://www.twilio.com/docs/proxy/api/participant) to read the resources from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ParticipantSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KP[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) to read the resources from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) to read the resources from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{ParticipantSid}/MessageInteractions",
+      "result_type": {
+        "name": "ProxyListMessageInteractionResult",
+        "type": "named"
+      }
+    },
+    "proxyListParticipant": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resources to read.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) of the resources to read.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of all Participants in a Session.",
+      "result_type": {
+        "name": "ProxyListParticipantResult",
+        "type": "named"
+      }
+    },
+    "proxyListPhoneNumber": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/PhoneNumbers",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the PhoneNumber resources to read.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of all Phone Numbers in the Proxy Number Pool for a Service. A maximum of 100 records will be returned per page.",
+      "result_type": {
+        "name": "ProxyListPhoneNumberResult",
+        "type": "named"
+      }
+    },
+    "proxyListService": {
+      "request": {
+        "url": "/v1/Services",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of all Services for Twilio Proxy. A maximum of 100 records will be returned per page.",
+      "result_type": {
+        "name": "ProxyListServiceResult",
+        "type": "named"
+      }
+    },
+    "proxyListSession": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to read.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of all Sessions for the Service. A maximum of 100 records will be returned per page.",
+      "result_type": {
+        "name": "ProxyListSessionResult",
+        "type": "named"
+      }
+    },
+    "proxyListShortCode": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/ShortCodes",
+        "method": "get",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Page": {
+          "description": "The page index. This value is simply for client state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "PageSize": {
+          "description": "How many resources to return in each list page. The default is 50, and the maximum is 1000.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "PageToken": {
+          "description": "The page token. This is provided by the API.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PageToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) to read the resources from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of all Short Codes in the Proxy Number Pool for the Service. A maximum of 100 records will be returned per page.",
+      "result_type": {
+        "name": "ProxyListShortCodeResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "ProxyCreateMessageInteractionBody": {
+      "fields": {
+        "Body": {
+          "description": "The message to send to the participant",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "MediaUrl": {
+          "description": "Reserved. Not currently supported.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "URI",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "uri"
+            }
+          }
+        }
+      }
+    },
+    "ProxyCreateParticipantBody": {
+      "fields": {
+        "FriendlyName": {
+          "description": "The string that you assigned to describe the participant. This value must be 255 characters or fewer. **This value should not have PII.**",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Identifier": {
+          "description": "The phone number of the Participant.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ProxyIdentifier": {
+          "description": "The proxy phone number to use for the Participant. If not specified, Proxy will select a number from the pool.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ProxyIdentifierSid": {
+          "description": "The SID of the Proxy Identifier to assign to the Participant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^PN[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "ProxyCreatePhoneNumberBody": {
+      "fields": {
+        "IsReserved": {
+          "description": "Whether the new phone number should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "PhoneNumber": {
+          "description": "The phone number in [E.164](https://www.twilio.com/docs/glossary/what-e164) format.  E.164 phone numbers consist of a + followed by the country code and subscriber number without punctuation characters. For example, +14155551234.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "phone-number"
+          }
+        },
+        "Sid": {
+          "description": "The SID of a Twilio [IncomingPhoneNumber](https://www.twilio.com/docs/phone-numbers/api/incomingphonenumber-resource) resource that represents the Twilio Number you would like to assign to your Proxy Service.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^PN[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "ProxyCreateServiceBody": {
+      "fields": {
+        "CallbackUrl": {
+          "description": "The URL we should call when the interaction status changes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "ChatInstanceSid": {
+          "description": "The SID of the Chat Service Instance managed by Proxy Service. The Chat Service enables Proxy to forward SMS and channel messages to this chat instance. This is a one-to-one relationship.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^IS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "DefaultTtl": {
+          "description": "The default `ttl` value to set for Sessions created in the Service. The TTL (time to live) is measured in seconds after the Session's last create or last Interaction. The default value of `0` indicates an unlimited Session length. You can override a Session's default TTL value by setting its `ttl` value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "GeoMatchLevel": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyServiceEnumGeoMatchLevel",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "InterceptCallbackUrl": {
+          "description": "The URL we call on each interaction. If we receive a 403 status, we block the interaction; otherwise the interaction continues.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "NumberSelectionBehavior": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyServiceEnumNumberSelectionBehavior",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "OutOfSessionCallbackUrl": {
+          "description": "The URL we should call when an inbound call or SMS action occurs on a closed or non-existent Session. If your server (or a Twilio [function](https://www.twilio.com/en-us/serverless/functions)) responds with valid [TwiML](https://www.twilio.com/docs/voice/twiml), we will process it. This means it is possible, for example, to play a message for a call, send an automated text message response, or redirect a call to another Phone Number. See [Out-of-Session Callback Response Guide](https://www.twilio.com/docs/proxy/out-session-callback-response-guide) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "UniqueName": {
+          "description": "An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyCreateSessionBody": {
+      "fields": {
+        "DateExpiry": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "Mode": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxySessionEnumMode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Participants": {
+          "description": "The Participant objects to include in the new session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "JSON",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": null
+            }
+          }
+        },
+        "Status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxySessionEnumStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Ttl": {
+          "description": "The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session's last Interaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "UniqueName": {
+          "description": "An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyCreateShortCodeBody": {
+      "fields": {
+        "Sid": {
+          "description": "The SID of a Twilio [ShortCode](https://www.twilio.com/en-us/messaging/channels/sms/short-codes) resource that represents the short code you would like to assign to your Proxy Service.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^SC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        }
+      }
+    },
+    "ProxyListInteractionResult": {
+      "fields": {
+        "interactions": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ProxyProxyV1ServiceSessionInteraction",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyListInteractionResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyListInteractionResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyListMessageInteractionResult": {
+      "fields": {
+        "interactions": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ProxyProxyV1ServiceSessionParticipantMessageInteraction",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyListMessageInteractionResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyListMessageInteractionResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyListParticipantResult": {
+      "fields": {
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyListParticipantResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "participants": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ProxyProxyV1ServiceSessionParticipant",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyListParticipantResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyListPhoneNumberResult": {
+      "fields": {
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyListPhoneNumberResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "phone_numbers": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ProxyProxyV1ServicePhoneNumber",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyListPhoneNumberResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyListServiceResult": {
+      "fields": {
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyListServiceResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "services": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ProxyProxyV1Service",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyListServiceResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyListSessionResult": {
+      "fields": {
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyListSessionResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "sessions": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ProxyProxyV1ServiceSession",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyListSessionResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyListShortCodeResult": {
+      "fields": {
+        "meta": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyListShortCodeResultMeta",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "short_codes": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ProxyProxyV1ServiceShortCode",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyListShortCodeResultMeta": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyProxyV1Service": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the Service resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "callback_url": {
+          "description": "The URL we call when the interaction status changes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "chat_instance_sid": {
+          "description": "The SID of the Chat Service Instance managed by Proxy Service. The Chat Service enables Proxy to forward SMS and channel messages to this chat instance. This is a one-to-one relationship.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^IS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was last updated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "default_ttl": {
+          "description": "The default `ttl` value for Sessions created in the Service. The TTL (time to live) is measured in seconds after the Session's last create or last Interaction. The default value of `0` indicates an unlimited Session length. You can override a Session's default TTL value by setting its `ttl` value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "geo_match_level": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyServiceEnumGeoMatchLevel",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "intercept_callback_url": {
+          "description": "The URL we call on each interaction. If we receive a 403 status, we block the interaction; otherwise the interaction continues.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "links": {
+          "description": "The URLs of resources related to the Service.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "uri-map"
+          }
+        },
+        "number_selection_behavior": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyServiceEnumNumberSelectionBehavior",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "out_of_session_callback_url": {
+          "description": "The URL we call when an inbound call or SMS action occurs on a closed or non-existent Session. If your server (or a Twilio [function](https://www.twilio.com/en-us/serverless/functions)) responds with valid [TwiML](https://www.twilio.com/docs/voice/twiml), we will process it. This means it is possible, for example, to play a message for a call, send an automated text message response, or redirect a call to another Phone Number. See [Out-of-Session Callback Response Guide](https://www.twilio.com/docs/proxy/out-session-callback-response-guide) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the Service resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "unique_name": {
+          "description": "An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. Supports UTF-8 characters. **This value should not have PII.**",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the Service resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyProxyV1ServicePhoneNumber": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the PhoneNumber resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "capabilities": {
+          "description": "The capabilities of the phone number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyProxyV1ServicePhoneNumberCapabilities",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "phone-number-capabilities"
+          }
+        },
+        "date_created": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was last updated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "in_use": {
+          "description": "The number of open session assigned to the number. See the [How many Phone Numbers do I need?](https://www.twilio.com/docs/proxy/phone-numbers-needed) guide for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "is_reserved": {
+          "description": "Whether the phone number should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "iso_country": {
+          "description": "The ISO Country Code for the phone number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "phone_number": {
+          "description": "The phone number in [E.164](https://www.twilio.com/docs/glossary/what-e164) format, which consists of a + followed by the country code and subscriber number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "phone-number"
+          }
+        },
+        "service_sid": {
+          "description": "The SID of the PhoneNumber resource's parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the PhoneNumber resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^PN[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the PhoneNumber resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyProxyV1ServicePhoneNumberCapabilities": {
+      "description": "The capabilities of the phone number.",
+      "fields": {
+        "fax": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "mms": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "sms": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "voice": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyProxyV1ServiceSession": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the Session resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "closed_reason": {
+          "description": "The reason the Session ended.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "date_created": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_ended": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session ended.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_expiry": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_last_interaction": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session last had an interaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_started": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session started.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was last updated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "links": {
+          "description": "The URLs of resources related to the Session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "uri-map"
+          }
+        },
+        "mode": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxySessionEnumMode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "service_sid": {
+          "description": "The SID of the [Service](https://www.twilio.com/docs/proxy/api/service) the session is associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the Session resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxySessionEnumStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ttl": {
+          "description": "The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session's last Interaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unique_name": {
+          "description": "An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. Supports UTF-8 characters. **This value should not have PII.**",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the Session resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyProxyV1ServiceSessionInteraction": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the Interaction resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "data": {
+          "description": "A JSON string that includes the message body of message interactions (e.g. `{\"body\": \"hello\"}`) or the call duration (when available) of a call (e.g. `{\"duration\": \"5\"}`).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "date_created": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the Interaction was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was last updated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "inbound_participant_sid": {
+          "description": "The SID of the inbound [Participant](https://www.twilio.com/docs/proxy/api/participant) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KP[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "inbound_resource_sid": {
+          "description": "The SID of the inbound resource; either the [Call](https://www.twilio.com/docs/voice/api/call-resource) or [Message](https://www.twilio.com/docs/sms/api/message-resource).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z]{2}[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "inbound_resource_status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyInteractionEnumResourceStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "inbound_resource_type": {
+          "description": "The inbound resource type. Can be [Call](https://www.twilio.com/docs/voice/api/call-resource) or [Message](https://www.twilio.com/docs/sms/api/message-resource).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "inbound_resource_url": {
+          "description": "The URL of the Twilio inbound resource",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "outbound_participant_sid": {
+          "description": "The SID of the outbound [Participant](https://www.twilio.com/docs/proxy/api/participant)).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KP[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "outbound_resource_sid": {
+          "description": "The SID of the outbound resource; either the [Call](https://www.twilio.com/docs/voice/api/call-resource) or [Message](https://www.twilio.com/docs/sms/api/message-resource).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z]{2}[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "outbound_resource_status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyInteractionEnumResourceStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "outbound_resource_type": {
+          "description": "The outbound resource type. Can be: [Call](https://www.twilio.com/docs/voice/api/call-resource) or [Message](https://www.twilio.com/docs/sms/api/message-resource).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "outbound_resource_url": {
+          "description": "The URL of the Twilio outbound resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "service_sid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "session_sid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the Interaction resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KI[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyInteractionEnumType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the Interaction resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyProxyV1ServiceSessionParticipant": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the Participant resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "date_created": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_deleted": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Participant was removed from the session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was last updated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "friendly_name": {
+          "description": "The string that you assigned to describe the participant. This value must be 255 characters or fewer. Supports UTF-8 characters. **This value should not have PII.**",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "identifier": {
+          "description": "The phone number or channel identifier of the Participant. This value must be 191 characters or fewer. Supports UTF-8 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "The URLs to resources related the participant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "uri-map"
+          }
+        },
+        "proxy_identifier": {
+          "description": "The phone number or short code (masked number) of the participant's partner. The participant will call or message the partner participant at this number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "proxy_identifier_sid": {
+          "description": "The SID of the Proxy Identifier assigned to the Participant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^PN[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "service_sid": {
+          "description": "The SID of the resource's parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "session_sid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the Participant resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KP[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the Participant resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyProxyV1ServiceSessionParticipantMessageInteraction": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the MessageInteraction resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "data": {
+          "description": "A JSON string that includes the message body sent to the participant. (e.g. `{\"body\": \"hello\"}`)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "date_created": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was last updated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "inbound_participant_sid": {
+          "description": "Always empty for created Message Interactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KP[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "inbound_resource_sid": {
+          "description": "Always empty for created Message Interactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z]{2}[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "inbound_resource_status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyMessageInteractionEnumResourceStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "inbound_resource_type": {
+          "description": "Always empty for created Message Interactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "inbound_resource_url": {
+          "description": "Always empty for created Message Interactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "outbound_participant_sid": {
+          "description": "The SID of the outbound [Participant](https://www.twilio.com/docs/proxy/api/participant) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KP[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "outbound_resource_sid": {
+          "description": "The SID of the outbound [Message](https://www.twilio.com/docs/sms/api/message-resource) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z]{2}[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "outbound_resource_status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyMessageInteractionEnumResourceStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "outbound_resource_type": {
+          "description": "The outbound resource type. This value is always `Message`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "outbound_resource_url": {
+          "description": "The URL of the Twilio message resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "participant_sid": {
+          "description": "The SID of the [Participant](https://www.twilio.com/docs/proxy/api/participant) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KP[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "service_sid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "session_sid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the MessageInteraction resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KI[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyMessageInteractionEnumType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the MessageInteraction resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyProxyV1ServiceShortCode": {
+      "fields": {
+        "account_sid": {
+          "description": "The SID of the [Account](https://www.twilio.com/docs/iam/api/account) that created the ShortCode resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^AC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "capabilities": {
+          "description": "The capabilities of the short code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyProxyV1ServiceShortCodeCapabilities",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "format": "phone-number-capabilities"
+          }
+        },
+        "date_created": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "date_updated": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date and time in GMT when the resource was last updated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "is_reserved": {
+          "description": "Whether the short code should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "iso_country": {
+          "description": "The ISO Country Code for the short code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "service_sid": {
+          "description": "The SID of the ShortCode resource's parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^KS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "short_code": {
+          "description": "The short code's number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sid": {
+          "description": "The unique string that we created to identify the ShortCode resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^SC[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "url": {
+          "description": "The absolute URL of the ShortCode resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyProxyV1ServiceShortCodeCapabilities": {
+      "description": "The capabilities of the short code.",
+      "fields": {
+        "fax": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "mms": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "sms": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "voice": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyUpdatePhoneNumberBody": {
+      "fields": {
+        "IsReserved": {
+          "description": "Whether the phone number should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyUpdateServiceBody": {
+      "fields": {
+        "CallbackUrl": {
+          "description": "The URL we should call when the interaction status changes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "ChatInstanceSid": {
+          "description": "The SID of the Chat Service Instance managed by Proxy Service. The Chat Service enables Proxy to forward SMS and channel messages to this chat instance. This is a one-to-one relationship.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^IS[0-9a-fA-F]{32}$",
+            "maxLength": 34,
+            "minLength": 34
+          }
+        },
+        "DefaultTtl": {
+          "description": "The default `ttl` value to set for Sessions created in the Service. The TTL (time to live) is measured in seconds after the Session's last create or last Interaction. The default value of `0` indicates an unlimited Session length. You can override a Session's default TTL value by setting its `ttl` value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "GeoMatchLevel": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyServiceEnumGeoMatchLevel",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "InterceptCallbackUrl": {
+          "description": "The URL we call on each interaction. If we receive a 403 status, we block the interaction; otherwise the interaction continues.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "NumberSelectionBehavior": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyServiceEnumNumberSelectionBehavior",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "OutOfSessionCallbackUrl": {
+          "description": "The URL we should call when an inbound call or SMS action occurs on a closed or non-existent Session. If your server (or a Twilio [function](https://www.twilio.com/en-us/serverless/functions)) responds with valid [TwiML](https://www.twilio.com/docs/voice/twiml), we will process it. This means it is possible, for example, to play a message for a call, send an automated text message response, or redirect a call to another Phone Number. See [Out-of-Session Callback Response Guide](https://www.twilio.com/docs/proxy/out-session-callback-response-guide) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "UniqueName": {
+          "description": "An application-defined string that uniquely identifies the resource. This value must be 191 characters or fewer in length and be unique. **This value should not have PII.**",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyUpdateSessionBody": {
+      "fields": {
+        "DateExpiry": {
+          "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "Status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxySessionEnumStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Ttl": {
+          "description": "The time, in seconds, when the session will expire. The time is measured from the last Session create or the Session's last Interaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "ProxyUpdateShortCodeBody": {
+      "fields": {
+        "IsReserved": {
+          "description": "Whether the short code should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "proxyCreateMessageInteraction": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{ParticipantSid}/MessageInteractions",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ParticipantSid": {
+          "description": "The SID of the [Participant](https://www.twilio.com/docs/proxy/api/participant) resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ParticipantSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KP[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{ParticipantSid}/MessageInteractions",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyCreateMessageInteractionBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a new message Interaction to send directly from your system to one [Participant](https://www.twilio.com/docs/proxy/api/participant).  The `inbound` properties for the Interaction will always be empty.",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceSessionParticipantMessageInteraction",
+        "type": "named"
+      }
+    },
+    "proxyCreateParticipant": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyCreateParticipantBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Add a new Participant to the Session",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceSessionParticipant",
+        "type": "named"
+      }
+    },
+    "proxyCreatePhoneNumber": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/PhoneNumbers",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID parent [Service](https://www.twilio.com/docs/proxy/api/service) resource of the new PhoneNumber resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{ServiceSid}/PhoneNumbers",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyCreatePhoneNumberBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Add a Phone Number to a Service's Proxy Number Pool.",
+      "result_type": {
+        "name": "ProxyProxyV1ServicePhoneNumber",
+        "type": "named"
+      }
+    },
+    "proxyCreateService": {
+      "request": {
+        "url": "/v1/Services",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v1/Services",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyCreateServiceBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a new Service for Twilio Proxy",
+      "result_type": {
+        "name": "ProxyProxyV1Service",
+        "type": "named"
+      }
+    },
+    "proxyCreateSession": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{ServiceSid}/Sessions",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyCreateSessionBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a new Session",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceSession",
+        "type": "named"
+      }
+    },
+    "proxyCreateShortCode": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/ShortCodes",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{ServiceSid}/ShortCodes",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyCreateShortCodeBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Add a Short Code to the Proxy Number Pool for the Service.",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceShortCode",
+        "type": "named"
+      }
+    },
+    "proxyDeleteInteraction": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Interactions/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) of the resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Interaction resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KI[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Delete a specific Interaction.",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "proxyDeleteParticipant": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "SessionSid": {
+          "description": "The SID of the parent [Session](https://www.twilio.com/docs/proxy/api/session) of the resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "SessionSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Participant resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KP[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Delete a specific Participant. This is a soft-delete. The participant remains associated with the session and cannot be re-added. Participants are only permanently deleted when the [Session](https://www.twilio.com/docs/proxy/api/session) is deleted.",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "proxyDeletePhoneNumber": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/PhoneNumbers/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the PhoneNumber resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the PhoneNumber resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^PN[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Delete a specific Phone Number from a Service.",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "proxyDeleteService": {
+      "request": {
+        "url": "/v1/Services/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Service resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Delete a specific Service.",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "proxyDeleteSession": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Session resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Delete a specific Session.",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "proxyDeleteShortCode": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/ShortCodes/{Sid}",
+        "method": "delete",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) resource to delete the ShortCode resource from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the ShortCode resource to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^SC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        }
+      },
+      "description": "Delete a specific Short Code from a Service.",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "proxyUpdatePhoneNumber": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/PhoneNumbers/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the PhoneNumber resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the PhoneNumber resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^PN[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{ServiceSid}/PhoneNumbers/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyUpdatePhoneNumberBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update a specific Proxy Number.",
+      "result_type": {
+        "name": "ProxyProxyV1ServicePhoneNumber",
+        "type": "named"
+      }
+    },
+    "proxyUpdateService": {
+      "request": {
+        "url": "/v1/Services/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Service resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyUpdateServiceBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update a specific Service.",
+      "result_type": {
+        "name": "ProxyProxyV1Service",
+        "type": "named"
+      }
+    },
+    "proxyUpdateSession": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/Sessions/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the Session resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{ServiceSid}/Sessions/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyUpdateSessionBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update a specific Session.",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceSession",
+        "type": "named"
+      }
+    },
+    "proxyUpdateShortCode": {
+      "request": {
+        "url": "/v1/Services/{ServiceSid}/ShortCodes/{Sid}",
+        "method": "post",
+        "security": [
+          {
+            "accountSid_authToken": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ServiceSid": {
+          "description": "The SID of the parent [Service](https://www.twilio.com/docs/proxy/api/service) of the resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ServiceSid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^KS[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "Sid": {
+          "description": "The Twilio-provided string that uniquely identifies the ShortCode resource to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "Sid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^SC[0-9a-fA-F]{32}$",
+              "maxLength": 34,
+              "minLength": 34
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v1/Services/{ServiceSid}/ShortCodes/{Sid}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProxyUpdateShortCodeBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update a specific Short Code.",
+      "result_type": {
+        "name": "ProxyProxyV1ServiceShortCode",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "ProxyInteractionEnumResourceStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "accepted",
+          "answered",
+          "busy",
+          "canceled",
+          "completed",
+          "deleted",
+          "delivered",
+          "delivery-unknown",
+          "failed",
+          "in-progress",
+          "initiated",
+          "no-answer",
+          "queued",
+          "received",
+          "receiving",
+          "ringing",
+          "scheduled",
+          "sending",
+          "sent",
+          "undelivered",
+          "unknown"
+        ],
+        "type": "enum"
+      }
+    },
+    "ProxyInteractionEnumType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "message",
+          "voice",
+          "unknown"
+        ],
+        "type": "enum"
+      }
+    },
+    "ProxyMessageInteractionEnumResourceStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "accepted",
+          "answered",
+          "busy",
+          "canceled",
+          "completed",
+          "deleted",
+          "delivered",
+          "delivery-unknown",
+          "failed",
+          "in-progress",
+          "initiated",
+          "no-answer",
+          "queued",
+          "received",
+          "receiving",
+          "ringing",
+          "scheduled",
+          "sending",
+          "sent",
+          "undelivered",
+          "unknown"
+        ],
+        "type": "enum"
+      }
+    },
+    "ProxyMessageInteractionEnumType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "message",
+          "voice",
+          "unknown"
+        ],
+        "type": "enum"
+      }
+    },
+    "ProxyServiceEnumGeoMatchLevel": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "area-code",
+          "overlay",
+          "radius",
+          "country"
+        ],
+        "type": "enum"
+      }
+    },
+    "ProxyServiceEnumNumberSelectionBehavior": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "avoid-sticky",
+          "prefer-sticky"
+        ],
+        "type": "enum"
+      }
+    },
+    "ProxySessionEnumMode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "message-only",
+          "voice-only",
+          "voice-and-message"
+        ],
+        "type": "enum"
+      }
+    },
+    "ProxySessionEnumStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "open",
+          "in-progress",
+          "closed",
+          "failed",
+          "unknown"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

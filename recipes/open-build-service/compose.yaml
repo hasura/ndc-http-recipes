@@ -1,0 +1,19 @@
+services:
+  ndc-http:
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.4.0}
+    ports:
+      - 8080:8080
+    volumes:
+      - ./schema:/etc/connector:ro
+    environment:
+      OBS_SERVER_URL: http://mock-api:4010
+      OBS_BASIC_AUTHENTICATION_USERNAME: admin
+      OBS_BASIC_AUTHENTICATION_PASSWORD: password
+      HASURA_LOG_LEVEL: debug
+
+  mock-api:
+    build:
+      context: ./testdata/prism
+    command: "mock -h 0.0.0.0 /etc/OBS-v2.10.50.yaml"
+    ports:
+      - "4010:4010"

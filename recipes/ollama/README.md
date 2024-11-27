@@ -7,13 +7,9 @@ This connector is built from [Ollama's OpenAPI Specification](https://github.com
 
 ## Environment Variables
 
-| Name                     | Description                                   | Default Value          |
-| ------------------------ | --------------------------------------------- | ---------------------- |
-| OLLAMA_SERVER_URL        | The base server URL of Ollama API             | http://127.0.0.1:11434 |
-| OLLAMA_TIMEOUT           | Default request timeout in seconds            | 30                     |
-| OLLAMA_RETRY_TIMES       | Number of retry times                         | 0                      |
-| OLLAMA_RETRY_DELAY       | Delay time between each retry in milliseconds | 1000                   |
-| OLLAMA_RETRY_HTTP_STATUS | Retry on HTTP status                          | 429, 500, 502, 503     |
+| Name              | Description                       | Default Value          |
+| ----------------- | --------------------------------- | ---------------------- |
+| OLLAMA_SERVER_URL | The base server URL of Ollama API | http://127.0.0.1:11434 |
 
 ## Limitations
 
@@ -26,7 +22,7 @@ Or you can set default values by using `argumentPresets`.
 
 ### Update schema
 
-Update the latest commit in [schema/schema.yaml](schema/schema.yaml) and run:
+Update the latest commit in [generator/schema.yaml](generator/schema.yaml) and run:
 
 ```sh
 make build-schema
