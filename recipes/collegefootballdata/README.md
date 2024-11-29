@@ -1,6 +1,6 @@
 # HTTP Connector configuration for College Football Data API
 
-This connector is built from [CollegeFootballData.com's OpenAPI Specification](https://collegefootballdata.com/).
+This configuration is built from [CollegeFootballData.com's OpenAPI Specification](https://collegefootballdata.com/).
 
 ## V1
 
