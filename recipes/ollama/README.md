@@ -3,7 +3,7 @@
 > [!NOTE]
 > The OpenAPI pull request is still in review. The final API schema may be different.
 
-This connector is built from [Ollama's OpenAPI Specification](https://github.com/ollama/ollama/pull/5040).
+This configuration is built from [Ollama's OpenAPI Specification](https://github.com/ollama/ollama/pull/5040).
 
 ## Environment Variables
 
