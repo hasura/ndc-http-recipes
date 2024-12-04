@@ -6,11 +6,11 @@ cd ../
 ROOT=`pwd -P`
 RECIPES_DIR="$ROOT/recipes"
 
-for dir in "$RECIPES_DIR/*" 
+for dir in $RECIPES_DIR/*
 do
   echo "$dir"
   if [ -f "$dir/Makefile" ]; then
-    pushd
+    pushd $dir
     make build-schema
     popd 
   fi
