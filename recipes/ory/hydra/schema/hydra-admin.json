@@ -4,11 +4,48 @@
     "servers": [
       {
         "url": {
-          "value": "http://localhost:4445",
+          "value": "",
           "env": "HYDRA_ADMIN_SERVER_URL"
         }
       }
-    ]
+    ],
+    "securitySchemes": {
+      "basic": {
+        "type": "basic",
+        "header": "",
+        "username": {
+          "env": "HYDRA_ADMIN_BASIC_USERNAME"
+        },
+        "password": {
+          "env": "HYDRA_ADMIN_BASIC_PASSWORD"
+        }
+      },
+      "bearer": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "HYDRA_ADMIN_BEARER_TOKEN"
+        }
+      },
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://hydra.demo.ory.sh/oauth2/auth",
+            "tokenUrl": {
+              "value": "https://hydra.demo.ory.sh/oauth2/token",
+              "env": "HYDRA_ADMIN_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "offline": "A scope required when requesting refresh tokens (alias for `offline_access`)",
+              "offline_access": "A scope required when requesting refresh tokens",
+              "openid": "Request an OpenID Connect ID Token"
+            }
+          }
+        }
+      }
+    }
   },
   "functions": {
     "hydraGetJsonWebKey": {
@@ -59,7 +96,7 @@
       },
       "description": "Get JSON Web Key",
       "result_type": {
-        "name": "JsonWebKeySet",
+        "name": "HydraJsonWebKeySet",
         "type": "named"
       }
     },
@@ -93,7 +130,7 @@
       },
       "description": "Retrieve a JSON Web Key Set",
       "result_type": {
-        "name": "JsonWebKeySet",
+        "name": "HydraJsonWebKeySet",
         "type": "named"
       }
     },
@@ -127,7 +164,7 @@
       },
       "description": "Get an OAuth 2.0 Client",
       "result_type": {
-        "name": "OAuth2Client",
+        "name": "HydraOAuth2Client",
         "type": "named"
       }
     },
@@ -161,7 +198,7 @@
       },
       "description": "Get OAuth 2.0 Consent Request",
       "result_type": {
-        "name": "OAuth2ConsentRequest",
+        "name": "HydraOAuth2ConsentRequest",
         "type": "named"
       }
     },
@@ -195,7 +232,7 @@
       },
       "description": "Get OAuth 2.0 Login Request",
       "result_type": {
-        "name": "OAuth2LoginRequest",
+        "name": "HydraOAuth2LoginRequest",
         "type": "named"
       }
     },
@@ -228,7 +265,7 @@
       },
       "description": "Get OAuth 2.0 Session Logout Request",
       "result_type": {
-        "name": "OAuth2LogoutRequest",
+        "name": "HydraOAuth2LogoutRequest",
         "type": "named"
       }
     },
@@ -262,7 +299,7 @@
       },
       "description": "Get Trusted OAuth2 JWT Bearer Grant Type Issuer",
       "result_type": {
-        "name": "TrustedOAuth2JwtGrantIssuer",
+        "name": "HydraTrustedOAuth2JwtGrantIssuer",
         "type": "named"
       }
     },
@@ -277,7 +314,7 @@
       "arguments": {},
       "description": "Return Running Software Version.",
       "result_type": {
-        "name": "GetVersion200Response",
+        "name": "HydraGetVersion200Response",
         "type": "named"
       }
     },
@@ -292,7 +329,7 @@
       "arguments": {},
       "description": "Check HTTP Server Status",
       "result_type": {
-        "name": "HealthStatus",
+        "name": "HydraHealthStatus",
         "type": "named"
       }
     },
@@ -397,7 +434,7 @@
       "description": "List OAuth 2.0 Clients",
       "result_type": {
         "element_type": {
-          "name": "OAuth2Client",
+          "name": "HydraOAuth2Client",
           "type": "named"
         },
         "type": "array"
@@ -501,7 +538,7 @@
       "description": "List OAuth 2.0 Consent Sessions of a Subject",
       "result_type": {
         "element_type": {
-          "name": "OAuth2ConsentSession",
+          "name": "HydraOAuth2ConsentSession",
           "type": "named"
         },
         "type": "array"
@@ -583,7 +620,7 @@
       "description": "List Trusted OAuth2 JWT Bearer Grant Type Issuers",
       "result_type": {
         "element_type": {
-          "name": "TrustedOAuth2JwtGrantIssuer",
+          "name": "HydraTrustedOAuth2JwtGrantIssuer",
           "type": "named"
         },
         "type": "array"
@@ -591,7 +628,7 @@
     }
   },
   "object_types": {
-    "AcceptOAuth2ConsentRequest": {
+    "HydraAcceptOAuth2ConsentRequest": {
       "fields": {
         "context": {
           "type": {
@@ -699,7 +736,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AcceptOAuth2ConsentRequestSession",
+              "name": "HydraAcceptOAuth2ConsentRequestSession",
               "type": "named"
             }
           },
@@ -711,7 +748,7 @@
         }
       }
     },
-    "AcceptOAuth2ConsentRequestSession": {
+    "HydraAcceptOAuth2ConsentRequestSession": {
       "fields": {
         "access_token": {
           "description": "AccessToken sets session data for the access and refresh token, as well as any future tokens issued by the refresh grant. Keep in mind that this data will be available to anyone performing OAuth 2.0 Challenge Introspection. If only your services can perform OAuth 2.0 Challenge Introspection, this is usually fine. But if third parties can access that endpoint as well, sensitive data from the session might be exposed to them. Use with care!",
@@ -741,7 +778,7 @@
         }
       }
     },
-    "AcceptOAuth2LoginRequest": {
+    "HydraAcceptOAuth2LoginRequest": {
       "fields": {
         "acr": {
           "description": "ACR sets the Authentication AuthorizationContext Class Reference value for this authentication session. You can use it to express that, for example, a user authenticated using two factor authentication.",
@@ -882,13 +919,13 @@
         }
       }
     },
-    "CreateJsonWebKeySet": {
+    "HydraCreateJsonWebKeySet": {
       "description": "Create JSON Web Key Set Request Body",
       "fields": {
         "alg": {
           "description": "JSON Web Key Algorithm  The algorithm to be used for creating the key. Supports `RS256`, `ES256`, `ES512`, `HS512`, and `HS256`.",
           "type": {
-            "name": "JsonWebKeyAlgorithm",
+            "name": "String",
             "type": "named"
           },
           "http": {
@@ -923,7 +960,7 @@
         }
       }
     },
-    "GetVersion200Response": {
+    "HydraGetVersion200Response": {
       "fields": {
         "version": {
           "description": "The version of Ory Hydra.",
@@ -942,7 +979,7 @@
         }
       }
     },
-    "HealthStatus": {
+    "HydraHealthStatus": {
       "fields": {
         "status": {
           "description": "Status always contains \"ok\".",
@@ -961,7 +998,7 @@
         }
       }
     },
-    "IntrospectOAuth2TokenRequest": {
+    "HydraIntrospectOAuth2TokenRequest": {
       "fields": {
         "scope": {
           "description": "An optional, space separated list of required scopes. If the access token was not granted one of the scopes, the result of active will be false.",
@@ -992,7 +1029,7 @@
         }
       }
     },
-    "IntrospectedOAuth2Token": {
+    "HydraIntrospectedOAuth2Token": {
       "description": "Introspection contains an access token's session data as specified by [IETF RFC 7662](https://tools.ietf.org/html/rfc7662)",
       "fields": {
         "active": {
@@ -1215,7 +1252,7 @@
         }
       }
     },
-    "JsonPatch": {
+    "HydraJsonPatch": {
       "description": "A JSONPatch document as defined by RFC 6902",
       "fields": {
         "from": {
@@ -1272,12 +1309,12 @@
         }
       }
     },
-    "JsonWebKey": {
+    "HydraJsonWebKey": {
       "fields": {
         "alg": {
           "description": "The \"alg\" (algorithm) parameter identifies the algorithm intended for use with the key.  The values used should either be registered in the IANA \"JSON Web Signature and Encryption Algorithms\" registry established by [JWA] or be a value that contains a Collision- Resistant Name.",
           "type": {
-            "name": "JsonWebKeyAlgorithm",
+            "name": "String",
             "type": "named"
           },
           "http": {
@@ -1515,7 +1552,7 @@
         }
       }
     },
-    "JsonWebKeySet": {
+    "HydraJsonWebKeySet": {
       "description": "JSON Web Key Set",
       "fields": {
         "keys": {
@@ -1524,7 +1561,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "JsonWebKey",
+                "name": "HydraJsonWebKey",
                 "type": "named"
               },
               "type": "array"
@@ -1538,7 +1575,7 @@
         }
       }
     },
-    "OAuth2Client": {
+    "HydraOAuth2Client": {
       "description": "OAuth 2.0 Clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.",
       "fields": {
         "access_token_strategy": {
@@ -1843,7 +1880,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "OAuth2GrantType",
+                "name": "String",
                 "type": "named"
               },
               "type": "array"
@@ -2120,7 +2157,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2SigningAlgorithm",
+              "name": "String",
               "type": "named"
             }
           },
@@ -2157,7 +2194,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "OAuth2ResponseType",
+                "name": "String",
                 "type": "named"
               },
               "type": "array"
@@ -2179,7 +2216,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2Scope",
+              "name": "String",
               "type": "named"
             }
           },
@@ -2239,7 +2276,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OpenIDConnectSubjectType",
+              "name": "String",
               "type": "named"
             }
           },
@@ -2254,7 +2291,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "TokenEndpointAuthMethod",
+              "name": "String",
               "type": "named"
             }
           },
@@ -2269,7 +2306,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2SigningAlgorithm",
+              "name": "String",
               "type": "named"
             }
           },
@@ -2315,7 +2352,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2SigningAlgorithm",
+              "name": "String",
               "type": "named"
             }
           },
@@ -2327,7 +2364,7 @@
         }
       }
     },
-    "OAuth2ClientTokenLifespans": {
+    "HydraOAuth2ClientTokenLifespans": {
       "description": "Lifespans of different token types issued for this OAuth 2.0 Client.",
       "fields": {
         "authorization_code_grant_access_token_lifespan": {
@@ -2492,7 +2529,7 @@
         }
       }
     },
-    "OAuth2ConsentRequest": {
+    "HydraOAuth2ConsentRequest": {
       "fields": {
         "acr": {
           "description": "ACR represents the Authentication AuthorizationContext Class Reference value for this authentication session. You can use it to express that, for example, a user authenticated using two factor authentication.",
@@ -2548,7 +2585,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2Client",
+              "name": "HydraOAuth2Client",
               "type": "named"
             }
           },
@@ -2571,7 +2608,7 @@
           }
         },
         "login_challenge": {
-          "description": "LoginChallenge is the login challenge this consent challenge belongs to. It can be used to associate a login and consent request in the login \u0026 consent app.",
+          "description": "LoginChallenge is the login challenge this consent challenge belongs to. It can be used to associate a login and consent request in the login  consent app.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2604,7 +2641,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2ConsentRequestOpenIDConnectContext",
+              "name": "HydraOAuth2ConsentRequestOpenIDConnectContext",
               "type": "named"
             }
           },
@@ -2705,10 +2742,10 @@
         }
       }
     },
-    "OAuth2ConsentRequestOpenIDConnectContext": {
+    "HydraOAuth2ConsentRequestOpenIDConnectContext": {
       "fields": {
         "acr_values": {
-          "description": "Requested Authentication AuthorizationContext Class Reference values. Space-separated string that specifies the acr values that the Authorization Server is being requested to use for processing this Authentication Request, with the values appearing in order of preference. The Authentication AuthorizationContext Class satisfied by the authentication performed is returned as the acr Claim Value, as specified in Section 2. The acr Claim is requested as a Voluntary Claim by this parameter.",
+          "description": "ACRValues is the Authentication AuthorizationContext Class Reference requested in the OAuth 2.0 Authorization request. It is a parameter defined by OpenID Connect and expresses which level of authentication (e.g. 2FA) is required.  OpenID Connect defines it as follows:  Requested Authentication AuthorizationContext Class Reference values. Space-separated string that specifies the acr values that the Authorization Server is being requested to use for processing this Authentication Request, with the values appearing in order of preference. The Authentication AuthorizationContext Class satisfied by the authentication performed is returned as the acr Claim Value, as specified in Section 2. The acr Claim is requested as a Voluntary Claim by this parameter.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2800,14 +2837,14 @@
         }
       }
     },
-    "OAuth2ConsentSession": {
+    "HydraOAuth2ConsentSession": {
       "description": "A completed OAuth 2.0 Consent Session.",
       "fields": {
         "consent_request": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2ConsentRequest",
+              "name": "HydraOAuth2ConsentRequest",
               "type": "named"
             }
           },
@@ -2833,7 +2870,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2ConsentSessionExpiresAt",
+              "name": "HydraOAuth2ConsentSessionExpiresAt",
               "type": "named"
             }
           },
@@ -2937,7 +2974,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AcceptOAuth2ConsentRequestSession",
+              "name": "HydraAcceptOAuth2ConsentRequestSession",
               "type": "named"
             }
           },
@@ -2949,7 +2986,7 @@
         }
       }
     },
-    "OAuth2ConsentSessionExpiresAt": {
+    "HydraOAuth2ConsentSessionExpiresAt": {
       "fields": {
         "access_token": {
           "type": {
@@ -3028,7 +3065,7 @@
         }
       }
     },
-    "OAuth2LoginRequest": {
+    "HydraOAuth2LoginRequest": {
       "fields": {
         "challenge": {
           "description": "ID is the identifier (\"login challenge\") of the login request. It is used to identify the session.",
@@ -3045,7 +3082,7 @@
         "client": {
           "description": "OAuth 2.0 Clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.",
           "type": {
-            "name": "OAuth2Client",
+            "name": "HydraOAuth2Client",
             "type": "named"
           },
           "http": {
@@ -3058,7 +3095,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2ConsentRequestOpenIDConnectContext",
+              "name": "HydraOAuth2ConsentRequestOpenIDConnectContext",
               "type": "named"
             }
           },
@@ -3165,7 +3202,7 @@
         }
       }
     },
-    "OAuth2LogoutRequest": {
+    "HydraOAuth2LogoutRequest": {
       "fields": {
         "challenge": {
           "description": "Challenge is the identifier (\"logout challenge\") of the logout authentication request. It is used to identify the session.",
@@ -3187,7 +3224,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2Client",
+              "name": "HydraOAuth2Client",
               "type": "named"
             }
           },
@@ -3259,7 +3296,7 @@
         }
       }
     },
-    "OAuth2RedirectTo": {
+    "HydraOAuth2RedirectTo": {
       "description": "Contains a redirect URL used to complete a login, consent, or logout request.",
       "fields": {
         "redirect_to": {
@@ -3276,7 +3313,7 @@
         }
       }
     },
-    "RejectOAuth2Request": {
+    "HydraRejectOAuth2Request": {
       "fields": {
         "error": {
           "description": "The error should follow the OAuth2 error format (e.g. `invalid_request`, `login_required`).  Defaults to `request_denied`.",
@@ -3356,7 +3393,7 @@
         }
       }
     },
-    "TrustOAuth2JwtGrantIssuer": {
+    "HydraTrustOAuth2JwtGrantIssuer": {
       "description": "Trust OAuth2 JWT Bearer Grant Type Issuer Request Body",
       "fields": {
         "allow_any_subject": {
@@ -3401,7 +3438,7 @@
         },
         "jwk": {
           "type": {
-            "name": "JsonWebKey",
+            "name": "HydraJsonWebKey",
             "type": "named"
           },
           "http": {
@@ -3447,7 +3484,7 @@
         }
       }
     },
-    "TrustedOAuth2JwtGrantIssuer": {
+    "HydraTrustedOAuth2JwtGrantIssuer": {
       "description": "OAuth2 JWT Bearer Grant Type Issuer Trust Relationship",
       "fields": {
         "allow_any_subject": {
@@ -3531,7 +3568,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "TrustedOAuth2JwtGrantJsonWebKey",
+              "name": "HydraTrustedOAuth2JwtGrantJsonWebKey",
               "type": "named"
             }
           },
@@ -3581,7 +3618,7 @@
         }
       }
     },
-    "TrustedOAuth2JwtGrantJsonWebKey": {
+    "HydraTrustedOAuth2JwtGrantJsonWebKey": {
       "description": "OAuth2 JWT Bearer Grant Type Issuer Trusted JSON Web Key",
       "fields": {
         "kid": {
@@ -3635,7 +3672,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AcceptOAuth2ConsentRequest",
+              "name": "HydraAcceptOAuth2ConsentRequest",
               "type": "named"
             }
           },
@@ -3664,7 +3701,7 @@
       },
       "description": "Accept OAuth 2.0 Consent Request",
       "result_type": {
-        "name": "OAuth2RedirectTo",
+        "name": "HydraOAuth2RedirectTo",
         "type": "named"
       }
     },
@@ -3685,7 +3722,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AcceptOAuth2LoginRequest",
+              "name": "HydraAcceptOAuth2LoginRequest",
               "type": "named"
             }
           },
@@ -3714,7 +3751,7 @@
       },
       "description": "Accept OAuth 2.0 Login Request",
       "result_type": {
-        "name": "OAuth2RedirectTo",
+        "name": "HydraOAuth2RedirectTo",
         "type": "named"
       }
     },
@@ -3748,7 +3785,7 @@
       },
       "description": "Accept OAuth 2.0 Session Logout Request",
       "result_type": {
-        "name": "OAuth2RedirectTo",
+        "name": "HydraOAuth2RedirectTo",
         "type": "named"
       }
     },
@@ -3767,7 +3804,7 @@
         "body": {
           "description": "Request body of POST /admin/keys/{set}",
           "type": {
-            "name": "CreateJsonWebKeySet",
+            "name": "HydraCreateJsonWebKeySet",
             "type": "named"
           },
           "http": {
@@ -3795,7 +3832,7 @@
       },
       "description": "Create JSON Web Key",
       "result_type": {
-        "name": "JsonWebKeySet",
+        "name": "HydraJsonWebKeySet",
         "type": "named"
       }
     },
@@ -3814,7 +3851,7 @@
         "body": {
           "description": "Request body of POST /admin/clients",
           "type": {
-            "name": "OAuth2Client",
+            "name": "HydraOAuth2Client",
             "type": "named"
           },
           "http": {
@@ -3824,7 +3861,7 @@
       },
       "description": "Create OAuth 2.0 Client",
       "result_type": {
-        "name": "OAuth2Client",
+        "name": "HydraOAuth2Client",
         "type": "named"
       }
     },
@@ -4048,7 +4085,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "IntrospectOAuth2TokenRequest",
+              "name": "HydraIntrospectOAuth2TokenRequest",
               "type": "named"
             }
           },
@@ -4059,7 +4096,7 @@
       },
       "description": "Introspect OAuth2 Access and Refresh Tokens",
       "result_type": {
-        "name": "IntrospectedOAuth2Token",
+        "name": "HydraIntrospectedOAuth2Token",
         "type": "named"
       }
     },
@@ -4079,7 +4116,7 @@
           "description": "Request body of PATCH /admin/clients/{id}",
           "type": {
             "element_type": {
-              "name": "JsonPatch",
+              "name": "HydraJsonPatch",
               "type": "named"
             },
             "type": "array"
@@ -4109,7 +4146,7 @@
       },
       "description": "Patch OAuth 2.0 Client",
       "result_type": {
-        "name": "OAuth2Client",
+        "name": "HydraOAuth2Client",
         "type": "named"
       }
     },
@@ -4130,7 +4167,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "RejectOAuth2Request",
+              "name": "HydraRejectOAuth2Request",
               "type": "named"
             }
           },
@@ -4159,7 +4196,7 @@
       },
       "description": "Reject OAuth 2.0 Consent Request",
       "result_type": {
-        "name": "OAuth2RedirectTo",
+        "name": "HydraOAuth2RedirectTo",
         "type": "named"
       }
     },
@@ -4180,7 +4217,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "RejectOAuth2Request",
+              "name": "HydraRejectOAuth2Request",
               "type": "named"
             }
           },
@@ -4209,7 +4246,7 @@
       },
       "description": "Reject OAuth 2.0 Login Request",
       "result_type": {
-        "name": "OAuth2RedirectTo",
+        "name": "HydraOAuth2RedirectTo",
         "type": "named"
       }
     },
@@ -4406,7 +4443,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JsonWebKey",
+              "name": "HydraJsonWebKey",
               "type": "named"
             }
           },
@@ -4453,7 +4490,7 @@
       },
       "description": "Set JSON Web Key",
       "result_type": {
-        "name": "JsonWebKey",
+        "name": "HydraJsonWebKey",
         "type": "named"
       }
     },
@@ -4474,7 +4511,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JsonWebKeySet",
+              "name": "HydraJsonWebKeySet",
               "type": "named"
             }
           },
@@ -4503,7 +4540,7 @@
       },
       "description": "Update a JSON Web Key Set",
       "result_type": {
-        "name": "JsonWebKeySet",
+        "name": "HydraJsonWebKeySet",
         "type": "named"
       }
     },
@@ -4522,7 +4559,7 @@
         "body": {
           "description": "Request body of PUT /admin/clients/{id}",
           "type": {
-            "name": "OAuth2Client",
+            "name": "HydraOAuth2Client",
             "type": "named"
           },
           "http": {
@@ -4550,7 +4587,7 @@
       },
       "description": "Set OAuth 2.0 Client",
       "result_type": {
-        "name": "OAuth2Client",
+        "name": "HydraOAuth2Client",
         "type": "named"
       }
     },
@@ -4571,7 +4608,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "OAuth2ClientTokenLifespans",
+              "name": "HydraOAuth2ClientTokenLifespans",
               "type": "named"
             }
           },
@@ -4600,7 +4637,7 @@
       },
       "description": "Set OAuth2 Client Token Lifespans",
       "result_type": {
-        "name": "OAuth2Client",
+        "name": "HydraOAuth2Client",
         "type": "named"
       }
     },
@@ -4621,7 +4658,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "TrustOAuth2JwtGrantIssuer",
+              "name": "HydraTrustOAuth2JwtGrantIssuer",
               "type": "named"
             }
           },
@@ -4632,7 +4669,7 @@
       },
       "description": "Trust OAuth2 JWT Bearer Grant Type Issuer",
       "result_type": {
-        "name": "TrustedOAuth2JwtGrantIssuer",
+        "name": "HydraTrustedOAuth2JwtGrantIssuer",
         "type": "named"
       }
     }
@@ -4659,80 +4696,6 @@
         "type": "json"
       }
     },
-    "JsonWebKeyAlgorithm": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "RS256",
-          "RS512",
-          "ES256",
-          "ES512",
-          "EdDSA"
-        ],
-        "type": "enum"
-      }
-    },
-    "OAuth2GrantType": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "authorization_code",
-          "implicit",
-          "client_credentials",
-          "refresh_token"
-        ],
-        "type": "enum"
-      }
-    },
-    "OAuth2ResponseType": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "code",
-          "token",
-          "id_token"
-        ],
-        "type": "enum"
-      }
-    },
-    "OAuth2Scope": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "offline_access",
-          "offline",
-          "openid"
-        ],
-        "type": "enum"
-      }
-    },
-    "OAuth2SigningAlgorithm": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "none",
-          "RS256",
-          "ES256"
-        ],
-        "type": "enum"
-      }
-    },
-    "OpenIDConnectSubjectType": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "public",
-          "pairwise"
-        ],
-        "type": "enum"
-      }
-    },
     "String": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -4745,20 +4708,6 @@
       "comparison_operators": {},
       "representation": {
         "type": "timestamptz"
-      }
-    },
-    "TokenEndpointAuthMethod": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "client_secret_post",
-          "client_secret_basic",
-          "client_secret_jwt",
-          "private_key_jwt",
-          "none"
-        ],
-        "type": "enum"
       }
     }
   }
