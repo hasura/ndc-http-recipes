@@ -1,0 +1,1235 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetIp": {
+      "request": {
+        "url": "/v3/ips/{ip_address}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ip_address": {
+          "description": "The IP address you are retrieving the IP pools for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ip_address",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve all IP pools an IP address belongs to",
+      "result_type": {
+        "name": "GetIpResult",
+        "type": "named"
+      }
+    },
+    "GetIpPool": {
+      "request": {
+        "url": "/v3/ips/pools/{pool_name}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "pool_name": {
+          "description": "The name of the IP pool that you want to retrieve the IP addresses for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "pool_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve all the IPs in a specified pool",
+      "result_type": {
+        "name": "GetIpPoolResult",
+        "type": "named"
+      }
+    },
+    "ListAssignedIp": {
+      "request": {
+        "url": "/v3/ips/assigned",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Retrieve all assigned IPs",
+      "result_type": {
+        "element_type": {
+          "name": "ListAssignedIpResult",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListIp": {
+      "request": {
+        "url": "/v3/ips",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "exclude_whitelabels": {
+          "description": "Should we exclude reverse DNS records (whitelabels)?",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "exclude_whitelabels",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "ip": {
+          "description": "The IP address to get",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "ip",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "limit": {
+          "description": "`limit` sets the page size, i.e. maximum number of items from the list to be returned for a single API request. If omitted, the default page size is used.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 1
+            }
+          }
+        },
+        "offset": {
+          "description": "The number of items in the list to skip over before starting to retrieve the items for the requested page. The default `offset` of `0` represents the beginning of the list, i.e. the start of the first page. To request the second page of the list, set the `offset` to the page size as determined by `limit`. Use multiples of the page size as your `offset` to request further consecutive pages. E.g. assume your page size is set to `10`. An `offset` of `10` requests the second page, an `offset` of `20` requests the third page and so on, provided there are sufficiently many items in your list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "sort_by_direction": {
+          "description": "The direction to sort the results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SortByDirection",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sort_by_direction",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subuser": {
+          "description": "The subuser you are requesting for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "subuser",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve all IP addresses",
+      "result_type": {
+        "element_type": {
+          "name": "ListIpResult",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListIpPool": {
+      "request": {
+        "url": "/v3/ips/pools",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Retrieve all IP pools",
+      "result_type": {
+        "element_type": {
+          "name": "IpPools200",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListRemainingIpCount": {
+      "request": {
+        "url": "/v3/ips/remaining",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Get remaining IPs count",
+      "result_type": {
+        "name": "ListRemainingIpCountResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AddIpBody": {
+      "fields": {
+        "count": {
+          "description": "The amount of IPs to add to the account.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "subusers": {
+          "description": "Array of usernames to be assigned a send IP.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "warmup": {
+          "description": "Whether or not to warmup the IPs being added.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AddIpResult": {
+      "fields": {
+        "ips": {
+          "description": "List of IP objects.",
+          "type": {
+            "element_type": {
+              "name": "AddIpResultIps",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "remaining_ips": {
+          "description": "The number of IPs that can still be added to the user.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "warmup": {
+          "description": "Whether or not the IPs are being warmed up.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AddIpResultIps": {
+      "fields": {
+        "ip": {
+          "description": "IP added to account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subusers": {
+          "description": "Array of usernames assigned a send IP.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AddIpToIpPoolBody": {
+      "fields": {
+        "ip": {
+          "description": "The IP address that you want to add to the named pool.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AddIpToIpPoolResult": {
+      "fields": {
+        "ip": {
+          "description": "The IP address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "pools": {
+          "description": "The IP pools that this IP address has been added to.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "start_date": {
+          "description": "A Unix timestamp indicating when the warmup process began for the added IP address.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "warmup": {
+          "description": "Indicates if the IP address is in warmup.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "CreateIpPoolBody": {
+      "fields": {
+        "name": {
+          "description": "The name of your new IP pool.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 64
+          }
+        }
+      }
+    },
+    "GetIpPoolResult": {
+      "fields": {
+        "ips": {
+          "description": "The IP addresses that belong to this pool.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "pool_name": {
+          "description": "The name of the IP pool.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 64
+          }
+        }
+      }
+    },
+    "GetIpResult": {
+      "fields": {
+        "ip": {
+          "description": "The IP address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "pools": {
+          "description": "The list of IP pools that this IP address belongs to.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "rdns": {
+          "description": "The reverse DNS record for this IP address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "start_date": {
+          "description": "The date that the IP address was entered into warmup.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "subusers": {
+          "description": "The subusers that can send email using this IP address.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "warmup": {
+          "description": "Indicates if this IP address is currently warming up.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "whitelabeled": {
+          "description": "Indicates if this IP address is associated with a reverse DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "IpPools200": {
+      "fields": {
+        "name": {
+          "description": "The name of the IP pool.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListAssignedIpResult": {
+      "fields": {
+        "ip": {
+          "description": "The IP address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "pools": {
+          "description": "The IP pools that this IP address has been added to.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "start_date": {
+          "description": "The start date that this IP address was entered into warmup.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "warmup": {
+          "description": "Indicates if this IP address is currently warming up.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListIpResult": {
+      "fields": {
+        "assigned_at": {
+          "description": "The date that the IP address was assigned to the user.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "ip": {
+          "description": "An IP address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "pools": {
+          "description": "The IP pools that this IP has been added to.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "rdns": {
+          "description": "The reverse DNS record for this IP address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "start_date": {
+          "description": "The date that the IP address was entered into warmup.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "subusers": {
+          "description": "The subusers that are able to send email from this IP.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "warmup": {
+          "description": "Indicates if this IP address is currently warming up.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "whitelabeled": {
+          "description": "Indicates if this IP address is associated with a reverse DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListRemainingIpCountResult": {
+      "fields": {
+        "results": {
+          "type": {
+            "element_type": {
+              "name": "ListRemainingIpCountResultResults",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListRemainingIpCountResultResults": {
+      "fields": {
+        "period": {
+          "description": "The length of time until user can add more IPs.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "price_per_ip": {
+          "description": "The current cost to add an IP.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "remaining": {
+          "description": "The number of IPs that can still be added to the user.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateIpPoolBody": {
+      "fields": {
+        "name": {
+          "description": "The new name for your IP pool.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 64
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "AddIp": {
+      "request": {
+        "url": "/v3/ips",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/ips",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddIpBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Add IPs",
+      "result_type": {
+        "name": "AddIpResult",
+        "type": "named"
+      }
+    },
+    "AddIpToIpPool": {
+      "request": {
+        "url": "/v3/ips/pools/{pool_name}/ips",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/ips/pools/{pool_name}/ips",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddIpToIpPoolBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "pool_name": {
+          "description": "The name of the IP pool you want to add the address to. If the name contains spaces, they must be URL encoded (e.g., \"Test Pool\" becomes \"Test%20Pool\").",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "pool_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Add an IP address to a pool",
+      "result_type": {
+        "name": "AddIpToIpPoolResult",
+        "type": "named"
+      }
+    },
+    "CreateIpPool": {
+      "request": {
+        "url": "/v3/ips/pools",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/ips/pools",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateIpPoolBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create an IP pool",
+      "result_type": {
+        "name": "IpPools200",
+        "type": "named"
+      }
+    },
+    "DeleteIpFromIpPool": {
+      "request": {
+        "url": "/v3/ips/pools/{pool_name}/ips/{ip}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ip": {
+          "description": "The IP address that you wish to remove.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ip",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "pool_name": {
+          "description": "The name of the IP pool that you are removing the IP address from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "pool_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Remove an IP address from a pool",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DeleteIpPool": {
+      "request": {
+        "url": "/v3/ips/pools/{pool_name}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "pool_name": {
+          "description": "The name of the IP pool that you want to retrieve the IP addresses for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "pool_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete an IP pool",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "UpdateIpPool": {
+      "request": {
+        "url": "/v3/ips/pools/{pool_name}",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /v3/ips/pools/{pool_name}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateIpPoolBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "pool_name": {
+          "description": "The name of the IP pool that you want to retrieve the IP addresses for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "pool_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Rename an IP pool",
+      "result_type": {
+        "name": "IpPools200",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "SortByDirection": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "desc",
+          "asc"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

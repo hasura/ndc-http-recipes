@@ -1,0 +1,867 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetSegment": {
+      "request": {
+        "url": "/v3/marketing/segments/{segment_id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "query_json": {
+          "description": "Defaults to `false`.  Set to `true` to return the parsed SQL AST as a JSON object in the field `query_json`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "query_json",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "segment_id": {
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "segment_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid",
+              "maxLength": 36,
+              "minLength": 36
+            }
+          }
+        }
+      },
+      "description": "Get Segment by ID",
+      "result_type": {
+        "name": "FullSegment",
+        "type": "named"
+      }
+    },
+    "ListSegment": {
+      "request": {
+        "url": "/v3/marketing/segments",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ids": {
+          "description": "A list of segment IDs to retrieve. When this parameter is included, the `no_parent_list_ids` and `parent_list_ids` parameters are ignored and only segments with given IDs are returned.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "string"
+                ]
+              }
+            }
+          }
+        },
+        "no_parent_list_id": {
+          "description": "If set to `true` segments with an empty value of `parent_list_id` will be returned in the filter.  If the value is not present it defaults to 'false'.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "no_parent_list_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "parent_list_ids": {
+          "description": "A comma separated list of list ids to be used when searching for segments with the specified parent_list_id, no more than 50 is allowed",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "parent_list_ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get List of Segments",
+      "result_type": {
+        "name": "ListSegmentResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "ContactResponse": {
+      "fields": {
+        "address_line_1": {
+          "description": "First line of address of the contact. This is a reserved field.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 0
+          }
+        },
+        "address_line_2": {
+          "description": "Second line of address of the contact. This is a reserved field.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 0
+          }
+        },
+        "alternate_emails": {
+          "description": "Alternate emails of the contact. This is a reserved field.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "email",
+              "maxLength": 254,
+              "minLength": 3
+            }
+          }
+        },
+        "anonymous_id": {
+          "description": "The contact's Anonymous ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 254
+          }
+        },
+        "city": {
+          "description": "City associated with the contact. This is a reserved field.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z-\\s\\/\\-\\)\\(\\`\\.\\\"\\']+$",
+            "minLength": 0
+          }
+        },
+        "country": {
+          "description": "Country associated with the address of the contact. This is a reserved field.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 0
+          }
+        },
+        "custom_fields": {
+          "description": "The user may choose to create up to 120 custom fields or none at all. This is not a reserved field.",
+          "type": {
+            "name": "ContactResponseCustomFields",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "email": {
+          "description": "Email of the contact. This is a reserved field.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email",
+            "maxLength": 254,
+            "minLength": 3
+          }
+        },
+        "external_id": {
+          "description": "The contact's External ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 254
+          }
+        },
+        "first_name": {
+          "description": "First name of the contact. This is a reserved field.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "id": {
+          "description": "ID assigned to a contact when added to the system.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid",
+            "pattern": "[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}",
+            "maxLength": 36
+          }
+        },
+        "last_name": {
+          "description": "Last name of the contact. This is a reserved field.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "list_ids": {
+          "description": "IDs of all lists the contact is part of",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UUID",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        },
+        "phone_number_id": {
+          "description": "The contact's Phone Number ID. This must be a valid phone number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "postal_code": {
+          "description": "Zipcode associated with the address of the contact. This is a reserved field.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "segment_ids": {
+          "description": "IDs of all segments the contact is part of",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UUID",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        },
+        "state_province_region": {
+          "description": "State associated with the contact. This is a reserved field.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 0
+          }
+        }
+      }
+    },
+    "ContactResponseCustomFields": {
+      "description": "The user may choose to create up to 120 custom fields or none at all. This is not a reserved field.",
+      "fields": {
+        "custom_field_name1": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 0
+          }
+        },
+        "custom_field_name2": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 0
+          }
+        }
+      }
+    },
+    "FullSegment": {
+      "fields": {
+        "contacts_count": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "contacts_sample": {
+          "type": {
+            "element_type": {
+              "name": "ContactResponse",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "created_at": {
+          "description": "ISO8601 of created timestamp",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid",
+            "maxLength": 36,
+            "minLength": 36
+          }
+        },
+        "name": {
+          "description": "Name of the segment.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        },
+        "next_sample_update": {
+          "description": "ISO8601 string that is equal to `sample_updated_at` plus an internally calculated offset that depends on how often contacts enter or exit segments as the scheduled pipeline updates the samples.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "parent_list_id": {
+          "description": "The id of the list if this segment is a child of a list.  This implies the query `AND CONTAINS(list_ids, ${parent_list_id})`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UUID",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid",
+            "maxLength": 36,
+            "minLength": 36
+          }
+        },
+        "parent_list_ids": {
+          "description": "The array of list ids to filter contacts on when building this segment. It allows only one such list id for now. We will support more in future",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "query_dsl": {
+          "description": "SQL query which will filter contacts based on the conditions provided",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "query_json": {
+          "description": "AST representation of the query DSL",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "sample_updated_at": {
+          "description": "ISO8601 timestamp the sample was last updated",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "updated_at": {
+          "description": "ISO8601 timestamp the object was last updated",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        }
+      }
+    },
+    "ListSegmentResult": {
+      "fields": {
+        "results": {
+          "type": {
+            "element_type": {
+              "name": "SegmentSummary",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "SegmentSummary": {
+      "fields": {
+        "contacts_count": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "created_at": {
+          "description": "ISO8601 of created timestamp",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid",
+            "maxLength": 36,
+            "minLength": 36
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        },
+        "next_sample_update": {
+          "description": "ISO8601 string that is equal to `sample_updated_at` plus an internally calculated offset that depends on how often contacts enter or exit segments as the scheduled pipeline updates the samples.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "parent_list_id": {
+          "description": "The id of the list if this segment is a child of a list.  This implies the query `AND CONTAINS(list_ids, ${parent_list_id})`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UUID",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid",
+            "maxLength": 36,
+            "minLength": 36
+          }
+        },
+        "sample_updated_at": {
+          "description": "ISO8601 timestamp the sample was last updated",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "updated_at": {
+          "description": "ISO8601 timestamp the object was last updated",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "DeleteSegment": {
+      "request": {
+        "url": "/v3/marketing/segments/{segment_id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "segment_id": {
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "segment_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid",
+              "maxLength": 36,
+              "minLength": 36
+            }
+          }
+        }
+      },
+      "description": "Delete Segment",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "UUID": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "uuid"
+      }
+    }
+  }
+}

@@ -1,0 +1,225 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetWarmUpIp": {
+      "request": {
+        "url": "/v3/ips/warmup/{ip_address}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ip_address": {
+          "description": "The IP address that you want to retrieve the warmup status for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ip_address",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the warmup status for a specific IP address",
+      "result_type": {
+        "element_type": {
+          "name": "IpWarmup200",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListWarmUpIp": {
+      "request": {
+        "url": "/v3/ips/warmup",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Retrieve all IPs currently in warmup",
+      "result_type": {
+        "element_type": {
+          "name": "IpWarmup200",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    }
+  },
+  "object_types": {
+    "IpWarmup200": {
+      "fields": {
+        "ip": {
+          "description": "The IP address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "start_date": {
+          "description": "A Unix timestamp indicating when the IP address entered warmup mode.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "WarmUpIpBody": {
+      "fields": {
+        "ip": {
+          "description": "The IP address that you want to begin warming up.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "StopIpWarmUp": {
+      "request": {
+        "url": "/v3/ips/warmup/{ip_address}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ip_address": {
+          "description": "The IP address that you want to retrieve the warmup status for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ip_address",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Stop warming up an IP address",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "WarmUpIp": {
+      "request": {
+        "url": "/v3/ips/warmup",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/ips/warmup",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WarmUpIpBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Start warming up an IP address",
+      "result_type": {
+        "element_type": {
+          "name": "IpWarmup200",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    }
+  },
+  "scalar_types": {
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

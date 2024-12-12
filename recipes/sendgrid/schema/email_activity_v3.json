@@ -1,0 +1,828 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "DownloadCsv": {
+      "request": {
+        "url": "/v3/messages/download/{download_uuid}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "download_uuid": {
+          "description": "UUID used to locate the download csv request entry in the DB.  This is the UUID provided in the email sent to the user when their csv file is ready to download",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "download_uuid",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "description": "Download CSV",
+      "result_type": {
+        "name": "DownloadCsvResult",
+        "type": "named"
+      }
+    },
+    "GetMessage": {
+      "request": {
+        "url": "/v3/messages/{msg_id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "msg_id": {
+          "description": "The ID of the message you are requesting details for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "msg_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Filter messages by message ID",
+      "result_type": {
+        "name": "GetMessageResult",
+        "type": "named"
+      }
+    },
+    "ListMessage": {
+      "request": {
+        "url": "/v3/messages",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "limit": {
+          "description": "The number of messages returned. This parameter must be greater than 0 and less than or equal to 1000",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "number"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "query": {
+          "description": "Use the query syntax  to filter your email activity.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Filter all messages",
+      "result_type": {
+        "name": "ListMessageResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "DownloadCsvResult": {
+      "fields": {
+        "csv": {
+          "description": "Returns the aws signed link to the csv file which mako UI should perform a get on to trigger the csv download for the user",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((http[s]?|ftp):\\/)?\\/?([^:\\/\\s]+)((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(.*)?(#[\\w\\-]+)?$",
+            "minLength": 5
+          }
+        },
+        "presigned_url": {
+          "description": "A signed link that will allow you to download the CSV file requested by the Request a CSV endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "GetMessageResult": {
+      "fields": {
+        "api_key_id": {
+          "description": "The ID of the API Key used to authenticate the sending request for the message.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Za-z0-9]+",
+            "maxLength": 50,
+            "minLength": 3
+          }
+        },
+        "asm_group_id": {
+          "description": "The unsubscribe group associated with this email.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 1
+          }
+        },
+        "categories": {
+          "description": "Categories users associated to the message",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "events": {
+          "description": "List of events related to email message",
+          "type": {
+            "element_type": {
+              "name": "GetMessageResultEvents",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "from_email": {
+          "description": "The 'From' email address used to deliver the message. This address should be a verified sender in your Twilio SendGrid account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "msg_id": {
+          "description": "A unique ID assigned to the message. This ID can be used to retrieve activity data for the specific message.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "originating_ip": {
+          "description": "This is the IP of the user who sent the message.",
+          "type": {
+            "name": "IPv4",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ipv4"
+          }
+        },
+        "outbound_ip": {
+          "description": "IP used to send to the remote Mail Transfer Agent.",
+          "type": {
+            "name": "IPv4",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ipv4"
+          }
+        },
+        "outbound_ip_type": {
+          "type": {
+            "name": "OutboundIpType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Status3",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subject": {
+          "description": "The email's subject line.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "teammate": {
+          "description": "Teammate's username",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^$|^[A-Za-z0-9]+",
+            "maxLength": 64,
+            "minLength": 0
+          }
+        },
+        "template_id": {
+          "description": "The ID associated with a Twilio SendGrid email template used to format the message.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "to_email": {
+          "description": "The intended recipient's email address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "unique_args": {
+          "description": "JSON hash of key-value pairs associated with the message.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetMessageResultEvents": {
+      "fields": {
+        "attempt_num": {
+          "description": "Used with \"deferred\" events to indicate the attempt number out of 10. One \"deferred\" entry will exists under events array for each time a message was deferred with error message from the server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 10,
+            "minimum": 1
+          }
+        },
+        "bounce_type": {
+          "type": {
+            "name": "BounceType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "event_name": {
+          "type": {
+            "name": "EventName",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "http_user_agent": {
+          "description": "Client recipient used to click or open message",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "mx_server": {
+          "description": "The MX server that received the email. For example, mx.gmail.com",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "processed": {
+          "description": "The date when the event was processed",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "reason": {
+          "description": "Explanation of what caused the message to be \"bounced\", \"deferred\", or \"blocked\". Usually contains error message from the server - e.g. message from gmail why mail was deferred.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1024
+          }
+        },
+        "url": {
+          "description": "Used with \"clicked\" event to indicate which url the user clicked.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((http[s]?|ftp):\\/)?\\/?([^:\\/\\s]+)((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(.*)?(#[\\w\\-]+)?$"
+          }
+        }
+      }
+    },
+    "ListMessageResult": {
+      "fields": {
+        "messages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListMessageResultMessages",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListMessageResultMessages": {
+      "fields": {
+        "clicks_count": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "from_email": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_event_time": {
+          "description": "iso 8601 format",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "msg_id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "opens_count": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "status": {
+          "type": {
+            "name": "Status",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subject": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "to_email": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "RequestCsvResult": {
+      "fields": {
+        "message": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Status2",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "RequestCsv": {
+      "request": {
+        "url": "/v3/messages/download",
+        "method": "post",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "query": {
+          "description": "Uses a SQL like syntax to indicate which messages to include in the CSV",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "query",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Request CSV",
+      "result_type": {
+        "name": "RequestCsvResult",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "BounceType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "soft",
+          "hard"
+        ],
+        "type": "enum"
+      }
+    },
+    "EventName": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "bounced",
+          "opened",
+          "clicked",
+          "processed",
+          "dropped",
+          "delivered",
+          "deferred",
+          "spam_report",
+          "unsubscribe",
+          "group_unsubscribe",
+          "group_resubscribe"
+        ],
+        "type": "enum"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "IPv4": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "OutboundIpType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "dedicated",
+          "shared"
+        ],
+        "type": "enum"
+      }
+    },
+    "Status": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "processed",
+          "delivered",
+          "not_delivered"
+        ],
+        "type": "enum"
+      }
+    },
+    "Status2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "pending"
+        ],
+        "type": "enum"
+      }
+    },
+    "Status3": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "processed",
+          "delivered",
+          "not_delivered"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "UUID": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "uuid"
+      }
+    }
+  }
+}

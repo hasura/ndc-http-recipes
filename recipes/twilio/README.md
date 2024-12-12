@@ -18,11 +18,9 @@ files:
 
 ### API v2010 (All-in-one)
 
-Import API schema files that you need in the [schema](./schema/) folder.
-
 ```yaml
 files:
-  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/twilio/schema/twilio_api_v2010.json
+  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/sendgrid/schema/sendgrid-legacy.json
     spec: ndc
 ```
 

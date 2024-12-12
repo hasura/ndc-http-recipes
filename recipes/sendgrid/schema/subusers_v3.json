@@ -1,0 +1,2351 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetSubuserCredit": {
+      "request": {
+        "url": "/v3/subusers/{subuser_name}/credits",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "subuser_name": {
+          "description": "The username of the Subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subuser_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get the Credits for a Subuser",
+      "result_type": {
+        "name": "SubuserCredits",
+        "type": "named"
+      }
+    },
+    "ListMonthlyStat": {
+      "request": {
+        "url": "/v3/subusers/stats/monthly",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "date": {
+          "description": "The date of the month to retrieve statistics for. Must be formatted YYYY-MM-DD",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "limit": {
+          "description": "Optional field to limit the number of results returned.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "offset": {
+          "description": "Optional beginning point in the list to retrieve from.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "sort_by_direction": {
+          "description": "The direction you want to sort.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SortByDirection1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sort_by_direction",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "sort_by_metric": {
+          "description": "The metric that you want to sort by. Metrics that you can sort by are: `blocks`, `bounces`, `clicks`, `delivered`, `opens`, `requests`, `unique_clicks`, `unique_opens`, and `unsubscribes`.'",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SortByMetric",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sort_by_metric",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subuser": {
+          "description": "A substring search of your subusers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "subuser",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve monthly stats for all subusers",
+      "result_type": {
+        "name": "SubuserStats",
+        "type": "named"
+      }
+    },
+    "ListReputation": {
+      "request": {
+        "url": "/v3/subusers/reputations",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "usernames": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "usernames",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve Subuser Reputations",
+      "result_type": {
+        "element_type": {
+          "name": "ListReputationResult",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListStat": {
+      "request": {
+        "url": "/v3/subusers/stats",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "aggregated_by": {
+          "description": "How to group the statistics. Must be either \"day\", \"week\", or \"month\".",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AggregatedBy",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "aggregated_by",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "end_date": {
+          "description": "The end date of the statistics to retrieve. Defaults to today.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "limit": {
+          "description": "Limits the number of results returned per page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "offset": {
+          "description": "The point in the list to begin retrieving results from.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "start_date": {
+          "description": "The starting date of the statistics to retrieve. Must follow format YYYY-MM-DD.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subusers": {
+          "description": "The subuser you want to retrieve statistics for. You may include this parameter up to 10 times to retrieve statistics for multiple subusers.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subusers",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve email statistics for your subusers.",
+      "result_type": {
+        "element_type": {
+          "name": "CategoryStats",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListStatSum": {
+      "request": {
+        "url": "/v3/subusers/stats/sums",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "aggregated_by": {
+          "description": "How to group the statistics. Defaults to today. Must follow format YYYY-MM-DD.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "aggregated_by",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "end_date": {
+          "description": "The end date of the statistics to retrieve. Defaults to today. Must follow format YYYY-MM-DD.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "limit": {
+          "description": "Limits the number of results returned per page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "offset": {
+          "description": "The point in the list to begin retrieving results from.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "sort_by_direction": {
+          "description": "The direction you want to sort.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SortByDirection2",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sort_by_direction",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "sort_by_metric": {
+          "description": "The metric that you want to sort by.  Must be a single metric.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sort_by_metric",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "start_date": {
+          "description": "The starting date of the statistics to retrieve. Must follow format YYYY-MM-DD.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the totals for each email statistic metric for all subusers.",
+      "result_type": {
+        "name": "CategoryStats",
+        "type": "named"
+      }
+    },
+    "ListSubuser": {
+      "request": {
+        "url": "/v3/subusers",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "include_region": {
+          "description": "Optional flag to include the regions of the Subusers in the response. If not provided, the region will be omitted from the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "include_region",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "limit": {
+          "description": "`limit` sets the page size, i.e. maximum number of items from the list to be returned for a single API request. If omitted, the default page size is used.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "offset": {
+          "description": "The number of items in the list to skip over before starting to retrieve the items for the requested page. The default `offset` of `0` represents the beginning of the list, i.e. the start of the first page. To request the second page of the list, set the `offset` to the page size as determined by `limit`. Use multiples of the page size as your `offset` to request further consecutive pages. E.g. assume your page size is set to `10`. An `offset` of `10` requests the second page, an `offset` of `20` requests the third page and so on, provided there are sufficiently many items in your list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "region": {
+          "description": "Filter for Subusers in this region. If not provided, all Subusers will be returned. All users can also be explicitly requested by using the filter `all`. Users who are not pinned to a region will be displayed as `global`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Region",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "region",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "username": {
+          "description": "The username of this subuser.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List all Subusers",
+      "result_type": {
+        "element_type": {
+          "name": "Subuser",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListSubuserMonthlyStat": {
+      "request": {
+        "url": "/v3/subusers/{subuser_name}/stats/monthly",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "date": {
+          "description": "The date of the month to retrieve statistics for. Must be formatted YYYY-MM-DD",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "limit": {
+          "description": "Optional field to limit the number of results returned.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "offset": {
+          "description": "Optional beginning point in the list to retrieve from.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "sort_by_direction": {
+          "description": "The direction you want to sort.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SortByDirection",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sort_by_direction",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "sort_by_metric": {
+          "description": "The metric that you want to sort by. Metrics that you can sort by are: `blocks`, `bounces`, `clicks`, `delivered`, `opens`, `requests`, `unique_clicks`, `unique_opens`, and `unsubscribes`.'",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sort_by_metric",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subuser_name": {
+          "description": "The username of the Subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subuser_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the monthly email statistics for a single subuser",
+      "result_type": {
+        "name": "SubuserStats",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "CategoryStats": {
+      "fields": {
+        "date": {
+          "description": "The date the statistics were gathered.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "stats": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "CategoryStatsStats",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "CategoryStatsStats": {
+      "fields": {
+        "metrics": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CategoryStatsStatsMetrics",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of the category.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "How you are segmenting your statistics.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CategoryStatsStatsMetrics": {
+      "fields": {
+        "blocks": {
+          "description": "The number of emails that were not allowed to be delivered by ISPs.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "bounce_drops": {
+          "description": "The number of emails that were dropped because of a bounce.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "bounces": {
+          "description": "The number of emails that bounced instead of being delivered.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "clicks": {
+          "description": "The number of links that were clicked.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "deferred": {
+          "description": "The number of emails that temporarily could not be delivered.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "delivered": {
+          "description": "The number of emails SendGrid was able to confirm were actually delivered to a recipient.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "invalid_emails": {
+          "description": "The number of recipients who had malformed email addresses or whose mail provider reported the address as invalid.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "opens": {
+          "description": "The total number of times your emails were opened by recipients.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "processed": {
+          "description": "Requests from your website, application, or mail client via SMTP Relay or the API that SendGrid processed.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "requests": {
+          "description": "The number of emails that were requested to be delivered.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "spam_report_drops": {
+          "description": "The number of emails that were dropped due to a recipient previously marking your emails as spam.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "spam_reports": {
+          "description": "The number of recipients who marked your email as spam.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unique_clicks": {
+          "description": "The number of unique recipients who clicked links in your emails.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unique_opens": {
+          "description": "The number of unique recipients who opened your emails.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unsubscribe_drops": {
+          "description": "The number of emails dropped due to a recipient unsubscribing from your emails.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unsubscribes": {
+          "description": "The number of recipients who unsubscribed from your emails.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "CreateSubuserBody": {
+      "fields": {
+        "email": {
+          "description": "The email address of the subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "include_region": {
+          "description": "A flag that determines if the Subuser's region should be returned in the response. (Regional email is in Public Beta and requires SendGrid Pro plan or above.)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "ips": {
+          "description": "The IP addresses that should be assigned to this subuser.",
+          "type": {
+            "element_type": {
+              "name": "IPv4",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "ipv4"
+            }
+          }
+        },
+        "password": {
+          "description": "The password this subuser will use when logging into SendGrid.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Region1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username for this subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListReputationResult": {
+      "fields": {
+        "reputation": {
+          "description": "The sender reputation this subuser has attained.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "username": {
+          "description": "The subuser that has this reputation.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Subuser": {
+      "fields": {
+        "disabled": {
+          "description": "Whether or not the user is enabled or disabled.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "email": {
+          "description": "The email address to contact this subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "id": {
+          "description": "The ID of this subuser.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Region2",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "username": {
+          "description": "The name by which this subuser will be referred.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SubuserCredits": {
+      "fields": {
+        "remain": {
+          "description": "Total number of remaining credits. `remain` is `null` if the reset `type` for the Subuser's credits is set to `unlimited`.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        },
+        "reset_frequency": {
+          "type": {
+            "name": "ResetFrequency",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "total": {
+          "description": "Total number of allowable credits. `total` is `null` if the reset `type` for the Subuser's credits is set to `unlimited` or `nonrecurring`.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        },
+        "type": {
+          "type": {
+            "name": "Type",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "used": {
+          "description": "Total number of used credits. `used` is `null` if the reset `type` for the Subuser's credits is set to `unlimited` or `nonrecurring`.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "SubuserCreditsRequest": {
+      "fields": {
+        "reset_frequency": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ResetFrequency1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "total": {
+          "description": "Total number of credits to which the Subuser is to be reset. If `type` is `nonrecurring` then the Subuser's credits will be reset to `total` on a one-time basis. If `type` is `recurring` then the Subuser's credits will be reset to `total` every time a reset is scheduled in accordance with the `reset_frequency`. Do _not_ include `total` if you choose a reset `type` value of `unlimited`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 1
+          }
+        },
+        "type": {
+          "type": {
+            "name": "Type1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SubuserPost": {
+      "fields": {
+        "credit_allocation": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubuserPostCreditAllocation",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "email": {
+          "description": "The email address for this subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Region3",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "user_id": {
+          "description": "The user ID for this subuser.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username of the subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SubuserPostCreditAllocation": {
+      "fields": {
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SubuserStats": {
+      "fields": {
+        "date": {
+          "description": "The date the statistics were gathered.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "stats": {
+          "description": "The list of statistics.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "SubuserStatsStats",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "SubuserStatsStats": {
+      "fields": {
+        "first_name": {
+          "description": "The first name of the subuser.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_name": {
+          "description": "The last name of the subuser.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "metrics": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubuserStatsStatsMetrics",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "The username of the subuser.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SubuserStatsStatsMetrics": {
+      "fields": {
+        "blocks": {
+          "description": "The number of emails that were not allowed to be delivered by ISPs.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "bounce_drops": {
+          "description": "The number of emails that were dropped because of a bounce.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "bounces": {
+          "description": "The number of emails that bounced instead of being delivered.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "clicks": {
+          "description": "The number of links that were clicked in your emails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "deferred": {
+          "description": "The number of emails that temporarily could not be delivered.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "delivered": {
+          "description": "The number of emails SendGrid was able to confirm were actually delivered to a recipient.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "invalid_emails": {
+          "description": "The number of recipients who had malformed email addresses or whose mail provider reported the address as invalid.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "opens": {
+          "description": "The total number of times your emails were opened by recipients.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "processed": {
+          "description": "Requests from your website, application, or mail client via SMTP Relay or the API that SendGrid processed.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "requests": {
+          "description": "The number of emails that were requested to be delivered.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "spam_report_drops": {
+          "description": "The number of emails that were dropped due to a recipient previously marking your emails as spam.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "spam_reports": {
+          "description": "The number of recipients who marked your email as spam.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unique_clicks": {
+          "description": "The number of unique recipients who clicked links in your emails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unique_opens": {
+          "description": "The number of unique recipients who opened your emails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unsubscribe_drops": {
+          "description": "The number of emails dropped due to a recipient unsubscribing from your emails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unsubscribes": {
+          "description": "The number of recipients who unsubscribed from your emails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateSubuserBody": {
+      "fields": {
+        "disabled": {
+          "description": "Whether or not this subuser is disabled. `true` means disabled, `false` means enabled.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateSubuserIpResult": {
+      "fields": {
+        "ips": {
+          "description": "The IP addresses that are assigned to the subuser.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "IPv4",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "ipv4"
+            }
+          }
+        }
+      }
+    },
+    "UpdateSubuserRemainingCreditBody": {
+      "fields": {
+        "allocation_update": {
+          "description": "The number of credits to add to or subtract from the current remaining credits for the Subuser. Use a positive number to increase the remaining credits or a negative number to reduce the remaining credits.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateSubuserWebsiteAccessBody": {
+      "fields": {
+        "disabled": {
+          "description": "Whether or not to disable website access to the Subuser. `true` means disabled, `false` means enabled.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "CreateSubuser": {
+      "request": {
+        "url": "/v3/subusers",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/subusers",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateSubuserBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create Subuser",
+      "result_type": {
+        "name": "SubuserPost",
+        "type": "named"
+      }
+    },
+    "DeleteSubuser": {
+      "request": {
+        "url": "/v3/subusers/{subuser_name}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "subuser_name": {
+          "description": "The username of the Subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subuser_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a subuser",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "UpdateSubuser": {
+      "request": {
+        "url": "/v3/subusers/{subuser_name}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/subusers/{subuser_name}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateSubuserBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "subuser_name": {
+          "description": "The username of the Subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subuser_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Enable/disable a subuser",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "UpdateSubuserCredit": {
+      "request": {
+        "url": "/v3/subusers/{subuser_name}/credits",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /v3/subusers/{subuser_name}/credits",
+          "type": {
+            "name": "SubuserCreditsRequest",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "subuser_name": {
+          "description": "The username of the Subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subuser_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update the Credits for a Subuser",
+      "result_type": {
+        "name": "SubuserCredits",
+        "type": "named"
+      }
+    },
+    "UpdateSubuserIp": {
+      "request": {
+        "url": "/v3/subusers/{subuser_name}/ips",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /v3/subusers/{subuser_name}/ips",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "IPv4",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "subuser_name": {
+          "description": "The username of the Subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subuser_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update IPs assigned to a subuser",
+      "result_type": {
+        "name": "UpdateSubuserIpResult",
+        "type": "named"
+      }
+    },
+    "UpdateSubuserRemainingCredit": {
+      "request": {
+        "url": "/v3/subusers/{subuser_name}/credits/remaining",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/subusers/{subuser_name}/credits/remaining",
+          "type": {
+            "name": "UpdateSubuserRemainingCreditBody",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "subuser_name": {
+          "description": "The username of the Subuser.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subuser_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update the remaining credits for a Subuser",
+      "result_type": {
+        "name": "SubuserCredits",
+        "type": "named"
+      }
+    },
+    "UpdateSubuserWebsiteAccess": {
+      "request": {
+        "url": "/v3/subusers/{subuser_name}/website_access",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/subusers/{subuser_name}/website_access",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateSubuserWebsiteAccessBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "subuser_name": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subuser_name",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Enable/Disable website access for a Subuser",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "AggregatedBy": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "day",
+          "week",
+          "month"
+        ],
+        "type": "enum"
+      }
+    },
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "IPv4": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "Region": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "all",
+          "global",
+          "eu"
+        ],
+        "type": "enum"
+      }
+    },
+    "Region1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "global",
+          "eu"
+        ],
+        "type": "enum"
+      }
+    },
+    "Region2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "global",
+          "eu"
+        ],
+        "type": "enum"
+      }
+    },
+    "Region3": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "global",
+          "eu"
+        ],
+        "type": "enum"
+      }
+    },
+    "ResetFrequency": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "monthly",
+          "weekly",
+          "daily"
+        ],
+        "type": "enum"
+      }
+    },
+    "ResetFrequency1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "monthly",
+          "weekly",
+          "daily"
+        ],
+        "type": "enum"
+      }
+    },
+    "SortByDirection": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "desc",
+          "asc"
+        ],
+        "type": "enum"
+      }
+    },
+    "SortByDirection1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "desc",
+          "asc"
+        ],
+        "type": "enum"
+      }
+    },
+    "SortByDirection2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "desc",
+          "asc"
+        ],
+        "type": "enum"
+      }
+    },
+    "SortByMetric": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "blocks",
+          "bounces",
+          "clicks",
+          "delivered",
+          "opens",
+          "requests",
+          "unique_clicks",
+          "unique_opens",
+          "unsubscribes"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "Type": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "unlimited",
+          "recurring",
+          "nonrecurring"
+        ],
+        "type": "enum"
+      }
+    },
+    "Type1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "unlimited",
+          "recurring",
+          "nonrecurring"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}

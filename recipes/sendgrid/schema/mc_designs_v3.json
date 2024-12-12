@@ -1,0 +1,1010 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetDesign": {
+      "request": {
+        "url": "/v3/designs/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the Design you want to duplicate.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "description": "Get Design",
+      "result_type": {
+        "name": "DesignOutput",
+        "type": "named"
+      }
+    },
+    "GetPreBuiltDesign": {
+      "request": {
+        "url": "/v3/designs/pre-builts/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the pre-built Design you want to duplicate.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "description": "Get SendGrid Pre-built Design",
+      "result_type": {
+        "name": "DesignOutput",
+        "type": "named"
+      }
+    },
+    "ListDesign": {
+      "request": {
+        "url": "/v3/designs",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "page_size": {
+          "description": "number of results to return",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "page_token": {
+          "description": "token corresponding to a specific page of results, as provided by metadata",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "summary": {
+          "description": "set to false to return all fields",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "summary",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List Designs",
+      "result_type": {
+        "name": "ListDesignResult",
+        "type": "named"
+      }
+    },
+    "ListPreBuiltDesign": {
+      "request": {
+        "url": "/v3/designs/pre-builts",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "page_size": {
+          "description": "number of results to return",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "page_token": {
+          "description": "token corresponding to a specific page of results, as provided by metadata",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "summary": {
+          "description": "set to false to return all fields",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "summary",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List SendGrid Pre-built Designs",
+      "result_type": {
+        "name": "ListPreBuiltDesignResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "DesignDuplicateInput": {
+      "fields": {
+        "editor": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Editor",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of the new design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "DesignInput": {
+      "fields": {
+        "editor": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Editor",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "html_content": {
+          "description": "The HTML content of the Design.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1048576
+          }
+        },
+        "name": {
+          "description": "The name of the new design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "plain_content": {
+          "description": "Plain text content of the Design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1048576
+          }
+        }
+      }
+    },
+    "DesignOutput": {
+      "fields": {
+        "editor": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Editor",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "html_content": {
+          "description": "The HTML content of the Design.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1048576
+          }
+        },
+        "name": {
+          "description": "The name of the new design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "plain_content": {
+          "description": "Plain text content of the Design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1048576
+          }
+        }
+      }
+    },
+    "DesignOutputSummary": {
+      "fields": {
+        "created_at": {
+          "description": "Datetime that Design was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ISO 8601 date-time"
+          }
+        },
+        "editor": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Editor",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "ID of the Design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UUID",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid"
+          }
+        },
+        "name": {
+          "description": "The name of the new design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "thumbnail_url": {
+          "description": "A Thumbnail preview of the template's html content.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "updated_at": {
+          "description": "Datetime that Design was last updated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ISO 8601 date-time"
+          }
+        }
+      }
+    },
+    "ListDesignResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "DesignOutputSummary",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListPreBuiltDesignResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "DesignOutputSummary",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "fields": {
+        "count": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        },
+        "next": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "prev": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "self": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "UpdateDesignBody": {
+      "fields": {
+        "categories": {
+          "description": "The list of categories applied to the design",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "maxLength": 255
+            }
+          }
+        },
+        "generate_plain_content": {
+          "description": "If true, plain_content is always generated from html_content. If false, plain_content is not altered.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "html_content": {
+          "description": "The HTML content of the Design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1048576
+          }
+        },
+        "name": {
+          "description": "Name of the Design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "plain_content": {
+          "description": "Plain text content of the Design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1048576
+          }
+        },
+        "subject": {
+          "description": "Subject of the Design.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 5000
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "CreateDesign": {
+      "request": {
+        "url": "/v3/designs",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/designs",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DesignInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create Design",
+      "result_type": {
+        "name": "DesignOutput",
+        "type": "named"
+      }
+    },
+    "DeleteDesign": {
+      "request": {
+        "url": "/v3/designs/{id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the Design you want to duplicate.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "description": "Delete Design",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DuplicateDesign": {
+      "request": {
+        "url": "/v3/designs/{id}",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/designs/{id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DesignDuplicateInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "The ID of the Design you want to duplicate.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "description": "Duplicate Design",
+      "result_type": {
+        "name": "DesignOutput",
+        "type": "named"
+      }
+    },
+    "DuplicatePreBuiltDesign": {
+      "request": {
+        "url": "/v3/designs/pre-builts/{id}",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/designs/pre-builts/{id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DesignDuplicateInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "The ID of the pre-built Design you want to duplicate.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "description": "Duplicate SendGrid Pre-built Design",
+      "result_type": {
+        "name": "DesignOutput",
+        "type": "named"
+      }
+    },
+    "UpdateDesign": {
+      "request": {
+        "url": "/v3/designs/{id}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/designs/{id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateDesignBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "The ID of the Design you want to duplicate.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        }
+      },
+      "description": "Update Design",
+      "result_type": {
+        "name": "DesignOutput",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Editor": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "code",
+          "design"
+        ],
+        "type": "enum"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "UUID": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "uuid"
+      }
+    }
+  }
+}

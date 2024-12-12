@@ -1,0 +1,922 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetAccountState": {
+      "request": {
+        "url": "/v3/partners/accounts/{accountID}/state",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "accountID": {
+          "description": "Twilio SendGrid account ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "accountID",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get an account's state",
+      "result_type": {
+        "name": "AccountProvisioningStateRead",
+        "type": "named"
+      }
+    },
+    "ListAccount": {
+      "request": {
+        "url": "/v3/partners/accounts",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "limit": {
+          "description": "The number of items to return",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 100
+            }
+          }
+        },
+        "offset": {
+          "description": "The last item successfully retrieved",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get all accounts",
+      "result_type": {
+        "name": "ListAccountResult",
+        "type": "named"
+      }
+    },
+    "ListAccountOffering": {
+      "request": {
+        "url": "/v3/partners/accounts/{accountID}/offerings",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "accountID": {
+          "description": "Twilio SendGrid account ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "accountID",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get account offerings",
+      "result_type": {
+        "name": "AccountProvisioningOfferingList",
+        "type": "named"
+      }
+    },
+    "ListOffering": {
+      "request": {
+        "url": "/v3/partners/offerings",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Get all available offerings",
+      "result_type": {
+        "name": "AccountProvisioningCatalog",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AccountProvisioningAccount": {
+      "fields": {
+        "created_at": {
+          "description": "Timestamp indicating when the account was created. Format is [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "description": "Twilio SendGrid account ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningAccountId": {
+      "fields": {
+        "account_id": {
+          "description": "Twilio SendGrid account ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningCatalog": {
+      "fields": {
+        "catalog": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AccountProvisioningCatalogCatalog",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AccountProvisioningCatalogCatalog": {
+      "fields": {
+        "entitlements": {
+          "description": "Set of entitlements the specified offering comes with",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountProvisioningCatalogCatalogEntitlements",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "offering": {
+          "description": "An offering is a package (email infrastructure) or add-on (marketing campaigns, dedicated IP addresses, EASE) that an account can acquire. Each offering has a list of entitlements that indicate the benefits the account receives from the acquisition.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountProvisioningOfferingV1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningCatalogCatalogEntitlements": {
+      "description": "Set of entitlements the specified offering comes with",
+      "fields": {
+        "email_sends_max_monthly": {
+          "description": "Total number of email sends per month",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "ip_count": {
+          "description": "Number of dedicated IPs offered",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "teammates_max_total": {
+          "description": "Total number of teammates allowed",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "users_max_total": {
+          "description": "Total number of subusers allowed",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        }
+      }
+    },
+    "AccountProvisioningOfferingList": {
+      "fields": {
+        "offerings": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AccountProvisioningOfferingV1",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningOfferingV1": {
+      "description": "An offering is a package (email infrastructure) or add-on (marketing campaigns, dedicated IP addresses, EASE) that an account can acquire. Each offering has a list of entitlements that indicate the benefits the account receives from the acquisition.",
+      "fields": {
+        "name": {
+          "description": "Name of the offering",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "quantity": {
+          "description": "Quantity of the specified addon to be added. If offering type is `package`, quantity must be 1.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "type": {
+          "type": {
+            "name": "Type",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningPagination": {
+      "fields": {
+        "example": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "last": {
+          "description": "The last item returned",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningProfile": {
+      "fields": {
+        "company_name": {
+          "description": "Company name of the account holder",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "company_website": {
+          "description": "Company website of the account holder",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "email": {
+          "description": "Email of the account holder",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "first_name": {
+          "description": "First name of the account holder",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_name": {
+          "description": "Last name of the account holder",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "phone": {
+          "description": "Phone number with a maximum of fifteen digits formatted using the E.164 standard consisting of [+] [country code] [subscriber number including area code]",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "timezone": {
+          "description": "Area/Location as listed in the [IANA Time Zone database](https://www.iana.org/time-zones)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningStateRead": {
+      "fields": {
+        "state": {
+          "type": {
+            "name": "State",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningStateWrite": {
+      "fields": {
+        "state": {
+          "type": {
+            "name": "State1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreateAccountBody": {
+      "fields": {
+        "offerings": {
+          "description": "List of offering names to assign to account.",
+          "type": {
+            "element_type": {
+              "name": "AccountProvisioningOfferingV1",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "profile": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountProvisioningProfile",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListAccountResult": {
+      "fields": {
+        "accounts": {
+          "description": "List of account objects.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AccountProvisioningAccount",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "pages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AccountProvisioningPagination",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAccountOfferingBody": {
+      "fields": {
+        "offerings": {
+          "description": "List of offerings to assign to account.",
+          "type": {
+            "element_type": {
+              "name": "AccountProvisioningOfferingV1",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "CreateAccount": {
+      "request": {
+        "url": "/v3/partners/accounts",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "T-Test-Account": {
+          "description": "**OPTIONAL** Custom request header provided ONLY for a test account",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "T-Test-Account",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /v3/partners/accounts",
+          "type": {
+            "name": "CreateAccountBody",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create an account",
+      "result_type": {
+        "name": "AccountProvisioningAccountId",
+        "type": "named"
+      }
+    },
+    "DeleteAccount": {
+      "request": {
+        "url": "/v3/partners/accounts/{accountID}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "accountID": {
+          "description": "Twilio SendGrid account ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "accountID",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete an account",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "UpdateAccountOffering": {
+      "request": {
+        "url": "/v3/partners/accounts/{accountID}/offerings",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "accountID": {
+          "description": "Twilio SendGrid account ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "accountID",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of PUT /v3/partners/accounts/{accountID}/offerings",
+          "type": {
+            "name": "UpdateAccountOfferingBody",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update account offerings",
+      "result_type": {
+        "name": "AccountProvisioningOfferingList",
+        "type": "named"
+      }
+    },
+    "UpdateAccountState": {
+      "request": {
+        "url": "/v3/partners/accounts/{accountID}/state",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "accountID": {
+          "description": "Twilio SendGrid account ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "accountID",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of PUT /v3/partners/accounts/{accountID}/state",
+          "type": {
+            "name": "AccountProvisioningStateWrite",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Update an account's state",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "Int64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int64"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "State": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "activated",
+          "deactivated",
+          "suspended",
+          "banned",
+          "indeterminate"
+        ],
+        "type": "enum"
+      }
+    },
+    "State1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "activated",
+          "deactivated"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "Type": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "package",
+          "addon"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}

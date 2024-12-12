@@ -1,0 +1,474 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "ListEngagementQualityScore": {
+      "request": {
+        "url": "/v3/engagementquality/scores",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "from": {
+          "description": "The starting date in YYYY-MM-DD format (UTC) for which you want to retrieve scores.",
+          "type": {
+            "name": "Date",
+            "type": "named"
+          },
+          "http": {
+            "name": "from",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "to": {
+          "description": "The ending date in YYYY-MM-DD format (UTC) for which you want to retrieve scores.",
+          "type": {
+            "name": "Date",
+            "type": "named"
+          },
+          "http": {
+            "name": "to",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "date"
+            }
+          }
+        }
+      },
+      "description": "Get Engagement Quality Scores",
+      "result_type": {
+        "name": "ListEngagementQualityScoreResult",
+        "type": "named"
+      }
+    },
+    "ListSubuserEngagementQualityScore": {
+      "request": {
+        "url": "/v3/engagementquality/subusers/scores",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "after_key": {
+          "description": "Specifies which items to be returned by the API. When the `after_key` is specified, the API will return items beginning from the first item after the item specified. This parameter can be used in combination with `limit` to iterate through paginated results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "after_key",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "date": {
+          "description": "The date in YYYY-MM-DD format (UTC) for which you want to retrieve a SendGrid Engagement Quality score.",
+          "type": {
+            "name": "Date",
+            "type": "named"
+          },
+          "http": {
+            "name": "date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "limit": {
+          "description": "Specifies the number of results to be returned by the API. This parameter can be used to limit the results returned or in combination with the `after_key` parameter to iterate through paginated results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 0
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Subusers' Engagement Quality Scores",
+      "result_type": {
+        "name": "ListSubuserEngagementQualityScoreResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "ListEngagementQualityScoreResult": {
+      "fields": {
+        "result": {
+          "description": "An array of objects containing SendGrid Engagement Quality scores and their associated data.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "SeqScore",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListSubuserEngagementQualityScoreResult": {
+      "fields": {
+        "_metadata": {
+          "description": "This object contains response metadata. The presence of the `after_key` property in the metadata indicates that some items are still outstanding and have not been retrieved. You can use the `after_key` value to retrieve additional items with another request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SeqMetadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "result": {
+          "description": "An array of objects containing SendGrid Engagement Quality scores and their associated data.",
+          "type": {
+            "element_type": {
+              "name": "SeqScore",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "SeqMetadata": {
+      "description": "This object contains response metadata. The presence of the `after_key` property in the metadata indicates that some items are still outstanding and have not been retrieved. You can use the `after_key` value to retrieve additional items with another request.",
+      "fields": {
+        "next_params": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SeqMetadataNextParams",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "SeqMetadataNextParams": {
+      "fields": {
+        "after_key": {
+          "description": "The `after_key` property represents the last processed key. If the `after_key` property is `null`, there are no more entries available.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SeqMetrics": {
+      "description": "A collection of metrics representing your engagement score across multiple indicators such as your open rate, spam rate, and bounce rate. Each metric is assigned a score from `1` to `5` with a higher score representing better engagement quality for that particular metric. The `metrics` property will be omitted when a score is unknown. A score may be unknown if you have not turned on [open tracking](https://docs.sendgrid.com/ui/account-and-settings/tracking) and/or your account or Subuser has not sent at least 1,000 messages during the previous 30 days.",
+      "fields": {
+        "bounce_classification": {
+          "description": "Indicates the degree to which mailbox providers are rejecting your mail due to reputation issues or content that looks like spam. Your score is calculated based on a ratio of these specific types of bounces to your total processed email. Your score will range from `1` to `5` with a higher score representing a lower percentage of bounces and better engagement quality.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "maximum": 5,
+            "minimum": 1
+          }
+        },
+        "bounce_rate": {
+          "description": "Indicates if you are attempting to send too many messages to addresses that don't exist. This score is determined by calculating your permanent bounces (bounces to invalid mailboxes). Your score will range from `1` to `5` with a higher score representing fewer bounces and better engagement quality.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "maximum": 5,
+            "minimum": 1
+          }
+        },
+        "engagement_recency": {
+          "description": "Indicates whether or not you are sending to an engaged audience. Engagement recency is determined by factors such as how regularly your messages are being opened and clicked. Your score will range from `1` to `5` with a higher score representing better engagement quality.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "maximum": 5,
+            "minimum": 1
+          }
+        },
+        "open_rate": {
+          "description": "Indicates the degree to which your audience is opening your messages. Your score will range from `1` to `5` with a higher score representing a better open rate and better engagement quality.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "maximum": 5,
+            "minimum": 1
+          }
+        },
+        "spam_rate": {
+          "description": "Indicates if your messages are generating excessive spam complaints from recipients. This score is determined by calculating the number of recipients who open your mail and then mark it as spam. Your score will range from `1` to `5` with a higher score representing fewer spam reports and better engagement quality.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "maximum": 5,
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "SeqScore": {
+      "description": "A user's SendGrid Engagement Quality (SEQ) score for a specified date. Your SEQ score is determined by measuring several key metrics including your open rate, spam rate, and engagement recency. Your overall score allows you to quickly assess how your email program is performing at a high level. You will receive a score from `1` to `5` with a higher number representing better engagement quality. See the `metrics` property to understand how your program is performing across the input categories that determine your overall score.",
+      "fields": {
+        "date": {
+          "description": "The date (UTC) for which this score was calculated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Date",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date"
+          }
+        },
+        "metrics": {
+          "description": "A collection of metrics representing your engagement score across multiple indicators such as your open rate, spam rate, and bounce rate. Each metric is assigned a score from `1` to `5` with a higher score representing better engagement quality for that particular metric. The `metrics` property will be omitted when a score is unknown. A score may be unknown if you have not turned on [open tracking](https://docs.sendgrid.com/ui/account-and-settings/tracking) and/or your account or Subuser has not sent at least 1,000 messages during the previous 30 days.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SeqMetrics",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "score": {
+          "description": "Your SendGrid Engagement Quality Score. The `score` property will be omitted when a score is unknown. A score may be unknown if you have not turned on [open tracking](https://docs.sendgrid.com/ui/account-and-settings/tracking) and/or your account or Subuser has not sent at least 1,000 messages during the previous 30 days.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "maximum": 5,
+            "minimum": 1
+          }
+        },
+        "user_id": {
+          "description": "The user identifier associated with this score.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username associated with this score.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {},
+  "scalar_types": {
+    "Date": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "date"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}
