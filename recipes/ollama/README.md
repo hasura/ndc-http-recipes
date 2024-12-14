@@ -20,7 +20,7 @@ The service doesn't support streaming. You have to set `stream: false` to follow
 
 Or you can set default values by using `argumentPresets`.
 
-### Update schema
+## Update schema
 
 Update the latest commit in [generator/schema.yaml](generator/schema.yaml) and run:
 

@@ -33,7 +33,7 @@ files:
 | SENDGRID_SERVER_URL | The base server URL of SendGrid v3 APIs | http://api.sendgrid.com |
 | SENDGRID_API_KEY    | The SendGrid API key                    |                         |
 
-### Update schema
+## Update schema
 
 Update the latest commit in [generator/config.yaml](generator/config.yaml) and run:
 

@@ -8,7 +8,7 @@ This configuration is built from [Auckland Museum API's OpenAPI Specification](h
 | -------------------------- | --------------------------------- | ------------------------------ |
 | AUCKLAND_MUSEUM_SERVER_URL | The base server URL of OpenAI API | https://api.aucklandmuseum.com |
 
-### Update schema
+## Update schema
 
 Regenerate the schema with the follow command:
 

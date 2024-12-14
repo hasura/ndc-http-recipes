@@ -4,7 +4,7 @@ This configuration is built from [CollegeFootballData.com's OpenAPI Specificatio
 
 ## V1
 
-## Environment Variables
+### Environment Variables
 
 | Name         | Description                                  | Default Value |
 | ------------ | -------------------------------------------- | ------------- |
@@ -20,7 +20,7 @@ make build-schema-v1
 
 ## V2
 
-## Environment Variables
+### Environment Variables
 
 | Name         | Description                                  | Default Value |
 | ------------ | -------------------------------------------- | ------------- |
