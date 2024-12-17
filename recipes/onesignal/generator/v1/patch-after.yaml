@@ -1,0 +1,35 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/SchemaStore/schemastore/master/src/schemas/json/json-patch.json
+- op: remove
+  path: /settings/securitySchemes
+- op: add
+  path: /settings/servers/0/securitySchemes
+  value:
+    app_key:
+      type: http
+      header: Authorization
+      scheme: bearer
+      value: { "env": "ONESIGNAL_APP_KEY_TOKEN" }
+    user_key:
+      type: http
+      header: Authorization
+      scheme: bearer
+      value: { "env": "ONESIGNAL_USER_KEY_TOKEN" }
+- op: add
+  path: /settings/servers/0/argumentPresets
+  value:
+    - path: app_id
+      targets: []
+      value:
+        type: env
+        name: ONESIGNAL_APP_ID
+    - path: body.app_id
+      targets: []
+      value:
+        type: env
+        name: ONESIGNAL_APP_ID
+- op: replace
+  path: /procedures/export_players/arguments/app_id/http/in
+  value: query
+- op: add
+  path: /procedures/delete_user/request/security
+  value: [{ "app_key": [] }]

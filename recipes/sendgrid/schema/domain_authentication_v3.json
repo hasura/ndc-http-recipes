@@ -1,0 +1,3907 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetAuthenticatedDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{domain_id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "domain_id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "domain_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve an authenticated domain",
+      "result_type": {
+        "name": "AuthenticatedDomain",
+        "type": "named"
+      }
+    },
+    "ListAllAuthenticatedDomainWithUser": {
+      "request": {
+        "url": "/v3/whitelabel/domains/subuser/all",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "username": {
+          "description": "Username for the subuser to find associated authenticated domains.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List all the authenticated domains associated with the given user.",
+      "result_type": {
+        "element_type": {
+          "name": "ListAllAuthenticatedDomainWithUserResult",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListAuthenticatedDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "domain": {
+          "description": "Search for authenticated domains.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "domain",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "exclude_subusers": {
+          "description": "Exclude subuser domains from the result.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "exclude_subusers",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "limit": {
+          "description": "`limit` sets the page size, i.e. maximum number of items from the list to be returned for a single API request. If omitted, the default page size is used.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "offset": {
+          "description": "The number of items in the list to skip over before starting to retrieve the items for the requested page. The default `offset` of `0` represents the beginning of the list, i.e. the start of the first page. To request the second page of the list, set the `offset` to the page size as determined by `limit`. Use multiples of the page size as your `offset` to request further consecutive pages. E.g. assume your page size is set to `10`. An `offset` of `10` requests the second page, an `offset` of `20` requests the third page and so on, provided there are sufficiently many items in your list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "username": {
+          "description": "The username associated with an authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List all authenticated domains",
+      "result_type": {
+        "element_type": {
+          "name": "ListAuthenticatedDomainResult",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListAuthenticatedDomainWithUser": {
+      "request": {
+        "url": "/v3/whitelabel/domains/subuser",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "username": {
+          "description": "Username for the subuser to find associated authenticated domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List the authenticated domain associated with the given user.",
+      "result_type": {
+        "name": "AuthenticatedDomainSpf",
+        "type": "named"
+      }
+    },
+    "ListDefaultAuthenticatedDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/default",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "domain": {
+          "description": "The domain to find a default authentication.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "domain",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get the default authentication",
+      "result_type": {
+        "element_type": {
+          "name": "ListDefaultAuthenticatedDomainResult",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    }
+  },
+  "object_types": {
+    "AddIpToAuthenticatedDomainBody": {
+      "fields": {
+        "ip": {
+          "description": "IP to associate with the domain. Used for manually specifying IPs for custom SPF.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AssociateSubuserWithDomainBody": {
+      "fields": {
+        "username": {
+          "description": "Username to associate with the authenticated domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AssociateSubuserWithDomainMultipleBody": {
+      "fields": {
+        "username": {
+          "description": "Username to associate with the authenticated domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticateDomainBody": {
+      "fields": {
+        "automatic_security": {
+          "description": "Whether to allow SendGrid to manage your SPF records, DKIM keys, and DKIM key rotation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "custom_dkim_selector": {
+          "description": "Add a custom DKIM selector. Accepts three letters or numbers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "custom_spf": {
+          "description": "Specify whether to use a custom SPF or allow SendGrid to manage your SPF. This option is only available to authenticated domains set up for manual security.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "default": {
+          "description": "Whether to use this authenticated domain as the fallback if no authenticated domains match the sender's domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "domain": {
+          "description": "Domain being authenticated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ips": {
+          "description": "The IP addresses that will be included in the custom SPF record for this authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "region": {
+          "description": "The region of the domain. Allowed values are `global` and `eu`. The default value is `global`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain to use for this authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username associated with this domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomain": {
+      "fields": {
+        "automatic_security": {
+          "description": "Indicates if this authenticated domain uses automated security.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "custom_spf": {
+          "description": "Indicates whether this authenticated domain uses custom SPF.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "default": {
+          "description": "Indicates if this is the default authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "dns": {
+          "description": "The DNS records used to authenticate the sending domain.",
+          "type": {
+            "name": "AuthenticatedDomainDns",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "The domain to be authenticated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the authenticated domain.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "ips": {
+          "description": "The IPs to be included in the custom SPF record for this authenticated domain.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "legacy": {
+          "description": "Indicates if this authenticated domain was created using the legacy whitelabel tool. If it is a legacy whitelabel, it will still function, but you'll need to create a new authenticated domain if you need to update it.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain to use for this authenticated domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "user_id": {
+          "description": "The ID of the user that this domain is associated with.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username that this domain will be associated with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainDns": {
+      "description": "The DNS records used to authenticate the sending domain.",
+      "fields": {
+        "dkim1": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "AuthenticatedDomainDnsDkim1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "dkim2": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "AuthenticatedDomainDnsDkim2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "mail_cname": {
+          "description": "The CNAME for your sending domain that points to sendgrid.net.",
+          "type": {
+            "name": "AuthenticatedDomainDnsMailCname",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainDnsDkim1": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainDnsDkim2": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainDnsMailCname": {
+      "description": "The CNAME for your sending domain that points to sendgrid.net.",
+      "fields": {
+        "data": {
+          "description": "The CNAME record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this CNAME is created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "hostname"
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid CNAME.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainSpf": {
+      "fields": {
+        "automatic_security": {
+          "description": "Indicates if this authenticated domain uses automated security.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "custom_spf": {
+          "description": "Indicates if this authenticated domain uses custom SPF.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "default": {
+          "description": "Indicates if this is the default domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "dns": {
+          "description": "The DNS records for this authenticated domain.",
+          "type": {
+            "name": "AuthenticatedDomainSpfDns",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "The domain authenticated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the authenticated domain.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "ips": {
+          "description": "The IP addresses that are included in the SPF record for this authenticated domain.",
+          "type": {
+            "element_type": {
+              "name": "JSON",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": null
+            }
+          }
+        },
+        "legacy": {
+          "description": "Indicates if this authenticated domain was created using the legacy whitelabel tool. If it is a legacy whitelabel, it will still function, but you'll need to create a new authenticated domain if you need to update it.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain that was used to create this authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "user_id": {
+          "description": "The user_id of the account that this authenticated domain is associated with.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username of the account that this authenticated domain is associated with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid authenticated domain .",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainSpfDns": {
+      "description": "The DNS records for this authenticated domain.",
+      "fields": {
+        "dkim": {
+          "description": "The DKIM record for messages sent using this authenticated domain.",
+          "type": {
+            "name": "AuthenticatedDomainSpfDnsDkim",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain_spf": {
+          "description": "The SPF record for the root domain.",
+          "type": {
+            "name": "AuthenticatedDomainSpfDnsDomainSpf",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "mail_server": {
+          "description": "Designates which mail server is responsible for accepting messages from a domain.",
+          "type": {
+            "name": "AuthenticatedDomainSpfDnsMailServer",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "subdomain_spf": {
+          "description": "The SPF record for the subdomain used to create this authenticated domain.",
+          "type": {
+            "name": "AuthenticatedDomainSpfDnsSubdomainSpf",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainSpfDnsDkim": {
+      "description": "The DKIM record for messages sent using this authenticated domain.",
+      "fields": {
+        "data": {
+          "description": "The DKIM record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The DNS labels for the DKIM signature.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of data in the DKIM record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if the DKIM record is valid.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainSpfDnsDomainSpf": {
+      "description": "The SPF record for the root domain.",
+      "fields": {
+        "data": {
+          "description": "The SPF record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The root domain that this SPF record will be used to authenticate.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of data in the SPF record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if the SPF record is valid.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainSpfDnsMailServer": {
+      "description": "Designates which mail server is responsible for accepting messages from a domain.",
+      "fields": {
+        "data": {
+          "description": "The mail server responsible for accepting messages from the sending domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain sending the messages.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "They type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatedDomainSpfDnsSubdomainSpf": {
+      "description": "The SPF record for the subdomain used to create this authenticated domain.",
+      "fields": {
+        "data": {
+          "description": "The SPF record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this SPF record will be used to authenticate.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of data in the SPF record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid SPF record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "EmailDnsRecordBody": {
+      "fields": {
+        "domain_id": {
+          "description": "The ID of your SendGrid domain record.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        },
+        "email": {
+          "description": "The email address to send the DNS information to.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "link_id": {
+          "description": "The ID of the branded link.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        },
+        "message": {
+          "description": "A custom text block to include in the email body sent with the records.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListAllAuthenticatedDomainWithUserResult": {
+      "fields": {
+        "automatic_security": {
+          "description": "Indicates if this authenticated domain uses automated security.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "custom_spf": {
+          "description": "Indicates whether this authenticated domain uses custom SPF.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "default": {
+          "description": "Indicates if this is the default authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "dns": {
+          "description": "The DNS records used to authenticate the sending domain.",
+          "type": {
+            "name": "ListAllAuthenticatedDomainWithUserResultDns",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "The domain to be authenticated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the authenticated domain.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "ips": {
+          "description": "The IPs to be included in the custom SPF record for this authenticated domain.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "legacy": {
+          "description": "Indicates if this authenticated domain was created using the legacy whitelabel tool. If it is a legacy whitelabel, it will still function, but you'll need to create a new authenticated domain if you need to update it.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain to use for this authenticated domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "user_id": {
+          "description": "The ID of the user that this domain is associated with.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username that this domain will be associated with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListAllAuthenticatedDomainWithUserResultDns": {
+      "description": "The DNS records used to authenticate the sending domain.",
+      "fields": {
+        "dkim1": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "ListAllAuthenticatedDomainWithUserResultDnsDkim1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "dkim2": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "ListAllAuthenticatedDomainWithUserResultDnsDkim2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "mail_cname": {
+          "description": "The CNAME for your sending domain that points to sendgrid.net.",
+          "type": {
+            "name": "ListAllAuthenticatedDomainWithUserResultDnsMailCname",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListAllAuthenticatedDomainWithUserResultDnsDkim1": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListAllAuthenticatedDomainWithUserResultDnsDkim2": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListAllAuthenticatedDomainWithUserResultDnsMailCname": {
+      "description": "The CNAME for your sending domain that points to sendgrid.net.",
+      "fields": {
+        "data": {
+          "description": "The CNAME record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this CNAME is created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "hostname"
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid CNAME.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListAuthenticatedDomainResult": {
+      "fields": {
+        "automatic_security": {
+          "description": "Indicates if this authenticated domain uses automated security.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "custom_spf": {
+          "description": "Indicates whether this authenticated domain uses custom SPF.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "default": {
+          "description": "Indicates if this is the default authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "dns": {
+          "description": "The DNS records used to authenticate the sending domain.",
+          "type": {
+            "name": "ListAuthenticatedDomainResultDns",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "The domain to be authenticated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the authenticated domain.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "ips": {
+          "description": "The IPs to be included in the custom SPF record for this authenticated domain.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "last_validation_attempt_at": {
+          "description": "A Unix epoch timestamp representing the last time of a validation attempt.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "legacy": {
+          "description": "Indicates if this authenticated domain was created using the legacy whitelabel tool. If it is a legacy whitelabel, it will still function, but you'll need to create a new authenticated domain if you need to update it.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain to use for this authenticated domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subusers": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListAuthenticatedDomainResultSubusers",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "user_id": {
+          "description": "The ID of the user that this domain is associated with.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username that this domain will be associated with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListAuthenticatedDomainResultDns": {
+      "description": "The DNS records used to authenticate the sending domain.",
+      "fields": {
+        "dkim1": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "ListAuthenticatedDomainResultDnsDkim1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "dkim2": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "ListAuthenticatedDomainResultDnsDkim2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "mail_cname": {
+          "description": "The CNAME for your sending domain that points to sendgrid.net.",
+          "type": {
+            "name": "ListAuthenticatedDomainResultDnsMailCname",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListAuthenticatedDomainResultDnsDkim1": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListAuthenticatedDomainResultDnsDkim2": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListAuthenticatedDomainResultDnsMailCname": {
+      "description": "The CNAME for your sending domain that points to sendgrid.net.",
+      "fields": {
+        "data": {
+          "description": "The CNAME record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this CNAME is created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "hostname"
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid CNAME.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListAuthenticatedDomainResultSubusers": {
+      "fields": {
+        "user_id": {
+          "description": "The ID of the subuser that this authenticated domain will be associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username of the subuser that this authenticated domain is associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListDefaultAuthenticatedDomainResult": {
+      "fields": {
+        "automatic_security": {
+          "description": "Indicates if this authenticated domain uses automated security.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "custom_spf": {
+          "description": "Indicates whether this authenticated domain uses custom SPF.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "default": {
+          "description": "Indicates if this is the default authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "dns": {
+          "description": "The DNS records used to authenticate the sending domain.",
+          "type": {
+            "name": "ListDefaultAuthenticatedDomainResultDns",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "The domain to be authenticated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the authenticated domain.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "ips": {
+          "description": "The IPs to be included in the custom SPF record for this authenticated domain.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "last_validation_attempt_at": {
+          "description": "A Unix epoch timestamp representing the last time of a validation attempt.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "legacy": {
+          "description": "Indicates if this authenticated domain was created using the legacy whitelabel tool. If it is a legacy whitelabel, it will still function, but you'll need to create a new authenticated domain if you need to update it.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain to use for this authenticated domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subusers": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListDefaultAuthenticatedDomainResultSubusers",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "user_id": {
+          "description": "The ID of the user that this domain is associated with.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username that this domain will be associated with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListDefaultAuthenticatedDomainResultDns": {
+      "description": "The DNS records used to authenticate the sending domain.",
+      "fields": {
+        "dkim1": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "ListDefaultAuthenticatedDomainResultDnsDkim1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "dkim2": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "ListDefaultAuthenticatedDomainResultDnsDkim2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "mail_cname": {
+          "description": "The CNAME for your sending domain that points to sendgrid.net.",
+          "type": {
+            "name": "ListDefaultAuthenticatedDomainResultDnsMailCname",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListDefaultAuthenticatedDomainResultDnsDkim1": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListDefaultAuthenticatedDomainResultDnsDkim2": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListDefaultAuthenticatedDomainResultDnsMailCname": {
+      "description": "The CNAME for your sending domain that points to sendgrid.net.",
+      "fields": {
+        "data": {
+          "description": "The CNAME record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this CNAME is created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "hostname"
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid CNAME.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ListDefaultAuthenticatedDomainResultSubusers": {
+      "fields": {
+        "user_id": {
+          "description": "The ID of the subuser that this authenticated domain will be associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username of the subuser that this authenticated domain is associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAuthenticatedDomainBody": {
+      "fields": {
+        "custom_spf": {
+          "description": "Indicates whether to generate a custom SPF record for manual security.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "default": {
+          "description": "Indicates whether this is the default authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAuthenticatedDomainResult": {
+      "fields": {
+        "automatic_security": {
+          "description": "Indicates if this authenticated domain uses automated security.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "custom_spf": {
+          "description": "Indicates whether this authenticated domain uses custom SPF.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "default": {
+          "description": "Indicates if this is the default authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "dns": {
+          "description": "The DNS records used to authenticate the sending domain.",
+          "type": {
+            "name": "UpdateAuthenticatedDomainResultDns",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "The domain to be authenticated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the authenticated domain.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "ips": {
+          "description": "The IPs to be included in the custom SPF record for this authenticated domain.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "last_validation_attempt_at": {
+          "description": "A Unix epoch timestamp representing the last time of a validation attempt.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "legacy": {
+          "description": "Indicates if this authenticated domain was created using the legacy whitelabel tool. If it is a legacy whitelabel, it will still function, but you'll need to create a new authenticated domain if you need to update it.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain to use for this authenticated domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subusers": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UpdateAuthenticatedDomainResultSubusers",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "user_id": {
+          "description": "The ID of the user that this domain is associated with.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username that this domain will be associated with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid authenticated domain.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAuthenticatedDomainResultDns": {
+      "description": "The DNS records used to authenticate the sending domain.",
+      "fields": {
+        "dkim1": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "UpdateAuthenticatedDomainResultDnsDkim1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "dkim2": {
+          "description": "A DNS record.",
+          "type": {
+            "name": "UpdateAuthenticatedDomainResultDnsDkim2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "mail_cname": {
+          "description": "The CNAME for your sending domain that points to sendgrid.net.",
+          "type": {
+            "name": "UpdateAuthenticatedDomainResultDnsMailCname",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAuthenticatedDomainResultDnsDkim1": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAuthenticatedDomainResultDnsDkim2": {
+      "description": "A DNS record.",
+      "fields": {
+        "data": {
+          "description": "The DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this DNS record was created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid DNS record.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAuthenticatedDomainResultDnsMailCname": {
+      "description": "The CNAME for your sending domain that points to sendgrid.net.",
+      "fields": {
+        "data": {
+          "description": "The CNAME record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this CNAME is created for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "hostname"
+          }
+        },
+        "type": {
+          "description": "The type of DNS record.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid CNAME.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAuthenticatedDomainResultSubusers": {
+      "fields": {
+        "user_id": {
+          "description": "The ID of the subuser that this authenticated domain will be associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username of the subuser that this authenticated domain is associated with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateAuthenticatedDomainResult": {
+      "fields": {
+        "id": {
+          "description": "The ID of the authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this is a valid authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "validation_results": {
+          "description": "The individual DNS records that are checked when validating, including the reason for any invalid DNS records.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ValidateAuthenticatedDomainResultValidationResults",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateAuthenticatedDomainResultValidationResults": {
+      "description": "The individual DNS records that are checked when validating, including the reason for any invalid DNS records.",
+      "fields": {
+        "dkim1": {
+          "description": "A DNS record for this authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ValidateAuthenticatedDomainResultValidationResultsDkim1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "dkim2": {
+          "description": "A DNS record for this authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ValidateAuthenticatedDomainResultValidationResultsDkim2",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "mail_cname": {
+          "description": "The CNAME record for the authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ValidateAuthenticatedDomainResultValidationResultsMailCname",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "spf": {
+          "description": "The SPF record for the authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ValidateAuthenticatedDomainResultValidationResultsSpf",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateAuthenticatedDomainResultValidationResultsDkim1": {
+      "description": "A DNS record for this authenticated domain.",
+      "fields": {
+        "reason": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if the DNS record is valid.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateAuthenticatedDomainResultValidationResultsDkim2": {
+      "description": "A DNS record for this authenticated domain.",
+      "fields": {
+        "reason": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if the DNS record is valid.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateAuthenticatedDomainResultValidationResultsMailCname": {
+      "description": "The CNAME record for the authenticated domain.",
+      "fields": {
+        "reason": {
+          "description": "The reason this record is invalid.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if this DNS record is valid.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateAuthenticatedDomainResultValidationResultsSpf": {
+      "description": "The SPF record for the authenticated domain.",
+      "fields": {
+        "reason": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "description": "Indicates if the SPF record is valid.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "AddIpToAuthenticatedDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{id}/ips",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/whitelabel/domains/{id}/ips",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddIpToAuthenticatedDomainBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "ID of the domain to which you are adding an IP",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Add an IP to an authenticated domain",
+      "result_type": {
+        "name": "AuthenticatedDomainSpf",
+        "type": "named"
+      }
+    },
+    "AssociateSubuserWithDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{domain_id}/subuser",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/whitelabel/domains/{domain_id}/subuser",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AssociateSubuserWithDomainBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "domain_id": {
+          "description": "ID of the authenticated domain to associate with the subuser.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "domain_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Associate an authenticated domain with a given user.",
+      "result_type": {
+        "name": "AuthenticatedDomainSpf",
+        "type": "named"
+      }
+    },
+    "AssociateSubuserWithDomainMultiple": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{domain_id}/subuser:add",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/whitelabel/domains/{domain_id}/subuser:add",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AssociateSubuserWithDomainMultipleBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "domain_id": {
+          "description": "ID of the authenticated domain to associate with the subuser.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "domain_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Associate an authenticated domain with a given user, for up to five domains.",
+      "result_type": {
+        "name": "AuthenticatedDomainSpf",
+        "type": "named"
+      }
+    },
+    "AuthenticateDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/whitelabel/domains",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthenticateDomainBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Authenticate a domain",
+      "result_type": {
+        "name": "AuthenticatedDomain",
+        "type": "named"
+      }
+    },
+    "DeleteAuthenticatedDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{domain_id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "domain_id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "domain_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete an authenticated domain.",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DeleteIpFromAuthenticatedDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{id}/ips/{ip}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "ID of the domain to delete the IP from.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "ip": {
+          "description": "IP to remove from the domain.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "ip",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Remove an IP from an authenticated domain.",
+      "result_type": {
+        "name": "AuthenticatedDomainSpf",
+        "type": "named"
+      }
+    },
+    "DisassociateAuthenticatedDomainFromUser": {
+      "request": {
+        "url": "/v3/whitelabel/domains/subuser",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "username": {
+          "description": "Username for the subuser to find associated authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Disassociate an authenticated domain from a given user.",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DisassociateSubuserFromDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{domain_id}/subuser",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "domain_id": {
+          "description": "ID of the authenticated domain to be disassociated with the subuser.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "domain_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "username": {
+          "description": "Username for the subuser to find associated authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Disassociate an authenticated domain from a given user for users with up to five associated domains.",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "EmailDnsRecord": {
+      "request": {
+        "url": "/v3/whitelabel/dns/email",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/whitelabel/dns/email",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailDnsRecordBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Email DNS records to a co-worker",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "UpdateAuthenticatedDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{domain_id}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/whitelabel/domains/{domain_id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateAuthenticatedDomainBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "domain_id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "domain_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update an authenticated domain",
+      "result_type": {
+        "element_type": {
+          "name": "UpdateAuthenticatedDomainResult",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ValidateAuthenticatedDomain": {
+      "request": {
+        "url": "/v3/whitelabel/domains/{id}/validate",
+        "method": "post",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "ID of the domain to validate.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Validate a domain authentication.",
+      "result_type": {
+        "name": "ValidateAuthenticatedDomainResult",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

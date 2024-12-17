@@ -11,7 +11,7 @@ This configuration is built from [Open Build Service's OpenAPI Specification](ht
 | OBS_BASIC_AUTHENTICATION_USERNAME | The basic authentication username         |               |
 | OBS_BASIC_AUTHENTICATION_PASSWORD | The basic authentication password         |               |
 
-### Update schema
+## Update schema
 
 Update the latest commit in [generator/config.yaml](generator/config.yaml) and run:
 

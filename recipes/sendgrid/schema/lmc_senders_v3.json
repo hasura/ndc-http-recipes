@@ -1,0 +1,3513 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetBillable": {
+      "request": {
+        "url": "/v3/contactdb/recipients/billable_count",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the count of billable recipients",
+      "result_type": {
+        "name": "ContactdbRecipientCount200",
+        "type": "named"
+      }
+    },
+    "GetContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists/{list_id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "list_id": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "list_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a single list",
+      "result_type": {
+        "name": "ContactdbList2xx",
+        "type": "named"
+      }
+    },
+    "GetCustomField": {
+      "request": {
+        "url": "/v3/contactdb/custom_fields/{custom_field_id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "custom_field_id": {
+          "description": "The ID of the custom field that you want to retrieve.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "custom_field_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a Custom Field",
+      "result_type": {
+        "name": "ContactdbCustomFieldId2xx",
+        "type": "named"
+      }
+    },
+    "GetRecipient": {
+      "request": {
+        "url": "/v3/contactdb/recipients/{recipient_id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "recipient_id": {
+          "description": "The ID of the recipient that you want to retrieve.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "recipient_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a single recipient",
+      "result_type": {
+        "name": "ContactdbRecipient200",
+        "type": "named"
+      }
+    },
+    "GetRecipientList": {
+      "request": {
+        "url": "/v3/contactdb/recipients/{recipient_id}/lists",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "recipient_id": {
+          "description": "The ID of the recipient for whom you are retrieving lists.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "recipient_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the lists that a recipient is on",
+      "result_type": {
+        "name": "GetRecipientListResult",
+        "type": "named"
+      }
+    },
+    "GetSegment": {
+      "request": {
+        "url": "/v3/contactdb/segments/{segment_id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "segment_id": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "segment_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a segment",
+      "result_type": {
+        "name": "ContactdbSegments",
+        "type": "named"
+      }
+    },
+    "ListContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve all lists",
+      "result_type": {
+        "name": "ListContactDbListResult",
+        "type": "named"
+      }
+    },
+    "ListCustomField": {
+      "request": {
+        "url": "/v3/contactdb/custom_fields",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve all custom fields",
+      "result_type": {
+        "name": "ListCustomFieldResult",
+        "type": "named"
+      }
+    },
+    "ListRecipient": {
+      "request": {
+        "url": "/v3/contactdb/recipients",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page": {
+          "description": "Page index of first recipients to return (must be a positive integer)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "description": "Number of recipients to return at a time (must be a positive integer between 1 and 1000)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve recipients",
+      "result_type": {
+        "name": "ListRecipientResult",
+        "type": "named"
+      }
+    },
+    "ListRecipientCount": {
+      "request": {
+        "url": "/v3/contactdb/recipients/count",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a Count of Recipients",
+      "result_type": {
+        "name": "ContactdbRecipientCount200",
+        "type": "named"
+      }
+    },
+    "ListRecipientForSegment": {
+      "request": {
+        "url": "/v3/contactdb/segments/{segment_id}/recipients",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "segment_id": {
+          "description": "The ID of the segment from which you want to retrieve recipients.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "segment_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve recipients on a segment",
+      "result_type": {
+        "name": "ListRecipientForSegmentResult",
+        "type": "named"
+      }
+    },
+    "ListRecipientsFromContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists/{list_id}/recipients",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "list_id": {
+          "description": "The id of the list of recipients you want to retrieve.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "list_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page": {
+          "description": "Page index of first recipient to return (must be a positive integer)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "description": "Number of recipients to return at a time (must be a positive integer between 1 and 1000)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve all recipients on a List",
+      "result_type": {
+        "name": "ListRecipientsFromContactDbListResult",
+        "type": "named"
+      }
+    },
+    "ListReservedField": {
+      "request": {
+        "url": "/v3/contactdb/reserved_fields",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve reserved fields",
+      "result_type": {
+        "name": "ListReservedFieldResult",
+        "type": "named"
+      }
+    },
+    "ListSearchRecipient": {
+      "request": {
+        "url": "/v3/contactdb/recipients/search",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "{field_name}": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "{field_name}",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Search recipients",
+      "result_type": {
+        "name": "ListSearchRecipientResult",
+        "type": "named"
+      }
+    },
+    "ListSegment": {
+      "request": {
+        "url": "/v3/contactdb/segments",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve all segments",
+      "result_type": {
+        "name": "ListSegmentResult",
+        "type": "named"
+      }
+    },
+    "ListStatus": {
+      "request": {
+        "url": "/v3/contactdb/status",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Recipient Upload Status",
+      "result_type": {
+        "name": "ListStatusResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AddRecipientBody": {
+      "fields": {
+        "age": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "email": {
+          "description": "The email address of the recipient.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "first_name": {
+          "description": "The first name of the recipient.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_name": {
+          "description": "The last name of the recipient.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbCustomFieldId2xx": {
+      "fields": {
+        "id": {
+          "description": "The ID of the custom field.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of the field",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Type",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbCustomFieldIdValue": {
+      "fields": {
+        "id": {
+          "description": "The ID of the custom field.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of the field",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Type",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The value of this recipient's custom field",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbList2xx": {
+      "fields": {
+        "id": {
+          "description": "The reference ID of your list.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of your list. Must be unique against all other list and segment names.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "recipient_count": {
+          "description": "The count of recipients currently in the list.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbRecipient200": {
+      "fields": {
+        "recipients": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactdbRecipient200Recipients",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ContactdbRecipient200Recipients": {
+      "fields": {
+        "created_at": {
+          "description": "The time this record was created in your contactdb, in unixtime.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "custom_fields": {
+          "description": "The custom fields assigned to this recipient and their values.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactdbCustomFieldIdValue",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "email": {
+          "description": "The email address of this recipient. This is a default custom field that SendGrid provides.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "first_name": {
+          "description": "The first name of this recipient. This is a default custom field that SendGrid provides.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of this recipient.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_clicked": {
+          "description": "The last time this recipient clicked a link from one of your campaigns, in unixtime.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "last_emailed": {
+          "description": "The last time this user was emailed by one of your campaigns, in unixtime.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "last_name": {
+          "description": "The last name of the recipient.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_opened": {
+          "description": "The last time this recipient opened an email from you, in unixtime.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "updated_at": {
+          "description": "The last update date for this recipient's record.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbRecipientCount200": {
+      "fields": {
+        "recipient_count": {
+          "description": "The count of recipients.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbRecipientResponse201": {
+      "fields": {
+        "error_count": {
+          "description": "The number of errors found while adding recipients.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "error_indices": {
+          "description": "The indices of the recipient(s) sent that caused the error.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Float64",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "number"
+              ]
+            }
+          }
+        },
+        "errors": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactdbRecipientResponse201Errors",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "new_count": {
+          "description": "The count of new recipients added to the contactdb.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "persisted_recipients": {
+          "description": "The recipient IDs of the recipients that already existed from this request.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "updated_count": {
+          "description": "The recipients who were updated from this request.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbRecipientResponse201Errors": {
+      "fields": {
+        "error_indices": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Float64",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "number"
+              ]
+            }
+          }
+        },
+        "message": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbSegments": {
+      "fields": {
+        "conditions": {
+          "description": "The conditions for a recipient to be included in this segment.",
+          "type": {
+            "element_type": {
+              "name": "ContactdbSegmentsConditions",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "list_id": {
+          "description": "The list id from which to make this segment. Not including this ID will mean your segment is created from the main contactdb rather than a list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of this segment.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "recipient_count": {
+          "description": "The count of recipients in this list. This is not included on creation of segments.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbSegmentsConditions": {
+      "fields": {
+        "and_or": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AndOr",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "field": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "operator": {
+          "type": {
+            "name": "Operator",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ContactdbSegmentsId200": {
+      "fields": {
+        "conditions": {
+          "description": "The conditions for a recipient to be included in this segment.",
+          "type": {
+            "element_type": {
+              "name": "ContactdbSegmentsConditions",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the segment.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "list_id": {
+          "description": "The list id from which to make this segment. Not including this ID will mean your segment is created from the main contactdb rather than a list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of this segment.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "recipient_count": {
+          "description": "The count of recipients in this list. This is not included on creation of segments.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "CreateContactDbListBody": {
+      "fields": {
+        "name": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreateCustomFieldBody": {
+      "fields": {
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ErrorResponse": {
+      "fields": {
+        "errors": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ErrorResponseErrors",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "id": {
+          "description": "When applicable, this property value will be an error ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ErrorResponseErrors": {
+      "fields": {
+        "field": {
+          "description": "When applicable, this property value will be the field that generated the error.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "help": {
+          "description": "When applicable, this property value will be helper text or a link to documentation to help you troubleshoot the error.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "message": {
+          "description": "An error message.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetRecipientListResult": {
+      "fields": {
+        "lists": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactdbList2xx",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListContactDbListResult": {
+      "fields": {
+        "lists": {
+          "type": {
+            "element_type": {
+              "name": "ContactdbList2xx",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListCustomFieldResult": {
+      "fields": {
+        "custom_fields": {
+          "type": {
+            "element_type": {
+              "name": "ContactdbCustomFieldId2xx",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListRecipientForSegmentResult": {
+      "fields": {
+        "recipients": {
+          "type": {
+            "element_type": {
+              "name": "ContactdbRecipient200",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListRecipientResult": {
+      "fields": {
+        "recipients": {
+          "type": {
+            "element_type": {
+              "name": "JSON",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListRecipientsFromContactDbListResult": {
+      "fields": {
+        "recipients": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactdbRecipient200",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListReservedFieldResult": {
+      "fields": {
+        "reserved_fields": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListReservedFieldResultReservedFields",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListReservedFieldResultReservedFields": {
+      "fields": {
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListSearchRecipientResult": {
+      "fields": {
+        "recipients": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactdbRecipient200",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListSegmentResult": {
+      "fields": {
+        "segments": {
+          "type": {
+            "element_type": {
+              "name": "ContactdbSegments",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListStatusResult": {
+      "fields": {
+        "status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListStatusResultStatus",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListStatusResultStatus": {
+      "fields": {
+        "id": {
+          "description": "Valid values are \"worker_delay\" and \"worker_delay_seconds\" (the second value appears only if \"worker_delay\" has a value of \"delayed\").",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "Valid values for the ID \"worker_delay\" are \"OK\" or \"Delayed\". Valid values for the ID \"worker_delay_seconds\" is the time of delay to upload.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SearchRecipientBody": {
+      "fields": {
+        "conditions": {
+          "description": "The conditions by which this segment should be created.",
+          "type": {
+            "element_type": {
+              "name": "ContactdbSegmentsConditions",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "list_id": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "SearchRecipientResult": {
+      "fields": {
+        "recipient_count": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "recipients": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "SearchRecipientResultRecipients",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "SearchRecipientResultRecipients": {
+      "fields": {
+        "created_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "custom_fields": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "SearchRecipientResultRecipientsCustomFields",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "email": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "first_name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_clicked": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "last_emailed": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "last_opened": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "updated_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "SearchRecipientResultRecipientsCustomFields": {
+      "fields": {
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": []
+          }
+        }
+      }
+    },
+    "UpdateContactDbListBody": {
+      "fields": {
+        "name": {
+          "description": "The new name for your list.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateContactDbListResult": {
+      "fields": {
+        "id": {
+          "description": "The ID of the list",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "name": {
+          "description": "The new name for the list",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "recipient_count": {
+          "description": "The number of recipients on the list",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateRecipientBody": {
+      "fields": {
+        "email": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "first_name": {
+          "description": "The first name of the recipient. This is one of the default custom fields.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_name": {
+          "description": "The last name of the recipient. This is one of the default custom fields.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateSegmentBody": {
+      "fields": {
+        "conditions": {
+          "description": "The conditions by which this segment should be created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactdbSegmentsConditions",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "list_id": {
+          "description": "The list ID you would like this segment to be built from.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "AddRecipient": {
+      "request": {
+        "url": "/v3/contactdb/recipients",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/contactdb/recipients",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AddRecipientBody",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Add recipients",
+      "result_type": {
+        "name": "ContactdbRecipientResponse201",
+        "type": "named"
+      }
+    },
+    "AddRecipientToContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}",
+        "method": "post",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "list_id": {
+          "description": "The ID of the list that you want to add the recipient to.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "list_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "recipient_id": {
+          "description": "The ID of the recipient you are adding to the list.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "recipient_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Add a Single Recipient to a List",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "AddRecipientsToContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists/{list_id}/recipients",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/contactdb/lists/{list_id}/recipients",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "list_id": {
+          "description": "The id of the list of recipients you want to retrieve.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "list_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Add Multiple Recipients to a List",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "CreateContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/contactdb/lists",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateContactDbListBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Create a List",
+      "result_type": {
+        "name": "ContactdbList2xx",
+        "type": "named"
+      }
+    },
+    "CreateCustomField": {
+      "request": {
+        "url": "/v3/contactdb/custom_fields",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/contactdb/custom_fields",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateCustomFieldBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Create a Custom Field",
+      "result_type": {
+        "name": "ContactdbCustomFieldId2xx",
+        "type": "named"
+      }
+    },
+    "CreateSegment": {
+      "request": {
+        "url": "/v3/contactdb/segments",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/contactdb/segments",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ContactdbSegments",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Create a Segment",
+      "result_type": {
+        "name": "ContactdbSegmentsId200",
+        "type": "named"
+      }
+    },
+    "DeleteContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists/{list_id}",
+        "method": "delete",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of DELETE /v3/contactdb/lists/{list_id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "delete_contacts": {
+          "description": "Adds the ability to delete all contacts on the list in addition to deleting the list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "delete_contacts",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "list_id": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "list_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a List",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DeleteContactDbLists": {
+      "request": {
+        "url": "/v3/contactdb/lists",
+        "method": "delete",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of DELETE /v3/contactdb/lists",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Int32",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete Multiple lists",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DeleteCustomField": {
+      "request": {
+        "url": "/v3/contactdb/custom_fields/{custom_field_id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "custom_field_id": {
+          "description": "The ID of the custom field that you want to retrieve.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "custom_field_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a Custom Field",
+      "result_type": {
+        "name": "ErrorResponse",
+        "type": "named"
+      }
+    },
+    "DeleteRecipient": {
+      "request": {
+        "url": "/v3/contactdb/recipients/{recipient_id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "recipient_id": {
+          "description": "The ID of the recipient that you want to retrieve.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "recipient_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a Recipient",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DeleteRecipientFromContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists/{list_id}/recipients/{recipient_id}",
+        "method": "delete",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of DELETE /v3/contactdb/lists/{list_id}/recipients/{recipient_id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "list_id": {
+          "description": "The ID of the list that you want to add the recipient to.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "list_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "recipient_id": {
+          "description": "The ID of the recipient you are adding to the list.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "recipient_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a Single Recipient from a Single List",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DeleteRecipients": {
+      "request": {
+        "url": "/v3/contactdb/recipients",
+        "method": "delete",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of DELETE /v3/contactdb/recipients",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete Recipients",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DeleteSegment": {
+      "request": {
+        "url": "/v3/contactdb/segments/{segment_id}",
+        "method": "delete",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of DELETE /v3/contactdb/segments/{segment_id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "delete_contacts": {
+          "description": "True to delete all contacts matching the segment in addition to deleting the segment",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "delete_contacts",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "segment_id": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "segment_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a segment",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "SearchRecipient": {
+      "request": {
+        "url": "/v3/contactdb/recipients/search",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/contactdb/recipients/search",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SearchRecipientBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Search recipients",
+      "result_type": {
+        "name": "SearchRecipientResult",
+        "type": "named"
+      }
+    },
+    "UpdateContactDbList": {
+      "request": {
+        "url": "/v3/contactdb/lists/{list_id}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/contactdb/lists/{list_id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateContactDbListBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "list_id": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "list_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update a List",
+      "result_type": {
+        "name": "UpdateContactDbListResult",
+        "type": "named"
+      }
+    },
+    "UpdateRecipient": {
+      "request": {
+        "url": "/v3/contactdb/recipients",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/contactdb/recipients",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UpdateRecipientBody",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update Recipient",
+      "result_type": {
+        "name": "ContactdbRecipientResponse201",
+        "type": "named"
+      }
+    },
+    "UpdateSegment": {
+      "request": {
+        "url": "/v3/contactdb/segments/{segment_id}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/contactdb/segments/{segment_id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateSegmentBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "segment_id": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "segment_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update a segment",
+      "result_type": {
+        "name": "ContactdbSegments",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "AndOr": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "and",
+          "or",
+          ""
+        ],
+        "type": "enum"
+      }
+    },
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "Operator": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "eq",
+          "ne",
+          "lt",
+          "gt",
+          "contains"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "Type": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "date",
+          "text",
+          "number"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}

@@ -1,0 +1,12 @@
+services:
+  ndc-http:
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.7.0}
+    ports:
+      - 8080:8080
+    volumes:
+      - ./schema:/etc/connector:ro
+    environment:
+      ONESIGNAL_APP_KEY_TOKEN: ${ONESIGNAL_APP_KEY_TOKEN}
+      ONESIGNAL_USER_KEY_TOKEN: ${ONESIGNAL_USER_KEY_TOKEN}
+      ONESIGNAL_APP_ID: ${ONESIGNAL_APP_ID}
+      HASURA_LOG_LEVEL: debug

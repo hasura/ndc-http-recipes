@@ -1,0 +1,355 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "ListScope": {
+      "request": {
+        "url": "/v3/scopes",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a list of scopes for which this user has access.",
+      "result_type": {
+        "name": "ListScopeResult",
+        "type": "named"
+      }
+    },
+    "ListScopeRequest": {
+      "request": {
+        "url": "/v3/scopes/requests",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "limit": {
+          "description": "`limit` sets the page size, i.e. maximum number of items from the list to be returned for a single API request. If omitted, the default page size is used.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "offset": {
+          "description": "The number of items in the list to skip over before starting to retrieve the items for the requested page. The default `offset` of `0` represents the beginning of the list, i.e. the start of the first page. To request the second page of the list, set the `offset` to the page size as determined by `limit`. Use multiples of the page size as your `offset` to request further consecutive pages. E.g. assume your page size is set to `10`. An `offset` of `10` requests the second page, an `offset` of `20` requests the third page and so on, provided there are sufficiently many items in your list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 0
+            }
+          }
+        }
+      },
+      "description": "Retrieve access requests",
+      "result_type": {
+        "element_type": {
+          "name": "ListScopeRequestResult",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    }
+  },
+  "object_types": {
+    "ApproveScopeRequestResult": {
+      "fields": {
+        "scope_group_name": {
+          "description": "name of feature teammate will be given access to",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListScopeRequestResult": {
+      "fields": {
+        "email": {
+          "description": "Teammate's email",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "first_name": {
+          "description": "Teammate's first name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "Request ID",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "last_name": {
+          "description": "Teammate's last name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "scope_group_name": {
+          "description": "Name of group of scopes associated to page teammate is requesting access to",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "username": {
+          "description": "Teammate's username",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListScopeResult": {
+      "fields": {
+        "scopes": {
+          "description": "The list of scopes for which this user has access.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "ApproveScopeRequest": {
+      "request": {
+        "url": "/v3/scopes/requests/{request_id}/approve",
+        "method": "patch",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "request_id": {
+          "description": "The ID of the request that you want to approve.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "request_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Approve access request",
+      "result_type": {
+        "name": "ApproveScopeRequestResult",
+        "type": "named"
+      }
+    },
+    "DenyScopeRequest": {
+      "request": {
+        "url": "/v3/scopes/requests/{request_id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "request_id": {
+          "description": "The ID of the request that you want to deny.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "request_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Deny access request",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

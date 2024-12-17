@@ -1,0 +1,1781 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "ExportAutomationStat": {
+      "request": {
+        "url": "/v3/marketing/stats/automations/export",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ids": {
+          "description": "The IDs of Single Sends for which to export stats.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "string"
+                ]
+              }
+            }
+          }
+        },
+        "timezone": {
+          "description": "The [IANA Area/Region](https://en.wikipedia.org/wiki/Tz_database#Names_of_timezones) string representing the timezone in which the stats are to be presented; i.e. `\"America/Chicago\"`. This parameter changes the timezone format only; it does not alter which stats are returned.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "timezone",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Export Single Send Stats",
+      "result_type": {
+        "name": "String",
+        "type": "named"
+      }
+    },
+    "ExportSingleSendStat": {
+      "request": {
+        "url": "/v3/marketing/stats/singlesends/export",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ids": {
+          "description": "The IDs of Single Sends for which to export stats.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "string"
+                ]
+              }
+            }
+          }
+        },
+        "timezone": {
+          "description": "The [IANA Area/Region](https://en.wikipedia.org/wiki/Tz_database#Names_of_timezones) string representing the timezone in which the stats are to be presented; i.e. `\"America/Chicago\"`. This parameter changes the timezone format only; it does not alter which stats are returned.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "timezone",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Export Single Send Stats",
+      "result_type": {
+        "name": "String",
+        "type": "named"
+      }
+    },
+    "GetAutomationStat": {
+      "request": {
+        "url": "/v3/marketing/stats/automations/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "aggregated_by": {
+          "description": "Dictates how the stats are time-sliced. Currently, `\"total\"` and `\"day\"` are supported.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AggregatedBy",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "aggregated_by",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "end_date": {
+          "description": "Format: `YYYY-MM-DD`.If this parameter is included, the stats' end date is included in the search.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Date",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "group_by": {
+          "description": "Automations can have multiple steps. Including `step_id` as a `group_by` metric allows further granularity of stats.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Items",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ]
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the Automation for which you want to retrieve statistics.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "description": "The number of elements you want returned on each page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 50,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "The stats endpoints are paginated. To get the next page, call the passed `_metadata.next` URL. If `_metadata.prev` doesn't exist, you're at the first page. Similarly, if `_metadata.next` is not present, you're at the last page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "start_date": {
+          "description": "Format: `YYYY-MM-DD`. If this parameter is included, the stats' start date is included in the search.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Date",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "step_ids": {
+          "description": "Comma-separated list of `step_ids` that you want the link stats for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UUID",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "step_ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "string"
+                ],
+                "format": "uuid"
+              }
+            }
+          }
+        },
+        "timezone": {
+          "description": "[IANA Area/Region](https://en.wikipedia.org/wiki/Tz_database#Names_of_timezones) string representing the timezone in which the stats are to be presented, e.g., \"America/Chicago\".",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "timezone",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Automation Stats by ID",
+      "result_type": {
+        "name": "AutomationsResponse",
+        "type": "named"
+      }
+    },
+    "GetSingleSendStat": {
+      "request": {
+        "url": "/v3/marketing/stats/singlesends/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "aggregated_by": {
+          "description": "Dictates how the stats are time-sliced. Currently, `\"total\"` and `\"day\"` are supported.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AggregatedBy",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "aggregated_by",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "end_date": {
+          "description": "Format: `YYYY-MM-DD`.If this parameter is included, the stats' end date is included in the search.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Date",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "end_date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "group_by": {
+          "description": "A/B Single Sends have multiple variation IDs and phase IDs. Including these additional fields allows further granularity of stats by these fields.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Items1",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ]
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of Single Send for which you want to retrieve stats.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "description": "The number of elements you want returned on each page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 50,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "The stats endpoints are paginated. To get the next page, call the passed `_metadata.next` URL. If `_metadata.prev` doesn't exist, you're at the first page. Similarly, if `_metadata.next` is not present, you're at the last page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "start_date": {
+          "description": "Format: `YYYY-MM-DD`. If this parameter is included, the stats' start date is included in the search.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Date",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "start_date",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "timezone": {
+          "description": "[IANA Area/Region](https://en.wikipedia.org/wiki/Tz_database#Names_of_timezones) string representing the timezone in which the stats are to be presented, e.g., \"America/Chicago\".",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "timezone",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Single Send Stats by ID",
+      "result_type": {
+        "name": "SinglesendsResponse",
+        "type": "named"
+      }
+    },
+    "ListAutomationStat": {
+      "request": {
+        "url": "/v3/marketing/stats/automations",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "automation_ids": {
+          "description": "This endpoint returns all automation IDs if no `automation_ids` are specified.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "automation_ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "string"
+                ]
+              }
+            }
+          }
+        },
+        "page_size": {
+          "description": "The number of elements you want returned on each page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 50,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "The stats endpoints are paginated. To get the next page, call the passed `_metadata.next` URL. If `_metadata.prev` doesn't exist, you're at the first page. Similarly, if `_metadata.next` is not present, you're at the last page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get All Automation Stats",
+      "result_type": {
+        "name": "AutomationsResponse",
+        "type": "named"
+      }
+    },
+    "ListClickTrackingStat": {
+      "request": {
+        "url": "/v3/marketing/stats/automations/{id}/links",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "group_by": {
+          "description": "Automations can have multiple steps. Including `step_id` as a `group_by` metric allows further granularity of stats.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Items",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ]
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the Automation you want to get click tracking stats for.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        },
+        "page_size": {
+          "description": "The number of elements you want returned on each page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 50,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "The stats endpoints are paginated. To get the next page, call the passed `_metadata.next` URL. If `_metadata.prev` doesn't exist, you're at the first page. Similarly, if `_metadata.next` is not present, you're at the last page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "step_ids": {
+          "description": "Comma-separated list of `step_ids` that you want the link stats for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UUID",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "step_ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "string"
+                ],
+                "format": "uuid"
+              }
+            }
+          }
+        }
+      },
+      "description": "Get Automation Click Tracking Stats by ID",
+      "result_type": {
+        "name": "AutmoationsLinkStatsResponse",
+        "type": "named"
+      }
+    },
+    "ListSingleSendStat": {
+      "request": {
+        "url": "/v3/marketing/stats/singlesends",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "page_size": {
+          "description": "The number of elements you want returned on each page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 50,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "The stats endpoints are paginated. To get the next page, call the passed `_metadata.next` URL. If `_metadata.prev` doesn't exist, you're at the first page. Similarly, if `_metadata.next` is not present, you're at the last page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "singlesend_ids": {
+          "description": "This endpoint returns all Single Send IDs if no IDs are included in `singlesend_ids`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "singlesend_ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "string"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "description": "Get All Single Sends Stats",
+      "result_type": {
+        "name": "SinglesendsResponse",
+        "type": "named"
+      }
+    },
+    "ListSingleSendTrackingStat": {
+      "request": {
+        "url": "/v3/marketing/stats/singlesends/{id}/links",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ab_phase_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AbPhaseId",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "ab_phase_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "ab_variation_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UUID",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "ab_variation_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        },
+        "group_by": {
+          "description": "A/B Single Sends have multiple variation IDs and phase IDs. Including these additional fields allows further granularity of stats by these fields.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Items2",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": false,
+            "name": "group_by",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ]
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of Single Send for which you want to retrieve link stats.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "description": "The number of elements you want returned on each page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 50,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "The stats endpoints are paginated. To get the next page, call the passed `_metadata.next` URL. If `_metadata.prev` doesn't exist, you're at the first page. Similarly, if `_metadata.next` is not present, you're at the last page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Single Send Click Tracking Stats by ID",
+      "result_type": {
+        "name": "SinglesendsLinkStatsResponse",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AutmoationsLinkStatsResponse": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "name": "LinkTrackingMetadata",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "results": {
+          "type": {
+            "element_type": {
+              "name": "AutmoationsLinkStatsResponseResults",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "total_clicks": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "AutmoationsLinkStatsResponseResults": {
+      "fields": {
+        "clicks": {
+          "description": "The number of clicks on this particular link.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 1
+          }
+        },
+        "step_id": {
+          "description": "This is the ID of the step if the stats were requested to be grouped by `step_id`.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid"
+          }
+        },
+        "url": {
+          "description": "This is the URL of the link clicked. If `{{custom_fields}}` are part of the URL, they will be included.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url_location": {
+          "description": "This is the location of the link clicked in each Automation step. Links are located according to their position within the message; the topmost link has index `0`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "AutomationsResponse": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "results": {
+          "type": {
+            "element_type": {
+              "name": "AutomationsResponseResults",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AutomationsResponseResults": {
+      "fields": {
+        "aggregation": {
+          "description": "This describes the time unit to which the stat is rolled up. It is based on the `aggregated_by` parameter included in the request. It can be \"total\" or the date (in YYYY-MM-DD format) the stats are for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "This is the ID of the Automation you are requesting stats for.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid"
+          }
+        },
+        "stats": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metrics",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "step_id": {
+          "description": "This is the ID of the step if the stats were requested to be grouped by `step_id`.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "LinkTrackingMetadata": {
+      "fields": {
+        "count": {
+          "description": "The number of items in the entire list, i.e., across all pages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "next": {
+          "description": "The URL of the next page of results. If this field isn't present, you're at the end of the list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "prev": {
+          "description": "The URL of the previous page of results. If this field isn't present, you're at the start of the list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "self": {
+          "description": "The URL of the current page of results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "fields": {
+        "count": {
+          "description": "The number of items in the entire list, i.e., across all pages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "next": {
+          "description": "The URL of the next page of results. If this field isn't present, you're at the end of the list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "prev": {
+          "description": "The URL of the previous page of results. If this field isn't present, you're at the start of the list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "self": {
+          "description": "The URL of the current page of results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "Metrics": {
+      "fields": {
+        "bounce_drops": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "bounces": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "clicks": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "delivered": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "invalid_emails": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "opens": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "requests": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "spam_report_drops": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "spam_reports": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unique_clicks": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unique_opens": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "unsubscribes": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "SinglesendsLinkStatsResponse": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "name": "LinkTrackingMetadata",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "results": {
+          "description": "This is the index of the link's location in the email contents.",
+          "type": {
+            "element_type": {
+              "name": "SinglesendsLinkStatsResponseResults",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "total_clicks": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "SinglesendsLinkStatsResponseResults": {
+      "fields": {
+        "ab_phase": {
+          "type": {
+            "name": "AbPhase1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ab_variation": {
+          "description": "This is the A/B variation of the Single Send stat returned. It is set to `\"all\"` if the `ab_variation` query parameter was not set in the request and `group_by` doesn't contain `ab_variation`.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid"
+          }
+        },
+        "clicks": {
+          "description": "the number of clicks on this particular link",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 1
+          }
+        },
+        "url": {
+          "description": "This is the URL of the link clicked. If `{{custom_fields}}` are part of the URL, they will be included.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url_location": {
+          "description": "This is the location of the link clicked in each Single Send A/B variation, or in the Single Send itself if there are no variations. Links are numbered from the top down; the topmost link is index `0`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "SinglesendsResponse": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "name": "Metadata",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "results": {
+          "type": {
+            "element_type": {
+              "name": "SinglesendsResponseResults",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "SinglesendsResponseResults": {
+      "fields": {
+        "ab_phase": {
+          "type": {
+            "name": "AbPhase",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ab_variation": {
+          "description": "This is the A/B variation of the Single Send stat returned. If the `group_by` parameter doesn't include `ab_variation` in the request, then the value is \"all\".",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid"
+          }
+        },
+        "aggregation": {
+          "description": "This describes the time unit to which the stat is rolled up. It is based on the `aggregated_by` parameter included in the request. It can be \"total\" or the date (in YYYY-MM-DD format) the stats are for.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "This is the ID of the Single Send you require stats for.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid"
+          }
+        },
+        "stats": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metrics",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {},
+  "scalar_types": {
+    "AbPhase": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "send",
+          "test",
+          "all"
+        ],
+        "type": "enum"
+      }
+    },
+    "AbPhase1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "send",
+          "test",
+          "all"
+        ],
+        "type": "enum"
+      }
+    },
+    "AbPhaseId": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "test",
+          "send"
+        ],
+        "type": "enum"
+      }
+    },
+    "AggregatedBy": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "day",
+          "total"
+        ],
+        "type": "enum"
+      }
+    },
+    "Date": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "date"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "Items": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "step_id"
+        ],
+        "type": "enum"
+      }
+    },
+    "Items1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ab_variation",
+          "ab_phase"
+        ],
+        "type": "enum"
+      }
+    },
+    "Items2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ab_variation",
+          "ab_phase"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "UUID": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "uuid"
+      }
+    }
+  }
+}

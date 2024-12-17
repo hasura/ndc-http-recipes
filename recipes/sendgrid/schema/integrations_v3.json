@@ -1,0 +1,736 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "FindIntegrationById": {
+      "request": {
+        "url": "/v3/marketing/integrations/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the Integration you would like to retrieve.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "GetIntegration",
+      "result_type": {
+        "name": "Integration",
+        "type": "named"
+      }
+    },
+    "GetIntegrationsByUser": {
+      "request": {
+        "url": "/v3/marketing/integrations",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "ListIntegration",
+      "result_type": {
+        "name": "GetIntegrationsByUserResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "GetIntegrationsByUserResult": {
+      "fields": {
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Integration",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "Integration": {
+      "fields": {
+        "destination": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Destination3",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "filters": {
+          "description": "The configurable filters for SendGrid to destination email event forwarding.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IntegrationFilters",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "integration_id": {
+          "description": "The unique ID of an Integration.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "label": {
+          "description": "The nickname for the Integration.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "properties": {
+          "description": "The properties of an Integration required to send events to a specific third-party application.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IntegrationProperties",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "user_id": {
+          "description": "Your Twilio SendGrid account ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationFilters": {
+      "description": "The configurable filters for SendGrid to destination email event forwarding.",
+      "fields": {
+        "email_events": {
+          "description": "The possible SendGrid email event types for event forwarding. Specify all the email event types that you would like to forward to the Integration's destination.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Items2",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationInput": {
+      "fields": {
+        "destination": {
+          "type": {
+            "name": "Destination2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "filters": {
+          "description": "The configurable filters for SendGrid to destination email event forwarding.",
+          "type": {
+            "name": "IntegrationInputFilters",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "label": {
+          "description": "The nickname for the Integration.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "properties": {
+          "description": "The properties of an Integration required to send events to a specific third-party application.",
+          "type": {
+            "name": "IntegrationInputProperties",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationInputFilters": {
+      "description": "The configurable filters for SendGrid to destination email event forwarding.",
+      "fields": {
+        "email_events": {
+          "description": "The possible SendGrid email event types for event forwarding. Specify all the email event types that you would like to forward to the Integration's destination.",
+          "type": {
+            "element_type": {
+              "name": "Items1",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationInputProperties": {
+      "description": "The properties of an Integration required to send events to a specific third-party application.",
+      "fields": {
+        "destination_region": {
+          "type": {
+            "name": "DestinationRegion1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "write_key": {
+          "description": "The write key provided by the Segment Source you'd like to have events forwarded to. Must be between 6 and 51 characters.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationPatch": {
+      "fields": {
+        "destination": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Destination1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "filters": {
+          "description": "The configurable filters for SendGrid to destination email event forwarding.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IntegrationPatchFilters",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "label": {
+          "description": "The nickname for the Integration.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "properties": {
+          "description": "The properties of an Integration required to send events to a specific third-party application.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IntegrationPatchProperties",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationPatchFilters": {
+      "description": "The configurable filters for SendGrid to destination email event forwarding.",
+      "fields": {
+        "email_events": {
+          "description": "The possible SendGrid email event types for event forwarding. Specify all the email event types that you would like to forward to the Integration's destination.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Items",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationPatchProperties": {
+      "description": "The properties of an Integration required to send events to a specific third-party application.",
+      "fields": {
+        "destination_region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DestinationRegion",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "write_key": {
+          "description": "The write key provided by the Segment Source you'd like to have events forwarded to. Must be between 6 and 51 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "IntegrationProperties": {
+      "description": "The properties of an Integration required to send events to a specific third-party application.",
+      "fields": {
+        "destination_region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DestinationRegion2",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "write_key": {
+          "description": "The write key provided by the Segment Source you'd like to have events forwarded to. Must be between 6 and 51 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "AddIntegration": {
+      "request": {
+        "url": "/v3/marketing/integrations",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/marketing/integrations",
+          "type": {
+            "name": "IntegrationInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "CreateIntegration",
+      "result_type": {
+        "name": "Integration",
+        "type": "named"
+      }
+    },
+    "DeleteIntegration": {
+      "request": {
+        "url": "/v3/marketing/integrations",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "ids": {
+          "description": "Comma-delimited Integration IDs for the Integrations to delete.",
+          "type": {
+            "element_type": {
+              "name": "Id",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "array"
+              ]
+            }
+          }
+        }
+      },
+      "description": "DeleteBulkIntegration",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "UpdateIntegration": {
+      "request": {
+        "url": "/v3/marketing/integrations/{id}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/marketing/integrations/{id}",
+          "type": {
+            "name": "IntegrationPatch",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "The ID of the Integration you would like to update.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "UpdateIntegration",
+      "result_type": {
+        "name": "Integration",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Destination1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Segment"
+        ],
+        "type": "enum"
+      }
+    },
+    "Destination2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Segment"
+        ],
+        "type": "enum"
+      }
+    },
+    "Destination3": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Segment"
+        ],
+        "type": "enum"
+      }
+    },
+    "DestinationRegion": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "EU",
+          "US"
+        ],
+        "type": "enum"
+      }
+    },
+    "DestinationRegion1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "EU",
+          "US"
+        ],
+        "type": "enum"
+      }
+    },
+    "DestinationRegion2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "EU",
+          "US"
+        ],
+        "type": "enum"
+      }
+    },
+    "Id": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "Items": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "drop",
+          "processed",
+          "deferred",
+          "group_unsubscribe",
+          "bounce",
+          "delivered",
+          "click",
+          "unsubscribe",
+          "open",
+          "group_resubscribe",
+          "spamreport",
+          "machine_opened"
+        ],
+        "type": "enum"
+      }
+    },
+    "Items1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "drop",
+          "processed",
+          "deferred",
+          "group_unsubscribe",
+          "bounce",
+          "delivered",
+          "click",
+          "unsubscribe",
+          "open",
+          "group_resubscribe",
+          "spamreport",
+          "machine_opened"
+        ],
+        "type": "enum"
+      }
+    },
+    "Items2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "drop",
+          "processed",
+          "deferred",
+          "group_unsubscribe",
+          "bounce",
+          "delivered",
+          "click",
+          "unsubscribe",
+          "open",
+          "group_resubscribe",
+          "spamreport",
+          "machine_opened"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

@@ -9,7 +9,7 @@ This configuration is built from [OpenAI's OpenAPI Specification](https://github
 | OPENAI_SERVER_URL         | The base server URL of OpenAI API | https://api.openai.com/v1 |
 | OPENAI_API_KEY_AUTH_TOKEN | Bearer authentication token       |                           |
 
-### Update schema
+## Update schema
 
 Update the latest commit in [generator/openai.yaml](generator/openai.yaml) and run:
 

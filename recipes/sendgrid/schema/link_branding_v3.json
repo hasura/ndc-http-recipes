@@ -1,0 +1,1066 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetBrandedLink": {
+      "request": {
+        "url": "/v3/whitelabel/links/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the branded link you want to retrieve.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a branded link",
+      "result_type": {
+        "name": "LinkBranding200",
+        "type": "named"
+      }
+    },
+    "ListBrandedLink": {
+      "request": {
+        "url": "/v3/whitelabel/links",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "limit": {
+          "description": "Limits the number of results returned per page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve all branded links",
+      "result_type": {
+        "element_type": {
+          "name": "LinkBranding200",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "ListDefaultBrandedLink": {
+      "request": {
+        "url": "/v3/whitelabel/links/default",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "domain": {
+          "description": "The domain to match against when finding the default branded link.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "domain",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the default branded link",
+      "result_type": {
+        "name": "LinkBranding200",
+        "type": "named"
+      }
+    },
+    "ListSubuserBrandedLink": {
+      "request": {
+        "url": "/v3/whitelabel/links/subuser",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "username": {
+          "description": "The username of the subuser to retrieve associated branded links for.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a subuser's branded link",
+      "result_type": {
+        "name": "LinkBranding200",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AssociateBrandedLinkWithSubuserBody": {
+      "fields": {
+        "username": {
+          "description": "The username of the subuser account that you want to associate the branded link with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreateBrandedLinkBody": {
+      "fields": {
+        "default": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "domain": {
+          "description": "The root domain for the subdomain that you are creating the link branding for. This should match your FROM email address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Region",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain to create the link branding for. Must be different from the subdomain you used for authenticating your domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "LinkBranding200": {
+      "fields": {
+        "default": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "dns": {
+          "description": "The DNS records generated for this link branding.",
+          "type": {
+            "name": "LinkBranding200Dns",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "The root domain of the branded link.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the branded link.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "legacy": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subdomain": {
+          "description": "The subdomain used to generate the DNS records for this link branding. This subdomain must be different from the subdomain used for your authenticated domain.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "user_id": {
+          "description": "The ID of the user that this link branding is associated with.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "username": {
+          "description": "The username of the account that this link branding is associated with.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "LinkBranding200Dns": {
+      "description": "The DNS records generated for this link branding.",
+      "fields": {
+        "domain_cname": {
+          "description": "The DNS record generated to point to your link branding subdomain.",
+          "type": {
+            "name": "LinkBranding200DnsDomainCname",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "owner_cname": {
+          "description": "The DNS record generated to verify who created the link branding.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "LinkBranding200DnsOwnerCname",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "LinkBranding200DnsDomainCname": {
+      "description": "The DNS record generated to point to your link branding subdomain.",
+      "fields": {
+        "data": {
+          "description": "The domain that the DNS record points to.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "The domain that this link branding will use for the links in your email.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "name": "Type",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "LinkBranding200DnsOwnerCname": {
+      "description": "The DNS record generated to verify who created the link branding.",
+      "fields": {
+        "data": {
+          "description": "The domain that the DNS record points to.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "host": {
+          "description": "Used to verify the link branding. The subdomain of this domain is the ID of the user who created the link branding.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Type1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateBrandedLinkBody": {
+      "fields": {
+        "default": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateBrandedLinkResult": {
+      "fields": {
+        "id": {
+          "description": "The ID of the branded link.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "valid": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "validation_results": {
+          "description": "The individual validation results for each of the DNS records associated with this branded link.",
+          "type": {
+            "name": "ValidateBrandedLinkResultValidationResults",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateBrandedLinkResultValidationResults": {
+      "description": "The individual validation results for each of the DNS records associated with this branded link.",
+      "fields": {
+        "domain_cname": {
+          "description": "The DNS record generated for the sending domain used for this branded link.",
+          "type": {
+            "name": "ValidateBrandedLinkResultValidationResultsDomainCname",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "owner_cname": {
+          "description": "The DNS record created to verify the branded link.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ValidateBrandedLinkResultValidationResultsOwnerCname",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateBrandedLinkResultValidationResultsDomainCname": {
+      "description": "The DNS record generated for the sending domain used for this branded link.",
+      "fields": {
+        "reason": {
+          "description": "Null if the DNS record is valid. If the DNS record is invalid, this will explain why.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateBrandedLinkResultValidationResultsOwnerCname": {
+      "description": "The DNS record created to verify the branded link.",
+      "fields": {
+        "reason": {
+          "description": "Null if valid. If the DNS record is invalid, this will explain why.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "valid": {
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "AssociateBrandedLinkWithSubuser": {
+      "request": {
+        "url": "/v3/whitelabel/links/{link_id}/subuser",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/whitelabel/links/{link_id}/subuser",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AssociateBrandedLinkWithSubuserBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "link_id": {
+          "description": "The ID of the branded link you want to associate.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "link_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Associate a branded link with a subuser",
+      "result_type": {
+        "name": "LinkBranding200",
+        "type": "named"
+      }
+    },
+    "CreateBrandedLink": {
+      "request": {
+        "url": "/v3/whitelabel/links",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/whitelabel/links",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateBrandedLinkBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Create a branded link",
+      "result_type": {
+        "name": "LinkBranding200",
+        "type": "named"
+      }
+    },
+    "DeleteBrandedLink": {
+      "request": {
+        "url": "/v3/whitelabel/links/{id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the branded link you want to retrieve.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a branded link",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "DisassociateBrandedLinkFromSubuser": {
+      "request": {
+        "url": "/v3/whitelabel/links/subuser",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "username": {
+          "description": "The username of the subuser account that you want to disassociate a branded link from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Disassociate a branded link from a subuser",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "UpdateBrandedLink": {
+      "request": {
+        "url": "/v3/whitelabel/links/{id}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/whitelabel/links/{id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateBrandedLinkBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "The ID of the branded link you want to retrieve.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update a branded link",
+      "result_type": {
+        "name": "LinkBranding200",
+        "type": "named"
+      }
+    },
+    "ValidateBrandedLink": {
+      "request": {
+        "url": "/v3/whitelabel/links/{id}/validate",
+        "method": "post",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the branded link that you want to validate.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "on-behalf-of": {
+          "description": "The `on-behalf-of` header allows you to make API calls from a parent account on behalf of the parent's Subusers or customer accounts. You will use the parent account's API key when using this header. When making a call on behalf of a customer account, the property value should be \"account-id\" followed by the customer account's ID (e.g., `on-behalf-of: account-id `). When making a call on behalf of a Subuser, the property value should be the Subuser's username (e.g., `on-behalf-of: `). See [**On Behalf Of**](https://docs.sendgrid.com/api-reference/how-to-use-the-sendgrid-v3-api/on-behalf-of) for more information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "on-behalf-of",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Validate a branded link",
+      "result_type": {
+        "name": "ValidateBrandedLinkResult",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "Region": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "eu",
+          "us"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "Type": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "cname",
+          "txt",
+          "mx"
+        ],
+        "type": "enum"
+      }
+    },
+    "Type1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "cname",
+          "txt",
+          "mx"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}

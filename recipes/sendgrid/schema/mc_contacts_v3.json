@@ -1,0 +1,2827 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetContact": {
+      "request": {
+        "url": "/v3/marketing/contacts/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get a Contact by ID",
+      "result_type": {
+        "name": "ContactDetails3",
+        "type": "named"
+      }
+    },
+    "GetExportContact": {
+      "request": {
+        "url": "/v3/marketing/contacts/exports/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Export Contacts Status",
+      "result_type": {
+        "name": "ContactExport",
+        "type": "named"
+      }
+    },
+    "GetImportContact": {
+      "request": {
+        "url": "/v3/marketing/contacts/imports/{id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Import Contacts Status",
+      "result_type": {
+        "name": "ContactImport",
+        "type": "named"
+      }
+    },
+    "ListContact": {
+      "request": {
+        "url": "/v3/marketing/contacts",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Get Sample Contacts",
+      "result_type": {
+        "name": "ListContactResult",
+        "type": "named"
+      }
+    },
+    "ListContactCount": {
+      "request": {
+        "url": "/v3/marketing/contacts/count",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Get Total Contact Count",
+      "result_type": {
+        "name": "ListContactCountResult",
+        "type": "named"
+      }
+    },
+    "ListExportContact": {
+      "request": {
+        "url": "/v3/marketing/contacts/exports",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Get All Existing Exports",
+      "result_type": {
+        "name": "ListExportContactResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "ContactDetails3": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SelfMetadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "address_line_1": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "address_line_2": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "alternate_emails": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "anonymous_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "city": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "country": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "created_at": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "custom_fields": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "email": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "external_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "facebook": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "first_name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "line": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "list_ids": {
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "phone_number": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "phone_number_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "postal_code": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "segment_ids": {
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "state_province_region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "unique_name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "updated_at": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "whatsapp": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ContactExport": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "completed_at": {
+          "description": "The ISO8601 timestamp when the export was completed.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "contact_count": {
+          "description": "The total number of exported contacts.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "created_at": {
+          "description": "The ISO8601 timestamp when the export was begun.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_at": {
+          "description": "The ISO8601 timestamp when the exported file on S3 will expire.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "message": {
+          "description": "A human readable message if the status is `failure`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "type": {
+            "name": "Status",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "updated_at": {
+          "description": "The ISO8601 timestamp when the export was updated.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "urls": {
+          "description": "One or more download URLs for the contact file if the status is `ready`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ContactImport": {
+      "fields": {
+        "finished_at": {
+          "description": "The ISO8601 timestamp when the job was finished.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The job ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "job_type": {
+          "description": "The job type. Allowed values: `upsert`, or `delete`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "results": {
+          "description": "Result map of the import job.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ContactImportResults",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "started_at": {
+          "description": "The ISO8601 timestamp when the job was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "The job state. Allowed values: `pending`, `completed`, `errored`, or `failed`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ContactImportResults": {
+      "description": "Result map of the import job.",
+      "fields": {
+        "created_count": {
+          "description": "Created contact count from the import.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "deleted_count": {
+          "description": "Count of deleted contacts that resulted in error.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "errored_count": {
+          "description": "Count of imported contacts that resulted in error.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "errors_url": {
+          "description": "The download URL of the file which provides information about any errors.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "requested_count": {
+          "description": "Requested contact count from the import.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "updated_count": {
+          "description": "Updated contact count from the import.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        }
+      }
+    },
+    "ContactRequest": {
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "address_line_2": {
+          "description": "An optional second line for the address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "alternate_emails": {
+          "description": "Additional emails associated with the contact.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "maxLength": 254
+            }
+          }
+        },
+        "anonymous_id": {
+          "description": "The contact's Anonymous ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 254
+          }
+        },
+        "city": {
+          "description": "The contact's city.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        },
+        "country": {
+          "description": "The contact's country. Can be a full name or an abbreviation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50
+          }
+        },
+        "custom_fields": {
+          "description": "An object of custom field IDs and the values you want to associate with those custom fields. You can retrieve the IDs of your custom fields from the [Get All Field Definitions endpoint](https://docs.sendgrid.com/api-reference/custom-fields/get-all-field-definitions).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ContactRequestCustomFields",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "email": {
+          "description": "The contact's primary email. This is required to be a valid email.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 254
+          }
+        },
+        "external_id": {
+          "description": "The contact's External ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 254
+          }
+        },
+        "first_name": {
+          "description": "The contact's personal name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50
+          }
+        },
+        "last_name": {
+          "description": "The contact's family name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50
+          }
+        },
+        "phone_number_id": {
+          "description": "The contact's Phone Number ID. This must be a valid phone number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "postal_code": {
+          "description": "The contact's ZIP code or other postal code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "state_province_region": {
+          "description": "The contact's state, province, or region.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50
+          }
+        }
+      }
+    },
+    "ContactRequestCustomFields": {
+      "description": "An object of custom field IDs and the values you want to associate with those custom fields. You can retrieve the IDs of your custom fields from the [Get All Field Definitions endpoint](https://docs.sendgrid.com/api-reference/custom-fields/get-all-field-definitions).",
+      "fields": {
+        "w1": {
+          "description": "The properties in this object are made up of a key (the custom field ID) and value you want associated with that custom field. For example `{\"w1\": \"coffee\"}`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "DeleteContactIdentifierBody": {
+      "fields": {
+        "identifier_type": {
+          "type": {
+            "name": "IdentifierType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "identifier_value": {
+          "description": "The value of the identifier you want to remove from the contact.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "DeleteContactIdentifierResult": {
+      "description": "Indicates that the deletion is queued for processing. Check the job status with the Import Contacts Status endpoint.",
+      "fields": {
+        "job_id": {
+          "description": "The deletion job ID.",
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "DeleteContactResult": {
+      "description": "The deletion job has been accepted and is being processed.",
+      "fields": {
+        "job_id": {
+          "description": "The deletion job ID.",
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ExportContactBody": {
+      "fields": {
+        "file_type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FileType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "list_ids": {
+          "description": "IDs of the contact lists you want to export.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UUID",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        },
+        "max_file_size": {
+          "description": "The maximum size of an export file in MB. Note that when this option is specified, multiple output files may be returned from the export.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "notifications": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ExportContactBodyNotifications",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "segment_ids": {
+          "description": "IDs of the contact segments you want to export.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ExportContactBodyNotifications": {
+      "fields": {
+        "email": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ExportContactResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "name": "Metadata",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the export job.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetContactByIdentifiersBody": {
+      "fields": {
+        "identifiers": {
+          "description": "One or more more identifier values to search for in your Marketing Campaigns contacts.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "GetContactByIdentifiersResult": {
+      "description": "An object containing one or more of the identifiers matching the searched identifiers in your contacts.",
+      "fields": {
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ImportContactBody": {
+      "fields": {
+        "field_mappings": {
+          "description": "Import file header to reserved/custom field mapping.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "file_type": {
+          "type": {
+            "name": "FileType1",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "list_ids": {
+          "description": "All contacts will be added to each of the specified lists.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ImportContactResult": {
+      "fields": {
+        "job_id": {
+          "description": "The ID of the import job.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "upload_headers": {
+          "description": "A list of headers that must be included in PUT request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ImportContactResultUploadHeaders",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "upload_uri": {
+          "description": "The URI to PUT the upload file to.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ImportContactResultUploadHeaders": {
+      "fields": {
+        "header": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListBatchedContactBody": {
+      "description": "Array of IDs",
+      "fields": {
+        "ids": {
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListBatchedContactResult": {
+      "fields": {
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactDetails3",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListContactByEmailBody": {
+      "fields": {
+        "anonymous_id": {
+          "description": "The contact's Anonymous ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 254
+          }
+        },
+        "emails": {
+          "description": "One or more primary and/or alternate email addresses to search for in your Marketing Campaigns contacts.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "maxLength": 100
+            }
+          }
+        },
+        "external_id": {
+          "description": "The contact's External ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 254
+          }
+        },
+        "phone_number_id": {
+          "description": "The contact's Phone Number ID. This is required to be a valid phone number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListContactByEmailResult": {
+      "description": "An object containing one or more of the email addresses matching the searched addresses in your contacts.",
+      "fields": {
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListContactCountResult": {
+      "fields": {
+        "billable_breakdown": {
+          "description": "`billable_breakdown` will only appear to the parent user in an account with subusers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListContactCountResultBillableBreakdown",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "billable_count": {
+          "description": "The count of contacts this month for billing purposes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        },
+        "contact_count": {
+          "description": "The total number of contacts.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "ListContactCountResultBillableBreakdown": {
+      "description": "`billable_breakdown` will only appear to the parent user in an account with subusers.",
+      "fields": {
+        "breakdown": {
+          "description": "A map of each subuser's billable contact usage. Each key is the subuser's ID and each value is the usage thus far this month.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "total": {
+          "description": "The sum of all the subuser's billable contacts",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "ListContactResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SelfMetadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "contact_count": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactDetails3",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ListExportContactResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListExportContactResultMetadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListExportContactResultResult",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListExportContactResultMetadata": {
+      "fields": {
+        "next": {
+          "description": "Link to next page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "prev": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "self": {
+          "description": "Link to this page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListExportContactResultResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListExportContactResultResultMetadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "completed_at": {
+          "description": "This ISO8601 timestamp when the export was completed.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "created_at": {
+          "description": "This ISO8601 timestamp when the export was created.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_at": {
+          "description": "This ISO8601 timestamp when the export expires.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "export_type": {
+          "description": "Allowed types: `contacts_export`, `list_export`, or `segment_export`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "Export jobs ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "lists": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListExportContactResultResultLists",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "segments": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListExportContactResultResultSegments",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "status": {
+          "description": "Allowed values: `pending`, `ready`, or `failure`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "urls": {
+          "description": "One or more download URLs for the contact file(s) if the status is `ready`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "user_id": {
+          "description": "User ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListExportContactResultResultLists": {
+      "fields": {
+        "ID": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListExportContactResultResultMetadata": {
+      "fields": {
+        "next": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "prev": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "self": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListExportContactResultResultSegments": {
+      "fields": {
+        "ID": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "Name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "fields": {
+        "count": {
+          "description": "The number of items in the entire list, i.e., across all pages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "next": {
+          "description": "The URL of the next page of results. If this field isn't present, you're at the end of the list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "prev": {
+          "description": "The URL of the previous page of results. If this field isn't present, you're at the start of the list.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "self": {
+          "description": "The URL of the current page of results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "SearchContactBody": {
+      "fields": {
+        "query": {
+          "description": "An SGQL search string or other pattern.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SearchContactResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SelfMetadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "contact_count": {
+          "description": "The total number of contacts matched.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ContactDetails3",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "SelfMetadata": {
+      "fields": {
+        "self": {
+          "description": "A link to this object.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateContactBody": {
+      "fields": {
+        "contacts": {
+          "description": "One or more contacts objects that you intend to upsert. Each contact needs to include at least one of `email`, `phone_number_id`, `external_id`, or `anonymous_id` as an identifier.",
+          "type": {
+            "element_type": {
+              "name": "ContactRequest",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "list_ids": {
+          "description": "An array of List ID strings that this contact will be added to.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "UUID",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "uuid"
+            }
+          }
+        }
+      }
+    },
+    "UpdateContactResult": {
+      "fields": {
+        "job_id": {
+          "description": "Indicates that the contacts are queued for processing. Check the job status with the \"Import Contacts Status\" endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "DeleteContact": {
+      "request": {
+        "url": "/v3/marketing/contacts",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "delete_all_contacts": {
+          "description": "Must be set to `\"true\"` to delete all contacts.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "delete_all_contacts",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "ids": {
+          "description": "A comma-separated list of contact IDs.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete Contacts",
+      "result_type": {
+        "name": "DeleteContactResult",
+        "type": "named"
+      }
+    },
+    "DeleteContactIdentifier": {
+      "request": {
+        "url": "/v3/marketing/contacts/{contact_id}/identifiers",
+        "method": "delete",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of DELETE /v3/marketing/contacts/{contact_id}/identifiers",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DeleteContactIdentifierBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "contact_id": {
+          "description": "Must be set to the `contact_id` of the contact you want to remove the identifier from.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "contact_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a Contact Identifier",
+      "result_type": {
+        "name": "DeleteContactIdentifierResult",
+        "type": "named"
+      }
+    },
+    "ExportContact": {
+      "request": {
+        "url": "/v3/marketing/contacts/exports",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/marketing/contacts/exports",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ExportContactBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Export Contacts",
+      "result_type": {
+        "name": "ExportContactResult",
+        "type": "named"
+      }
+    },
+    "GetContactByIdentifiers": {
+      "request": {
+        "url": "/v3/marketing/contacts/search/identifiers/{identifier_type}",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/marketing/contacts/search/identifiers/{identifier_type}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "GetContactByIdentifiersBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "identifier_type": {
+          "description": "The type of identifier to search for.",
+          "type": {
+            "name": "IdentifierType1",
+            "type": "named"
+          },
+          "http": {
+            "name": "identifier_type",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get Contacts by Identifiers",
+      "result_type": {
+        "name": "GetContactByIdentifiersResult",
+        "type": "named"
+      }
+    },
+    "ImportContact": {
+      "request": {
+        "url": "/v3/marketing/contacts/imports",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /v3/marketing/contacts/imports",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ImportContactBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Import Contacts",
+      "result_type": {
+        "name": "ImportContactResult",
+        "type": "named"
+      }
+    },
+    "ListBatchedContact": {
+      "request": {
+        "url": "/v3/marketing/contacts/batch",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/marketing/contacts/batch",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListBatchedContactBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Get Batched Contacts by IDs",
+      "result_type": {
+        "name": "ListBatchedContactResult",
+        "type": "named"
+      }
+    },
+    "ListContactByEmail": {
+      "request": {
+        "url": "/v3/marketing/contacts/search/emails",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/marketing/contacts/search/emails",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListContactByEmailBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Get Contacts by Emails",
+      "result_type": {
+        "name": "ListContactByEmailResult",
+        "type": "named"
+      }
+    },
+    "SearchContact": {
+      "request": {
+        "url": "/v3/marketing/contacts/search",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/marketing/contacts/search",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SearchContactBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Search Contacts",
+      "result_type": {
+        "name": "SearchContactResult",
+        "type": "named"
+      }
+    },
+    "UpdateContact": {
+      "request": {
+        "url": "/v3/marketing/contacts",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /v3/marketing/contacts",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateContactBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Add or Update a Contact",
+      "result_type": {
+        "name": "UpdateContactResult",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "FileType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "csv",
+          "json"
+        ],
+        "type": "enum"
+      }
+    },
+    "FileType1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "csv"
+        ],
+        "type": "enum"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "IdentifierType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "EMAIL",
+          "PHONENUMBERID",
+          "EXTERNALID",
+          "ANONYMOUSID"
+        ],
+        "type": "enum"
+      }
+    },
+    "IdentifierType1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "email",
+          "phone_number_id",
+          "external_id",
+          "anonymous_id"
+        ],
+        "type": "enum"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "Status": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "pending",
+          "ready",
+          "failure"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "UUID": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "uuid"
+      }
+    }
+  }
+}

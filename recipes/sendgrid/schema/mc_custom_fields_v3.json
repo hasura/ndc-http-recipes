@@ -1,0 +1,578 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "ListFieldDefinition": {
+      "request": {
+        "url": "/v3/marketing/field_definitions",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Get All Field Definitions",
+      "result_type": {
+        "name": "ListFieldDefinitionResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "CreateFieldDefinitionBody": {
+      "fields": {
+        "field_type": {
+          "type": {
+            "name": "FieldType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "CreateFieldDefinitionResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "field_type": {
+          "type": {
+            "name": "FieldType2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "CustomFieldDefinitionsResponse": {
+      "fields": {
+        "field_type": {
+          "type": {
+            "name": "FieldType2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "ListFieldDefinitionResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "custom_fields": {
+          "type": {
+            "element_type": {
+              "name": "CustomFieldDefinitionsResponse",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "reserved_fields": {
+          "type": {
+            "element_type": {
+              "name": "ReservedFieldDefinitionsResponse",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "Metadata": {
+      "fields": {
+        "count": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        },
+        "next": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "prev": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "self": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ReservedFieldDefinitionsResponse": {
+      "fields": {
+        "field_type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FieldType1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        },
+        "read_only": {
+          "description": "When `true` this means API consumers are unable to set the value of this field on contacts.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateFieldDefinitionBody": {
+      "fields": {
+        "name": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "UpdateFieldDefinitionResult": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "field_type": {
+          "type": {
+            "name": "FieldType2",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "CreateFieldDefinition": {
+      "request": {
+        "url": "/v3/marketing/field_definitions",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/marketing/field_definitions",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateFieldDefinitionBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create Custom Field Definition",
+      "result_type": {
+        "name": "CreateFieldDefinitionResult",
+        "type": "named"
+      }
+    },
+    "DeleteFieldDefinition": {
+      "request": {
+        "url": "/v3/marketing/field_definitions/{custom_field_id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "custom_field_id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "custom_field_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete Custom Field Definition",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "UpdateFieldDefinition": {
+      "request": {
+        "url": "/v3/marketing/field_definitions/{custom_field_id}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /v3/marketing/field_definitions/{custom_field_id}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateFieldDefinitionBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "custom_field_id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "custom_field_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update Custom Field Definition",
+      "result_type": {
+        "name": "UpdateFieldDefinitionResult",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "FieldType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Text",
+          "Number",
+          "Date"
+        ],
+        "type": "enum"
+      }
+    },
+    "FieldType1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Text",
+          "Number",
+          "Date"
+        ],
+        "type": "enum"
+      }
+    },
+    "FieldType2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Text",
+          "Number",
+          "Date"
+        ],
+        "type": "enum"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

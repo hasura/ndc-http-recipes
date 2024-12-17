@@ -1,0 +1,210 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {},
+  "object_types": {
+    "SendTestMarketingEmailBody": {
+      "fields": {
+        "custom_unsubscribe_url": {
+          "description": "A custom unsubscribe URL.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "emails": {
+          "description": "An array of email addresses you want to send the test message to.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "email"
+            }
+          }
+        },
+        "from_address": {
+          "description": "You can either specify this address or specify a verified sender ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "sender_id": {
+          "description": "This ID must belong to a verified sender. Alternatively, you may supply a `from_address` email.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "suppression_group_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "template_id": {
+          "description": "The ID of the template that you would like to use. If you use a template that contains a subject and content (either text or HTML), then those values specified at the personalizations or message level will not be used.",
+          "type": {
+            "name": "UUID",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid"
+          }
+        },
+        "version_id_override": {
+          "description": "You can override the active template with an alternative template version by passing the version ID in this field. If this field is blank, the active template version will be used.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UUID",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uuid"
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "SendTestMarketingEmail": {
+      "request": {
+        "url": "/v3/marketing/test/send_email",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/marketing/test/send_email",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendTestMarketingEmailBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Send a Test Marketing Email",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "UUID": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "uuid"
+      }
+    }
+  }
+}

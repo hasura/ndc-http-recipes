@@ -1,0 +1,342 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.aucklandmuseum.com",
+          "env": "AUCKLAND_MUSEUM_SERVER_URL"
+        }
+      }
+    ],
+    "version": "2.0.0"
+  },
+  "functions": {
+    "get_media": {
+      "request": {
+        "url": "/id/media/{path}",
+        "method": "get",
+        "response": {
+          "contentType": "image/jpeg"
+        }
+      },
+      "arguments": {
+        "path": {
+          "description": "The media `identifier`",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "path",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "rendering": {
+          "description": "The desired media `rendering`  Possible values: * `original.jpg` * `original.pdf` * `thumbnail.jpg` (fixed with 70px) * `standard.jpg` (fixed width 440px and height 440px) * `preview.jpg` (fixed height 100px)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "rendering",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve media associated with Collections and Cenotaph subjects in Auckland Museum",
+      "result_type": {
+        "name": "Binary",
+        "type": "named"
+      }
+    },
+    "get_search": {
+      "request": {
+        "url": "/search/{index}/{operation}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "index": {
+          "description": "search index name Possible values: * `collectionsonline` * `cenotaph`",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "index",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "operation": {
+          "description": "One of the supported elasticsearch operations like `_search` or `_suggest`",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "operation",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "q": {
+          "description": "One of the supported elasticsearch query parameter values for key `q`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Perform simple search queries over Auckland Museum Collections and Cenotaph data",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "get_subject": {
+      "request": {
+        "url": "/id/{identifier}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "identifier": {
+          "description": "The identifier path of the `subject` you're looking for",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "identifier",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Explore details about a given subject node",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "PostSparqlBody": {
+      "fields": {
+        "infer": {
+          "description": "Whether to get inferred results in the response",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "query": {
+          "description": "sparql query",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "post_search": {
+      "request": {
+        "url": "/search/{index}/{operation}",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "body",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PostSearch",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "format": "application/json"
+            }
+          }
+        },
+        "index": {
+          "description": "search index name Possible values: * `collectionsonline` * `cenotaph`",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "index",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "operation": {
+          "description": "One of the supported elasticsearch operations like `_search` or `_suggest`",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "operation",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Perform complex search queries over Auckland Museum Collections and Cenotaph data",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "post_sparql": {
+      "request": {
+        "url": "/sparql",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/sparql-results+json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Form data of /sparql",
+          "type": {
+            "name": "PostSparqlBody",
+            "type": "named"
+          },
+          "http": {
+            "in": "formData",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Auckland Museum SPARQL endpoint",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Binary": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "bytes"
+      }
+    },
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "PostSearch": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

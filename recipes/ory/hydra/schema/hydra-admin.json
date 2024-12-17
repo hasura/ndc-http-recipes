@@ -4,48 +4,10 @@
     "servers": [
       {
         "url": {
-          "value": "",
           "env": "HYDRA_ADMIN_SERVER_URL"
         }
       }
-    ],
-    "securitySchemes": {
-      "basic": {
-        "type": "basic",
-        "header": "",
-        "username": {
-          "env": "HYDRA_ADMIN_BASIC_USERNAME"
-        },
-        "password": {
-          "env": "HYDRA_ADMIN_BASIC_PASSWORD"
-        }
-      },
-      "bearer": {
-        "type": "http",
-        "header": "Authorization",
-        "scheme": "bearer",
-        "value": {
-          "env": "HYDRA_ADMIN_BEARER_TOKEN"
-        }
-      },
-      "oauth2": {
-        "type": "oauth2",
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://hydra.demo.ory.sh/oauth2/auth",
-            "tokenUrl": {
-              "value": "https://hydra.demo.ory.sh/oauth2/token",
-              "env": "HYDRA_ADMIN_OAUTH2_TOKEN_URL"
-            },
-            "scopes": {
-              "offline": "A scope required when requesting refresh tokens (alias for `offline_access`)",
-              "offline_access": "A scope required when requesting refresh tokens",
-              "openid": "Request an OpenID Connect ID Token"
-            }
-          }
-        }
-      }
-    }
+    ]
   },
   "functions": {
     "hydraGetJsonWebKey": {
@@ -925,7 +887,7 @@
         "alg": {
           "description": "JSON Web Key Algorithm  The algorithm to be used for creating the key. Supports `RS256`, `ES256`, `ES512`, `HS512`, and `HS256`.",
           "type": {
-            "name": "String",
+            "name": "JsonWebKeyAlgorithm",
             "type": "named"
           },
           "http": {
@@ -1314,7 +1276,7 @@
         "alg": {
           "description": "The \"alg\" (algorithm) parameter identifies the algorithm intended for use with the key.  The values used should either be registered in the IANA \"JSON Web Signature and Encryption Algorithms\" registry established by [JWA] or be a value that contains a Collision- Resistant Name.",
           "type": {
-            "name": "String",
+            "name": "JsonWebKeyAlgorithm",
             "type": "named"
           },
           "http": {
@@ -1880,7 +1842,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "String",
+                "name": "OAuth2GrantType",
                 "type": "named"
               },
               "type": "array"
@@ -2157,7 +2119,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "OAuth2SigningAlgorithm",
               "type": "named"
             }
           },
@@ -2194,7 +2156,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "String",
+                "name": "OAuth2ResponseType",
                 "type": "named"
               },
               "type": "array"
@@ -2216,7 +2178,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "OAuth2Scope",
               "type": "named"
             }
           },
@@ -2276,7 +2238,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "OpenIDConnectSubjectType",
               "type": "named"
             }
           },
@@ -2291,7 +2253,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "TokenEndpointAuthMethod",
               "type": "named"
             }
           },
@@ -2306,7 +2268,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "OAuth2SigningAlgorithm",
               "type": "named"
             }
           },
@@ -2352,7 +2314,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "OAuth2SigningAlgorithm",
               "type": "named"
             }
           },
@@ -4696,6 +4658,80 @@
         "type": "json"
       }
     },
+    "JsonWebKeyAlgorithm": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "RS256",
+          "RS512",
+          "ES256",
+          "ES512",
+          "EdDSA"
+        ],
+        "type": "enum"
+      }
+    },
+    "OAuth2GrantType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "authorization_code",
+          "implicit",
+          "client_credentials",
+          "refresh_token"
+        ],
+        "type": "enum"
+      }
+    },
+    "OAuth2ResponseType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "code",
+          "token",
+          "id_token"
+        ],
+        "type": "enum"
+      }
+    },
+    "OAuth2Scope": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "offline_access",
+          "offline",
+          "openid"
+        ],
+        "type": "enum"
+      }
+    },
+    "OAuth2SigningAlgorithm": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "none",
+          "RS256",
+          "ES256"
+        ],
+        "type": "enum"
+      }
+    },
+    "OpenIDConnectSubjectType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "public",
+          "pairwise"
+        ],
+        "type": "enum"
+      }
+    },
     "String": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -4708,6 +4744,20 @@
       "comparison_operators": {},
       "representation": {
         "type": "timestamptz"
+      }
+    },
+    "TokenEndpointAuthMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "client_secret_post",
+          "client_secret_basic",
+          "client_secret_jwt",
+          "private_key_jwt",
+          "none"
+        ],
+        "type": "enum"
       }
     }
   }

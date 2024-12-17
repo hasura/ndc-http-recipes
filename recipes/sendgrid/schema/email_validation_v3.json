@@ -1,0 +1,878 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api.sendgrid.com",
+          "env": "SENDGRID_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "bearer",
+        "value": {
+          "env": "SENDGRID_API_KEY"
+        }
+      }
+    },
+    "security": [
+      {
+        "BearerAuth": []
+      }
+    ],
+    "version": "1.0.0"
+  },
+  "functions": {
+    "GetEmailJobForVerification": {
+      "request": {
+        "url": "/v3/validations/email/jobs/{job_id}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "job_id": {
+          "description": "The ID of the Bulk Email Address Validation Job you wish to retrieve.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "job_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "This request returns a single Bulk Email Validation Job.",
+      "result_type": {
+        "name": "GetValidationsEmailJobsJobId200Response",
+        "type": "named"
+      }
+    },
+    "GetValidationsEmailJobs": {
+      "request": {
+        "url": "/v3/validations/email/jobs",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "This request lists all of a user's Bulk Email Validation Jobs.",
+      "result_type": {
+        "name": "GetValidationsEmailJobs200Response",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "GetValidationsEmailJobs200Response": {
+      "fields": {
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "GetValidationsEmailJobs200ResponseResult",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "GetValidationsEmailJobs200ResponseResult": {
+      "fields": {
+        "finished_at": {
+          "description": "The ISO8601 timestamp when the Job was finished.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "id": {
+          "description": "The unique ID of the Bulk Email Address Validation Job.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "started_at": {
+          "description": "The ISO8601 timestamp when the Job was created. This is the time at which the upload request was sent to the `upload_uri`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Status",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetValidationsEmailJobsJobId200Response": {
+      "fields": {
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "GetValidationsEmailJobsJobId200ResponseResult",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "GetValidationsEmailJobsJobId200ResponseResult": {
+      "fields": {
+        "errors": {
+          "description": "Array containing error messages related to the Bulk Email Address Validation Job. Array is empty if no errors ocurred.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "GetValidationsEmailJobsJobId200ResponseResultErrors",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "finished_at": {
+          "description": "The ISO8601 timestamp when the Job was finished.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "id": {
+          "description": "The unique ID of the Bulk Email Address Validation Job.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "is_download_available": {
+          "description": "Boolean indicating whether the results CSV file is available for download.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "segments": {
+          "description": "The total number of segments in the Bulk Email Address Validation Job. There are 1,500 email addresses per segment. The value is `0` until the Job `status` is `Processing`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "segments_processed": {
+          "description": "The number of segments processed at the time of the request. 100 segments process in parallel at a time.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "started_at": {
+          "description": "The ISO8601 timestamp when the Job was created. This is the time at which the upload request was sent to the `upload_uri`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Status1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetValidationsEmailJobsJobId200ResponseResultErrors": {
+      "fields": {
+        "message": {
+          "description": "Description of the error encountered during execution of the Bulk Email Address Validation Job.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ListEmailJobForVerificationBody": {
+      "fields": {
+        "file_type": {
+          "type": {
+            "name": "FileType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "PutValidationsEmailJobs200Response": {
+      "fields": {
+        "job_id": {
+          "description": "The unique ID of the Bulk Email Address Validation Job.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "upload_headers": {
+          "description": "Array containing headers and header values.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PutValidationsEmailJobs200ResponseUploadHeaders",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "upload_uri": {
+          "description": "The URI to use for the request to upload your list of email addresses.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "PutValidationsEmailJobs200ResponseUploadHeaders": {
+      "fields": {
+        "header": {
+          "description": "The name of the header that must be included in the upload request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The value of the header that must be included in the upload request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailBody": {
+      "fields": {
+        "email": {
+          "description": "The email address that you want to validate.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "source": {
+          "description": "A one-word classifier for where this validation originated.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResult": {
+      "fields": {
+        "result": {
+          "type": {
+            "name": "ValidateEmailResultResult",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResult": {
+      "fields": {
+        "checks": {
+          "description": "Granular checks for email address validity.",
+          "type": {
+            "name": "ValidateEmailResultResultChecks",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "email": {
+          "description": "The email being validated",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "host": {
+          "description": "The domain of the email address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "hostname"
+          }
+        },
+        "ip_address": {
+          "description": "The IP address associated with this email.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "local": {
+          "description": "The local part of the email address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "score": {
+          "description": "A numeric representation of the email validity.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "source": {
+          "description": "The source of the validation, as per the API request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "suggestion": {
+          "description": "A suggested correction in the event of domain name typos (e.g., gmial.com)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "verdict": {
+          "type": {
+            "name": "Verdict",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResultChecks": {
+      "description": "Granular checks for email address validity.",
+      "fields": {
+        "additional": {
+          "description": "Additional checks on the email address.",
+          "type": {
+            "name": "ValidateEmailResultResultChecksAdditional",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "Checks on the domain portion of the email address.",
+          "type": {
+            "name": "ValidateEmailResultResultChecksDomain",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "local_part": {
+          "description": "Checks on the local part of the email address.",
+          "type": {
+            "name": "ValidateEmailResultResultChecksLocalPart",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResultChecksAdditional": {
+      "description": "Additional checks on the email address.",
+      "fields": {
+        "has_known_bounces": {
+          "description": "Whether email sent to this address from your account has bounced.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_suspected_bounces": {
+          "description": "Whether our model predicts that the email address might bounce.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResultChecksDomain": {
+      "description": "Checks on the domain portion of the email address.",
+      "fields": {
+        "has_mx_or_a_record": {
+          "description": "Whether the email has appropriate DNS records to deliver a message.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_valid_address_syntax": {
+          "description": "Whether the email address syntax is valid.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "is_suspected_disposable_address": {
+          "description": "Whether the domain appears to be from a disposable email address service.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResultChecksLocalPart": {
+      "description": "Checks on the local part of the email address.",
+      "fields": {
+        "is_suspected_role_address": {
+          "description": "Whether the local part of email appears to be a role or group (e.g., hr, admin)",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "ListEmailJobForVerification": {
+      "request": {
+        "url": "/v3/validations/email/jobs",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /v3/validations/email/jobs",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListEmailJobForVerificationBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Request a presigned URL and headers for Bulk Email Address Validation list upload.",
+      "result_type": {
+        "name": "PutValidationsEmailJobs200Response",
+        "type": "named"
+      }
+    },
+    "ValidateEmail": {
+      "request": {
+        "url": "/v3/validations/email",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /v3/validations/email",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ValidateEmailBody",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Validate an email",
+      "result_type": {
+        "name": "ValidateEmailResult",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "FileType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "csv",
+          "zip"
+        ],
+        "type": "enum"
+      }
+    },
+    "Float64": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "float64"
+      }
+    },
+    "Status": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Initiated",
+          "Queued",
+          "Ready",
+          "Processing",
+          "Done",
+          "Error"
+        ],
+        "type": "enum"
+      }
+    },
+    "Status1": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Initiated",
+          "Queued",
+          "Ready",
+          "Processing",
+          "Done",
+          "Error"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "Verdict": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Valid",
+          "Risky",
+          "Invalid"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}
