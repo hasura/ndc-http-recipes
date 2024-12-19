@@ -3595,7 +3595,7 @@
       },
       "arguments": {
         "in": {
-          "description": "Where to search and apply a XPath expression: either the list of projects or the list of packages.  Example of a result when `projects` is selected: ``` collection   project name=\"home:Admin\"     title/title     description/description     person userid=\"Admin\" role=\"maintainer\"/     repository name=\"openSUSE_Tumbleweed\"       path project=\"openSUSE.org:openSUSE:Factory\" repository=\"snapshot\"/       archx86_64/arch     /repository     repository name=\"15.3\"       path project=\"openSUSE.org:openSUSE:Leap:15.3\" repository=\"standard\"/       archx86_64/arch     /repository   /project   project name=\"openSUSE.org\"     titleStandard OBS instance at build.opensuse.org/title     descriptionThis instance delivers the default build targets for OBS./description     remoteurlhttps://api.opensuse.org/public/remoteurl   /project /collection ```  Example of a result when `packages` is selected: ``` collection   package name=\"ctris\" project=\"home:Admin\"     title/title     description/description   /package /collection ```",
+          "description": "Where to search and apply a XPath expression: either the list of projects or the list of packages.  Example of a result when `projects` is selected: ```                                      x86_64                        x86_64                Standard OBS instance at build.opensuse.org     This instance delivers the default build targets for OBS.     https://api.opensuse.org/public     ```  Example of a result when `packages` is selected: ```                   ```",
           "type": {
             "name": "SearchIn",
             "type": "named"
@@ -3627,7 +3627,7 @@
           }
         },
         "return": {
-          "description": "XPath expression that defines which values will be returned.  Instead of returning a collection of projects or packages, the result will be a collection of:   - contents of elements, when that XPath expression match elements, or,   - values of atttributes, when that XPath expression match atttributes.  Example of result, for a query string like `?in=projectsmatch=repository/arch='x86_64'return=repository/name`: ``` collection   valueopenSUSE_Tumbleweed/value   value15.3/value /collection ```",
+          "description": "XPath expression that defines which values will be returned.  Instead of returning a collection of projects or packages, the result will be a collection of:   - contents of elements, when that XPath expression match elements, or,   - values of atttributes, when that XPath expression match atttributes.  Example of result, for a query string like `?in=projects&match=repository/arch='x86_64'&return=repository/name`: ```    openSUSE_Tumbleweed   15.3  ```",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -3646,7 +3646,7 @@
           }
         },
         "values": {
-          "description": "When set to `1`, return a list of values, instead of returning a list of projects or packages.  The result will be a collection of:   - contents of elements, when the expression defined in the `match` query parameter match elements.     For example: `match=repository/arch`.   - values of atttributes, when the expression defined in the `match` query parameter match atttributes.     For example: `match=repository/name`.  Example of result, for a query string like `?in=projectsmatch=repository/path/projectvalues=1`: ``` collection   valueopenSUSE.org:openSUSE:Factory/value   valueopenSUSE.org:openSUSE:Leap:15.3/value /collection ```",
+          "description": "When set to `1`, return a list of values, instead of returning a list of projects or packages.  The result will be a collection of:   - contents of elements, when the expression defined in the `match` query parameter match elements.     For example: `match=repository/arch`.   - values of atttributes, when the expression defined in the `match` query parameter match atttributes.     For example: `match=repository/name`.  Example of result, for a query string like `?in=projects&match=repository/path/project&values=1`: ```    openSUSE.org:openSUSE:Factory   openSUSE.org:openSUSE:Leap:15.3  ```",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -3667,7 +3667,7 @@
       },
       "description": "Search in projects or in packages.",
       "result_type": {
-        "name": "JSON",
+        "name": "GetSearchResult",
         "type": "named"
       }
     },
@@ -5328,7 +5328,7 @@
           }
         },
         "view": {
-          "description": "Specify which sections should be included in the packages list.  * `issues`: Show all tracked issues for all the packages. * `productlist`: Show all contained products. * `verboseproductlist`: List all contained products with detailed information about the product.  Example of a result when `issues` is selected: ``` project name=\"Base:System\"   package project=\"Base:System\" name=\"xz\"     issue change=\"kept\"       created_at2009-05-21 10:50:00 UTC/created_at       updated_at2020-02-24 13:01:11 UTC/updated_at       name505969/name       trackerbnc/tracker       labelboo#505969/label       urlhttps://bugzilla.opensuse.org/show_bug.cgi?id=505969/url       stateCLOSED/state       summarylzma, xz: missing manpages/summary       owner         logincoolo/login         emailcoolo@suse.com/email         realnameStephan Kulow/realname       /owner     /issue     issue change=\"kept\"       created_at2009-06-04 14:35:00 UTC/created_at       updated_at2020-02-24 13:01:11 UTC/updated_at       name509945/name       trackerbnc/tracker       labelboo#509945/label       urlhttps://bugzilla.opensuse.org/show_bug.cgi?id=509945/url       stateCLOSED/state       summaryEnforce packaging of static libraries by rpmlint check/summary       owner         logindirkmueller/login         emaildmueller@suse.com/email         realnameDirk Mueller/realname       /owner     /issue   /package /project  ```  Example of a result when `productlist` is selected: ``` productlist count=\"3\"   product name=\"openSUSE-Addon-NonOss\" cpe=\"cpe:/o:opensuse:opensuse-addon-nonoss:20230108\" originproject=\"openSUSE:Factory\" originpackage=\"000product\" mtime=\"1673224560\"/   product name=\"openSUSE\" cpe=\"cpe:/o:opensuse:opensuse:20230108\" originproject=\"openSUSE:Factory\" originpackage=\"000product\" mtime=\"1673224560\"/   product name=\"MicroOS\" cpe=\"cpe:/o:opensuse:microos:20230108\" originproject=\"openSUSE:Factory\" originpackage=\"000product\" mtime=\"1673224560\"/ /productlist ```  Example of a result when `verboseproductlist` is selected: ``` productlist count=\"3\"   product name=\"openSUSE-Addon-NonOss\" originproject=\"openSUSE:Factory\" originpackage=\"000product\"     cpecpe:/o:opensuse:opensuse-addon-nonoss:20230108/cpe     version20230108/version   /product   product name=\"openSUSE\" originproject=\"openSUSE:Factory\" originpackage=\"000product\"     cpecpe:/o:opensuse:opensuse:20230108/cpe     version20230108/version   /product   product name=\"MicroOS\" originproject=\"openSUSE:Factory\" originpackage=\"000product\"     cpecpe:/o:opensuse:microos:20230108/cpe     version20230108/version   /product /productlist ```",
+          "description": "Specify which sections should be included in the packages list.  * `issues`: Show all tracked issues for all the packages. * `productlist`: Show all contained products. * `verboseproductlist`: List all contained products with detailed information about the product.  Example of a result when `issues` is selected: ```                2009-05-21 10:50:00 UTC       2020-02-24 13:01:11 UTC       505969       bnc       boo#505969       https://bugzilla.opensuse.org/show_bug.cgi?id=505969       CLOSED       lzma, xz: missing manpages                coolo         coolo@suse.com         Stephan Kulow                        2009-06-04 14:35:00 UTC       2020-02-24 13:01:11 UTC       509945       bnc       boo#509945       https://bugzilla.opensuse.org/show_bug.cgi?id=509945       CLOSED       Enforce packaging of static libraries by rpmlint check                dirkmueller         dmueller@suse.com         Dirk Mueller                  ```  Example of a result when `productlist` is selected: ```            ```  Example of a result when `verboseproductlist` is selected: ```         cpe:/o:opensuse:opensuse-addon-nonoss:20230108     20230108           cpe:/o:opensuse:opensuse:20230108     20230108           cpe:/o:opensuse:microos:20230108     20230108     ```",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -5349,7 +5349,7 @@
       },
       "description": "List packages of a project.",
       "result_type": {
-        "name": "JSON",
+        "name": "GetSourceProjectNameResult",
         "type": "named"
       }
     },
@@ -5871,7 +5871,7 @@
           }
         },
         "view": {
-          "description": "Specify which information about a package should be returned.  * `cpio`: Stream all package files as cpio. * `getmultibuild`: List multibuild packages. * `info`: Show source version, md5sums and build description files, among other information.    See this [other endpoint](#/Sources - Packages/get_source__project_name___package_name__view_info) for details. * `issues`: Show all tracked issues for this package. * `products`: Show all products of a package (works only on `_product` or `000product` packages). * `productrepositories`: Show all repositories used in product definitions (or a given product).",
+          "description": "Specify which information about a package should be returned.  * `cpio`: Stream all package files as cpio. * `getmultibuild`: List multibuild packages. * `info`: Show source version, md5sums and build description files, among other information.    See this [other endpoint]() for details. * `issues`: Show all tracked issues for this package. * `products`: Show all products of a package (works only on `_product` or `000product` packages). * `productrepositories`: Show all repositories used in product definitions (or a given product).",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -6922,7 +6922,7 @@
           }
         },
         "view": {
-          "description": "Specify which information about a package should be returned.  * `info`: Show source version, md5sums and build description files, among other information. * `cpio`, `getmultibuild`, `issues`, `products`, `productrepositories`:   See this [other endpoint](#/Sources - Files/get_source__project_name___package_name_) for details.",
+          "description": "Specify which information about a package should be returned.  * `info`: Show source version, md5sums and build description files, among other information. * `cpio`, `getmultibuild`, `issues`, `products`, `productrepositories`:   See this [other endpoint]() for details.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -7539,7 +7539,7 @@
           }
         },
         "view": {
-          "description": "Specify which information about each package should be returned.  * `info`: Show source version, md5sums and build description files of all packages belonging to a project. * `issues`, `productlist`, `verboseproductlist`:   See this [other endpoint](#/Sources - Packages/get_source__project_name_) for details.",
+          "description": "Specify which information about each package should be returned.  * `info`: Show source version, md5sums and build description files of all packages belonging to a project. * `issues`, `productlist`, `verboseproductlist`:   See this [other endpoint]() for details.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -29706,6 +29706,253 @@
         }
       }
     },
+    "GetSearchResult": {
+      "fields": {
+        "matches": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "package": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "GetSearchResult1Package",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "project": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "GetSearchResult0Project",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "GetSearchResult0Project": {
+      "fields": {
+        "description": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "person": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "GetSearchResult0ProjectPerson",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "title": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetSearchResult0ProjectPerson": {
+      "fields": {
+        "role": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "userid": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "xmlValue": {
+          "description": "Value of the xml field",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "text": true
+            }
+          }
+        }
+      }
+    },
+    "GetSearchResult1Package": {
+      "fields": {
+        "description": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "project": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "title": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
     "GetServiceResult": {
       "fields": {
         "description": {
@@ -32592,6 +32839,46 @@
             ],
             "xml": {
               "text": true
+            }
+          }
+        }
+      }
+    },
+    "GetSourceProjectNameResult": {
+      "fields": {
+        "count": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "attribute": true
+            }
+          }
+        },
+        "entry": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
             }
           }
         }
@@ -62874,7 +63161,7 @@
           }
         },
         "target_project": {
-          "description": "target project name, optional (default home:user:branches:project)",
+          "description": "target project name, optional (default home::branches:)",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -66210,7 +66497,7 @@
       "result_type": {
         "type": "nullable",
         "underlying_type": {
-          "name": "Boolean",
+          "name": "JSON",
           "type": "named"
         }
       }
