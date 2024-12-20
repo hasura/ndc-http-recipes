@@ -5502,11 +5502,8 @@
         "type": {
           "description": "The type of tool being defined: `code_interpreter`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "AssistantObjectEnum_code_interpreter_file_search_function",
-              "type": "named"
-            }
+            "name": "AssistantObjectToolsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -7764,7 +7761,6 @@
       }
     },
     "ChatCompletionRequestMessageInput": {
-      "description": "Developer-provided instructions that the model should follow, regardless of messages sent by the user. With o1 models and newer, `developer` messages replace the previous `system` messages.",
       "fields": {
         "audio": {
           "description": "Data about a previous audio response from the model.  [Learn more](/docs/guides/audio).",
@@ -7782,16 +7778,12 @@
           }
         },
         "content": {
-          "description": "The contents of the developer message.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
-          },
-          "http": {
-            "type": []
           }
         },
         "function_call": {
@@ -7842,11 +7834,8 @@
         "role": {
           "description": "The role of the messages author, in this case `developer`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ChatCompletionRequestMessageEnum_assistant_developer_function_system_tool_user",
-              "type": "named"
-            }
+            "name": "ChatCompletionRequestMessageRoleEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -7874,8 +7863,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
-              "type": "named"
+              "element_type": {
+                "name": "ChatCompletionMessageToolCall",
+                "type": "named"
+              },
+              "type": "array"
             }
           },
           "http": {
@@ -8233,7 +8225,7 @@
       }
     },
     "ChunkingStrategyRequestParamInput": {
-      "description": "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.",
+      "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
       "fields": {
         "static": {
           "type": {
@@ -8252,11 +8244,8 @@
         "type": {
           "description": "Always `auto`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ChunkingStrategyRequestParamEnum_auto_static",
-              "type": "named"
-            }
+            "name": "ChunkingStrategyRequestParamTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -8783,7 +8772,7 @@
       }
     },
     "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategyInput": {
-      "description": "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.",
+      "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
       "fields": {
         "static": {
           "type": {
@@ -8802,11 +8791,8 @@
         "type": {
           "description": "Always `auto`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateAssistantRequestEnum_auto_static",
-              "type": "named"
-            }
+            "name": "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategyTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -8940,11 +8926,8 @@
         "type": {
           "description": "The type of tool being defined: `code_interpreter`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateAssistantRequestEnum_code_interpreter_file_search_function",
-              "type": "named"
-            }
+            "name": "CreateAssistantRequestToolsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -9507,6 +9490,7 @@
       }
     },
     "CreateChatCompletionRequestResponseFormatInput": {
+      "description": "An object specifying the format that the model must output.  Setting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables Structured Outputs which ensures the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](/docs/guides/structured-outputs).  Setting to `{ \"type\": \"json_object\" }` enables JSON mode, which ensures the message the model generates is valid JSON.  **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly \"stuck\" request. Also note that the message content may be partially cut off if `finish_reason=\"length\"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length. ",
       "fields": {
         "json_schema": {
           "type": {
@@ -9525,11 +9509,8 @@
         "type": {
           "description": "The type of response format being defined: `text`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateChatCompletionRequestEnum_json_object_json_schema_text",
-              "type": "named"
-            }
+            "name": "CreateChatCompletionRequestResponseFormatTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -11124,11 +11105,8 @@
         "type": {
           "description": "The type of tool being defined: `code_interpreter`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateMessageRequestEnum_code_interpreter_file_search",
-              "type": "named"
-            }
+            "name": "CreateMessageRequestAttachmentsToolsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -12206,11 +12184,8 @@
         "type": {
           "description": "The type of tool being defined: `code_interpreter`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateRunRequestEnum_code_interpreter_file_search_function",
-              "type": "named"
-            }
+            "name": "CreateRunRequestToolsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -12664,11 +12639,8 @@
         "type": {
           "description": "The type of tool being defined: `code_interpreter`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateThreadAndRunRequestEnum_code_interpreter_file_search_function",
-              "type": "named"
-            }
+            "name": "CreateThreadAndRunRequestToolsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -12838,7 +12810,7 @@
       }
     },
     "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategyInput": {
-      "description": "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.",
+      "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
       "fields": {
         "static": {
           "type": {
@@ -12857,11 +12829,8 @@
         "type": {
           "description": "Always `auto`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateThreadRequestEnum_auto_static",
-              "type": "named"
-            }
+            "name": "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategyTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -13074,7 +13043,6 @@
       }
     },
     "CreateTranscriptionResult": {
-      "description": "Represents a transcription response returned by model, based on the provided input.",
       "fields": {
         "duration": {
           "description": "The duration of the input audio.",
@@ -13127,11 +13095,8 @@
         "text": {
           "description": "The transcribed text.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -13284,12 +13249,10 @@
           }
         },
         "text": {
+          "description": "The translated text.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -13422,7 +13385,7 @@
       }
     },
     "CreateVectorStoreRequestChunkingStrategyInput": {
-      "description": "The default strategy. This strategy currently uses a `max_chunk_size_tokens` of `800` and `chunk_overlap_tokens` of `400`.",
+      "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty.",
       "fields": {
         "static": {
           "type": {
@@ -13441,11 +13404,8 @@
         "type": {
           "description": "Always `auto`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateVectorStoreRequestEnum_auto_static",
-              "type": "named"
-            }
+            "name": "CreateVectorStoreRequestChunkingStrategyTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -15900,15 +15860,11 @@
       }
     },
     "MessageContentTextObjectTextAnnotations": {
-      "description": "A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the \"file_search\" tool to search files.",
       "fields": {
         "end_index": {
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
+            "name": "Int32",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -15947,11 +15903,8 @@
         },
         "start_index": {
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
+            "name": "Int32",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -15963,11 +15916,8 @@
         "text": {
           "description": "The text in the message content that needs to be replaced.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -15978,11 +15928,8 @@
         "type": {
           "description": "Always `file_citation`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "MessageContentTextObjectEnum_file_citation_file_path",
-              "type": "named"
-            }
+            "name": "MessageContentTextObjectTextAnnotationsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -16249,11 +16196,8 @@
         "type": {
           "description": "The type of tool being defined: `code_interpreter`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "MessageObjectEnum_code_interpreter_file_search",
-              "type": "named"
-            }
+            "name": "MessageObjectAttachmentsToolsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -16264,7 +16208,6 @@
       }
     },
     "MessageObjectContent": {
-      "description": "References an image [File](/docs/api-reference/files) in the content of a message.",
       "fields": {
         "image_file": {
           "type": {
@@ -16325,11 +16268,8 @@
         "type": {
           "description": "Always `image_file`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "MessageObjectEnum_image_file_image_url_refusal_text",
-              "type": "named"
-            }
+            "name": "MessageObjectContentTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -16644,11 +16584,8 @@
         "type": {
           "description": "The type of tool being defined: `code_interpreter`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ModifyAssistantRequestEnum_code_interpreter_file_search_function",
-              "type": "named"
-            }
+            "name": "ModifyAssistantRequestToolsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -19388,11 +19325,8 @@
         "type": {
           "description": "The type of tool being defined: `code_interpreter`",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "RunObjectEnum_code_interpreter_file_search_function",
-              "type": "named"
-            }
+            "name": "RunObjectToolsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -19497,7 +19431,6 @@
       }
     },
     "RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputs": {
-      "description": "Text output from the Code Interpreter tool call as part of a run step.",
       "fields": {
         "image": {
           "type": {
@@ -19531,11 +19464,8 @@
         "type": {
           "description": "Always `logs`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "RunStepDetailsToolCallsCodeObjectEnum_image_logs",
-              "type": "named"
-            }
+            "name": "RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -19775,7 +19705,6 @@
       }
     },
     "RunStepDetailsToolCallsObjectToolCalls": {
-      "description": "Details of the Code Interpreter tool call the run step was involved in.",
       "fields": {
         "code_interpreter": {
           "description": "The Code Interpreter tool call definition.",
@@ -19825,11 +19754,8 @@
         "id": {
           "description": "The ID of the tool call.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -19840,11 +19766,8 @@
         "type": {
           "description": "The type of tool call. This is always going to be `code_interpreter` for this type of tool call.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "RunStepDetailsToolCallsObjectEnum_code_interpreter_file_search_function",
-              "type": "named"
-            }
+            "name": "RunStepDetailsToolCallsObjectToolCallsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -20102,7 +20025,7 @@
       }
     },
     "RunStepObjectStepDetails": {
-      "description": "Details of the message creation by the run step.",
+      "description": "The details of the run step.",
       "fields": {
         "message_creation": {
           "type": {
@@ -20144,11 +20067,8 @@
         "type": {
           "description": "Always `message_creation`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "RunStepObjectEnum_message_creation_tool_calls",
-              "type": "named"
-            }
+            "name": "RunStepObjectStepDetailsTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -21029,7 +20949,6 @@
       }
     },
     "UsageTimeBucketResult": {
-      "description": "The aggregated completions usage details of the specific time bucket.",
       "fields": {
         "amount": {
           "description": "The monetary value in its associated currency.",
@@ -21198,11 +21117,8 @@
         },
         "object": {
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "UsageTimeBucketEnum_organization.costs.result_organization.usage.audio_speeches.result_organization.usage.audio_transcriptions.result_organization.usage.code_interpreter_sessions.result_organization.usage.completions.result_organization.usage.embeddings.result_organization.usage.images.result_organization.usage.moderations.result_organization.usage.vector_stores.result",
-              "type": "named"
-            }
+            "name": "UsageTimeBucketResultObjectEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -21818,7 +21734,7 @@
       }
     },
     "VectorStoreFileObjectChunkingStrategy": {
-      "description": "This is returned when the chunking strategy is unknown. Typically, this is because the file was indexed before the `chunking_strategy` concept was introduced in the API.",
+      "description": "The strategy used to chunk the file.",
       "fields": {
         "static": {
           "type": {
@@ -21837,11 +21753,8 @@
         "type": {
           "description": "Always `static`.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "VectorStoreFileObjectEnum_other_static",
-              "type": "named"
-            }
+            "name": "VectorStoreFileObjectChunkingStrategyTypeEnum",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -24395,7 +24308,17 @@
     }
   },
   "scalar_types": {
-    "AssistantObjectEnum_code_interpreter_file_search_function": {
+    "AssistantObjectObject": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "assistant"
+        ],
+        "type": "enum"
+      }
+    },
+    "AssistantObjectToolsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -24403,16 +24326,6 @@
           "code_interpreter",
           "file_search",
           "function"
-        ],
-        "type": "enum"
-      }
-    },
-    "AssistantObjectObject": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "assistant"
         ],
         "type": "enum"
       }
@@ -24593,7 +24506,7 @@
         "type": "enum"
       }
     },
-    "ChatCompletionRequestMessageEnum_assistant_developer_function_system_tool_user": {
+    "ChatCompletionRequestMessageRoleEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -24635,7 +24548,7 @@
         "type": "enum"
       }
     },
-    "ChunkingStrategyRequestParamEnum_auto_static": {
+    "ChunkingStrategyRequestParamTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -24646,7 +24559,7 @@
         "type": "enum"
       }
     },
-    "CreateAssistantRequestEnum_auto_static": {
+    "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategyTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -24657,7 +24570,7 @@
         "type": "enum"
       }
     },
-    "CreateAssistantRequestEnum_code_interpreter_file_search_function": {
+    "CreateAssistantRequestToolsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -24700,18 +24613,6 @@
         "type": "enum"
       }
     },
-    "CreateChatCompletionRequestEnum_json_object_json_schema_text": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "json_object",
-          "json_schema",
-          "text"
-        ],
-        "type": "enum"
-      }
-    },
     "CreateChatCompletionRequestReasoningEffort": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -24720,6 +24621,18 @@
           "low",
           "medium",
           "high"
+        ],
+        "type": "enum"
+      }
+    },
+    "CreateChatCompletionRequestResponseFormatTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "json_object",
+          "json_schema",
+          "text"
         ],
         "type": "enum"
       }
@@ -24929,7 +24842,7 @@
         "type": "enum"
       }
     },
-    "CreateMessageRequestEnum_code_interpreter_file_search": {
+    "CreateMessageRequestAttachmentsToolsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -25087,7 +25000,7 @@
         "type": "enum"
       }
     },
-    "CreateRunRequestEnum_code_interpreter_file_search_function": {
+    "CreateRunRequestToolsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -25129,7 +25042,7 @@
         "type": "enum"
       }
     },
-    "CreateThreadAndRunRequestEnum_code_interpreter_file_search_function": {
+    "CreateThreadAndRunRequestToolsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -25141,7 +25054,7 @@
         "type": "enum"
       }
     },
-    "CreateThreadRequestEnum_auto_static": {
+    "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategyTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -25176,7 +25089,7 @@
         "type": "enum"
       }
     },
-    "CreateVectorStoreRequestEnum_auto_static": {
+    "CreateVectorStoreRequestChunkingStrategyTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -25608,7 +25521,7 @@
         "type": "enum"
       }
     },
-    "MessageContentTextObjectEnum_file_citation_file_path": {
+    "MessageContentTextObjectTextAnnotationsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -25619,7 +25532,7 @@
         "type": "enum"
       }
     },
-    "MessageObjectEnum_code_interpreter_file_search": {
+    "MessageObjectAttachmentsToolsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -25630,7 +25543,7 @@
         "type": "enum"
       }
     },
-    "MessageObjectEnum_image_file_image_url_refusal_text": {
+    "MessageObjectContentTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -25697,7 +25610,7 @@
         "type": "json"
       }
     },
-    "ModifyAssistantRequestEnum_code_interpreter_file_search_function": {
+    "ModifyAssistantRequestToolsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -26092,18 +26005,6 @@
         "type": "enum"
       }
     },
-    "RunObjectEnum_code_interpreter_file_search_function": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "code_interpreter",
-          "file_search",
-          "function"
-        ],
-        "type": "enum"
-      }
-    },
     "RunObjectIncompleteDetailsReason": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -26165,7 +26066,19 @@
         "type": "enum"
       }
     },
-    "RunStepDetailsToolCallsCodeObjectEnum_image_logs": {
+    "RunObjectToolsTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "code_interpreter",
+          "file_search",
+          "function"
+        ],
+        "type": "enum"
+      }
+    },
+    "RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -26196,7 +26109,7 @@
         "type": "enum"
       }
     },
-    "RunStepDetailsToolCallsObjectEnum_code_interpreter_file_search_function": {
+    "RunStepDetailsToolCallsObjectToolCallsTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -26204,17 +26117,6 @@
           "code_interpreter",
           "file_search",
           "function"
-        ],
-        "type": "enum"
-      }
-    },
-    "RunStepObjectEnum_message_creation_tool_calls": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "message_creation",
-          "tool_calls"
         ],
         "type": "enum"
       }
@@ -26250,6 +26152,17 @@
           "failed",
           "completed",
           "expired"
+        ],
+        "type": "enum"
+      }
+    },
+    "RunStepObjectStepDetailsTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "message_creation",
+          "tool_calls"
         ],
         "type": "enum"
       }
@@ -26549,7 +26462,17 @@
         "type": "enum"
       }
     },
-    "UsageTimeBucketEnum_organization.costs.result_organization.usage.audio_speeches.result_organization.usage.audio_transcriptions.result_organization.usage.code_interpreter_sessions.result_organization.usage.completions.result_organization.usage.embeddings.result_organization.usage.images.result_organization.usage.moderations.result_organization.usage.vector_stores.result": {
+    "UsageTimeBucketObject": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "bucket"
+        ],
+        "type": "enum"
+      }
+    },
+    "UsageTimeBucketResultObjectEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -26563,16 +26486,6 @@
           "organization.usage.images.result",
           "organization.usage.moderations.result",
           "organization.usage.vector_stores.result"
-        ],
-        "type": "enum"
-      }
-    },
-    "UsageTimeBucketObject": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "bucket"
         ],
         "type": "enum"
       }
@@ -26684,7 +26597,7 @@
         "type": "enum"
       }
     },
-    "VectorStoreFileObjectEnum_other_static": {
+    "VectorStoreFileObjectChunkingStrategyTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
