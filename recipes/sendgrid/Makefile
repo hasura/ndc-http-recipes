@@ -213,6 +213,12 @@ build-schema-seq-v3:
 	ndc-http-schema convert \
 		-c generator/seq_v3/config.yaml \
 		-o schema/seq_v3.json
+
+.PHONY: build-schema-sso-v3
+build-schema-sso-v3:
+	ndc-http-schema convert \
+		-c generator/sso_v3/config.yaml \
+		-o schema/sso_v3.json
 		
 .PHONY: build-schema-stats-v3
 build-schema-stats-v3:
@@ -255,6 +261,12 @@ build-schema-user-v3:
 	ndc-http-schema convert \
 		-c generator/user_v3/config.yaml \
 		-o schema/user_v3.json
+
+.PHONY: build-schema-verified-senders-v3
+build-schema-verified-senders-v3:
+	ndc-http-schema convert \
+		-c generator/verified_senders_v3/config.yaml \
+		-o schema/verified_senders_v3.json
 
 .PHONY: build-schema-webhooks-v3
 build-schema-webhooks-v3:
