@@ -698,7 +698,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "HydraAcceptOAuth2ConsentRequestSession",
+              "name": "HydraAcceptOAuth2ConsentRequestSessionInput",
               "type": "named"
             }
           },
@@ -711,6 +711,36 @@
       }
     },
     "HydraAcceptOAuth2ConsentRequestSession": {
+      "fields": {
+        "access_token": {
+          "description": "AccessToken sets session data for the access and refresh token, as well as any future tokens issued by the refresh grant. Keep in mind that this data will be available to anyone performing OAuth 2.0 Challenge Introspection. If only your services can perform OAuth 2.0 Challenge Introspection, this is usually fine. But if third parties can access that endpoint as well, sensitive data from the session might be exposed to them. Use with care!",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        },
+        "id_token": {
+          "description": "IDToken sets session data for the OpenID Connect ID token. Keep in mind that the session'id payloads are readable by anyone that has access to the ID Challenge. Use with care!",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": null
+          }
+        }
+      }
+    },
+    "HydraAcceptOAuth2ConsentRequestSessionInput": {
       "fields": {
         "access_token": {
           "description": "AccessToken sets session data for the access and refresh token, as well as any future tokens issued by the refresh grant. Keep in mind that this data will be available to anyone performing OAuth 2.0 Challenge Introspection. If only your services can perform OAuth 2.0 Challenge Introspection, this is usually fine. But if third parties can access that endpoint as well, sensitive data from the session might be exposed to them. Use with care!",
@@ -1775,7 +1805,15 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "jsonWebKey"
+              }
+            }
           }
         }
       }
@@ -1789,7 +1827,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "HydraJsonWebKey",
+                "name": "HydraJsonWebKeyInput",
                 "type": "named"
               },
               "type": "array"
@@ -1798,7 +1836,15 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "jsonWebKey"
+              }
+            }
           }
         }
       }
@@ -3609,7 +3655,10 @@
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "oAuth2Client"
+            }
           }
         },
         "context": {
@@ -3868,7 +3917,10 @@
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "oAuth2ConsentRequest"
+            }
           }
         },
         "context": {
@@ -3998,7 +4050,10 @@
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "acceptOAuth2ConsentRequestSession"
+            }
           }
         }
       }
@@ -4105,7 +4160,10 @@
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "oAuth2Client"
+            }
           }
         },
         "oidc_context": {
@@ -4119,7 +4177,10 @@
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "oAuth2ConsentRequestOpenIDConnectContext"
+            }
           }
         },
         "request_url": {
@@ -4248,7 +4309,10 @@
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "oAuth2Client"
+            }
           }
         },
         "request_url": {
@@ -4455,13 +4519,16 @@
         },
         "jwk": {
           "type": {
-            "name": "HydraJsonWebKey",
+            "name": "HydraJsonWebKeyInput",
             "type": "named"
           },
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "jsonWebKey"
+            }
           }
         },
         "scope": {
