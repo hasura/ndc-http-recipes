@@ -219,7 +219,7 @@
         }
       }
     },
-    "DuplicateSingleSendBody": {
+    "DuplicateSingleSendBodyInput": {
       "fields": {
         "name": {
           "description": "The name of the duplicate Single Send. If you choose to leave the name field blank, your duplicate will be assigned the name of the Single Send it was copied from with the text 'Copy of ' prepended to it. The end of the new Single Send name, including 'Copy of ', will be trimmed if the name exceeds the character limit.",
@@ -366,7 +366,7 @@
         }
       }
     },
-    "ScheduleSingleSendBody": {
+    "ScheduleSingleSendBodyInput": {
       "fields": {
         "send_at": {
           "description": "The ISO 8601 time at which to send the Single Send. This must be in future or the string `now`. SendGrid [Mail Send](https://docs.sendgrid.com/api-reference/mail-send/mail-send) emails can be scheduled up to 72 hours in advance. However, this scheduling constraint does not apply to emails sent via [Marketing Campaigns](https://docs.sendgrid.com/ui/sending-email/how-to-send-email-with-marketing-campaigns/).",
@@ -447,91 +447,6 @@
           "http": {
             "type": [
               "array"
-            ]
-          }
-        }
-      }
-    },
-    "SinglesendRequest": {
-      "fields": {
-        "categories": {
-          "description": "The categories to associate with this Single Send.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "String",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "string"
-              ]
-            }
-          }
-        },
-        "email_config": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SinglesendRequestEmailConfig",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "name": {
-          "description": "The name of the Single Send.",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100,
-            "minLength": 1
-          }
-        },
-        "send_at": {
-          "description": "Set this property to an ISO 8601 formatted date-time when you would like to send the Single Send. Please note that any `send_at` property value set with this endpoint will prepopulate the send date in the SendGrid user interface (UI). However, the Single Send will remain an unscheduled draft until it's updated with the [**Schedule Single Send**](https://docs.sendgrid.com/api-reference/single-sends/schedule-single-send) endpoint or SendGrid application UI. Additionally, the `now` keyword is a valid `send_at` value only when using the Schedule Single Send endpoint. Setting this property to `now` with this endpoint will cause an error.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TimestampTZ",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "date-time"
-          }
-        },
-        "send_to": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SinglesendRequestSendTo",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
             ]
           }
         }
@@ -686,6 +601,91 @@
           "http": {
             "type": [
               "integer"
+            ]
+          }
+        }
+      }
+    },
+    "SinglesendRequestInput": {
+      "fields": {
+        "categories": {
+          "description": "The categories to associate with this Single Send.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "email_config": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SinglesendRequestEmailConfig",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of the Single Send.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100,
+            "minLength": 1
+          }
+        },
+        "send_at": {
+          "description": "Set this property to an ISO 8601 formatted date-time when you would like to send the Single Send. Please note that any `send_at` property value set with this endpoint will prepopulate the send date in the SendGrid user interface (UI). However, the Single Send will remain an unscheduled draft until it's updated with the [**Schedule Single Send**](https://docs.sendgrid.com/api-reference/single-sends/schedule-single-send) endpoint or SendGrid application UI. Additionally, the `now` keyword is a valid `send_at` value only when using the Schedule Single Send endpoint. Setting this property to `now` with this endpoint will cause an error.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "send_to": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SinglesendRequestSendTo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
             ]
           }
         }
@@ -1357,7 +1357,7 @@
         }
       }
     },
-    "SinglesendSearch": {
+    "SinglesendSearchInput": {
       "fields": {
         "categories": {
           "description": "categories to associate with this Single Send, match any single send that has at least one of the categories",
@@ -1438,7 +1438,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "SinglesendRequest",
+              "name": "SinglesendRequestInput",
               "type": "named"
             }
           },
@@ -1583,7 +1583,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "DuplicateSingleSendBody",
+              "name": "DuplicateSingleSendBodyInput",
               "type": "named"
             }
           },
@@ -1630,7 +1630,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ScheduleSingleSendBody",
+              "name": "ScheduleSingleSendBodyInput",
               "type": "named"
             }
           },
@@ -1677,7 +1677,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "SinglesendSearch",
+              "name": "SinglesendSearchInput",
               "type": "named"
             }
           },
@@ -1745,7 +1745,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "SinglesendRequest",
+              "name": "SinglesendRequestInput",
               "type": "named"
             }
           },

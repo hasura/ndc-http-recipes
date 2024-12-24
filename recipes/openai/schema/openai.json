@@ -1867,7 +1867,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ListAuditLogsEffectiveAt",
+              "name": "ListAuditLogsEffectiveAtInput",
               "type": "named"
             }
           },
@@ -4850,7 +4850,7 @@
     }
   },
   "object_types": {
-    "AddUploadPartRequest": {
+    "AddUploadPartRequestInput": {
       "fields": {
         "data": {
           "description": "The chunk of bytes for this Part.",
@@ -5045,7 +5045,7 @@
         }
       }
     },
-    "AdminApiKeysCreateBody": {
+    "AdminApiKeysCreateBodyInput": {
       "fields": {
         "name": {
           "type": {
@@ -5500,7 +5500,7 @@
           }
         },
         "type": {
-          "description": "The type of tool being defined: `code_interpreter`",
+          "description": "The type of tool being defined: `function`",
           "type": {
             "name": "AssistantObjectToolsTypeEnum",
             "type": "named"
@@ -7760,7 +7760,7 @@
         }
       }
     },
-    "ChatCompletionRequestMessageInput": {
+    "ChatCompletionRequestMessage": {
       "fields": {
         "audio": {
           "description": "Data about a previous audio response from the model.  [Learn more](/docs/guides/audio).",
@@ -7802,7 +7802,7 @@
           }
         },
         "name": {
-          "description": "An optional name for the participant. Provides the model information to differentiate between participants of the same role.",
+          "description": "The name of the function to call.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -7832,10 +7832,13 @@
           }
         },
         "role": {
-          "description": "The role of the messages author, in this case `developer`.",
+          "description": "The role of the messages author, in this case `function`.",
           "type": {
-            "name": "ChatCompletionRequestMessageRoleEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ChatCompletionRequestMessageRoleEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -8224,7 +8227,7 @@
         }
       }
     },
-    "ChunkingStrategyRequestParamInput": {
+    "ChunkingStrategyRequestParam": {
       "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
       "fields": {
         "static": {
@@ -8242,10 +8245,13 @@
           }
         },
         "type": {
-          "description": "Always `auto`.",
+          "description": "Always `static`.",
           "type": {
-            "name": "ChunkingStrategyRequestParamTypeEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ChunkingStrategyRequestParamTypeEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -8255,7 +8261,7 @@
         }
       }
     },
-    "CompleteUploadRequest": {
+    "CompleteUploadRequestInput": {
       "fields": {
         "md5": {
           "description": "The optional md5 checksum for the file contents to verify if the bytes uploaded matches what you expect.",
@@ -8612,7 +8618,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateAssistantRequestToolResourcesInput",
+              "name": "CreateAssistantRequestToolResources",
               "type": "named"
             }
           },
@@ -8628,7 +8634,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "CreateAssistantRequestToolsInput",
+                "name": "CreateAssistantRequestTools",
                 "type": "named"
               },
               "type": "array"
@@ -8664,6 +8670,39 @@
         }
       }
     },
+    "CreateAssistantRequestToolResources": {
+      "description": "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.",
+      "fields": {
+        "code_interpreter": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateAssistantRequestToolResourcesCodeInterpreter",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "file_search": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateAssistantRequestToolResourcesFileSearch",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
     "CreateAssistantRequestToolResourcesCodeInterpreter": {
       "fields": {
         "file_ids": {
@@ -8691,7 +8730,7 @@
         }
       }
     },
-    "CreateAssistantRequestToolResourcesFileSearchInput": {
+    "CreateAssistantRequestToolResourcesFileSearch": {
       "fields": {
         "vector_store_ids": {
           "description": "The [vector store](/docs/api-reference/vector-stores/object) attached to this assistant. There can be a maximum of 1 vector store attached to the assistant.",
@@ -8722,7 +8761,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "CreateAssistantRequestToolResourcesFileSearchVectorStoresInput",
+                "name": "CreateAssistantRequestToolResourcesFileSearchVectorStores",
                 "type": "named"
               },
               "type": "array"
@@ -8741,75 +8780,14 @@
         }
       }
     },
-    "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategy1Static": {
-      "fields": {
-        "chunk_overlap_tokens": {
-          "description": "The number of tokens that overlap between chunks. The default value is `400`.  Note that the overlap must not exceed half of `max_chunk_size_tokens`.",
-          "type": {
-            "name": "Int32",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "max_chunk_size_tokens": {
-          "description": "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.",
-          "type": {
-            "name": "Int32",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "integer"
-            ],
-            "maximum": 4096,
-            "minimum": 100
-          }
-        }
-      }
-    },
-    "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategyInput": {
-      "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
-      "fields": {
-        "static": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategy1Static",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "type": {
-          "description": "Always `auto`.",
-          "type": {
-            "name": "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategyTypeEnum",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        }
-      }
-    },
-    "CreateAssistantRequestToolResourcesFileSearchVectorStoresInput": {
+    "CreateAssistantRequestToolResourcesFileSearchVectorStores": {
       "fields": {
         "chunking_strategy": {
           "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategyInput",
+              "name": "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategy",
               "type": "named"
             }
           },
@@ -8859,14 +8837,14 @@
         }
       }
     },
-    "CreateAssistantRequestToolResourcesInput": {
-      "description": "A set of resources that are used by the assistant's tools. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.",
+    "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategy": {
+      "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
       "fields": {
-        "code_interpreter": {
+        "static": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateAssistantRequestToolResourcesCodeInterpreter",
+              "name": "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategy1Static",
               "type": "named"
             }
           },
@@ -8876,23 +8854,54 @@
             ]
           }
         },
-        "file_search": {
+        "type": {
+          "description": "Always `static`.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateAssistantRequestToolResourcesFileSearchInput",
+              "name": "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategyTypeEnum",
               "type": "named"
             }
           },
           "http": {
             "type": [
-              "object"
+              "string"
             ]
           }
         }
       }
     },
-    "CreateAssistantRequestToolsInput": {
+    "CreateAssistantRequestToolResourcesFileSearchVectorStoresChunkingStrategy1Static": {
+      "fields": {
+        "chunk_overlap_tokens": {
+          "description": "The number of tokens that overlap between chunks. The default value is `400`.  Note that the overlap must not exceed half of `max_chunk_size_tokens`.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "max_chunk_size_tokens": {
+          "description": "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 4096,
+            "minimum": 100
+          }
+        }
+      }
+    },
+    "CreateAssistantRequestTools": {
       "fields": {
         "file_search": {
           "description": "Overrides for the file search tool.",
@@ -8924,7 +8933,7 @@
           }
         },
         "type": {
-          "description": "The type of tool being defined: `code_interpreter`",
+          "description": "The type of tool being defined: `function`",
           "type": {
             "name": "CreateAssistantRequestToolsTypeEnum",
             "type": "named"
@@ -8937,7 +8946,7 @@
         }
       }
     },
-    "CreateBatchBody": {
+    "CreateBatchBodyInput": {
       "fields": {
         "completion_window": {
           "description": "The time frame within which the batch should be processed. Currently only `24h` is supported.",
@@ -9150,7 +9159,7 @@
           "description": "A list of messages comprising the conversation so far. Depending on the [model](/docs/models) you use, different message types (modalities) are supported, like [text](/docs/guides/text-generation), [images](/docs/guides/vision), and [audio](/docs/guides/audio).",
           "type": {
             "element_type": {
-              "name": "ChatCompletionRequestMessageInput",
+              "name": "ChatCompletionRequestMessage",
               "type": "named"
             },
             "type": "array"
@@ -9290,7 +9299,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateChatCompletionRequestResponseFormatInput",
+              "name": "CreateChatCompletionRequestResponseFormat",
               "type": "named"
             }
           },
@@ -9489,7 +9498,7 @@
         }
       }
     },
-    "CreateChatCompletionRequestResponseFormatInput": {
+    "CreateChatCompletionRequestResponseFormat": {
       "description": "An object specifying the format that the model must output.  Setting to `{ \"type\": \"json_schema\", \"json_schema\": {...} }` enables Structured Outputs which ensures the model will match your supplied JSON schema. Learn more in the [Structured Outputs guide](/docs/guides/structured-outputs).  Setting to `{ \"type\": \"json_object\" }` enables JSON mode, which ensures the message the model generates is valid JSON.  **Important:** when using JSON mode, you **must** also instruct the model to produce JSON yourself via a system or user message. Without this, the model may generate an unending stream of whitespace until the generation reaches the token limit, resulting in a long-running and seemingly \"stuck\" request. Also note that the message content may be partially cut off if `finish_reason=\"length\"`, which indicates the generation exceeded `max_tokens` or the conversation exceeded the max context length. ",
       "fields": {
         "json_schema": {
@@ -9507,7 +9516,7 @@
           }
         },
         "type": {
-          "description": "The type of response format being defined: `text`",
+          "description": "The type of response format being defined: `json_schema`",
           "type": {
             "name": "CreateChatCompletionRequestResponseFormatTypeEnum",
             "type": "named"
@@ -9734,7 +9743,7 @@
         }
       }
     },
-    "CreateCompletionRequest": {
+    "CreateCompletionRequestInput": {
       "fields": {
         "best_of": {
           "description": "Generates `best_of` completions server-side and returns the \"best\" (the one with the highest log probability per token). Results cannot be streamed.  When used with `n`, `best_of` controls the number of candidate completions and `n` specifies how many to return  `best_of` must be greater than `n`.  **Note:** Because this parameter generates many completions, it can quickly consume your token quota. Use carefully and ensure that you have reasonable settings for `max_tokens` and `stop`.",
@@ -10262,7 +10271,7 @@
         }
       }
     },
-    "CreateEmbeddingRequest": {
+    "CreateEmbeddingRequestInput": {
       "fields": {
         "dimensions": {
           "description": "The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models.",
@@ -10418,7 +10427,7 @@
         }
       }
     },
-    "CreateFileRequest": {
+    "CreateFileRequestInput": {
       "fields": {
         "file": {
           "description": "The File object (not file name) to be uploaded.",
@@ -10447,7 +10456,51 @@
         }
       }
     },
-    "CreateFineTuningJobRequest": {
+    "CreateFineTuningJobRequestHyperparameters": {
+      "description": "The hyperparameters used for the fine-tuning job. This value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.",
+      "fields": {
+        "batch_size": {
+          "description": "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": []
+          }
+        },
+        "learning_rate_multiplier": {
+          "description": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": []
+          }
+        },
+        "n_epochs": {
+          "description": "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": []
+          }
+        }
+      }
+    },
+    "CreateFineTuningJobRequestInput": {
       "fields": {
         "hyperparameters": {
           "description": "The hyperparameters used for the fine-tuning job. This value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.",
@@ -10577,50 +10630,6 @@
         }
       }
     },
-    "CreateFineTuningJobRequestHyperparameters": {
-      "description": "The hyperparameters used for the fine-tuning job. This value is now deprecated in favor of `method`, and should be passed in under the `method` parameter.",
-      "fields": {
-        "batch_size": {
-          "description": "Number of examples in each batch. A larger batch size means that model parameters are updated less frequently, but with lower variance.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "JSON",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": []
-          }
-        },
-        "learning_rate_multiplier": {
-          "description": "Scaling factor for the learning rate. A smaller learning rate may be useful to avoid overfitting.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "JSON",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": []
-          }
-        },
-        "n_epochs": {
-          "description": "The number of epochs to train the model for. An epoch refers to one full cycle through the training dataset.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "JSON",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": []
-          }
-        }
-      }
-    },
     "CreateFineTuningJobRequestIntegrations": {
       "fields": {
         "type": {
@@ -10719,7 +10728,7 @@
         }
       }
     },
-    "CreateImageEditRequest": {
+    "CreateImageEditRequestInput": {
       "fields": {
         "image": {
           "description": "The image to edit. Must be a valid PNG file, less than 4MB, and square. If mask is not provided, image must have transparency, which will be used as the mask.",
@@ -10841,7 +10850,7 @@
         }
       }
     },
-    "CreateImageRequest": {
+    "CreateImageRequestInput": {
       "fields": {
         "model": {
           "description": "The model to use for image generation.",
@@ -10964,7 +10973,7 @@
         }
       }
     },
-    "CreateImageVariationRequest": {
+    "CreateImageVariationRequestInput": {
       "fields": {
         "image": {
           "description": "The image to use as the basis for the variation(s). Must be a valid PNG file, less than 4MB, and square.",
@@ -11058,65 +11067,7 @@
         }
       }
     },
-    "CreateMessageRequestAttachmentsInput": {
-      "fields": {
-        "file_id": {
-          "description": "The ID of the file to attach to the message.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "tools": {
-          "description": "The tools to add this file to.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "CreateMessageRequestAttachmentsToolsInput",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "CreateMessageRequestAttachmentsToolsInput": {
-      "fields": {
-        "type": {
-          "description": "The type of tool being defined: `code_interpreter`",
-          "type": {
-            "name": "CreateMessageRequestAttachmentsToolsTypeEnum",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        }
-      }
-    },
-    "CreateMessageRequestInput": {
+    "CreateMessageRequest": {
       "fields": {
         "attachments": {
           "description": "A list of files attached to the message, and the tools they should be added to.",
@@ -11124,7 +11075,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "CreateMessageRequestAttachmentsInput",
+                "name": "CreateMessageRequestAttachments",
                 "type": "named"
               },
               "type": "array"
@@ -11179,7 +11130,131 @@
         }
       }
     },
-    "CreateModerationRequest": {
+    "CreateMessageRequestAttachments": {
+      "fields": {
+        "file_id": {
+          "description": "The ID of the file to attach to the message.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "tools": {
+          "description": "The tools to add this file to.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "CreateMessageRequestAttachmentsTools",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "CreateMessageRequestAttachmentsTools": {
+      "fields": {
+        "type": {
+          "description": "The type of tool being defined: `file_search`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateMessageRequestAttachmentsToolsTypeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreateMessageRequestInput": {
+      "fields": {
+        "attachments": {
+          "description": "A list of files attached to the message, and the tools they should be added to.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "CreateMessageRequestAttachments",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "content": {
+          "type": {
+            "name": "JSON",
+            "type": "named"
+          },
+          "http": {
+            "type": []
+          }
+        },
+        "metadata": {
+          "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "role": {
+          "description": "The role of the entity that is creating the message. Allowed values include: - `user`: Indicates the message is sent by an actual user and should be used in most cases to represent user-generated messages. - `assistant`: Indicates the message is generated by the assistant. Use this value to insert messages from the assistant into the conversation.",
+          "type": {
+            "name": "CreateMessageRequestRole",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreateModerationRequestInput": {
       "fields": {
         "input": {
           "description": "Input (or inputs) to classify. Can be a single string, an array of strings, or an array of multi-modal input objects similar to other models.",
@@ -11919,7 +11994,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "CreateMessageRequestInput",
+                "name": "CreateMessageRequest",
                 "type": "named"
               },
               "type": "array"
@@ -12099,7 +12174,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "CreateRunRequestToolsInput",
+                "name": "CreateRunRequestTools",
                 "type": "named"
               },
               "type": "array"
@@ -12150,7 +12225,7 @@
         }
       }
     },
-    "CreateRunRequestToolsInput": {
+    "CreateRunRequestTools": {
       "fields": {
         "file_search": {
           "description": "Overrides for the file search tool.",
@@ -12182,7 +12257,7 @@
           }
         },
         "type": {
-          "description": "The type of tool being defined: `code_interpreter`",
+          "description": "The type of tool being defined: `function`",
           "type": {
             "name": "CreateRunRequestToolsTypeEnum",
             "type": "named"
@@ -12195,7 +12270,7 @@
         }
       }
     },
-    "CreateSpeechRequest": {
+    "CreateSpeechRequestInput": {
       "fields": {
         "input": {
           "description": "The text to generate audio for. The maximum length is 4096 characters.",
@@ -12423,7 +12498,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateThreadRequestInput",
+              "name": "CreateThreadRequest",
               "type": "named"
             }
           },
@@ -12467,7 +12542,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "CreateThreadAndRunRequestToolsInput",
+                "name": "CreateThreadAndRunRequestTools",
                 "type": "named"
               },
               "type": "array"
@@ -12605,7 +12680,7 @@
         }
       }
     },
-    "CreateThreadAndRunRequestToolsInput": {
+    "CreateThreadAndRunRequestTools": {
       "fields": {
         "file_search": {
           "description": "Overrides for the file search tool.",
@@ -12637,7 +12712,7 @@
           }
         },
         "type": {
-          "description": "The type of tool being defined: `code_interpreter`",
+          "description": "The type of tool being defined: `function`",
           "type": {
             "name": "CreateThreadAndRunRequestToolsTypeEnum",
             "type": "named"
@@ -12650,7 +12725,7 @@
         }
       }
     },
-    "CreateThreadRequestInput": {
+    "CreateThreadRequest": {
       "fields": {
         "messages": {
           "description": "A list of [messages](/docs/api-reference/messages) to start the thread with.",
@@ -12658,7 +12733,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "CreateMessageRequestInput",
+                "name": "CreateMessageRequest",
                 "type": "named"
               },
               "type": "array"
@@ -12690,7 +12765,92 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateThreadRequestToolResourcesInput",
+              "name": "CreateThreadRequestToolResources",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "CreateThreadRequestInput": {
+      "fields": {
+        "messages": {
+          "description": "A list of [messages](/docs/api-reference/messages) to start the thread with.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "CreateMessageRequest",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "metadata": {
+          "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "tool_resources": {
+          "description": "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateThreadRequestToolResources",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "CreateThreadRequestToolResources": {
+      "description": "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.",
+      "fields": {
+        "code_interpreter": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateThreadRequestToolResourcesCodeInterpreter",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "file_search": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateThreadRequestToolResourcesFileSearch",
               "type": "named"
             }
           },
@@ -12729,7 +12889,7 @@
         }
       }
     },
-    "CreateThreadRequestToolResourcesFileSearchInput": {
+    "CreateThreadRequestToolResourcesFileSearch": {
       "fields": {
         "vector_store_ids": {
           "description": "The [vector store](/docs/api-reference/vector-stores/object) attached to this thread. There can be a maximum of 1 vector store attached to the thread.",
@@ -12760,7 +12920,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "CreateThreadRequestToolResourcesFileSearchVectorStoresInput",
+                "name": "CreateThreadRequestToolResourcesFileSearchVectorStores",
                 "type": "named"
               },
               "type": "array"
@@ -12779,75 +12939,14 @@
         }
       }
     },
-    "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategy1Static": {
-      "fields": {
-        "chunk_overlap_tokens": {
-          "description": "The number of tokens that overlap between chunks. The default value is `400`.  Note that the overlap must not exceed half of `max_chunk_size_tokens`.",
-          "type": {
-            "name": "Int32",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "max_chunk_size_tokens": {
-          "description": "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.",
-          "type": {
-            "name": "Int32",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "integer"
-            ],
-            "maximum": 4096,
-            "minimum": 100
-          }
-        }
-      }
-    },
-    "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategyInput": {
-      "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
-      "fields": {
-        "static": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategy1Static",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "type": {
-          "description": "Always `auto`.",
-          "type": {
-            "name": "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategyTypeEnum",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        }
-      }
-    },
-    "CreateThreadRequestToolResourcesFileSearchVectorStoresInput": {
+    "CreateThreadRequestToolResourcesFileSearchVectorStores": {
       "fields": {
         "chunking_strategy": {
           "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategyInput",
+              "name": "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategy",
               "type": "named"
             }
           },
@@ -12897,14 +12996,14 @@
         }
       }
     },
-    "CreateThreadRequestToolResourcesInput": {
-      "description": "A set of resources that are made available to the assistant's tools in this thread. The resources are specific to the type of tool. For example, the `code_interpreter` tool requires a list of file IDs, while the `file_search` tool requires a list of vector store IDs.",
+    "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategy": {
+      "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy.",
       "fields": {
-        "code_interpreter": {
+        "static": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateThreadRequestToolResourcesCodeInterpreter",
+              "name": "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategy1Static",
               "type": "named"
             }
           },
@@ -12914,23 +13013,54 @@
             ]
           }
         },
-        "file_search": {
+        "type": {
+          "description": "Always `static`.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateThreadRequestToolResourcesFileSearchInput",
+              "name": "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategyTypeEnum",
               "type": "named"
             }
           },
           "http": {
             "type": [
-              "object"
+              "string"
             ]
           }
         }
       }
     },
-    "CreateTranscriptionRequest": {
+    "CreateThreadRequestToolResourcesFileSearchVectorStoresChunkingStrategy1Static": {
+      "fields": {
+        "chunk_overlap_tokens": {
+          "description": "The number of tokens that overlap between chunks. The default value is `400`.  Note that the overlap must not exceed half of `max_chunk_size_tokens`.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "max_chunk_size_tokens": {
+          "description": "The maximum number of tokens in each chunk. The default value is `800`. The minimum value is `100` and the maximum value is `4096`.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 4096,
+            "minimum": 100
+          }
+        }
+      }
+    },
+    "CreateTranscriptionRequestInput": {
       "fields": {
         "file": {
           "description": "The audio file object (not file name) to transcribe, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.",
@@ -13095,8 +13225,11 @@
         "text": {
           "description": "The transcribed text.",
           "type": {
-            "name": "String",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -13124,7 +13257,7 @@
         }
       }
     },
-    "CreateTranslationRequest": {
+    "CreateTranslationRequestInput": {
       "fields": {
         "file": {
           "description": "The audio file object (not file name) translate, in one of these formats: flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, or webm.",
@@ -13251,8 +13384,11 @@
         "text": {
           "description": "The translated text.",
           "type": {
-            "name": "String",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -13262,7 +13398,7 @@
         }
       }
     },
-    "CreateUploadRequest": {
+    "CreateUploadRequestInput": {
       "fields": {
         "bytes": {
           "description": "The number of bytes in the file you are uploading.",
@@ -13321,7 +13457,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ChunkingStrategyRequestParamInput",
+              "name": "ChunkingStrategyRequestParam",
               "type": "named"
             }
           },
@@ -13360,7 +13496,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ChunkingStrategyRequestParamInput",
+              "name": "ChunkingStrategyRequestParam",
               "type": "named"
             }
           },
@@ -13384,7 +13520,7 @@
         }
       }
     },
-    "CreateVectorStoreRequestChunkingStrategyInput": {
+    "CreateVectorStoreRequestChunkingStrategy": {
       "description": "The chunking strategy used to chunk the file(s). If not set, will use the `auto` strategy. Only applicable if `file_ids` is non-empty.",
       "fields": {
         "static": {
@@ -13402,10 +13538,13 @@
           }
         },
         "type": {
-          "description": "Always `auto`.",
+          "description": "Always `static`.",
           "type": {
-            "name": "CreateVectorStoreRequestChunkingStrategyTypeEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateVectorStoreRequestChunkingStrategyTypeEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -13422,7 +13561,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateVectorStoreRequestChunkingStrategyInput",
+              "name": "CreateVectorStoreRequestChunkingStrategy",
               "type": "named"
             }
           },
@@ -15104,7 +15243,7 @@
         }
       }
     },
-    "InviteRequest": {
+    "InviteRequestInput": {
       "fields": {
         "email": {
           "description": "Send an email to this address",
@@ -15245,7 +15384,7 @@
         }
       }
     },
-    "ListAuditLogsEffectiveAt": {
+    "ListAuditLogsEffectiveAtInput": {
       "fields": {
         "gt": {
           "description": "Return only events whose `effective_at` (Unix seconds) is greater than this value.",
@@ -15863,8 +16002,11 @@
       "fields": {
         "end_index": {
           "type": {
-            "name": "Int32",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -15903,8 +16045,11 @@
         },
         "start_index": {
           "type": {
-            "name": "Int32",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -15916,8 +16061,11 @@
         "text": {
           "description": "The text in the message content that needs to be replaced.",
           "type": {
-            "name": "String",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -15926,10 +16074,13 @@
           }
         },
         "type": {
-          "description": "Always `file_citation`.",
+          "description": "Always `file_path`.",
           "type": {
-            "name": "MessageContentTextObjectTextAnnotationsTypeEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MessageContentTextObjectTextAnnotationsTypeEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -16194,10 +16345,13 @@
     "MessageObjectAttachmentsTools": {
       "fields": {
         "type": {
-          "description": "The type of tool being defined: `code_interpreter`",
+          "description": "The type of tool being defined: `file_search`",
           "type": {
-            "name": "MessageObjectAttachmentsToolsTypeEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MessageObjectAttachmentsToolsTypeEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -16266,10 +16420,13 @@
           }
         },
         "type": {
-          "description": "Always `image_file`.",
+          "description": "Always `refusal`.",
           "type": {
-            "name": "MessageObjectContentTypeEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MessageObjectContentTypeEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -16427,7 +16584,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "ModifyAssistantRequestToolsInput",
+                "name": "ModifyAssistantRequestTools",
                 "type": "named"
               },
               "type": "array"
@@ -16550,7 +16707,7 @@
         }
       }
     },
-    "ModifyAssistantRequestToolsInput": {
+    "ModifyAssistantRequestTools": {
       "fields": {
         "file_search": {
           "description": "Overrides for the file search tool.",
@@ -16582,7 +16739,7 @@
           }
         },
         "type": {
-          "description": "The type of tool being defined: `code_interpreter`",
+          "description": "The type of tool being defined: `function`",
           "type": {
             "name": "ModifyAssistantRequestToolsTypeEnum",
             "type": "named"
@@ -16595,7 +16752,7 @@
         }
       }
     },
-    "ModifyMessageRequest": {
+    "ModifyMessageRequestInput": {
       "fields": {
         "metadata": {
           "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.",
@@ -16614,7 +16771,7 @@
         }
       }
     },
-    "ModifyRunRequest": {
+    "ModifyRunRequestInput": {
       "fields": {
         "metadata": {
           "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.",
@@ -16633,7 +16790,7 @@
         }
       }
     },
-    "ModifyThreadRequest": {
+    "ModifyThreadRequestInput": {
       "fields": {
         "metadata": {
           "description": "Set of 16 key-value pairs that can be attached to an object. This can be useful for storing additional information about the object in a structured format. Keys can be a maximum of 64 characters long and values can be a maximum of 512 characters long.",
@@ -17085,7 +17242,7 @@
         }
       }
     },
-    "ProjectCreateRequest": {
+    "ProjectCreateRequestInput": {
       "fields": {
         "name": {
           "description": "The friendly name of the project, this name appears in reports.",
@@ -17350,7 +17507,7 @@
         }
       }
     },
-    "ProjectRateLimitUpdateRequest": {
+    "ProjectRateLimitUpdateRequestInput": {
       "fields": {
         "batch_1_day_max_input_tokens": {
           "description": "The maximum batch input tokens per day. Only relevant for certain models.",
@@ -17569,7 +17726,7 @@
         }
       }
     },
-    "ProjectServiceAccountCreateRequest": {
+    "ProjectServiceAccountCreateRequestInput": {
       "fields": {
         "name": {
           "description": "The name of the service account being created.",
@@ -17755,7 +17912,7 @@
         }
       }
     },
-    "ProjectUpdateRequest": {
+    "ProjectUpdateRequestInput": {
       "fields": {
         "name": {
           "description": "The updated name of the project, this name appears in reports.",
@@ -17848,7 +18005,7 @@
         }
       }
     },
-    "ProjectUserCreateRequest": {
+    "ProjectUserCreateRequestInput": {
       "fields": {
         "role": {
           "description": "`owner` or `member`",
@@ -17975,7 +18132,7 @@
         }
       }
     },
-    "ProjectUserUpdateRequest": {
+    "ProjectUserUpdateRequestInput": {
       "fields": {
         "role": {
           "description": "`owner` or `member`",
@@ -17991,7 +18148,7 @@
         }
       }
     },
-    "RealtimeSessionCreateRequest": {
+    "RealtimeSessionCreateRequestInput": {
       "description": "Realtime session object configuration.",
       "fields": {
         "input_audio_format": {
@@ -19323,7 +19480,7 @@
           }
         },
         "type": {
-          "description": "The type of tool being defined: `code_interpreter`",
+          "description": "The type of tool being defined: `function`",
           "type": {
             "name": "RunObjectToolsTypeEnum",
             "type": "named"
@@ -19462,10 +19619,13 @@
           }
         },
         "type": {
-          "description": "Always `logs`.",
+          "description": "Always `image`.",
           "type": {
-            "name": "RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsTypeEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RunStepDetailsToolCallsCodeObjectCodeInterpreterOutputsTypeEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -19752,7 +19912,7 @@
           }
         },
         "id": {
-          "description": "The ID of the tool call.",
+          "description": "The ID of the tool call object.",
           "type": {
             "name": "String",
             "type": "named"
@@ -19764,7 +19924,7 @@
           }
         },
         "type": {
-          "description": "The type of tool call. This is always going to be `code_interpreter` for this type of tool call.",
+          "description": "The type of tool call. This is always going to be `function` for this type of tool call.",
           "type": {
             "name": "RunStepDetailsToolCallsObjectToolCallsTypeEnum",
             "type": "named"
@@ -20065,10 +20225,13 @@
           }
         },
         "type": {
-          "description": "Always `message_creation`.",
+          "description": "Always `tool_calls`.",
           "type": {
-            "name": "RunStepObjectStepDetailsTypeEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RunStepObjectStepDetailsTypeEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -20178,7 +20341,7 @@
         }
       }
     },
-    "SubmitToolOutputsRunRequest": {
+    "SubmitToolOutputsRunRequestInput": {
       "fields": {
         "stream": {
           "description": "If `true`, returns a stream of events that happen during the Run as server-sent events, terminating when the Run enters a terminal state with a `data: [DONE]` message.",
@@ -20622,7 +20785,7 @@
         }
       }
     },
-    "UpdateVectorStoreRequest": {
+    "UpdateVectorStoreRequestInput": {
       "fields": {
         "expires_after": {
           "description": "The expiration policy for a vector store.",
@@ -21056,7 +21219,7 @@
           }
         },
         "input_tokens": {
-          "description": "The aggregated number of text input tokens used, including cached tokens. For customers subscribe to scale tier, this includes scale tier tokens.",
+          "description": "The aggregated number of input tokens used.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -21157,7 +21320,7 @@
           }
         },
         "project_id": {
-          "description": "When `group_by=project_id`, this field provides the project ID of the grouped usage result.",
+          "description": "When `group_by=project_id`, this field provides the project ID of the grouped costs result.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -21439,7 +21602,7 @@
         }
       }
     },
-    "UserRoleUpdateRequest": {
+    "UserRoleUpdateRequestInput": {
       "fields": {
         "role": {
           "description": "`owner` or `reader`",
@@ -21751,10 +21914,13 @@
           }
         },
         "type": {
-          "description": "Always `static`.",
+          "description": "Always `other`.",
           "type": {
-            "name": "VectorStoreFileObjectChunkingStrategyTypeEnum",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VectorStoreFileObjectChunkingStrategyTypeEnum",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -22022,7 +22188,7 @@
         "body": {
           "description": "Request body of POST /uploads/{upload_id}/parts",
           "type": {
-            "name": "AddUploadPartRequest",
+            "name": "AddUploadPartRequestInput",
             "type": "named"
           },
           "http": {
@@ -22078,7 +22244,7 @@
         "body": {
           "description": "Request body of POST /organization/admin_api_keys",
           "type": {
-            "name": "AdminApiKeysCreateBody",
+            "name": "AdminApiKeysCreateBodyInput",
             "type": "named"
           },
           "http": {
@@ -22373,7 +22539,7 @@
         "body": {
           "description": "Request body of POST /uploads/{upload_id}/complete",
           "type": {
-            "name": "CompleteUploadRequest",
+            "name": "CompleteUploadRequestInput",
             "type": "named"
           },
           "http": {
@@ -22447,7 +22613,7 @@
         "body": {
           "description": "Request body of POST /batches",
           "type": {
-            "name": "CreateBatchBody",
+            "name": "CreateBatchBodyInput",
             "type": "named"
           },
           "http": {
@@ -22505,7 +22671,7 @@
         "body": {
           "description": "Request body of POST /completions",
           "type": {
-            "name": "CreateCompletionRequest",
+            "name": "CreateCompletionRequestInput",
             "type": "named"
           },
           "http": {
@@ -22534,7 +22700,7 @@
         "body": {
           "description": "Request body of POST /embeddings",
           "type": {
-            "name": "CreateEmbeddingRequest",
+            "name": "CreateEmbeddingRequestInput",
             "type": "named"
           },
           "http": {
@@ -22563,7 +22729,7 @@
         "body": {
           "description": "Request body of POST /files",
           "type": {
-            "name": "CreateFileRequest",
+            "name": "CreateFileRequestInput",
             "type": "named"
           },
           "http": {
@@ -22592,7 +22758,7 @@
         "body": {
           "description": "Request body of POST /fine_tuning/jobs",
           "type": {
-            "name": "CreateFineTuningJobRequest",
+            "name": "CreateFineTuningJobRequestInput",
             "type": "named"
           },
           "http": {
@@ -22621,7 +22787,7 @@
         "body": {
           "description": "Request body of POST /images/generations",
           "type": {
-            "name": "CreateImageRequest",
+            "name": "CreateImageRequestInput",
             "type": "named"
           },
           "http": {
@@ -22650,7 +22816,7 @@
         "body": {
           "description": "Request body of POST /images/edits",
           "type": {
-            "name": "CreateImageEditRequest",
+            "name": "CreateImageEditRequestInput",
             "type": "named"
           },
           "http": {
@@ -22679,7 +22845,7 @@
         "body": {
           "description": "Request body of POST /images/variations",
           "type": {
-            "name": "CreateImageVariationRequest",
+            "name": "CreateImageVariationRequestInput",
             "type": "named"
           },
           "http": {
@@ -22753,7 +22919,7 @@
         "body": {
           "description": "Request body of POST /moderations",
           "type": {
-            "name": "CreateModerationRequest",
+            "name": "CreateModerationRequestInput",
             "type": "named"
           },
           "http": {
@@ -22854,7 +23020,7 @@
         "body": {
           "description": "Request body of POST /audio/speech",
           "type": {
-            "name": "CreateSpeechRequest",
+            "name": "CreateSpeechRequestInput",
             "type": "named"
           },
           "http": {
@@ -22944,7 +23110,7 @@
         "body": {
           "description": "Request body of POST /audio/transcriptions",
           "type": {
-            "name": "CreateTranscriptionRequest",
+            "name": "CreateTranscriptionRequestInput",
             "type": "named"
           },
           "http": {
@@ -22973,7 +23139,7 @@
         "body": {
           "description": "Request body of POST /audio/translations",
           "type": {
-            "name": "CreateTranslationRequest",
+            "name": "CreateTranslationRequestInput",
             "type": "named"
           },
           "http": {
@@ -23002,7 +23168,7 @@
         "body": {
           "description": "Request body of POST /uploads",
           "type": {
-            "name": "CreateUploadRequest",
+            "name": "CreateUploadRequestInput",
             "type": "named"
           },
           "http": {
@@ -23150,7 +23316,7 @@
         "body": {
           "description": "Request body of POST /organization/projects",
           "type": {
-            "name": "ProjectCreateRequest",
+            "name": "ProjectCreateRequestInput",
             "type": "named"
           },
           "http": {
@@ -23179,7 +23345,7 @@
         "body": {
           "description": "Request body of POST /organization/projects/{project_id}/service_accounts",
           "type": {
-            "name": "ProjectServiceAccountCreateRequest",
+            "name": "ProjectServiceAccountCreateRequestInput",
             "type": "named"
           },
           "http": {
@@ -23224,7 +23390,7 @@
         "body": {
           "description": "Request body of POST /organization/projects/{project_id}/users",
           "type": {
-            "name": "ProjectUserCreateRequest",
+            "name": "ProjectUserCreateRequestInput",
             "type": "named"
           },
           "http": {
@@ -23269,7 +23435,7 @@
         "body": {
           "description": "Request body of POST /realtime/sessions",
           "type": {
-            "name": "RealtimeSessionCreateRequest",
+            "name": "RealtimeSessionCreateRequestInput",
             "type": "named"
           },
           "http": {
@@ -23762,7 +23928,7 @@
         "body": {
           "description": "Request body of POST /organization/invites",
           "type": {
-            "name": "InviteRequest",
+            "name": "InviteRequestInput",
             "type": "named"
           },
           "http": {
@@ -23836,7 +24002,7 @@
         "body": {
           "description": "Request body of POST /threads/{thread_id}/messages/{message_id}",
           "type": {
-            "name": "ModifyMessageRequest",
+            "name": "ModifyMessageRequestInput",
             "type": "named"
           },
           "http": {
@@ -23897,7 +24063,7 @@
         "body": {
           "description": "Request body of POST /threads/{thread_id}/runs/{run_id}",
           "type": {
-            "name": "ModifyRunRequest",
+            "name": "ModifyRunRequestInput",
             "type": "named"
           },
           "http": {
@@ -23958,7 +24124,7 @@
         "body": {
           "description": "Request body of POST /threads/{thread_id}",
           "type": {
-            "name": "ModifyThreadRequest",
+            "name": "ModifyThreadRequestInput",
             "type": "named"
           },
           "http": {
@@ -24003,7 +24169,7 @@
         "body": {
           "description": "Request body of POST /vector_stores/{vector_store_id}",
           "type": {
-            "name": "UpdateVectorStoreRequest",
+            "name": "UpdateVectorStoreRequestInput",
             "type": "named"
           },
           "http": {
@@ -24048,7 +24214,7 @@
         "body": {
           "description": "Request body of POST /organization/projects/{project_id}",
           "type": {
-            "name": "ProjectUpdateRequest",
+            "name": "ProjectUpdateRequestInput",
             "type": "named"
           },
           "http": {
@@ -24093,7 +24259,7 @@
         "body": {
           "description": "Request body of POST /organization/projects/{project_id}/users/{user_id}",
           "type": {
-            "name": "ProjectUserUpdateRequest",
+            "name": "ProjectUserUpdateRequestInput",
             "type": "named"
           },
           "http": {
@@ -24154,7 +24320,7 @@
         "body": {
           "description": "Request body of POST /organization/users/{user_id}",
           "type": {
-            "name": "UserRoleUpdateRequest",
+            "name": "UserRoleUpdateRequestInput",
             "type": "named"
           },
           "http": {
@@ -24199,7 +24365,7 @@
         "body": {
           "description": "Request body of POST /threads/{thread_id}/runs/{run_id}/submit_tool_outputs",
           "type": {
-            "name": "SubmitToolOutputsRunRequest",
+            "name": "SubmitToolOutputsRunRequestInput",
             "type": "named"
           },
           "http": {
@@ -24260,7 +24426,7 @@
         "body": {
           "description": "Request body of POST /organization/projects/{project_id}/rate_limits/{rate_limit_id}",
           "type": {
-            "name": "ProjectRateLimitUpdateRequest",
+            "name": "ProjectRateLimitUpdateRequestInput",
             "type": "named"
           },
           "http": {
