@@ -99,7 +99,7 @@
         }
       }
     },
-    "MailFrom": {
+    "MailFromInput": {
       "fields": {
         "email": {
           "description": "The email address from which messages are sent. This address should be a verified sender in your Twilio SendGrid account. Email addresses specified in `personalizations` will override addresses set at the message level outside of the `personalizations` object.",
@@ -131,7 +131,7 @@
         }
       }
     },
-    "MailTo": {
+    "MailToInput": {
       "fields": {
         "email": {
           "description": "An email address to which a message is sent. Email addresses specified in `personalizations` will override addresses set at the message level outside of the `personalizations` object.",
@@ -163,14 +163,161 @@
         }
       }
     },
-    "SendMailBody": {
+    "SendMailBodyAsmInput": {
+      "description": "An object allowing you to specify how to handle unsubscribes. With SendGrid, an unsubscribe is the action an email recipient takes when they opt-out of receiving your messages. A suppression is the action you take as a sender to filter or suppress an unsubscribed address from your email send. From the perspective of the recipient, your suppression is the result of their unsubscribe. See [**Suppression Groups**](https://www.twilio.com/docs/sendgrid/api-reference/suppressions-unsubscribe-groups/create-a-new-suppression-group) for more information.",
+      "fields": {
+        "group_id": {
+          "description": "The unsubscribe group to associate with this email. See the [Suppressions API](https://docs.sendgrid.com/api-reference/suppressions/) to manage unsubscribe group IDs.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "groups_to_display": {
+          "description": "An array containing the unsubscribe groups that you would like to be displayed to a recipient on the unsubscribe preferences page. This page is displayed in the recipient's browser when they click the unsubscribe link in your message.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Int32",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "SendMailBodyAttachmentsInput": {
+      "fields": {
+        "content": {
+          "description": "The Base64 encoded content of the attachment.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "content_id": {
+          "description": "The attachment's content ID. The `content_id` is used when the `disposition` is set to `inline` and the attachment is an image, allowing the file to be displayed within the body of the email.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "disposition": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Disposition",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "Disposition"
+            }
+          }
+        },
+        "filename": {
+          "description": "The attachment's filename, including the file extension.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The MIME type of the content you are attaching (e.g., `image/jpeg` or `application/pdf`).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SendMailBodyContentInput": {
+      "fields": {
+        "type": {
+          "description": "The MIME type of the content assigned in the `value` property of this object (e.g., `text/plain` or `text/html`).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "value": {
+          "description": "The content of your message in the specified MIME type assigned in the `type` property of this object.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SendMailBodyInput": {
       "fields": {
         "asm": {
           "description": "An object allowing you to specify how to handle unsubscribes. With SendGrid, an unsubscribe is the action an email recipient takes when they opt-out of receiving your messages. A suppression is the action you take as a sender to filter or suppress an unsubscribed address from your email send. From the perspective of the recipient, your suppression is the result of their unsubscribe. See [**Suppression Groups**](https://www.twilio.com/docs/sendgrid/api-reference/suppressions-unsubscribe-groups/create-a-new-suppression-group) for more information.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "SendMailBodyAsm",
+              "name": "SendMailBodyAsmInput",
               "type": "named"
             }
           },
@@ -186,7 +333,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "SendMailBodyAttachments",
+                "name": "SendMailBodyAttachmentsInput",
                 "type": "named"
               },
               "type": "array"
@@ -248,7 +395,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "SendMailBodyContent",
+                "name": "SendMailBodyContentInput",
                 "type": "named"
               },
               "type": "array"
@@ -282,13 +429,16 @@
         },
         "from": {
           "type": {
-            "name": "MailFrom",
+            "name": "MailFromInput",
             "type": "named"
           },
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "MailFrom"
+            }
           }
         },
         "headers": {
@@ -328,7 +478,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "SendMailBodyMailSettings",
+              "name": "SendMailBodyMailSettingsInput",
               "type": "named"
             }
           },
@@ -342,7 +492,7 @@
           "description": "An array of messages and their metadata. Each object within the `personalizations` array can be thought of as a mail envelopeit defines who should receive an individual message and how that message should be handled. See [**Personalizations**](https://sendgrid.com/docs/for-developers/sending-email/personalizations/) for more information.",
           "type": {
             "element_type": {
-              "name": "SendMailBodyPersonalizations",
+              "name": "SendMailBodyPersonalizationsInput",
               "type": "named"
             },
             "type": "array"
@@ -362,14 +512,17 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "MailTo",
+              "name": "MailToInput",
               "type": "named"
             }
           },
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "MailTo"
+            }
           }
         },
         "reply_to_list": {
@@ -378,7 +531,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "MailTo",
+                "name": "MailToInput",
                 "type": "named"
               },
               "type": "array"
@@ -387,7 +540,15 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "MailTo"
+              }
+            }
           }
         },
         "send_at": {
@@ -441,7 +602,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "SendMailBodyTrackingSettings",
+              "name": "SendMailBodyTrackingSettingsInput",
               "type": "named"
             }
           },
@@ -453,246 +614,7 @@
         }
       }
     },
-    "SendMailBodyAsm": {
-      "description": "An object allowing you to specify how to handle unsubscribes. With SendGrid, an unsubscribe is the action an email recipient takes when they opt-out of receiving your messages. A suppression is the action you take as a sender to filter or suppress an unsubscribed address from your email send. From the perspective of the recipient, your suppression is the result of their unsubscribe. See [**Suppression Groups**](https://www.twilio.com/docs/sendgrid/api-reference/suppressions-unsubscribe-groups/create-a-new-suppression-group) for more information.",
-      "fields": {
-        "group_id": {
-          "description": "The unsubscribe group to associate with this email. See the [Suppressions API](https://docs.sendgrid.com/api-reference/suppressions/) to manage unsubscribe group IDs.",
-          "type": {
-            "name": "Int32",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "groups_to_display": {
-          "description": "An array containing the unsubscribe groups that you would like to be displayed to a recipient on the unsubscribe preferences page. This page is displayed in the recipient's browser when they click the unsubscribe link in your message.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "Int32",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "integer"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "SendMailBodyAttachments": {
-      "fields": {
-        "content": {
-          "description": "The Base64 encoded content of the attachment.",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "minLength": 1
-          }
-        },
-        "content_id": {
-          "description": "The attachment's content ID. The `content_id` is used when the `disposition` is set to `inline` and the attachment is an image, allowing the file to be displayed within the body of the email.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "disposition": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Disposition",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "filename": {
-          "description": "The attachment's filename, including the file extension.",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "type": {
-          "description": "The MIME type of the content you are attaching (e.g., `image/jpeg` or `application/pdf`).",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "minLength": 1
-          }
-        }
-      }
-    },
-    "SendMailBodyContent": {
-      "fields": {
-        "type": {
-          "description": "The MIME type of the content assigned in the `value` property of this object (e.g., `text/plain` or `text/html`).",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "minLength": 1
-          }
-        },
-        "value": {
-          "description": "The content of your message in the specified MIME type assigned in the `type` property of this object.",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "minLength": 1
-          }
-        }
-      }
-    },
-    "SendMailBodyMailSettings": {
-      "description": "A collection of different mail settings that you can use to specify how you would like this email to be handled. Mail settings provide extra functionality to your mail send. See [**Mail Settings**](https://docs.sendgrid.com/ui/account-and-settings/mail) for more information.",
-      "fields": {
-        "bypass_bounce_management": {
-          "description": "Allows you to bypass the bounce list to ensure that the email is delivered to recipients. Spam report and unsubscribe lists will still be checked; addresses on these other lists will not receive the message. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyMailSettingsBypassBounceManagement",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "bypass_list_management": {
-          "description": "Allows you to bypass all unsubscribe groups and suppressions to ensure that the email is delivered to every single recipient. This should only be used in emergencies when it is absolutely necessary that every recipient receives your email. This filter cannot be combined with any other bypass filters. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyMailSettingsBypassListManagement",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "bypass_spam_management": {
-          "description": "Allows you to bypass the spam report list to ensure that the email is delivered to recipients. Bounce and unsubscribe lists will still be checked; addresses on these other lists will not receive the message. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyMailSettingsBypassSpamManagement",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "bypass_unsubscribe_management": {
-          "description": "Allows you to bypass the global unsubscribe list to ensure that the email is delivered to recipients. Bounce and spam report lists will still be checked; addresses on these other lists will not receive the message. This filter applies only to global unsubscribes and will not bypass group unsubscribes. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyMailSettingsBypassUnsubscribeManagement",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "footer": {
-          "description": "Inserts a custom footer at the bottom of the text and HTML bodies of your messages. Use the `html` and `text` properties to include the content of the footers to be inserted.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyMailSettingsFooter",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "sandbox_mode": {
-          "description": "Sandbox Mode allows you to send a test email to ensure that your request body is valid and formatted correctly.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyMailSettingsSandboxMode",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
-    "SendMailBodyMailSettingsBypassBounceManagement": {
+    "SendMailBodyMailSettingsBypassBounceManagementInput": {
       "description": "Allows you to bypass the bounce list to ensure that the email is delivered to recipients. Spam report and unsubscribe lists will still be checked; addresses on these other lists will not receive the message. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
       "fields": {
         "enable": {
@@ -712,7 +634,7 @@
         }
       }
     },
-    "SendMailBodyMailSettingsBypassListManagement": {
+    "SendMailBodyMailSettingsBypassListManagementInput": {
       "description": "Allows you to bypass all unsubscribe groups and suppressions to ensure that the email is delivered to every single recipient. This should only be used in emergencies when it is absolutely necessary that every recipient receives your email. This filter cannot be combined with any other bypass filters. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
       "fields": {
         "enable": {
@@ -732,7 +654,7 @@
         }
       }
     },
-    "SendMailBodyMailSettingsBypassSpamManagement": {
+    "SendMailBodyMailSettingsBypassSpamManagementInput": {
       "description": "Allows you to bypass the spam report list to ensure that the email is delivered to recipients. Bounce and unsubscribe lists will still be checked; addresses on these other lists will not receive the message. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
       "fields": {
         "enable": {
@@ -752,7 +674,7 @@
         }
       }
     },
-    "SendMailBodyMailSettingsBypassUnsubscribeManagement": {
+    "SendMailBodyMailSettingsBypassUnsubscribeManagementInput": {
       "description": "Allows you to bypass the global unsubscribe list to ensure that the email is delivered to recipients. Bounce and spam report lists will still be checked; addresses on these other lists will not receive the message. This filter applies only to global unsubscribes and will not bypass group unsubscribes. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
       "fields": {
         "enable": {
@@ -772,7 +694,7 @@
         }
       }
     },
-    "SendMailBodyMailSettingsFooter": {
+    "SendMailBodyMailSettingsFooterInput": {
       "description": "Inserts a custom footer at the bottom of the text and HTML bodies of your messages. Use the `html` and `text` properties to include the content of the footers to be inserted.",
       "fields": {
         "enable": {
@@ -822,7 +744,102 @@
         }
       }
     },
-    "SendMailBodyMailSettingsSandboxMode": {
+    "SendMailBodyMailSettingsInput": {
+      "description": "A collection of different mail settings that you can use to specify how you would like this email to be handled. Mail settings provide extra functionality to your mail send. See [**Mail Settings**](https://docs.sendgrid.com/ui/account-and-settings/mail) for more information.",
+      "fields": {
+        "bypass_bounce_management": {
+          "description": "Allows you to bypass the bounce list to ensure that the email is delivered to recipients. Spam report and unsubscribe lists will still be checked; addresses on these other lists will not receive the message. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyMailSettingsBypassBounceManagementInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "bypass_list_management": {
+          "description": "Allows you to bypass all unsubscribe groups and suppressions to ensure that the email is delivered to every single recipient. This should only be used in emergencies when it is absolutely necessary that every recipient receives your email. This filter cannot be combined with any other bypass filters. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyMailSettingsBypassListManagementInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "bypass_spam_management": {
+          "description": "Allows you to bypass the spam report list to ensure that the email is delivered to recipients. Bounce and unsubscribe lists will still be checked; addresses on these other lists will not receive the message. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyMailSettingsBypassSpamManagementInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "bypass_unsubscribe_management": {
+          "description": "Allows you to bypass the global unsubscribe list to ensure that the email is delivered to recipients. Bounce and spam report lists will still be checked; addresses on these other lists will not receive the message. This filter applies only to global unsubscribes and will not bypass group unsubscribes. This filter cannot be combined with the `bypass_list_management` filter. See the [the \"Bypass suppressions\" section of our **Suppressions Overview**](https://sendgrid.com/docs/ui/sending-email/index-suppressions/#bypass-suppressions) for more about bypass filters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyMailSettingsBypassUnsubscribeManagementInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "footer": {
+          "description": "Inserts a custom footer at the bottom of the text and HTML bodies of your messages. Use the `html` and `text` properties to include the content of the footers to be inserted.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyMailSettingsFooterInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "sandbox_mode": {
+          "description": "Sandbox Mode allows you to send a test email to ensure that your request body is valid and formatted correctly.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyMailSettingsSandboxModeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "SendMailBodyMailSettingsSandboxModeInput": {
       "description": "Sandbox Mode allows you to send a test email to ensure that your request body is valid and formatted correctly.",
       "fields": {
         "enable": {
@@ -842,7 +859,7 @@
         }
       }
     },
-    "SendMailBodyPersonalizations": {
+    "SendMailBodyPersonalizationsInput": {
       "fields": {
         "bcc": {
           "description": "An array of recipients to whom a blind carbon copy of your email will be sent. Each object in this array must contain a recipient's email address. Each object in the array may optionally contain a recipient's name.",
@@ -850,7 +867,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "MailTo",
+                "name": "MailToInput",
                 "type": "named"
               },
               "type": "array"
@@ -859,7 +876,15 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "MailTo"
+              }
+            }
           }
         },
         "cc": {
@@ -868,7 +893,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "MailTo",
+                "name": "MailToInput",
                 "type": "named"
               },
               "type": "array"
@@ -877,7 +902,15 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "MailTo"
+              }
+            }
           }
         },
         "custom_args": {
@@ -914,14 +947,17 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "MailFrom",
+              "name": "MailFromInput",
               "type": "named"
             }
           },
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "MailFrom"
+            }
           }
         },
         "headers": {
@@ -989,7 +1025,7 @@
           "description": "An array of recipients to whom the email will be sent. Each object in this array must contain a recipient's email address. Each object in the array may optionally contain a recipient's name.",
           "type": {
             "element_type": {
-              "name": "MailTo",
+              "name": "MailToInput",
               "type": "named"
             },
             "type": "array"
@@ -997,77 +1033,20 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "MailTo"
+              }
+            }
           }
         }
       }
     },
-    "SendMailBodyTrackingSettings": {
-      "description": "Settings to determine how you would like to track the metrics of how your recipients interact with your email. See [**Tracking Settings**](https://docs.sendgrid.com/ui/account-and-settings/tracking) for more information.",
-      "fields": {
-        "click_tracking": {
-          "description": "Allows you to track if a recipient clicked a link in your email.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyTrackingSettingsClickTracking",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "ganalytics": {
-          "description": "Allows you to enable tracking provided by Google Analytics. See [**Google Analytics and SendGrid Statistics**](https://docs.sendgrid.com/ui/analytics-and-reporting/google-analytics) for more information about this property.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyTrackingSettingsGanalytics",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "open_tracking": {
-          "description": "Allows you to track if the email was opened by including a single transparent pixel image in the body of the message content. When the message is opened, a request for the pixel is sent. That request indicates to Twilio SendGrid that the message was opened.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyTrackingSettingsOpenTracking",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "subscription_tracking": {
-          "description": "Allows you to insert a subscription management link at the bottom of the text and HTML bodies of your email. If you would like to specify the location of the link within your email, you may use the `substitution_tag` property.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "SendMailBodyTrackingSettingsSubscriptionTracking",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
-    "SendMailBodyTrackingSettingsClickTracking": {
+    "SendMailBodyTrackingSettingsClickTrackingInput": {
       "description": "Allows you to track if a recipient clicked a link in your email.",
       "fields": {
         "enable": {
@@ -1102,7 +1081,7 @@
         }
       }
     },
-    "SendMailBodyTrackingSettingsGanalytics": {
+    "SendMailBodyTrackingSettingsGanalyticsInput": {
       "description": "Allows you to enable tracking provided by Google Analytics. See [**Google Analytics and SendGrid Statistics**](https://docs.sendgrid.com/ui/analytics-and-reporting/google-analytics) for more information about this property.",
       "fields": {
         "enable": {
@@ -1197,7 +1176,72 @@
         }
       }
     },
-    "SendMailBodyTrackingSettingsOpenTracking": {
+    "SendMailBodyTrackingSettingsInput": {
+      "description": "Settings to determine how you would like to track the metrics of how your recipients interact with your email. See [**Tracking Settings**](https://docs.sendgrid.com/ui/account-and-settings/tracking) for more information.",
+      "fields": {
+        "click_tracking": {
+          "description": "Allows you to track if a recipient clicked a link in your email.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyTrackingSettingsClickTrackingInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "ganalytics": {
+          "description": "Allows you to enable tracking provided by Google Analytics. See [**Google Analytics and SendGrid Statistics**](https://docs.sendgrid.com/ui/analytics-and-reporting/google-analytics) for more information about this property.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyTrackingSettingsGanalyticsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "open_tracking": {
+          "description": "Allows you to track if the email was opened by including a single transparent pixel image in the body of the message content. When the message is opened, a request for the pixel is sent. That request indicates to Twilio SendGrid that the message was opened.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyTrackingSettingsOpenTrackingInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "subscription_tracking": {
+          "description": "Allows you to insert a subscription management link at the bottom of the text and HTML bodies of your email. If you would like to specify the location of the link within your email, you may use the `substitution_tag` property.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendMailBodyTrackingSettingsSubscriptionTrackingInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "SendMailBodyTrackingSettingsOpenTrackingInput": {
       "description": "Allows you to track if the email was opened by including a single transparent pixel image in the body of the message content. When the message is opened, a request for the pixel is sent. That request indicates to Twilio SendGrid that the message was opened.",
       "fields": {
         "enable": {
@@ -1232,7 +1276,7 @@
         }
       }
     },
-    "SendMailBodyTrackingSettingsSubscriptionTracking": {
+    "SendMailBodyTrackingSettingsSubscriptionTrackingInput": {
       "description": "Allows you to insert a subscription management link at the bottom of the text and HTML bodies of your email. If you would like to specify the location of the link within your email, you may use the `substitution_tag` property.",
       "fields": {
         "enable": {
@@ -1361,7 +1405,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "xml": {
+                "name": "ContentEncoding"
+              }
             }
           }
         },
@@ -1370,7 +1417,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "SendMailBody",
+              "name": "SendMailBodyInput",
               "type": "named"
             }
           },

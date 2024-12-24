@@ -353,12 +353,61 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       }
     },
     "AccountProvisioningOfferingV1": {
+      "description": "An offering is a package (email infrastructure) or add-on (marketing campaigns, dedicated IP addresses, EASE) that an account can acquire. Each offering has a list of entitlements that indicate the benefits the account receives from the acquisition.",
+      "fields": {
+        "name": {
+          "description": "Name of the offering",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "quantity": {
+          "description": "Quantity of the specified addon to be added. If offering type is `package`, quantity must be 1.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "type": {
+          "type": {
+            "name": "Type",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AccountProvisioningOfferingV1Input": {
       "description": "An offering is a package (email infrastructure) or add-on (marketing campaigns, dedicated IP addresses, EASE) that an account can acquire. Each offering has a list of entitlements that indicate the benefits the account receives from the acquisition.",
       "fields": {
         "name": {
@@ -433,7 +482,7 @@
         }
       }
     },
-    "AccountProvisioningProfile": {
+    "AccountProvisioningProfileInput": {
       "fields": {
         "company_name": {
           "description": "Company name of the account holder",
@@ -557,7 +606,7 @@
         }
       }
     },
-    "AccountProvisioningStateWrite": {
+    "AccountProvisioningStateWriteInput": {
       "fields": {
         "state": {
           "type": {
@@ -572,13 +621,13 @@
         }
       }
     },
-    "CreateAccountBody": {
+    "CreateAccountBodyInput": {
       "fields": {
         "offerings": {
           "description": "List of offering names to assign to account.",
           "type": {
             "element_type": {
-              "name": "AccountProvisioningOfferingV1",
+              "name": "AccountProvisioningOfferingV1Input",
               "type": "named"
             },
             "type": "array"
@@ -586,21 +635,29 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "profile": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AccountProvisioningProfile",
+              "name": "AccountProvisioningProfileInput",
               "type": "named"
             }
           },
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "AccountProvisioningProfile"
+            }
           }
         }
       }
@@ -622,7 +679,15 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AccountProvisioningAccount"
+              }
+            }
           }
         },
         "pages": {
@@ -636,18 +701,21 @@
           "http": {
             "type": [
               "object"
-            ]
+            ],
+            "xml": {
+              "name": "AccountProvisioningPagination"
+            }
           }
         }
       }
     },
-    "UpdateAccountOfferingBody": {
+    "UpdateAccountOfferingBodyInput": {
       "fields": {
         "offerings": {
           "description": "List of offerings to assign to account.",
           "type": {
             "element_type": {
-              "name": "AccountProvisioningOfferingV1",
+              "name": "AccountProvisioningOfferingV1Input",
               "type": "named"
             },
             "type": "array"
@@ -655,7 +723,12 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       }
@@ -696,7 +769,7 @@
         "body": {
           "description": "Request body of POST /v3/partners/accounts",
           "type": {
-            "name": "CreateAccountBody",
+            "name": "CreateAccountBodyInput",
             "type": "named"
           },
           "http": {
@@ -776,7 +849,7 @@
         "body": {
           "description": "Request body of PUT /v3/partners/accounts/{accountID}/offerings",
           "type": {
-            "name": "UpdateAccountOfferingBody",
+            "name": "UpdateAccountOfferingBodyInput",
             "type": "named"
           },
           "http": {
@@ -821,7 +894,7 @@
         "body": {
           "description": "Request body of PUT /v3/partners/accounts/{accountID}/state",
           "type": {
-            "name": "AccountProvisioningStateWrite",
+            "name": "AccountProvisioningStateWriteInput",
             "type": "named"
           },
           "http": {

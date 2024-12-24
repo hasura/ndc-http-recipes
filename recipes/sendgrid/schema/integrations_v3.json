@@ -92,7 +92,15 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "Integration"
+              }
+            }
           }
         }
       }
@@ -208,12 +216,42 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
           }
         }
       }
     },
-    "IntegrationInput": {
+    "IntegrationInputFiltersInput": {
+      "description": "The configurable filters for SendGrid to destination email event forwarding.",
+      "fields": {
+        "email_events": {
+          "description": "The possible SendGrid email event types for event forwarding. Specify all the email event types that you would like to forward to the Integration's destination.",
+          "type": {
+            "element_type": {
+              "name": "Items1",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "IntegrationInputInput": {
       "fields": {
         "destination": {
           "type": {
@@ -229,7 +267,7 @@
         "filters": {
           "description": "The configurable filters for SendGrid to destination email event forwarding.",
           "type": {
-            "name": "IntegrationInputFilters",
+            "name": "IntegrationInputFiltersInput",
             "type": "named"
           },
           "http": {
@@ -256,7 +294,7 @@
         "properties": {
           "description": "The properties of an Integration required to send events to a specific third-party application.",
           "type": {
-            "name": "IntegrationInputProperties",
+            "name": "IntegrationInputPropertiesInput",
             "type": "named"
           },
           "http": {
@@ -267,27 +305,7 @@
         }
       }
     },
-    "IntegrationInputFilters": {
-      "description": "The configurable filters for SendGrid to destination email event forwarding.",
-      "fields": {
-        "email_events": {
-          "description": "The possible SendGrid email event types for event forwarding. Specify all the email event types that you would like to forward to the Integration's destination.",
-          "type": {
-            "element_type": {
-              "name": "Items1",
-              "type": "named"
-            },
-            "type": "array"
-          },
-          "http": {
-            "type": [
-              "array"
-            ]
-          }
-        }
-      }
-    },
-    "IntegrationInputProperties": {
+    "IntegrationInputPropertiesInput": {
       "description": "The properties of an Integration required to send events to a specific third-party application.",
       "fields": {
         "destination_region": {
@@ -315,7 +333,35 @@
         }
       }
     },
-    "IntegrationPatch": {
+    "IntegrationPatchFiltersInput": {
+      "description": "The configurable filters for SendGrid to destination email event forwarding.",
+      "fields": {
+        "email_events": {
+          "description": "The possible SendGrid email event types for event forwarding. Specify all the email event types that you would like to forward to the Integration's destination.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Items",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "IntegrationPatchInput": {
       "fields": {
         "destination": {
           "type": {
@@ -336,7 +382,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "IntegrationPatchFilters",
+              "name": "IntegrationPatchFiltersInput",
               "type": "named"
             }
           },
@@ -366,7 +412,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "IntegrationPatchProperties",
+              "name": "IntegrationPatchPropertiesInput",
               "type": "named"
             }
           },
@@ -378,30 +424,7 @@
         }
       }
     },
-    "IntegrationPatchFilters": {
-      "description": "The configurable filters for SendGrid to destination email event forwarding.",
-      "fields": {
-        "email_events": {
-          "description": "The possible SendGrid email event types for event forwarding. Specify all the email event types that you would like to forward to the Integration's destination.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "Items",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ]
-          }
-        }
-      }
-    },
-    "IntegrationPatchProperties": {
+    "IntegrationPatchPropertiesInput": {
       "description": "The properties of an Integration required to send events to a specific third-party application.",
       "fields": {
         "destination_region": {
@@ -486,7 +509,7 @@
         "body": {
           "description": "Request body of POST /v3/marketing/integrations",
           "type": {
-            "name": "IntegrationInput",
+            "name": "IntegrationInputInput",
             "type": "named"
           },
           "http": {
@@ -513,7 +536,7 @@
           "description": "Comma-delimited Integration IDs for the Integrations to delete.",
           "type": {
             "element_type": {
-              "name": "Id",
+              "name": "String",
               "type": "named"
             },
             "type": "array"
@@ -524,7 +547,15 @@
             "schema": {
               "type": [
                 "array"
-              ]
+              ],
+              "items": {
+                "type": [
+                  "string"
+                ],
+                "xml": {
+                  "name": "Id"
+                }
+              }
             }
           }
         }
@@ -553,7 +584,7 @@
         "body": {
           "description": "Request body of PATCH /v3/marketing/integrations/{id}",
           "type": {
-            "name": "IntegrationPatch",
+            "name": "IntegrationPatchInput",
             "type": "named"
           },
           "http": {
@@ -653,13 +684,6 @@
           "US"
         ],
         "type": "enum"
-      }
-    },
-    "Id": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "string"
       }
     },
     "Items": {

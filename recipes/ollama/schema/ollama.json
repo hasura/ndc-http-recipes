@@ -94,7 +94,7 @@
     }
   },
   "object_types": {
-    "ChatRequest": {
+    "ChatRequestInput": {
       "description": "Request to generate a response in a chat",
       "fields": {
         "format": {
@@ -133,7 +133,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "Message",
+                "name": "MessageInput",
                 "type": "named"
               },
               "type": "array"
@@ -142,7 +142,12 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "model": {
@@ -165,7 +170,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Options",
+              "name": "OptionsInput",
               "type": "named"
             }
           },
@@ -363,7 +368,7 @@
         }
       }
     },
-    "CopyRequest": {
+    "CopyRequestInput": {
       "description": "Request to copy a model",
       "fields": {
         "destination": {
@@ -396,7 +401,7 @@
         }
       }
     },
-    "CreateRequest": {
+    "CreateRequestInput": {
       "description": "Request to create a model",
       "fields": {
         "model": {
@@ -473,7 +478,7 @@
         }
       }
     },
-    "DeleteRequest": {
+    "DeleteRequestInput": {
       "description": "Request to delete a model",
       "fields": {
         "model": {
@@ -490,7 +495,7 @@
         }
       }
     },
-    "EmbeddingRequest": {
+    "EmbeddingRequestInput": {
       "description": "Request to generate embeddings",
       "fields": {
         "keep_alive": {
@@ -505,7 +510,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "xml": {
+              "name": "Duration"
+            }
           }
         },
         "model": {
@@ -525,7 +533,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Options",
+              "name": "OptionsInput",
               "type": "named"
             }
           },
@@ -577,7 +585,7 @@
         }
       }
     },
-    "GenerateRequest": {
+    "GenerateRequestInput": {
       "description": "Request to generate a response",
       "fields": {
         "context": {
@@ -654,7 +662,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "xml": {
+              "name": "Duration"
+            }
           }
         },
         "model": {
@@ -674,7 +685,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Options",
+              "name": "OptionsInput",
               "type": "named"
             }
           },
@@ -1063,12 +1074,76 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ListModelResponse"
+              }
+            }
           }
         }
       }
     },
     "Message": {
+      "description": "A message in a chat",
+      "fields": {
+        "content": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "images": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Bytes",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "byte"
+            }
+          }
+        },
+        "role": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "MessageInput": {
       "description": "A message in a chat",
       "fields": {
         "content": {
@@ -1221,7 +1296,7 @@
         }
       }
     },
-    "Options": {
+    "OptionsInput": {
       "description": "Advanced model and runner options for generation and chat requests",
       "fields": {
         "f16_kv": {
@@ -1801,7 +1876,15 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ProcessModelResponse"
+              }
+            }
           }
         }
       }
@@ -1871,7 +1954,7 @@
         }
       }
     },
-    "PullRequest": {
+    "PullRequestInput": {
       "description": "Request to pull a model",
       "fields": {
         "insecure": {
@@ -1918,7 +2001,7 @@
         }
       }
     },
-    "PushRequest": {
+    "PushRequestInput": {
       "description": "Request to push a model",
       "fields": {
         "insecure": {
@@ -1965,7 +2048,7 @@
         }
       }
     },
-    "ShowRequest": {
+    "ShowRequestInput": {
       "description": "Request to show a model",
       "fields": {
         "model": {
@@ -2029,7 +2112,12 @@
           "http": {
             "type": [
               "array"
-            ]
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "modelfile": {
@@ -2111,7 +2199,7 @@
         "body": {
           "description": "Request body of POST /api/copy",
           "type": {
-            "name": "CopyRequest",
+            "name": "CopyRequestInput",
             "type": "named"
           },
           "http": {
@@ -2191,7 +2279,7 @@
         "body": {
           "description": "Request body of POST /api/create",
           "type": {
-            "name": "CreateRequest",
+            "name": "CreateRequestInput",
             "type": "named"
           },
           "http": {
@@ -2220,7 +2308,7 @@
         "body": {
           "description": "Request body of DELETE /api/delete",
           "type": {
-            "name": "DeleteRequest",
+            "name": "DeleteRequestInput",
             "type": "named"
           },
           "http": {
@@ -2252,7 +2340,7 @@
         "body": {
           "description": "Request body of POST /api/chat",
           "type": {
-            "name": "ChatRequest",
+            "name": "ChatRequestInput",
             "type": "named"
           },
           "http": {
@@ -2281,7 +2369,7 @@
         "body": {
           "description": "Request body of POST /api/embeddings",
           "type": {
-            "name": "EmbeddingRequest",
+            "name": "EmbeddingRequestInput",
             "type": "named"
           },
           "http": {
@@ -2310,7 +2398,7 @@
         "body": {
           "description": "Request body of POST /api/generate",
           "type": {
-            "name": "GenerateRequest",
+            "name": "GenerateRequestInput",
             "type": "named"
           },
           "http": {
@@ -2339,7 +2427,7 @@
         "body": {
           "description": "Request body of POST /api/pull",
           "type": {
-            "name": "PullRequest",
+            "name": "PullRequestInput",
             "type": "named"
           },
           "http": {
@@ -2368,7 +2456,7 @@
         "body": {
           "description": "Request body of POST /api/push",
           "type": {
-            "name": "PushRequest",
+            "name": "PushRequestInput",
             "type": "named"
           },
           "http": {
@@ -2397,7 +2485,7 @@
         "body": {
           "description": "Request body of POST /api/show",
           "type": {
-            "name": "ShowRequest",
+            "name": "ShowRequestInput",
             "type": "named"
           },
           "http": {
