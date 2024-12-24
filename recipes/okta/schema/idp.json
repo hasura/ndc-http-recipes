@@ -1,0 +1,5408 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "env": "OKTA_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "/oauth2/v1/authorize",
+            "tokenUrl": {
+              "value": "/oauth2/v1/token",
+              "env": "OKTA_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "okta.myAccount.appAuthenticator.maintenance.manage": "Write access to non-sensitive attributes of user app authenticator enrollments",
+              "okta.myAccount.appAuthenticator.maintenance.read": "Read access to non-sensitive attributes of user app authenticator enrollments",
+              "okta.myAccount.appAuthenticator.manage": "Write access to user app authenticator enrollments",
+              "okta.myAccount.appAuthenticator.read": "Read access to user app authenticator enrollments",
+              "okta.myAccount.authenticators.read": "Read access to user authenticator configurations and enrollments",
+              "okta.myAccount.email.manage": "Write access to user emails",
+              "okta.myAccount.email.read": "Read access to user emails",
+              "okta.myAccount.oktaApplications.read": "Read access to the Okta apps list",
+              "okta.myAccount.organization.read": "Read access to org details",
+              "okta.myAccount.password.manage": "Write access to user password",
+              "okta.myAccount.password.read": "Read access to user password metadata",
+              "okta.myAccount.phone.manage": "Write access to user phones",
+              "okta.myAccount.phone.read": "Read access to user phones",
+              "okta.myAccount.profile.manage": "Write access to user profile and schema",
+              "okta.myAccount.profile.read": "Read access to user profile and schema",
+              "okta.myAccount.sessions.manage": "Write access to user sessions"
+            }
+          }
+        }
+      }
+    },
+    "version": "2024.08.3"
+  },
+  "functions": {
+    "getAuthenticator": {
+      "request": {
+        "url": "/idp/myaccount/authenticators/{authenticatorId}",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.authenticators.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authenticatorId": {
+          "description": "`id` of the Authenticator",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authenticatorId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "expand": {
+          "description": "Optional additional items to return in the `_embedded` object. Currently supports the value `enrollments`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve an Authenticator",
+      "result_type": {
+        "name": "Authenticator",
+        "type": "named"
+      }
+    },
+    "getEmail": {
+      "request": {
+        "url": "/idp/myaccount/emails/{id}",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.email.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The email ID Use `GET /idp/myaccount/emails` or `POST /idp/myaccount/emails` operations to obtain the email ID when adding a new email address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve an Email",
+      "result_type": {
+        "name": "Email",
+        "type": "named"
+      }
+    },
+    "getEnrollment": {
+      "request": {
+        "url": "/idp/myaccount/authenticators/{authenticatorId}/enrollments/{enrollmentId}",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.authenticators.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authenticatorId": {
+          "description": "`id` of the Authenticator",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authenticatorId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "enrollmentId": {
+          "description": "`id` of the authenticator Enrollment",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "enrollmentId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve an Enrollment",
+      "result_type": {
+        "name": "AuthenticatorEnrollment",
+        "type": "named"
+      }
+    },
+    "getOrganization": {
+      "request": {
+        "url": "/idp/myaccount/organization",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.organization.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {},
+      "description": "Retrieve the Org details",
+      "result_type": {
+        "name": "Organization",
+        "type": "named"
+      }
+    },
+    "getPassword": {
+      "request": {
+        "url": "/idp/myaccount/password",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.password.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {},
+      "description": "Retrieve a Password",
+      "result_type": {
+        "name": "PasswordResponse",
+        "type": "named"
+      }
+    },
+    "getPhone": {
+      "request": {
+        "url": "/idp/myaccount/phones/{id}",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.phone.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the phone. Obtain the ID of the phone through `GET /idp/myaccount/phones` or `POST /idp/myaccount/phones` when adding a new phone.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a Phone",
+      "result_type": {
+        "name": "Phone",
+        "type": "named"
+      }
+    },
+    "getProfile": {
+      "request": {
+        "url": "/idp/myaccount/profile",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.profile.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {},
+      "description": "Retrieve my Profile",
+      "result_type": {
+        "name": "Profile",
+        "type": "named"
+      }
+    },
+    "getProfileSchema": {
+      "request": {
+        "url": "/idp/myaccount/profile/schema",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.profile.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {},
+      "description": "Retrieve my Profile Schema",
+      "result_type": {
+        "name": "Schema",
+        "type": "named"
+      }
+    },
+    "listAppAuthenticatorPendingPushNotificationChallenges": {
+      "request": {
+        "url": "/idp/myaccount/app-authenticators/{enrollmentId}/push/notifications",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.appAuthenticator.maintenance.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "enrollmentId": {
+          "description": "Id of the user's app authenticator enrollment",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "enrollmentId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List all pending push notification challenges",
+      "result_type": {
+        "element_type": {
+          "name": "PushNotificationChallenge",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "listAuthenticators": {
+      "request": {
+        "url": "/idp/myaccount/authenticators",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.authenticators.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "expand": {
+          "description": "Optional additional items to return in the `_embedded` object. Currently supports the value `enrollments`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "expand",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List all Authenticators",
+      "result_type": {
+        "element_type": {
+          "name": "Authenticator",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "listEmails": {
+      "request": {
+        "url": "/idp/myaccount/emails",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.email.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {},
+      "description": "List all Emails",
+      "result_type": {
+        "element_type": {
+          "name": "Email",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "listEnrollments": {
+      "request": {
+        "url": "/idp/myaccount/authenticators/{authenticatorId}/enrollments",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.authenticators.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authenticatorId": {
+          "description": "`id` of the Authenticator",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authenticatorId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List all Enrollments",
+      "result_type": {
+        "element_type": {
+          "name": "AuthenticatorEnrollment",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "listOktaApplications": {
+      "request": {
+        "url": "/idp/myaccount/okta-applications",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.oktaApplications.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {},
+      "description": "List all Okta apps",
+      "result_type": {
+        "element_type": {
+          "name": "OktaApplication",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "listPhones": {
+      "request": {
+        "url": "/idp/myaccount/phones",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.phone.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {},
+      "description": "List all Phones",
+      "result_type": {
+        "element_type": {
+          "name": "Phone",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "pollChallengeForEmailMagicLink": {
+      "request": {
+        "url": "/idp/myaccount/emails/{id}/challenge/{challengeId}",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.email.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "challengeId": {
+          "description": "The `challengeId` of the email  Use the `POST /idp/myaccount/emails/{id}/challenge/` operation to obtain the `challengeId` when creating a new challenge.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "challengeId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "id": {
+          "description": "The email ID  Use the `GET /idp/myaccount/emails` or `POST /idp/myaccount/emails` operations to obtain the ID when adding a new email address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Poll the Challenge for Email Magic Link",
+      "result_type": {
+        "name": "PollChallengeForEmailMagicLinkResult",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AppAuthenticatorEnrollment": {
+      "description": "App authenticator enrollment object",
+      "fields": {
+        "authenticatorId": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "createdDate": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "device": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentDevice",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "lastUpdated": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "links": {
+          "description": "Discoverable resources related to the app authenticator",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "methods": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentMethods",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "user": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentUser",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentDevice": {
+      "fields": {
+        "clientInstanceId": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "createdDate": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "lastUpdated": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentDeviceStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentLinks": {
+      "description": "Discoverable resources related to the app authenticator",
+      "fields": {
+        "self": {
+          "description": "Link to the resource (app authenticator)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentLinksSelf",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentLinksSelf": {
+      "description": "Link to the resource (app authenticator)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentLinksSelfHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentLinksSelfHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AppAuthenticatorEnrollmentLinksSelfHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentMethods": {
+      "fields": {
+        "push": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentMethodsPush",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentMethodsPush": {
+      "fields": {
+        "createdDate": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "lastUpdated": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "links": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentMethodsPushLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentMethodsPushLinks": {
+      "fields": {
+        "pending": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentMethodsPushLinksPending",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentMethodsPushLinksPending": {
+      "fields": {
+        "hints": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentMethodsPushLinksPendingHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentMethodsPushLinksPendingHints": {
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AppAuthenticatorEnrollmentMethodsPushLinksPendingHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentRequestDeviceInput": {
+      "fields": {
+        "clientInstanceBundleId": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "clientInstanceDeviceSdkVersion": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "clientInstanceKey": {
+          "type": {
+            "name": "KeyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "clientInstanceVersion": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "deviceAttestation": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "displayName": {
+          "description": "The device's display name",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "manufacturer": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "model": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "osVersion": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "platform": {
+          "type": {
+            "name": "AppAuthenticatorEnrollmentRequestDevicePlatform",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "secureHardwarePresent": {
+          "description": "Indicates if the device is equipped with TPM storage for storing signing keys",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "udid": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentRequestInput": {
+      "description": "App Authenticator enrollment request",
+      "fields": {
+        "authenticatorId": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "device": {
+          "type": {
+            "name": "AppAuthenticatorEnrollmentRequestDeviceInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "methods": {
+          "type": {
+            "name": "AppAuthenticatorEnrollmentRequestMethodsInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentRequestMethodsInput": {
+      "fields": {
+        "push": {
+          "type": {
+            "name": "AppAuthenticatorEnrollmentRequestMethodsPushInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentRequestMethodsPushInput": {
+      "fields": {
+        "apsEnvironment": {
+          "description": "Target APS type that application registers to. Required for iOS enrollments.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentRequestMethodsPushApsEnvironment",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "keys": {
+          "type": {
+            "name": "AppAuthenticatorEnrollmentRequestMethodsPushKeysInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "pushToken": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentRequestMethodsPushKeysInput": {
+      "fields": {
+        "capabilities": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorMethodCapabilitiesInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "proofOfPossession": {
+          "type": {
+            "name": "KeyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "userVerification": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "KeyObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorEnrollmentUser": {
+      "fields": {
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "username": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AppAuthenticatorMethodCapabilitiesInput": {
+      "fields": {
+        "transactionTypes": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AppAuthenticatorMethodCapabilitiesTransactionTypes",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Authenticator": {
+      "description": "A specific Authenticator of the current user",
+      "fields": {
+        "_embedded": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthenticatorEmbedded",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "_links": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthenticatorLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "enrollable": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthenticatorKey",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatorEmbedded": {
+      "fields": {
+        "enrollments": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AuthenticatorEnrollment",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AuthenticatorEnrollment": {
+      "description": "Authenticator Enrollment of the current user",
+      "fields": {
+        "_links": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthenticatorEnrollmentLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "canReset": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "canUnenroll": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "created": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "lastChallenged": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "profile": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatorEnrollmentLinks": {
+      "fields": {
+        "authenticator": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "HrefObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "self": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "HrefObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AuthenticatorLinks": {
+      "fields": {
+        "enrollments": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "HrefObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "self": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "HrefObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "CreateEmailBodyInput": {
+      "fields": {
+        "profile": {
+          "description": "Defines the email address on the profile",
+          "type": {
+            "name": "CreateEmailBodyProfileInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "role": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IdpRole",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sendEmail": {
+          "description": "Specifies whether Okta or the application sends an email to the end user",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "state": {
+          "description": "Any application state that the client wishes to persist across the email challenge flow, and receive at the callback URL. Define the callback URL in the OIDC app configuration. This parameter proves to the client that the email link is verified.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreateEmailBodyProfileInput": {
+      "description": "Defines the email address on the profile",
+      "fields": {
+        "email": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        }
+      }
+    },
+    "CreatePasswordBodyInput": {
+      "fields": {
+        "profile": {
+          "description": "Defines the password on the profile",
+          "type": {
+            "name": "CreatePasswordBodyProfileInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "CreatePasswordBodyProfileInput": {
+      "description": "Defines the password on the profile",
+      "fields": {
+        "password": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CreatePhoneBodyInput": {
+      "fields": {
+        "method": {
+          "description": "The method of the challenge sent to the newly added phone. Applicable when sendCode is true.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "IdpMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "profile": {
+          "description": "Defines the phone number on the profile",
+          "type": {
+            "name": "CreatePhoneBodyProfileInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "sendCode": {
+          "description": "Whether to send a challenge to the newly added phone",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "CreatePhoneBodyProfileInput": {
+      "description": "Defines the phone number on the profile",
+      "fields": {
+        "phoneNumber": {
+          "description": "The newly added phone number",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Email": {
+      "description": "Email Object",
+      "fields": {
+        "_links": {
+          "description": "Discoverable resources related to the caller's email",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "id": {
+          "description": "The email ID of the caller",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "profile": {
+          "description": "Defines the email address on the profile",
+          "type": {
+            "name": "EmailProfile",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "roles": {
+          "description": "Defines the role of the email",
+          "type": {
+            "element_type": {
+              "name": "EmailRoles",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "status": {
+          "description": "The email status of the caller",
+          "type": {
+            "name": "EmailStatus",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "EmailLinks": {
+      "description": "Discoverable resources related to the caller's email",
+      "fields": {
+        "challenge": {
+          "description": "Link to the resource (challenge)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinksChallenge",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "poll": {
+          "description": "Link to the resource (poll)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinksPoll",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "self": {
+          "description": "Link to the resource (self)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinksSelf",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "verify": {
+          "description": "Link to the resource (verify)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinksVerify",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "EmailLinksChallenge": {
+      "description": "Link to the resource (challenge)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinksChallengeHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "EmailLinksChallengeHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "EmailLinksChallengeHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "EmailLinksPoll": {
+      "description": "Link to the resource (poll)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinksPollHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "EmailLinksPollHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "EmailLinksPollHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "EmailLinksSelf": {
+      "description": "Link to the resource (self)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinksSelfHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "EmailLinksSelfHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "EmailLinksSelfHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "EmailLinksVerify": {
+      "description": "Link to the resource (verify)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EmailLinksVerifyHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "EmailLinksVerifyHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "EmailLinksVerifyHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "EmailProfile": {
+      "description": "Defines the email address on the profile",
+      "fields": {
+        "email": {
+          "description": "Email address of the user",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "HrefObject": {
+      "fields": {
+        "hints": {
+          "description": "Describes allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "HrefObjectHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "description": "Link name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The media type of the link. If omitted, it is implicitly `application/json`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "HrefObjectHints": {
+      "description": "Describes allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "HttpMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "KeyObjectInput": {
+      "fields": {
+        "crv": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "KeyECCrv",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "e": {
+          "description": "The key exponent of a RSA key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kid": {
+          "description": "The unique identifier of the key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kty": {
+          "description": "The type of public key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "KeyObjectKtyEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "n": {
+          "description": "The modulus of the RSA key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "okta:kpr": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "KeyObjectOktaKprEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "x": {
+          "description": "The public x coordinate for the elliptic curve point",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "y": {
+          "description": "The public y coordinate for the elliptic curve point",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OktaApplication": {
+      "description": "Okta apps list",
+      "fields": {
+        "displayName": {
+          "description": "The display name of the app",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "id": {
+          "description": "The `client_id` of the app",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "name": {
+          "description": "The name of the app",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "Organization": {
+      "description": "Org Object",
+      "fields": {
+        "_links": {
+          "description": "Discoverable resources related to the Org",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OrganizationLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "helpLink": {
+          "description": "The URL of the Org's help resources",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of the Org",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "supportEmail": {
+          "description": "The email address of the Org support contact",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The URL of the Org",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "OrganizationLinks": {
+      "description": "Discoverable resources related to the Org",
+      "fields": {
+        "self": {
+          "description": "Link to the resource (self)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OrganizationLinksSelf",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "OrganizationLinksSelf": {
+      "description": "Link to the resource (self)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OrganizationLinksSelfHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "OrganizationLinksSelfHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OrganizationLinksSelfHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "PasswordResponse": {
+      "description": "Password Response Object",
+      "fields": {
+        "_links": {
+          "description": "Discoverable resources related to the password",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PasswordResponseLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "created": {
+          "description": "If password is `ACTIVE`, returns the date when password was first enrolled",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "lastUpdated": {
+          "description": "If password is `ACTIVE`, returns the date when password was last updated",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "`ACTIVE`, `EXPIRED`, `SUSPENDED`, `NOT_ENROLLED`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "PasswordResponseLinks": {
+      "description": "Discoverable resources related to the password",
+      "fields": {
+        "self": {
+          "description": "Link to the resource (self)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PasswordResponseLinksSelf",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "PasswordResponseLinksSelf": {
+      "description": "Link to the resource (self)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PasswordResponseLinksSelfHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PasswordResponseLinksSelfHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PasswordResponseLinksSelfHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Phone": {
+      "description": "Phone Object",
+      "fields": {
+        "_links": {
+          "description": "Discoverable resources related to the caller's phone",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PhoneLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "id": {
+          "description": "The phone ID of the caller",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "profile": {
+          "description": "Defines the phone number on the profile",
+          "type": {
+            "name": "PhoneProfile",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "status": {
+          "description": "The phone status of the caller",
+          "type": {
+            "name": "PhoneStatus",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PhoneLinks": {
+      "description": "Discoverable resources related to the caller's phone",
+      "fields": {
+        "challenge": {
+          "description": "Link to the resource (challenge)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PhoneLinksChallenge",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "self": {
+          "description": "Link to the resource (self)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PhoneLinksSelf",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "verify": {
+          "description": "Link to the resource (verify)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PhoneLinksVerify",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "PhoneLinksChallenge": {
+      "description": "Link to the resource (challenge)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PhoneLinksChallengeHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PhoneLinksChallengeHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PhoneLinksChallengeHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "PhoneLinksSelf": {
+      "description": "Link to the resource (self)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PhoneLinksSelfHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PhoneLinksSelfHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PhoneLinksSelfHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "PhoneLinksVerify": {
+      "description": "Link to the resource (verify)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PhoneLinksVerifyHints",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PhoneLinksVerifyHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PhoneLinksVerifyHintsAllow",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "PhoneProfile": {
+      "description": "Defines the phone number on the profile",
+      "fields": {
+        "phoneNumber": {
+          "description": "The phone number on the profile",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PollChallengeForEmailMagicLinkResult": {
+      "fields": {
+        "_links": {
+          "description": "Discoverable resources related to the poll for the email challenge's status",
+          "type": {
+            "name": "PollChallengeForEmailMagicLinkResultLinks",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "expiresAt": {
+          "description": "The time at which the challenge expires. The lifetime of a challenge is five minutes.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "id": {
+          "description": "The email ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "profile": {
+          "description": "Defines the email address on the profile",
+          "type": {
+            "name": "PollChallengeForEmailMagicLinkResultProfile",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "status": {
+          "description": "The challenge status of the caller's email",
+          "type": {
+            "name": "IdpStatus",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PollChallengeForEmailMagicLinkResultLinks": {
+      "description": "Discoverable resources related to the poll for the email challenge's status",
+      "fields": {
+        "poll": {
+          "description": "Link to the resource (poll)",
+          "type": {
+            "name": "PollChallengeForEmailMagicLinkResultLinksPoll",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "verify": {
+          "description": "Link to the resource (verify)",
+          "type": {
+            "name": "PollChallengeForEmailMagicLinkResultLinksVerify",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "PollChallengeForEmailMagicLinkResultLinksPoll": {
+      "description": "Link to the resource (poll)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "name": "PollChallengeForEmailMagicLinkResultLinksPollHints",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PollChallengeForEmailMagicLinkResultLinksPollHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "element_type": {
+              "name": "PollChallengeForEmailMagicLinkResultLinksPollHintsAllow",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "PollChallengeForEmailMagicLinkResultLinksVerify": {
+      "description": "Link to the resource (verify)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "name": "PollChallengeForEmailMagicLinkResultLinksVerifyHints",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PollChallengeForEmailMagicLinkResultLinksVerifyHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "element_type": {
+              "name": "PollChallengeForEmailMagicLinkResultLinksVerifyHintsAllow",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "PollChallengeForEmailMagicLinkResultProfile": {
+      "description": "Defines the email address on the profile",
+      "fields": {
+        "email": {
+          "description": "The email address on the profile",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "Profile": {
+      "description": "Profile object based on the user's directory profile schema (based on UD)",
+      "fields": {
+        "_links": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProfileLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "createdAt": {
+          "description": "The timestamp of the creation of the caller's account",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "modifiedAt": {
+          "description": "The timestamp of the last update to the caller's account",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "profile": {
+          "description": "The properties defined in the [User Profile schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ProfileLinks": {
+      "fields": {
+        "describedBy": {
+          "description": "Link to the resource (describedBy)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProfileLinksDescribedBy",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "self": {
+          "description": "Link to the resource (self)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ProfileLinksSelf",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ProfileLinksDescribedBy": {
+      "description": "Link to the resource (describedBy)",
+      "fields": {
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProfileLinksSelf": {
+      "description": "Link to the resource (self)",
+      "fields": {
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "PushNotificationChallenge": {
+      "description": "Push notification challenge request object for an app authenticator",
+      "fields": {
+        "challenge": {
+          "description": "JWT issued by Okta at the time of challenging for a push notification.  This based64-encoded JWT consists of a [JWT header](/openapi/okta-myaccount/myaccount/tag/AppAuthenticator/#tag/AppAuthenticator/schema/PushNotificationChallengeRequestJwtHeader) and a [JWT payload](/openapi/okta-myaccount/myaccount/tag/AppAuthenticator/#tag/AppAuthenticator/schema/PushNotificationChallengeRequestJwt).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payloadVersion": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PushNotificationChallengePayloadVersion",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "PushNotificationVerificationInput": {
+      "description": "Push notification challenge response object for an app authenticator",
+      "fields": {
+        "challengeResponse": {
+          "description": "JWT issued by the app authenticator at the time of push notification verification  This based64-encoded JWT consists of a [JWT header](/openapi/okta-myaccount/myaccount/tag/AppAuthenticator/#tag/AppAuthenticator/schema/PushNotificationChallengeResponseJwtHeader) and a [JWT payload](/openapi/okta-myaccount/myaccount/tag/AppAuthenticator/#tag/AppAuthenticator/schema/PushNotificationChallengeResponseJwt).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "method": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PushNotificationVerificationMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ReplacePasswordBodyInput": {
+      "fields": {
+        "profile": {
+          "description": "Defines the password on the profile",
+          "type": {
+            "name": "ReplacePasswordBodyProfileInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ReplacePasswordBodyProfileInput": {
+      "description": "Defines the password on the profile",
+      "fields": {
+        "password": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ReplaceProfileBodyInput": {
+      "fields": {
+        "profile": {
+          "description": "The properties defined in the schema",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "Schema": {
+      "description": "Describes a user's directory profile schema (based on UD)",
+      "fields": {
+        "_links": {
+          "description": "Discoverable resources related to the user's directory profile",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SchemaLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "properties": {
+          "description": "The properties defined in the [User Profile schema](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "SchemaLinks": {
+      "description": "Discoverable resources related to the user's directory profile",
+      "fields": {
+        "self": {
+          "description": "Link to the resource (self)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SchemaLinksSelf",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "user": {
+          "description": "Link to the resource (user)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SchemaLinksUser",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "SchemaLinksSelf": {
+      "description": "Link to the resource (self)",
+      "fields": {
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "SchemaLinksUser": {
+      "description": "Link to the resource (user)",
+      "fields": {
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "SendEmailChallengeBodyInput": {
+      "fields": {
+        "state": {
+          "description": "(Optional) The state parameter that contains the state of the client",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SendEmailChallengeResult": {
+      "fields": {
+        "_links": {
+          "description": "Discoverable resources related to the caller's email challenge",
+          "type": {
+            "name": "SendEmailChallengeResultLinks",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "expiresAt": {
+          "description": "The time when the challenge expires. A challenge has a lifetime of five minutes.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "id": {
+          "description": "The email ID of the caller",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        },
+        "profile": {
+          "description": "Defines the email address on the profile",
+          "type": {
+            "name": "SendEmailChallengeResultProfile",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "status": {
+          "description": "The challenge status of the caller's email",
+          "type": {
+            "name": "IdpStatus",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SendEmailChallengeResultLinks": {
+      "description": "Discoverable resources related to the caller's email challenge",
+      "fields": {
+        "poll": {
+          "description": "Link to the resource (poll)",
+          "type": {
+            "name": "SendEmailChallengeResultLinksPoll",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "verify": {
+          "description": "Link to the resource (verify)",
+          "type": {
+            "name": "SendEmailChallengeResultLinksVerify",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "SendEmailChallengeResultLinksPoll": {
+      "description": "Link to the resource (poll)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "name": "SendEmailChallengeResultLinksPollHints",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SendEmailChallengeResultLinksPollHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "element_type": {
+              "name": "IdpAllow",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "SendEmailChallengeResultLinksVerify": {
+      "description": "Link to the resource (verify)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "name": "SendEmailChallengeResultLinksVerifyHints",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SendEmailChallengeResultLinksVerifyHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "element_type": {
+              "name": "SendEmailChallengeResultLinksVerifyHintsAllow",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "SendEmailChallengeResultProfile": {
+      "description": "Defines the email address on the profile",
+      "fields": {
+        "email": {
+          "description": "The email address on the profile",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SendPhoneChallengeBodyInput": {
+      "fields": {
+        "method": {
+          "description": "The method with which the challenge should be sent",
+          "type": {
+            "name": "IdpMethod",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "retry": {
+          "description": "Indicates whether this is a normal challenge or retry",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "SendPhoneChallengeResult": {
+      "fields": {
+        "_links": {
+          "description": "Discoverable resources related to the phone challenge",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendPhoneChallengeResultLinks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "SendPhoneChallengeResultLinks": {
+      "description": "Discoverable resources related to the phone challenge",
+      "fields": {
+        "verify": {
+          "description": "Link to the resource (verify)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendPhoneChallengeResultLinksVerify",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "SendPhoneChallengeResultLinksVerify": {
+      "description": "Link to the resource (verify)",
+      "fields": {
+        "hints": {
+          "description": "Describes the allowed HTTP verbs for the `href`",
+          "type": {
+            "name": "SendPhoneChallengeResultLinksVerifyHints",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "href": {
+          "description": "Link URI",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SendPhoneChallengeResultLinksVerifyHints": {
+      "description": "Describes the allowed HTTP verbs for the `href`",
+      "fields": {
+        "allow": {
+          "type": {
+            "element_type": {
+              "name": "IdpAllow",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "UpdateAppAuthenticatorEnrollmentRequestInput": {
+      "fields": {
+        "methods": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateAppAuthenticatorEnrollmentRequestMethodsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAppAuthenticatorEnrollmentRequestMethodsInput": {
+      "fields": {
+        "push": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateAppAuthenticatorEnrollmentRequestMethodsPushInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAppAuthenticatorEnrollmentRequestMethodsPushInput": {
+      "fields": {
+        "capabilities": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorMethodCapabilitiesInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "keys": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateAppAuthenticatorEnrollmentRequestMethodsPushKeysInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "pushToken": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "UpdateAppAuthenticatorEnrollmentRequestMethodsPushKeysInput": {
+      "fields": {
+        "userVerification": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "KeyObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "VerifyEmailOtpBodyInput": {
+      "fields": {
+        "verificationCode": {
+          "description": "A six-digit verification code sent to the user in the \"Confirm email address change\" email",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "password"
+          }
+        }
+      }
+    },
+    "VerifyPhoneChallengeBodyInput": {
+      "fields": {
+        "verificationCode": {
+          "description": "A six-digit verification code that the user receives through SMS or CALL",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "password"
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "createAppAuthenticatorEnrollment": {
+      "request": {
+        "url": "/idp/myaccount/app-authenticators",
+        "method": "post",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.appAuthenticator.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json, okta-version=1.0.0"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/app-authenticators",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppAuthenticatorEnrollmentRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create an app authenticator enrollment",
+      "result_type": {
+        "name": "AppAuthenticatorEnrollment",
+        "type": "named"
+      }
+    },
+    "createEmail": {
+      "request": {
+        "url": "/idp/myaccount/emails",
+        "method": "post",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.email.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/emails",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreateEmailBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create an Email",
+      "result_type": {
+        "name": "Email",
+        "type": "named"
+      }
+    },
+    "createPassword": {
+      "request": {
+        "url": "/idp/myaccount/password",
+        "method": "post",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.password.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/password",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreatePasswordBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a Password",
+      "result_type": {
+        "name": "PasswordResponse",
+        "type": "named"
+      }
+    },
+    "createPhone": {
+      "request": {
+        "url": "/idp/myaccount/phones",
+        "method": "post",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.phone.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/phones",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreatePhoneBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Create a Phone",
+      "result_type": {
+        "name": "Phone",
+        "type": "named"
+      }
+    },
+    "deleteAppAuthenticatorEnrollment": {
+      "request": {
+        "url": "/idp/myaccount/app-authenticators/{enrollmentId}",
+        "method": "delete",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.appAuthenticator.manage"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "enrollmentId": {
+          "description": "Id of the user's app authenticator enrollment",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "enrollmentId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete an app authenticator enrollment",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "deleteEmail": {
+      "request": {
+        "url": "/idp/myaccount/emails/{id}",
+        "method": "delete",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.email.manage"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The email ID Use `GET /idp/myaccount/emails` or `POST /idp/myaccount/emails` operations to obtain the email ID when adding a new email address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete an Email",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "deletePassword": {
+      "request": {
+        "url": "/idp/myaccount/password",
+        "method": "delete",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.password.manage"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {},
+      "description": "Delete a Password",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "deletePhone": {
+      "request": {
+        "url": "/idp/myaccount/phones/{id}",
+        "method": "delete",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.phone.manage"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the phone. Obtain the ID of the phone through `GET /idp/myaccount/phones` or `POST /idp/myaccount/phones` when adding a new phone.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a Phone",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "deleteSessions": {
+      "request": {
+        "url": "/idp/myaccount/sessions",
+        "method": "delete",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.sessions.manage"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Delete all sessions",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "replacePassword": {
+      "request": {
+        "url": "/idp/myaccount/password",
+        "method": "put",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.password.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /idp/myaccount/password",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ReplacePasswordBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Replace a Password",
+      "result_type": {
+        "name": "PasswordResponse",
+        "type": "named"
+      }
+    },
+    "replaceProfile": {
+      "request": {
+        "url": "/idp/myaccount/profile",
+        "method": "put",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.profile.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /idp/myaccount/profile",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ReplaceProfileBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Replace my Profile My User Profile",
+      "result_type": {
+        "name": "Profile",
+        "type": "named"
+      }
+    },
+    "sendEmailChallenge": {
+      "request": {
+        "url": "/idp/myaccount/emails/{id}/challenge",
+        "method": "post",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.email.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/emails/{id}/challenge",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendEmailChallengeBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "description": "The email ID  Use the `GET /idp/myaccount/emails` or `POST /idp/myaccount/emails` operations when adding a new email address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Send an Email Challenge",
+      "result_type": {
+        "name": "SendEmailChallengeResult",
+        "type": "named"
+      }
+    },
+    "sendPhoneChallenge": {
+      "request": {
+        "url": "/idp/myaccount/phones/{id}/challenge",
+        "method": "post",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.phone.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/phones/{id}/challenge",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SendPhoneChallengeBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Send a Phone Challenge",
+      "result_type": {
+        "name": "SendPhoneChallengeResult",
+        "type": "named"
+      }
+    },
+    "updateAppAuthenticatorEnrollment": {
+      "request": {
+        "url": "/idp/myaccount/app-authenticators/{enrollmentId}",
+        "method": "patch",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.appAuthenticator.maintenance.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/merge-patch+json;okta-version=1.0.0"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /idp/myaccount/app-authenticators/{enrollmentId}",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdateAppAuthenticatorEnrollmentRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "enrollmentId": {
+          "description": "Id of the user's app authenticator enrollment",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "enrollmentId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update an app authenticator enrollment",
+      "result_type": {
+        "name": "AppAuthenticatorEnrollment",
+        "type": "named"
+      }
+    },
+    "verifyAppAuthenticatorPushNotificationChallenge": {
+      "request": {
+        "url": "/idp/myaccount/app-authenticators/challenge/{challengeId}/verify",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json;okta-version=1.0.0"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/app-authenticators/challenge/{challengeId}/verify",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PushNotificationVerificationInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "challengeId": {
+          "description": "Id of the challenge associated with the app authenticator",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "challengeId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Verify a push notification challenge response from the app authenticator",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "verifyEmailOtp": {
+      "request": {
+        "url": "/idp/myaccount/emails/{id}/challenge/{challengeId}/verify",
+        "method": "post",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.email.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/emails/{id}/challenge/{challengeId}/verify",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VerifyEmailOtpBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "challengeId": {
+          "description": "The `challengeId` of the email Use the `POST /idp/myaccount/emails/{id}/challenge` operation to obtain the `challengeId` when creating a new challenge.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "challengeId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "id": {
+          "description": "The email ID Use `GET /idp/myaccount/emails` or `POST /idp/myaccount/emails` operations to obtain the email ID when adding a new email address.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Verify an Email OTP",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
+    "verifyPhoneChallenge": {
+      "request": {
+        "url": "/idp/myaccount/phones/{id}/verify",
+        "method": "post",
+        "security": [
+          {
+            "oauth2": [
+              "okta.myAccount.phone.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json;okta-version=1.0.0"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /idp/myaccount/phones/{id}/verify",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VerifyPhoneChallengeBodyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "id": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Verify a Phone Challenge",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "AppAuthenticatorEnrollmentDeviceStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ACTIVE"
+        ],
+        "type": "enum"
+      }
+    },
+    "AppAuthenticatorEnrollmentLinksSelfHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "PATCH",
+          "DELETE"
+        ],
+        "type": "enum"
+      }
+    },
+    "AppAuthenticatorEnrollmentMethodsPushLinksPendingHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET"
+        ],
+        "type": "enum"
+      }
+    },
+    "AppAuthenticatorEnrollmentRequestDevicePlatform": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ANDROID",
+          "IOS"
+        ],
+        "type": "enum"
+      }
+    },
+    "AppAuthenticatorEnrollmentRequestMethodsPushApsEnvironment": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "PRODUCTION",
+          "DEVELOPMENT"
+        ],
+        "type": "enum"
+      }
+    },
+    "AppAuthenticatorMethodCapabilitiesTransactionTypes": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "LOGIN",
+          "CIBA"
+        ],
+        "type": "enum"
+      }
+    },
+    "AuthenticatorKey": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "custom_app",
+          "custom_otp",
+          "duo",
+          "external_idp",
+          "google_otp",
+          "okta_email",
+          "okta_password",
+          "okta_verify",
+          "onprem_mfa",
+          "phone_number",
+          "rsa_token",
+          "security_question",
+          "symantec_vip",
+          "webauthn",
+          "yubikey_token"
+        ],
+        "type": "enum"
+      }
+    },
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "EmailLinksChallengeHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "EmailLinksPollHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "EmailLinksSelfHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "DELETE",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "EmailLinksVerifyHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "EmailRoles": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "PRIMARY",
+          "SECONDARY"
+        ],
+        "type": "enum"
+      }
+    },
+    "EmailStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "VERIFIED",
+          "UNVERIFIED"
+        ],
+        "type": "enum"
+      }
+    },
+    "HttpMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "IdpAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET"
+        ],
+        "type": "enum"
+      }
+    },
+    "IdpMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "SMS",
+          "CALL"
+        ],
+        "type": "enum"
+      }
+    },
+    "IdpRole": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "PRIMARY",
+          "SECONDARY"
+        ],
+        "type": "enum"
+      }
+    },
+    "IdpStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "VERIFIED",
+          "UNVERIFIED"
+        ],
+        "type": "enum"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "KeyECCrv": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "P-256"
+        ],
+        "type": "enum"
+      }
+    },
+    "KeyObjectKtyEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "EC",
+          "RSA"
+        ],
+        "type": "enum"
+      }
+    },
+    "KeyObjectOktaKprEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "HARDWARE",
+          "SOFTWARE"
+        ],
+        "type": "enum"
+      }
+    },
+    "OrganizationLinksSelfHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET"
+        ],
+        "type": "enum"
+      }
+    },
+    "PasswordResponseLinksSelfHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "PhoneLinksChallengeHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "PhoneLinksSelfHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "DELETE",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "PhoneLinksVerifyHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "PhoneStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "VERIFIED",
+          "UNVERIFIED"
+        ],
+        "type": "enum"
+      }
+    },
+    "PollChallengeForEmailMagicLinkResultLinksPollHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "PollChallengeForEmailMagicLinkResultLinksVerifyHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DELETE",
+          "GET",
+          "POST",
+          "PUT"
+        ],
+        "type": "enum"
+      }
+    },
+    "PushNotificationChallengePayloadVersion": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "IDXv1"
+        ],
+        "type": "enum"
+      }
+    },
+    "PushNotificationVerificationMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "push"
+        ],
+        "type": "enum"
+      }
+    },
+    "SendEmailChallengeResultLinksVerifyHintsAllow": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}
