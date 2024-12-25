@@ -22,7 +22,23 @@ files:
 
 ## Environment Variables
 
-| Name            | Description                                                       | Default Value |
-| --------------- | ----------------------------------------------------------------- | ------------- |
-| OKTA_SERVER_URL | Server URL of your Okta account domain                            |               |
-| OKTA_API_TOKEN  | Okta API token. Requires if you import the `management.json` file |               |
+### IdP
+
+| Name            | Description                            | Default Value |
+| --------------- | -------------------------------------- | ------------- |
+| OKTA_SERVER_URL | Server URL of your Okta account domain |               |
+
+### Management
+
+| Name            | Description                            | Default Value |
+| --------------- | -------------------------------------- | ------------- |
+| OKTA_SERVER_URL | Server URL of your Okta account domain |               |
+| OKTA_API_TOKEN  | Okta API token                         |               |
+
+### OAuth
+
+| Name                                                    | Description                            | Default Value |
+| ------------------------------------------------------- | -------------------------------------- | ------------- |
+| OKTA_SERVER_URL                                         | Server URL of your Okta account domain |               |
+| OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_BASIC_USERNAME | OAuth2 Client ID                       |               |
+| OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_BASIC_PASSWORD | OAuth2 Client Secret                   |               |
