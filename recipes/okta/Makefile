@@ -1,5 +1,5 @@
 .PHONY: build-schema
-build-schema: build-schema-idp build-schema-management
+build-schema: build-schema-idp build-schema-management build-schema-oauth
 
 .PHONY: build-schema-idp
 build-schema-idp: 
