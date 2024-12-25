@@ -1,0 +1,25 @@
+services:
+  ndc-http:
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.7.0}
+    ports:
+      - 8080:8080
+    volumes:
+      - ./schema:/etc/connector:ro
+    environment:
+      OKTA_SERVER_URL: http://mock-idp:4010
+      OKTA_OAUTH_SERVER_URL: http://mock-oauth:4010
+      OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_BASIC_USERNAME: user
+      OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_BASIC_PASSWORD: password
+      HASURA_LOG_LEVEL: debug
+
+  mock-idp:
+    image: stoplight/prism:5.12.1
+    command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/okta/okta-management-openapi-spec/refs/heads/master/dist/2024.08.3/idp-minimal.yaml"
+    ports:
+      - "4010"
+
+  mock-oauth:
+    image: stoplight/prism:5.12.1
+    command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/okta/okta-management-openapi-spec/refs/heads/master/dist/2024.08.3/oauth-minimal.yaml"
+    ports:
+      - "4010"

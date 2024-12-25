@@ -1,0 +1,5524 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "env": "OKTA_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "Client_authentication_client_secret_basic": {
+        "type": "basic",
+        "header": "",
+        "username": {
+          "env": "OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_BASIC_USERNAME"
+        },
+        "password": {
+          "env": "OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_BASIC_PASSWORD"
+        }
+      },
+      "Client_authentication_client_secret_jwt": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "postBody",
+        "value": {
+          "env": "OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_JWT_TOKEN"
+        }
+      },
+      "Client_authentication_client_secret_post": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "postBody",
+        "value": {
+          "env": "OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_POST_TOKEN"
+        }
+      },
+      "Client_authentication_private_key_jwt": {
+        "type": "http",
+        "header": "Authorization",
+        "scheme": "postBody",
+        "value": {
+          "env": "OKTA_CLIENT_AUTHENTICATION_PRIVATE_KEY_JWT_TOKEN"
+        }
+      },
+      "apiToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "value": {
+          "env": "OKTA_API_TOKEN"
+        }
+      },
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "/oauth2/v1/authorize",
+            "tokenUrl": {
+              "value": "/oauth2/v1/token",
+              "env": "OKTA_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "address": "Requests access to the `address` claim",
+              "device_sso": "Requests a device secret used to obtain a new set of tokens without re-prompting the user for authentication. See [Native SSO](https://developer.okta.com/docs/guides/configure-native-sso/main/)",
+              "email": "Requests access to the `email` and `email_verified` claims",
+              "groups": "Requests access to the `groups` claim",
+              "offline_access": "Requests a refresh token used to obtain more access tokens without re-prompting the user for authentication",
+              "okta.clients.manage": "Allows the app to manage clients in your Okta organization",
+              "okta.clients.read": "Allows the app to read information about clients in your Okta organization",
+              "okta.clients.register": "Allows the app to register new clients in your Okta organization",
+              "okta.universalLogout.manage": "Allows an admin or a service to initiate Universal Logout and revoke all tokens and sessions associated with a specific user.",
+              "okta.workflows.invoke.manage": "Allows the app to trigger an OAuth 2.0 protected flow",
+              "openid": "Identifies the request as an OpenID Connect request",
+              "phone": "Requests access to the `phone_number` and `phone_number_verified` claims",
+              "profile": "Requests access to the end user's default profile claims"
+            }
+          }
+        }
+      }
+    },
+    "version": "2024.08.3"
+  },
+  "functions": {
+    "oauthAuthorize": {
+      "request": {
+        "url": "/oauth2/v1/authorize",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "acr_values": {
+          "description": "**Note:** Multiple space-delimited values may be provided. The authorization server will choose one and reflect the chosen value in any resulting tokens.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthAcrValue",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "acr_values",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "AcrValue"
+              }
+            }
+          }
+        },
+        "client_id": {
+          "description": "Obtained during either manual client registration or through the [Dynamic Client Registration API](/openapi/okta-oauth/oauth/tag/Client/). It identifies the client and must match the value preregistered in Okta.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "code_challenge": {
+          "description": "A challenge for [PKCE](https://developer.okta.com/docs/guides/implement-grant-type/authcodepkce/main/). The challenge is verified in the access token request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "code_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "code_challenge_method": {
+          "description": "Method used to derive the code challenge for [PKCE](https://developer.okta.com/docs/guides/implement-grant-type/authcodepkce/main/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthCodeChallengeMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "code_challenge_method",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "CodeChallengeMethod"
+              }
+            }
+          }
+        },
+        "display": {
+          "description": "The `display` parameter to be passed to the external Identity Provider when performing [social login](https://developer.okta.com/docs/concepts/identity-providers/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "display",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "enroll_amr_values": {
+          "description": "A space-delimited list of values indicating which authenticators to enroll in.  * If the `enroll_amr_values` parameter is specified, then the value for `prompt` must be `enroll_authenticator`. * The parameter value is space-delimited, for example, `pwd sms okta_verify` is a valid request parameter value. You are prompted in the order of the amr values provided.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthAmrValue",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "enroll_amr_values",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "AmrValue"
+              }
+            }
+          }
+        },
+        "idp": {
+          "description": "An Okta Extension to the OpenID Specification. The ID of the Identity Provider to use if there's no Okta Session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "idp",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "idp_scope": {
+          "description": "An Okta Extension to the OpenID specification. A space-delimited list of scopes to be provided to the external Identity Provider when performing [social login](https://developer.okta.com/docs/concepts/identity-providers/). These scopes are used in addition to the scopes already configured for the Identity Provider.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "idp_scope",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "login_hint": {
+          "description": "A username to pre-populate if prompting for authentication",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "login_hint",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "max_age": {
+          "description": "Allowable elapsed time, in seconds, since the last time the end user was actively authenticated by Okta.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "max_age",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "nonce": {
+          "description": "A value that is returned in the ID token. It is used to mitigate replay attacks. The value is required for Implicit and Hybrid flows, but optional for Auth Code flows. See [OIDC Specs](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "nonce",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "prompt": {
+          "description": "If no `prompt` parameter is specified, the standard behavior occurs: * If an Okta session already exists and meets the assurance requirements of the app, the user is silently authenticated. Otherwise, the user is prompted to authenticate. * If scopes are requested that require consent and consent isn't yet given by the authenticated user, the user is prompted to give consent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthPrompt",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "prompt",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "Prompt"
+              }
+            }
+          }
+        },
+        "redirect_uri": {
+          "description": "Callback location where the authorization code or tokens should be sent. It must match the value preregistered in Okta during client registration.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "redirect_uri",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "request": {
+          "description": "**Note:** See [Build a JWT for client authentication](https://developer.okta.com/docs/guides/build-self-signed-jwt/) for information on how to build a JWT. * Okta supports the [HMAC](https://tools.ietf.org/html/rfc7518#section-3.2), [RSA](https://tools.ietf.org/html/rfc7518#section-3.3) and [ECDSA](https://tools.ietf.org/html/rfc7518#section-3.4) signature algorithms. HMAC signatures require that the client has a `token_endpoint_auth_method` that uses a `client_secret`. RSA and ECDSA signatures requires that the client registers a public key. * We recommend that you don't duplicate any request parameters in both the JWT and the query URI itself. However, you can do so with `state`, `nonce`, `code_challenge`, and `code_challenge_method`. In those cases, the values in the JWT overrides the query URI values. * Okta validates the `request` parameter in the following ways:   1. `iss` is required and must be the `client_id`.   2. `aud` is required and must be the same value as the Authorization Server issuer that mints the ID or access token. This value is published in the metadata for your Authorization Server.   3. JWT lifetime is evaluated using the `iat` and `exp` claims, if present. If the JWT is expired or not yet valid, Okta returns an `invalid_request_object` error. Okta rejects JWTs that expire more than one hour in the future.   4. Okta rejects the JWT if the `jti` claim is present and it has already been processed.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "request",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "request_uri": {
+          "description": "Location where the authorization request payload data is referenced in an authorization request to the `/authorize` endpoint. This is returned from a Pushed Authorization Request at the `/par` endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "request_uri",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_mode": {
+          "description": "How the authorization response should be returned. If `id_token` or `token` is specified in the `response_type`, then `query` isn't allowed as a response mode. Defaults to `fragment` in implicit and hybrid flows.  The `Referrer-Policy` header is automatically included in the response when either the fragment or query parameter values are used. The header is set to `Referrer-Policy: no-referrer`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthResponseMode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "response_mode",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_type": {
+          "description": "Any combination of `code`, `token`, and `id_token`. The combination determines the [flow](https://developer.okta.com/docs/concepts/oauth-openid/#choose-an-oauth-2-0-flow).",
+          "type": {
+            "name": "OauthResponseTypesSupported",
+            "type": "named"
+          },
+          "http": {
+            "name": "response_type",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "scope": {
+          "description": "A space-delimited string of scopes requested",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "scope",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "sessionToken": {
+          "description": "Okta one-time session token. This is an Okta extension to the OpenID specification. The `sessionToken` allows an API-based user sign-in flow.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sessionToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "state": {
+          "description": "A value to be returned with the token. The client application can use it to remember the state of its interaction with the end user at the time of the authentication call. It can contain alphanumeric, comma, period, underscore, and hyphen characters.   Okta requires the OAuth 2.0 `state` parameter on all requests to the `/authorize` endpoint to prevent cross-site request forgery (CSRF). The OAuth 2.0 specification [requires](https://tools.ietf.org/html/rfc6749#section-10.12) that clients protect their redirect URIs against CSRF by sending a value in the authorize request that binds the request to the user-agent's authenticated state. Using the `state` parameter is also a countermeasure to several other known attacks as outlined in [OAuth 2.0 Threat Model and Security Considerations](https://tools.ietf.org/html/rfc6819).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "/authorize",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "oauthAuthorizeCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/authorize",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "acr_values": {
+          "description": "**Note:** Multiple space-delimited values may be provided. The authorization server will choose one and reflect the chosen value in any resulting tokens.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthAcrValue",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "acr_values",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "AcrValue"
+              }
+            }
+          }
+        },
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "client_id": {
+          "description": "Obtained during either manual client registration or through the [Dynamic Client Registration API](/openapi/okta-oauth/oauth/tag/Client/). It identifies the client and must match the value preregistered in Okta.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "code_challenge": {
+          "description": "A challenge for [PKCE](https://developer.okta.com/docs/guides/implement-grant-type/authcodepkce/main/). The challenge is verified in the access token request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "code_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "code_challenge_method": {
+          "description": "Method used to derive the code challenge for [PKCE](https://developer.okta.com/docs/guides/implement-grant-type/authcodepkce/main/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthCodeChallengeMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "code_challenge_method",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "CodeChallengeMethod"
+              }
+            }
+          }
+        },
+        "display": {
+          "description": "The `display` parameter to be passed to the external Identity Provider when performing [social login](https://developer.okta.com/docs/concepts/identity-providers/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "display",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "enroll_amr_values": {
+          "description": "A space-delimited list of values indicating which authenticators to enroll in.  * If the `enroll_amr_values` parameter is specified, then the value for `prompt` must be `enroll_authenticator`. * The parameter value is space-delimited, for example, `pwd sms okta_verify` is a valid request parameter value. You are prompted in the order of the amr values provided.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthAmrValue",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "enroll_amr_values",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "AmrValue"
+              }
+            }
+          }
+        },
+        "idp": {
+          "description": "An Okta Extension to the OpenID Specification. The ID of the Identity Provider to use if there's no Okta Session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "idp",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "idp_scope": {
+          "description": "An Okta Extension to the OpenID specification. A space-delimited list of scopes to be provided to the external Identity Provider when performing [social login](https://developer.okta.com/docs/concepts/identity-providers/). These scopes are used in addition to the scopes already configured for the Identity Provider.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "idp_scope",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "login_hint": {
+          "description": "A username to pre-populate if prompting for authentication",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "login_hint",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "max_age": {
+          "description": "Allowable elapsed time, in seconds, since the last time the end user was actively authenticated by Okta.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "max_age",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "nonce": {
+          "description": "A value that is returned in the ID token. It is used to mitigate replay attacks. The value is required for Implicit and Hybrid flows, but optional for Auth Code flows. See [OIDC Specs](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "nonce",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "prompt": {
+          "description": "If no `prompt` parameter is specified, the standard behavior occurs: * If an Okta session already exists and meets the assurance requirements of the app, the user is silently authenticated. Otherwise, the user is prompted to authenticate. * If scopes are requested that require consent and consent isn't yet given by the authenticated user, the user is prompted to give consent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthPrompt",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "prompt",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "Prompt"
+              }
+            }
+          }
+        },
+        "redirect_uri": {
+          "description": "Callback location where the authorization code or tokens should be sent. It must match the value preregistered in Okta during client registration.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "redirect_uri",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "request": {
+          "description": "**Note:** See [Build a JWT for client authentication](https://developer.okta.com/docs/guides/build-self-signed-jwt/) for information on how to build a JWT. * Okta supports the [HMAC](https://tools.ietf.org/html/rfc7518#section-3.2), [RSA](https://tools.ietf.org/html/rfc7518#section-3.3) and [ECDSA](https://tools.ietf.org/html/rfc7518#section-3.4) signature algorithms. HMAC signatures require that the client has a `token_endpoint_auth_method` that uses a `client_secret`. RSA and ECDSA signatures requires that the client registers a public key. * We recommend that you don't duplicate any request parameters in both the JWT and the query URI itself. However, you can do so with `state`, `nonce`, `code_challenge`, and `code_challenge_method`. In those cases, the values in the JWT overrides the query URI values. * Okta validates the `request` parameter in the following ways:   1. `iss` is required and must be the `client_id`.   2. `aud` is required and must be the same value as the Authorization Server issuer that mints the ID or access token. This value is published in the metadata for your Authorization Server.   3. JWT lifetime is evaluated using the `iat` and `exp` claims, if present. If the JWT is expired or not yet valid, Okta returns an `invalid_request_object` error. Okta rejects JWTs that expire more than one hour in the future.   4. Okta rejects the JWT if the `jti` claim is present and it has already been processed.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "request",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "request_uri": {
+          "description": "Location where the authorization request payload data is referenced in an authorization request to the `/authorize` endpoint. This is returned from a Pushed Authorization Request at the `/par` endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "request_uri",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_mode": {
+          "description": "How the authorization response should be returned. If `id_token` or `token` is specified in the `response_type`, then `query` isn't allowed as a response mode. Defaults to `fragment` in implicit and hybrid flows.  The `Referrer-Policy` header is automatically included in the response when either the fragment or query parameter values are used. The header is set to `Referrer-Policy: no-referrer`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthResponseMode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "response_mode",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_type": {
+          "description": "Any combination of `code`, `token`, and `id_token`. The combination determines the [flow](https://developer.okta.com/docs/concepts/oauth-openid/#choose-an-oauth-2-0-flow).",
+          "type": {
+            "name": "OauthResponseTypesSupported",
+            "type": "named"
+          },
+          "http": {
+            "name": "response_type",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "scope": {
+          "description": "A space-delimited string of scopes requested",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "scope",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "sessionToken": {
+          "description": "Okta one-time session token. This is an Okta extension to the OpenID specification. The `sessionToken` allows an API-based user sign-in flow.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sessionToken",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "state": {
+          "description": "A value to be returned with the token. The client application can use it to remember the state of its interaction with the end user at the time of the authentication call. It can contain alphanumeric, comma, period, underscore, and hyphen characters.   Okta requires the OAuth 2.0 `state` parameter on all requests to the `/authorize` endpoint to prevent cross-site request forgery (CSRF). The OAuth 2.0 specification [requires](https://tools.ietf.org/html/rfc6749#section-10.12) that clients protect their redirect URIs against CSRF by sending a value in the authorize request that binds the request to the user-agent's authenticated state. Using the `state` parameter is also a countermeasure to several other known attacks as outlined in [OAuth 2.0 Threat Model and Security Considerations](https://tools.ietf.org/html/rfc6819).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "/authorize",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "oauthGetClient": {
+      "request": {
+        "url": "/oauth2/v1/clients/{clientId}",
+        "method": "get",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.clients.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "clientId": {
+          "description": "`client_id` of the Client application",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "clientId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve a Client application",
+      "result_type": {
+        "name": "OauthClient",
+        "type": "named"
+      }
+    },
+    "oauthGetWellKnownOAuthConfigurationCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/.well-known/oauth-authorization-server",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "client_id": {
+          "description": "Clients can be configured to format the issuer differently. Pass in the `client_id` to ensure the returned issuer format matches.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the OAuth 2.0 metadata",
+      "result_type": {
+        "name": "OauthOAuthMetadata",
+        "type": "named"
+      }
+    },
+    "oauthGetWellKnownOpenIDConfiguration": {
+      "request": {
+        "url": "/.well-known/openid-configuration",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "client_id": {
+          "description": "Clients can be configured to format the issuer differently. Pass in the `client_id` to ensure the returned issuer format matches.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the OpenID Connect metadata",
+      "result_type": {
+        "name": "OauthOidcMetadata",
+        "type": "named"
+      }
+    },
+    "oauthGetWellKnownOpenIDConfigurationCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/.well-known/openid-configuration",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "client_id": {
+          "description": "Clients can be configured to format the issuer differently. Pass in the `client_id` to ensure the returned issuer format matches.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Retrieve the OpenID Connect metadata",
+      "result_type": {
+        "name": "OauthOidcMetadata",
+        "type": "named"
+      }
+    },
+    "oauthListClients": {
+      "request": {
+        "url": "/oauth2/v1/clients",
+        "method": "get",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.clients.read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "after": {
+          "description": "**Note:** The `after` cursor should be treated as an opaque value and obtained through the next link relation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "limit": {
+          "description": "A limit on the number of objects to return.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 200,
+              "minimum": 1
+            }
+          }
+        },
+        "q": {
+          "description": "**Note:** Search currently performs a `startsWith` match, but this is an implementation detail and may change without notice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List all Client Applications",
+      "result_type": {
+        "element_type": {
+          "name": "OauthClient",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "oauthOauthKeys": {
+      "request": {
+        "url": "/oauth2/v1/keys",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "client_id": {
+          "description": "The `client_id` of a Client application. Providing this optional parameter will include any public keys associated with the signing keys of the application.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "client_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "/keys",
+      "result_type": {
+        "name": "OauthOAuthKeys",
+        "type": "named"
+      }
+    },
+    "oauthOauthKeysCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/keys",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "/keys",
+      "result_type": {
+        "name": "OauthOAuthKeys",
+        "type": "named"
+      }
+    },
+    "oauthUserinfo": {
+      "request": {
+        "url": "/oauth2/v1/userinfo",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "openid"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "/userinfo",
+      "result_type": {
+        "name": "OauthUserInfo",
+        "type": "named"
+      }
+    },
+    "oauthUserinfoCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/userinfo",
+        "method": "get",
+        "security": [
+          {
+            "oauth2": [
+              "openid"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "/userinfo",
+      "result_type": {
+        "name": "OauthUserInfo",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "OauthBackchannelAuthorizeResponse": {
+      "fields": {
+        "auth_req_id": {
+          "description": "A unique identifier to identify the authentication request made by the client.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_in": {
+          "description": "The expiration time of the `auth_req_id` in seconds.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 300,
+            "minimum": 1
+          }
+        },
+        "interval": {
+          "description": "The minimum amount of time in seconds that the client should wait between polling requests to the token endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "OauthChallengeRequestInput": {
+      "fields": {
+        "challenge_types_supported": {
+          "description": "List of direct authentication challenge types supported by the client",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthChallengeType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "channel_hint": {
+          "description": "The out-of-band channel for use with authentication. Required for all `/oob-authenticate` requests and any `/challenge` request with an out-of-band authenticator.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthChannel",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "mfa_token": {
+          "description": "The value returned from a previous token or challenge request for identifying the multifactor transaction across multiple requests",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthChallengeResponse": {
+      "fields": {
+        "binding_code": {
+          "description": "The end-user verification code used to bind the authorization operation on the secondary channel with the primary channel. Present only if `binding_method=transfer`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "binding_method": {
+          "description": "The method used to bind the out-of-band channel with the primary channel.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthBindingMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "BindingMethod"
+            }
+          }
+        },
+        "challenge_type": {
+          "description": "The challenge type used for authentication",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "channel": {
+          "description": "The out-of-band channel for use with authentication. Required for all `/oob-authenticate` requests and any `/challenge` request with an out-of-band authenticator.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthChannel",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_in": {
+          "description": "Number of seconds until the `oob_code` expires",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "interval": {
+          "description": "The minimum amount of time in seconds that the client should wait between polling requests to the token endpoint",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "oob_code": {
+          "description": "A unique identifier for identifying the out-of-band transaction across multiple requests",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthClient": {
+      "fields": {
+        "application_type": {
+          "description": "The type of client application. Default value: `web`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthApplicationType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "ApplicationType"
+            }
+          }
+        },
+        "client_id": {
+          "description": "Unique key for the client application. The `client_id` is immutable. When you create a client Application, you can't specify the `client_id` because Okta uses the application ID for the `client_id`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_id_issued_at": {
+          "description": "Time at which the `client_id` was issued (measured in unix seconds)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "client_name": {
+          "description": "Human-readable string name of the client application",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_secret": {
+          "description": "OAuth 2.0 client secret string (used for confidential clients). The `client_secret` is shown only on the response of the creation or update of a client Application (and only if the `token_endpoint_auth_method` is one that requires a client secret). You can't specify the `client_secret`. If the `token_endpoint_auth_method` requires one, Okta generates a random `client_secret` for the client Application.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "client_secret_expires_at": {
+          "description": "Time at which the `client_secret` expires or 0 if it doesn't expire (measured in unix seconds)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "minimum": 0
+          }
+        },
+        "frontchannel_logout_session_required": {
+          "description": "Include user session details",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "frontchannel_logout_uri": {
+          "description": "URL where Okta sends the logout request",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "grant_types": {
+          "description": "Array of OAuth 2.0 grant type strings. Default value: `[authorization_code]`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthGrantType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "initiate_login_uri": {
+          "description": "URL that a third party can use to initiate a sign-in flow by the client",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "jwks": {
+          "description": "A [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) for validating JWTs presented to Okta",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthClientJwks",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "jwks_uri": {
+          "description": "URL string that references a [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) for validating JWTs presented to Okta",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "logo_uri": {
+          "description": "URL string that references a logo for the client consent dialog (not the sign-in dialog)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "policy_uri": {
+          "description": "URL string of a web page providing the client's policy document",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "post_logout_redirect_uris": {
+          "description": "Array of redirection URI strings for use for relying party initiated logouts",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "redirect_uris": {
+          "description": "Array of redirection URI strings for use in redirect-based flows. All redirect URIs must be absolute URIs and must not include a fragment component. At least one redirect URI and response type is required for all client types, with the following exceptions: If the client uses the Resource Owner Password flow (if `grant_type` contains the value `password`) or the Client Credentials flow (if `grant_type` contains the value `client_credentials`), then no redirect URI or response type is necessary. In these cases, you can pass either null or an empty array for these attributes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "request_object_signing_alg": {
+          "description": "The type of [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) algorithm that you must use for signing request objects. When you specify a value for the `request_object_signing_alg` property, all request objects from the client are rejected if not signed with the specified algorithm. You must use the algorithm when the request object is passed by value (using the request parameter). If a value for `request_object_signing_alg` isn't specified, the default is any algorithm that's supported by both the client and the server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSigningAlgorithm",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_types": {
+          "description": "Array of OAuth 2.0 response type strings. Default value: `[code]`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthResponseType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "token_endpoint_auth_method": {
+          "description": "Requested authentication method for OAuth 2.0 endpoints.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthEndpointAuthMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "tos_uri": {
+          "description": "URL string of a web page providing the client's terms of service document",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthClientInput": {
+      "fields": {
+        "application_type": {
+          "description": "The type of client application. Default value: `web`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthApplicationType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "ApplicationType"
+            }
+          }
+        },
+        "client_name": {
+          "description": "Human-readable string name of the client application",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "frontchannel_logout_session_required": {
+          "description": "Include user session details",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "frontchannel_logout_uri": {
+          "description": "URL where Okta sends the logout request",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "grant_types": {
+          "description": "Array of OAuth 2.0 grant type strings. Default value: `[authorization_code]`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthGrantType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "initiate_login_uri": {
+          "description": "URL that a third party can use to initiate a sign-in flow by the client",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "jwks": {
+          "description": "A [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) for validating JWTs presented to Okta",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthClientJwksInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "jwks_uri": {
+          "description": "URL string that references a [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) for validating JWTs presented to Okta",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "logo_uri": {
+          "description": "URL string that references a logo for the client consent dialog (not the sign-in dialog)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "policy_uri": {
+          "description": "URL string of a web page providing the client's policy document",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "post_logout_redirect_uris": {
+          "description": "Array of redirection URI strings for use for relying party initiated logouts",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "redirect_uris": {
+          "description": "Array of redirection URI strings for use in redirect-based flows. All redirect URIs must be absolute URIs and must not include a fragment component. At least one redirect URI and response type is required for all client types, with the following exceptions: If the client uses the Resource Owner Password flow (if `grant_type` contains the value `password`) or the Client Credentials flow (if `grant_type` contains the value `client_credentials`), then no redirect URI or response type is necessary. In these cases, you can pass either null or an empty array for these attributes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "request_object_signing_alg": {
+          "description": "The type of [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) algorithm that you must use for signing request objects. When you specify a value for the `request_object_signing_alg` property, all request objects from the client are rejected if not signed with the specified algorithm. You must use the algorithm when the request object is passed by value (using the request parameter). If a value for `request_object_signing_alg` isn't specified, the default is any algorithm that's supported by both the client and the server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSigningAlgorithm",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_types": {
+          "description": "Array of OAuth 2.0 response type strings. Default value: `[code]`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthResponseType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "token_endpoint_auth_method": {
+          "description": "Requested authentication method for OAuth 2.0 endpoints.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthEndpointAuthMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "tos_uri": {
+          "description": "URL string of a web page providing the client's terms of service document",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthClientJwks": {
+      "description": "A [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) for validating JWTs presented to Okta",
+      "fields": {
+        "keys": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthJsonWebKey",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "OauthClientJwksInput": {
+      "description": "A [JSON Web Key Set](https://tools.ietf.org/html/rfc7517#section-5) for validating JWTs presented to Okta",
+      "fields": {
+        "keys": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthJsonWebKeyInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "OauthDeviceAuthorizeRequestInput": {
+      "fields": {
+        "client_id": {
+          "description": "Obtained during either manual client registration or through the [Dynamic Client Registration API](/openapi/okta-oauth/oauth/tag/Client/). It identifies the client and must match the value preregistered in Okta.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "scope": {
+          "description": "A list of scopes that the client wants included in the access token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthDeviceAuthorizeResponse": {
+      "fields": {
+        "device_code": {
+          "description": "The device verification code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_in": {
+          "description": "The expiration time of the `device_code` and `user_code` in seconds.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "interval": {
+          "description": "The minimum amount of time in seconds that the client should wait between polling requests to the token endpoint",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "user_code": {
+          "description": "The verification code for the end user.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "verification_uri": {
+          "description": "The URI that the end user visits to verify",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "verification_uri_complete": {
+          "description": "The URI that includes the `user_code` that the end-user alternatively visits to verify.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthGlobalTokenRevocationRequestInput": {
+      "fields": {
+        "sub_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthSubIdInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "OauthIntrospectionRequestInput": {
+      "fields": {
+        "token": {
+          "description": "**Note:** Although ID tokens can be sent to this endpoint, they are usually validated on the service provider or app side of a flow.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_type_hint": {
+          "description": "Indicates the type of `token` being passed",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthTokenTypeHintIntrospect",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthJsonWebKey": {
+      "description": "A [JSON Web Key (JWK)](https://tools.ietf.org/html/rfc7517) is a JSON representation of a cryptographic key. Okta can use these keys to verify the signature of a JWT when provided for the `private_key_jwt` client authentication method or for a signed authorize request object. Okta supports both RSA and Elliptic Curve (EC) keys.",
+      "fields": {
+        "alg": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthSigningAlgorithm",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kid": {
+          "description": "The unique identifier of the key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kty": {
+          "description": "The type of public key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthJsonWebKeyType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "The status of the public key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthJsonWebKeyStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "use": {
+          "description": "The intended use of the public key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthJsonWebKeyUse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthJsonWebKeyInput": {
+      "description": "A [JSON Web Key (JWK)](https://tools.ietf.org/html/rfc7517) is a JSON representation of a cryptographic key. Okta can use these keys to verify the signature of a JWT when provided for the `private_key_jwt` client authentication method or for a signed authorize request object. Okta supports both RSA and Elliptic Curve (EC) keys.",
+      "fields": {
+        "alg": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthSigningAlgorithm",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kid": {
+          "description": "The unique identifier of the key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "kty": {
+          "description": "The type of public key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthJsonWebKeyType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "The status of the public key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthJsonWebKeyStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "use": {
+          "description": "The intended use of the public key",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthJsonWebKeyUse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthOAuthKeys": {
+      "fields": {
+        "keys": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthJsonWebKey",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "OauthOAuthMetadata": {
+      "fields": {
+        "authorization_endpoint": {
+          "description": "URL of the authorization server's authorization endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "backchannel_authentication_request_signing_alg_values_supported": {
+          "description": "A list of signing algorithms that this authorization server supports for signed requests.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSigningAlgorithm",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "backchannel_token_delivery_modes_supported": {
+          "description": "The delivery modes that this authorization server supports for Client-Initiated Backchannel Authentication.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthTokenDeliveryMode",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "claims_supported": {
+          "description": "A list of the claims supported by this authorization server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "Claim"
+              }
+            }
+          }
+        },
+        "code_challenge_methods_supported": {
+          "description": "A list of PKCE code challenge methods supported by this authorization server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthCodeChallengeMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "CodeChallengeMethod"
+              }
+            }
+          }
+        },
+        "device_authorization_endpoint": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "dpop_signing_alg_values_supported": {
+          "description": "A list of signing algorithms supported by this authorization server for Demonstrating Proof-of-Possession (DPoP) JWTs.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthOAuthMetadataDpopSigningAlgValuesSupported",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "end_session_endpoint": {
+          "description": "URL of the authorization server's logout endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "grant_types_supported": {
+          "description": "A list of the grant type values that this authorization server supports.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthGrantType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "introspection_endpoint": {
+          "description": "URL of the authorization server's introspection endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "introspection_endpoint_auth_methods_supported": {
+          "description": "A list of client authentication methods supported by this introspection endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthEndpointAuthMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "issuer": {
+          "description": "The authorization server's issuer identifier. In the context of this document, this is your authorization server's base URL. This becomes the `iss` claim in an access token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "jwks_uri": {
+          "description": "URL of the authorization server's JSON Web Key Set document.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "pushed_authorization_request_endpoint": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "registration_endpoint": {
+          "description": "URL of the authorization server's JSON Web Key Set document.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "request_object_signing_alg_values_supported": {
+          "description": "A list of signing algorithms that this authorization server supports for signed requests.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSigningAlgorithm",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "request_parameter_supported": {
+          "description": "Indicates if Request Parameters are supported by this authorization server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "response_modes_supported": {
+          "description": "A list of the `response_mode` values that this authorization server supports. More information here.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthResponseMode",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_types_supported": {
+          "description": "A list of the `response_type` values that this authorization server supports. Can be a combination of `code`, `token`, and `id_token`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthResponseTypesSupported",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "revocation_endpoint": {
+          "description": "URL of the authorization server's revocation endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "revocation_endpoint_auth_methods_supported": {
+          "description": "A list of client authentication methods supported by this revocation endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthEndpointAuthMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "scopes_supported": {
+          "description": "A list of the scope values that this authorization server supports.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subject_types_supported": {
+          "description": "A list of the Subject Identifier types that this authorization server supports. Valid types include `pairwise` and `public`, but only `public` is currently supported. See the [Subject Identifier Types](https://openid.net/specs/openid-connect-core-1_0.html#SubjectIDTypes) section in the OpenID Connect specification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSubjectType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "token_endpoint": {
+          "description": "URL of the authorization server's token endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_endpoint_auth_methods_supported": {
+          "description": "A list of client authentication methods supported by this token endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthEndpointAuthMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "OauthOidcMetadata": {
+      "fields": {
+        "authorization_endpoint": {
+          "description": "URL of the authorization server's authorization endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "backchannel_authentication_request_signing_alg_values_supported": {
+          "description": "A list of signing algorithms that this authorization server supports for signed requests.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSigningAlgorithm",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "backchannel_token_delivery_modes_supported": {
+          "description": "The delivery modes that this authorization server supports for Client-Initiated Backchannel Authentication.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthTokenDeliveryMode",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "claims_supported": {
+          "description": "A list of the claims supported by this authorization server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "Claim"
+              }
+            }
+          }
+        },
+        "code_challenge_methods_supported": {
+          "description": "A list of PKCE code challenge methods supported by this authorization server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthCodeChallengeMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "CodeChallengeMethod"
+              }
+            }
+          }
+        },
+        "device_authorization_endpoint": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "dpop_signing_alg_values_supported": {
+          "description": "A list of signing algorithms supported by this authorization server for Demonstrating Proof-of-Possession (DPoP) JWTs.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthOAuthMetadataDpopSigningAlgValuesSupported",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "end_session_endpoint": {
+          "description": "URL of the authorization server's logout endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "grant_types_supported": {
+          "description": "A list of the grant type values that this authorization server supports.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthGrantType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "id_token_signing_alg_values_supported": {
+          "description": "A list of signing algorithms that this authorization server supports for signing ID tokens.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSigningAlgorithm",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "introspection_endpoint": {
+          "description": "URL of the authorization server's introspection endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "introspection_endpoint_auth_methods_supported": {
+          "description": "A list of client authentication methods supported by this introspection endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthEndpointAuthMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "issuer": {
+          "description": "The authorization server's issuer identifier. In the context of this document, this is your authorization server's base URL. This becomes the `iss` claim in an access token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "jwks_uri": {
+          "description": "URL of the authorization server's JSON Web Key Set document.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "pushed_authorization_request_endpoint": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "registration_endpoint": {
+          "description": "URL of the authorization server's JSON Web Key Set document.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "request_object_signing_alg_values_supported": {
+          "description": "A list of signing algorithms that this authorization server supports for signed requests.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSigningAlgorithm",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "request_parameter_supported": {
+          "description": "Indicates if Request Parameters are supported by this authorization server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "response_modes_supported": {
+          "description": "A list of the `response_mode` values that this authorization server supports. More information here.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthResponseMode",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "response_types_supported": {
+          "description": "A list of the `response_type` values that this authorization server supports. Can be a combination of `code`, `token`, and `id_token`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthResponseTypesSupported",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "revocation_endpoint": {
+          "description": "URL of the authorization server's revocation endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "revocation_endpoint_auth_methods_supported": {
+          "description": "A list of client authentication methods supported by this revocation endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthEndpointAuthMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "scopes_supported": {
+          "description": "A list of the scope values that this authorization server supports.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subject_types_supported": {
+          "description": "A list of the Subject Identifier types that this authorization server supports. Valid types include `pairwise` and `public`, but only `public` is currently supported. See the [Subject Identifier Types](https://openid.net/specs/openid-connect-core-1_0.html#SubjectIDTypes) section in the OpenID Connect specification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthSubjectType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "token_endpoint": {
+          "description": "URL of the authorization server's token endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_endpoint_auth_methods_supported": {
+          "description": "A list of client authentication methods supported by this token endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "OauthEndpointAuthMethod",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "userinfo_endpoint": {
+          "description": "URL of the authorization server's userinfo endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthOobAuthenticateRequestInput": {
+      "fields": {
+        "channel_hint": {
+          "description": "The out-of-band channel for use with authentication. Required for all `/oob-authenticate` requests and any `/challenge` request with an out-of-band authenticator.",
+          "type": {
+            "name": "OauthChannel",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "login_hint": {
+          "description": "The user sign-in information for whom authentication is being requested",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthOobAuthenticateResponse": {
+      "fields": {
+        "binding_code": {
+          "description": "The end-user verification code used to bind the authorization operation on the secondary channel with the primary channel. Present only if `binding_method=transfer`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "binding_method": {
+          "description": "The method used to bind the out-of-band channel with the primary channel.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthBindingMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "BindingMethod"
+            }
+          }
+        },
+        "channel": {
+          "description": "The out-of-band channel for use with authentication. Required for all `/oob-authenticate` requests and any `/challenge` request with an out-of-band authenticator.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthChannel",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_in": {
+          "description": "Number of seconds until the `oob_code` expires",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "interval": {
+          "description": "The minimum amount of time in seconds that the client should wait between polling requests to the token endpoint",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "oob_code": {
+          "description": "A unique identifier for identifying the out-of-band transaction across multiple requests",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthParRequestInput": {
+      "description": "See `/authorize` query parameters for more information.",
+      "fields": {
+        "client_id": {
+          "description": "Obtained during either manual client registration or through the [Dynamic Client Registration API](https://developer.okta.com/docs/api/openapi/okta-oauth/oauth/tag/Client/)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "code_challenge": {
+          "description": "A challenge for [PKCE](https://developer.okta.com/docs/guides/implement-grant-type/authcodepkce/main/). The challenge is verified in the access token request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "code_challenge_method": {
+          "description": "Method used to derive the code challenge for [PKCE](https://developer.okta.com/docs/guides/implement-grant-type/authcodepkce/main/)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "display": {
+          "description": "The `display` parameter to be passed to the external Identity Provider when performing [social login](https://developer.okta.com/docs/concepts/identity-providers/)",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "idp": {
+          "description": "An Okta Extension to the OpenID Specification. The ID of the Identity Provider to use if there's no Okta Session",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "idp_scope": {
+          "description": "An Okta Extension to the OpenID Specification. A space-delimited list of scopes to be provided to the external Identity Provider when performing [social login](https://developer.okta.com/docs/concepts/identity-providers/). These scopes are used in addition to the scopes already configured for the Identity Provider.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "login_hint": {
+          "description": "A username to pre-populate if prompting for authentication",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "max_age": {
+          "description": "Allowable elapsed time, in seconds, since the last time the end user was actively authenticated by Okta",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "nonce": {
+          "description": "A value that's returned in the ID token. It's used to mitigate replay attacks. The value is required for Implicit and Hybrid flows, but optional for Auth Code flows. See [OIDC Specs](https://openid.net/specs/openid-connect-core-1_0.html#AuthRequest).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "prompt": {
+          "description": "If no `prompt` parameter is specified, the standard behavior occurs: * If an Okta session already exists and meets the assurance requirements of the app, the user is silently authenticated. Otherwise, Okta prompts the user to authenticate. * If scopes are requested that require consent and consent isn't yet given by the authenticated user, Okta prompts the user to give consent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "redirect_uri": {
+          "description": "Callback location where you want the authorization code or tokens sent to. It must match the value preregistered in Okta during client registration.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "request": {
+          "description": "Used to push a [Request Object JWT](https://datatracker.ietf.org/doc/html/rfc9126#name-the-request-request-paramet) to the authorization server",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "response_mode": {
+          "description": "How Okta should return the authorization response. If `id_token` or `token` is specified in the `response_type`, then `query` isn't allowed as a response mode. Defaults to `fragment` in implicit and hybrid flows.  The `Referrer-Policy` header is automatically included in the response when either the `fragment` or `query` parameter values are used. The header is set to `Referrer-Policy: no-referrer`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "response_type": {
+          "description": "Any combination of `code`, `token`, and `id_token`. The combination determines the [flow](https://developer.okta.com/docs/concepts/oauth-openid/#choose-an-oauth-2-0-flow).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "scope": {
+          "description": "A space-delimited string of scopes requested",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sessionToken": {
+          "description": "Okta one-time session token. This is an Okta extension to the OpenID specification. The `sessionToken` allows an API-based user sign-in flow.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "state": {
+          "description": "A value returned with the token. The client app can use it to remember the state of its interaction with the end user at the time of the authentication call. It can contain alphanumeric, comma, period, underscore, and hyphen characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthParResponse": {
+      "fields": {
+        "expires_in": {
+          "description": "Number of seconds until the `request_uri` expires",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "request_uri": {
+          "description": "Location where the authorization request payload data is referenced in authorization requests to the `/authorize` endpoint",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthSubIdInput": {
+      "fields": {
+        "format": {
+          "description": "The subject identifier format",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthSubIdFormat",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "ID of an existing Okta user",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthTokenRequestInput": {
+      "fields": {
+        "grant_type": {
+          "description": "Determines the mechanism Okta uses to authorize the creation of the tokens.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthGrantType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "OauthTokenResponse": {
+      "fields": {
+        "access_token": {
+          "description": "An access token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "device_secret": {
+          "description": "An opaque device secret. This is returned if the `device_sso` scope is granted.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_in": {
+          "description": "The expiration time of the access token in seconds.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "id_token": {
+          "description": "An ID token. This is returned if the `openid` scope is granted.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "issued_token_type": {
+          "description": "The type of token for token exchange.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthTokenType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "refresh_token": {
+          "description": "An opaque refresh token. This is returned if the `offline_access` scope is granted.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "scope": {
+          "description": "The scopes contained in the access token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "token_type": {
+          "description": "The token type in a `/token` response. The value is generally `Bearer` except for a few instances of token exchange.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthTokenResponseTokenType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "oauthBcAuthorize": {
+      "request": {
+        "url": "/oauth2/v1/bc/authorize",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/bc/authorize",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthBackchannelAuthorizeRequest",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/bc/authorize",
+      "result_type": {
+        "name": "OauthBackchannelAuthorizeResponse",
+        "type": "named"
+      }
+    },
+    "oauthBcAuthorizeCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/bc/authorize",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /oauth2/{authorizationServerId}/v1/bc/authorize",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthBackchannelAuthorizeRequest",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/bc/authorize",
+      "result_type": {
+        "name": "OauthBackchannelAuthorizeResponse",
+        "type": "named"
+      }
+    },
+    "oauthChallenge": {
+      "request": {
+        "url": "/oauth2/v1/challenge",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/challenge",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthChallengeRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/challenge",
+      "result_type": {
+        "name": "OauthChallengeResponse",
+        "type": "named"
+      }
+    },
+    "oauthChallengeCustomAs": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/challenge",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /oauth2/{authorizationServerId}/v1/challenge",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthChallengeRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/challenge",
+      "result_type": {
+        "name": "OauthChallengeResponse",
+        "type": "named"
+      }
+    },
+    "oauthCreateClient": {
+      "request": {
+        "url": "/oauth2/v1/clients",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.clients.register"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/clients",
+          "type": {
+            "name": "OauthClientInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Register a Client Application",
+      "result_type": {
+        "name": "OauthClient",
+        "type": "named"
+      }
+    },
+    "oauthDeleteClient": {
+      "request": {
+        "url": "/oauth2/v1/clients/{clientId}",
+        "method": "delete",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.clients.manage"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "clientId": {
+          "description": "`client_id` of the Client application",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "clientId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a Client Application",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "oauthDeviceAuthorize": {
+      "request": {
+        "url": "/oauth2/v1/device/authorize",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/device/authorize",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthDeviceAuthorizeRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/device/authorize",
+      "result_type": {
+        "name": "OauthDeviceAuthorizeResponse",
+        "type": "named"
+      }
+    },
+    "oauthDeviceAuthorizeCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/device/authorize",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /oauth2/{authorizationServerId}/v1/device/authorize",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthDeviceAuthorizeRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/device/authorize",
+      "result_type": {
+        "name": "OauthDeviceAuthorizeResponse",
+        "type": "named"
+      }
+    },
+    "oauthGenerateNewClientSecret": {
+      "request": {
+        "url": "/oauth2/v1/clients/{clientId}/lifecycle/newSecret",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.clients.manage"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "clientId": {
+          "description": "`client_id` of the Client application",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "clientId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Generate a new client secret",
+      "result_type": {
+        "name": "OauthClient",
+        "type": "named"
+      }
+    },
+    "oauthGlobalTokenRevocation": {
+      "request": {
+        "url": "/oauth2/v1/global-token-revocation",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.universalLogout.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/global-token-revocation",
+          "type": {
+            "name": "OauthGlobalTokenRevocationRequestInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "Initiate the global revocation of all tokens and sessions",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "oauthIntrospect": {
+      "request": {
+        "url": "/oauth2/v1/introspect",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/introspect",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthIntrospectionRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/introspect",
+      "result_type": {
+        "name": "OauthIntrospectionResponse",
+        "type": "named"
+      }
+    },
+    "oauthIntrospectCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/introspect",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /oauth2/{authorizationServerId}/v1/introspect",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthIntrospectionRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/introspect",
+      "result_type": {
+        "name": "OauthIntrospectionResponse",
+        "type": "named"
+      }
+    },
+    "oauthOobAuthenticate": {
+      "request": {
+        "url": "/oauth2/v1/oob-authenticate",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/oob-authenticate",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthOobAuthenticateRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/oob-authenticate",
+      "result_type": {
+        "name": "OauthOobAuthenticateResponse",
+        "type": "named"
+      }
+    },
+    "oauthOobAuthenticateCustomAs": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/oob-authenticate",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /oauth2/{authorizationServerId}/v1/oob-authenticate",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthOobAuthenticateRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/oob-authenticate",
+      "result_type": {
+        "name": "OauthOobAuthenticateResponse",
+        "type": "named"
+      }
+    },
+    "oauthPar": {
+      "request": {
+        "url": "/oauth2/v1/par",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/par",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthParRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/par",
+      "result_type": {
+        "name": "OauthParResponse",
+        "type": "named"
+      }
+    },
+    "oauthParCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/par",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /oauth2/{authorizationServerId}/v1/par",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthParRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/par",
+      "result_type": {
+        "name": "OauthParResponse",
+        "type": "named"
+      }
+    },
+    "oauthReplaceClient": {
+      "request": {
+        "url": "/oauth2/v1/clients/{clientId}",
+        "method": "put",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.clients.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /oauth2/v1/clients/{clientId}",
+          "type": {
+            "name": "OauthClientInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body"
+          }
+        },
+        "clientId": {
+          "description": "`client_id` of the Client application",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "clientId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Replace a Client Application",
+      "result_type": {
+        "name": "OauthClient",
+        "type": "named"
+      }
+    },
+    "oauthToken": {
+      "request": {
+        "url": "/oauth2/v1/token",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/token",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthTokenRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/token",
+      "result_type": {
+        "name": "OauthTokenResponse",
+        "type": "named"
+      }
+    },
+    "oauthTokenCustomAS": {
+      "request": {
+        "url": "/oauth2/{authorizationServerId}/v1/token",
+        "method": "post",
+        "security": [
+          {
+            "Client_authentication_client_secret_basic": []
+          },
+          {
+            "Client_authentication_client_secret_post": []
+          },
+          {
+            "Client_authentication_client_secret_jwt": []
+          },
+          {
+            "Client_authentication_private_key_jwt": []
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/x-www-form-urlencoded"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorizationServerId": {
+          "description": "`id` of the Authorization Server",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorizationServerId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /oauth2/{authorizationServerId}/v1/token",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OauthTokenRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body"
+          }
+        }
+      },
+      "description": "/token",
+      "result_type": {
+        "name": "OauthTokenResponse",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "OauthAcrValue": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "phr",
+          "phrh",
+          "urn:okta:loa:1fa:any",
+          "urn:okta:loa:1fa:pwd",
+          "urn:okta:loa:2fa:any",
+          "urn:okta:loa:2fa:any:ifpossible"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthAmrValue": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "duo",
+          "email",
+          "fed",
+          "google_otp",
+          "kba",
+          "oath_otp",
+          "okta_verify",
+          "opt",
+          "pop",
+          "pwd",
+          "rsa",
+          "sms",
+          "symantec",
+          "tel",
+          "yubikey"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthApplicationType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "browser",
+          "native",
+          "service",
+          "web"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthBackchannelAuthorizeRequest": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "OauthBindingMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "none",
+          "prompt",
+          "transfer"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthChallengeType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "http://auth0.com/oauth/grant-type/mfa-oob",
+          "http://auth0.com/oauth/grant-type/mfa-otp"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthChannel": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "push",
+          "sms",
+          "voice"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthCodeChallengeMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "S256"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthEndpointAuthMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "client_secret_basic",
+          "client_secret_jwt",
+          "client_secret_post",
+          "none",
+          "private_key_jwt"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthGrantType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "authorization_code",
+          "client_credentials",
+          "implicit",
+          "interaction_code",
+          "password",
+          "refresh_token",
+          "urn:ietf:params:oauth:grant-type:device_code",
+          "urn:ietf:params:oauth:grant-type:jwt-bearer",
+          "urn:ietf:params:oauth:grant-type:saml2-bearer",
+          "urn:ietf:params:oauth:grant-type:token-exchange",
+          "urn:openid:params:grant-type:ciba",
+          "urn:okta:params:oauth:grant-type:otp",
+          "urn:okta:params:oauth:grant-type:oob",
+          "http://auth0.com/oauth/grant-type/mfa-otp",
+          "http://auth0.com/oauth/grant-type/mfa-oob"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthIntrospectionResponse": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "OauthJsonWebKeyStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ACTIVE",
+          "INACTIVE"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthJsonWebKeyType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "EC",
+          "RSA"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthJsonWebKeyUse": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enc",
+          "sig"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthOAuthMetadataDpopSigningAlgValuesSupported": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ES256",
+          "ES384",
+          "ES512",
+          "RS256",
+          "RS384",
+          "RS512"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthPrompt": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "consent",
+          "enroll_authenticator",
+          "login",
+          "login consent",
+          "none"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthResponseMode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "form_post",
+          "fragment",
+          "okta_post_message",
+          "query"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthResponseType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "code",
+          "id_token",
+          "none",
+          "token"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthResponseTypesSupported": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "code",
+          "code id_token",
+          "code id_token token",
+          "code token",
+          "id_token",
+          "id_token token",
+          "token"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthSigningAlgorithm": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ES256",
+          "ES384",
+          "ES512",
+          "HS256",
+          "HS384",
+          "HS512",
+          "RS256",
+          "RS384",
+          "RS512"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthSubIdFormat": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "opaque"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthSubjectType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "pairwise",
+          "public"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthTokenDeliveryMode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "poll"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthTokenResponseTokenType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Bearer",
+          "N_A"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthTokenType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "urn:ietf:params:oauth:token-type:access_token",
+          "urn:ietf:params:oauth:token-type:id_token",
+          "urn:ietf:params:oauth:token-type:jwt",
+          "urn:ietf:params:oauth:token-type:refresh_token",
+          "urn:ietf:params:oauth:token-type:saml1",
+          "urn:ietf:params:oauth:token-type:saml2",
+          "urn:okta:oauth:token-type:web_sso_token",
+          "urn:x-oath:params:oauth:token-type:device-secret"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthTokenTypeHintIntrospect": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "access_token",
+          "device_secret",
+          "id_token",
+          "refresh_token"
+        ],
+        "type": "enum"
+      }
+    },
+    "OauthUserInfo": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}
