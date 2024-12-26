@@ -987,7 +987,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WirelessV1CallbackMethod",
+              "name": "WirelessCreateCommandBodyCallbackMethod",
               "type": "named"
             }
           },
@@ -2217,7 +2217,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WirelessV1CallbackMethod",
+              "name": "WirelessUpdateSimBodyCallbackMethod",
               "type": "named"
             }
           },
@@ -2249,7 +2249,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WirelessV1CommandsCallbackMethod",
+              "name": "WirelessUpdateSimBodyCommandsCallbackMethod",
               "type": "named"
             }
           },
@@ -2328,7 +2328,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WirelessV1SmsFallbackMethod",
+              "name": "WirelessUpdateSimBodySmsFallbackMethod",
               "type": "named"
             }
           },
@@ -2360,7 +2360,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WirelessV1SmsMethod",
+              "name": "WirelessUpdateSimBodySmsMethod",
               "type": "named"
             }
           },
@@ -2424,7 +2424,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WirelessV1VoiceFallbackMethod",
+              "name": "WirelessUpdateSimBodyVoiceFallbackMethod",
               "type": "named"
             }
           },
@@ -2456,7 +2456,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WirelessV1VoiceMethod",
+              "name": "WirelessUpdateSimBodyVoiceMethod",
               "type": "named"
             }
           },
@@ -2514,9 +2514,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "data": {
           "description": "An object that describes the aggregated Data usage for all SIMs over the period. See [Data Usage Object](https://www.twilio.com/docs/iot/wireless/api/account-usagerecord-resource#data-usage-object).",
@@ -2527,9 +2525,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "period": {
           "description": "The time period for which usage is reported. Contains `start` and `end` properties that describe the period using GMT date-time values specified in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.",
@@ -2540,9 +2536,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         }
       }
     },
@@ -3148,8 +3142,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "JSON",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -3428,9 +3425,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "end": {
           "description": "The date that the record ended, given as GMT in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.",
@@ -3661,9 +3656,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "data": {
           "description": "An object that describes the SIM's data usage during the specified period. See [Data Usage Object](https://www.twilio.com/docs/iot/wireless/api/sim-usagerecord-resource#data-usage-object).",
@@ -3674,9 +3667,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "period": {
           "description": "The time period for which the usage is reported. Contains `start` and `end` datetime values given as GMT in [ISO 8601](https://www.iso.org/iso-8601-date-and-time-format.html) format.",
@@ -3687,9 +3678,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "sim_sid": {
           "description": "The SID of the [Sim resource](https://www.twilio.com/docs/iot/wireless/api/sim-resource) that this Usage Record is for.",
@@ -3737,7 +3726,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -3774,7 +3768,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -3950,7 +3949,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -4003,7 +4007,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -4116,6 +4125,17 @@
         "type": "enum"
       }
     },
+    "WirelessCreateCommandBodyCallbackMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
     "WirelessSimEnumResetStatus": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -4143,6 +4163,72 @@
         "type": "enum"
       }
     },
+    "WirelessUpdateSimBodyCallbackMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "WirelessUpdateSimBodyCommandsCallbackMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "WirelessUpdateSimBodySmsFallbackMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "WirelessUpdateSimBodySmsMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "WirelessUpdateSimBodyVoiceFallbackMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "WirelessUpdateSimBodyVoiceMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
     "WirelessUsageRecordEnumGranularity": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -4151,72 +4237,6 @@
           "hourly",
           "daily",
           "all"
-        ],
-        "type": "enum"
-      }
-    },
-    "WirelessV1CallbackMethod": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "GET",
-          "POST"
-        ],
-        "type": "enum"
-      }
-    },
-    "WirelessV1CommandsCallbackMethod": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "GET",
-          "POST"
-        ],
-        "type": "enum"
-      }
-    },
-    "WirelessV1SmsFallbackMethod": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "GET",
-          "POST"
-        ],
-        "type": "enum"
-      }
-    },
-    "WirelessV1SmsMethod": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "GET",
-          "POST"
-        ],
-        "type": "enum"
-      }
-    },
-    "WirelessV1VoiceFallbackMethod": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "GET",
-          "POST"
-        ],
-        "type": "enum"
-      }
-    },
-    "WirelessV1VoiceMethod": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "GET",
-          "POST"
         ],
         "type": "enum"
       }

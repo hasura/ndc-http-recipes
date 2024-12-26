@@ -1170,7 +1170,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "ApiExpand",
+                "name": "GetBrandExpand",
                 "type": "named"
               },
               "type": "array"
@@ -3961,7 +3961,7 @@
       "arguments": {
         "contactType": {
           "type": {
-            "name": "ApiContactType",
+            "name": "GetOrgContactUserContactType",
             "type": "named"
           },
           "http": {
@@ -7951,7 +7951,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "ApiExpand",
+                "name": "ListBrandsExpand",
                 "type": "named"
               },
               "type": "array"
@@ -10562,7 +10562,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ApiSortOrder",
+              "name": "ListLogEventsSortOrder",
               "type": "named"
             }
           },
@@ -11426,7 +11426,7 @@
         "type": {
           "description": "Specifies the type of policy to return. The following policy types are available only with the Okta Identity Engine - `ACCESS_POLICY`, `PROFILE_ENROLLMENT`, `POST_AUTH_SESSION`, and `ENTITY_RISK`. The `POST_AUTH_SESSION` and `ENTITY_RISK` policy types are in . Contact your Okta account team to enable these features.",
           "type": {
-            "name": "ApiType",
+            "name": "ListPoliciesType",
             "type": "named"
           },
           "http": {
@@ -13784,7 +13784,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ApiFilter",
+              "name": "ListYubikeyOtpTokensFilter",
               "type": "named"
             }
           },
@@ -13842,7 +13842,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ApiSortBy",
+              "name": "ListYubikeyOtpTokensSortBy",
               "type": "named"
             }
           },
@@ -14013,9 +14013,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "configGuideUrl": {
           "description": "The URL to the API service integration configuration guide",
@@ -14140,9 +14138,7 @@
             "name": "JSON",
             "type": "named"
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "client_secret": {
           "description": "The OAuth 2.0 client secret string. The client secret string is returned in the response of a Secret creation request. In other responses (such as list, activate, or deactivate requests), the client secret is returned as an undisclosed hashed value.",
@@ -16165,6 +16161,26 @@
         }
       }
     },
+    "AppUserCredentialsRequestPayloadInput": {
+      "description": "Updates the assigned user credentials",
+      "fields": {
+        "credentials": {
+          "description": "Specifies a user's credentials for the app. This parameter can be omitted for apps with [sign-on mode](/openapi/okta-management/management/tag/Application/#tag/Application/operation/getApplication!c=200&path=0/signOnMode&t=response) (`signOnMode`) or [authentication schemes](/openapi/okta-management/management/tag/Application/#tag/Application/operation/getApplication!c=200&path=0/credentials/scheme&t=response) (`credentials.scheme`) that don't require credentials.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AppUserCredentialsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
     "AppUserInput": {
       "description": "The Application User object defines a user's app-specific profile and credentials for an app",
       "fields": {
@@ -16271,23 +16287,9 @@
         }
       }
     },
-    "AppUserUpdateRequestInput": {
+    "AppUserProfileRequestPayloadInput": {
+      "description": "**Note:** The Okta API currently doesn't support entity tags for conditional updates. As long as you're the only user updating the the user profile, Okta recommends you fetch the most recent profile with [Retrieve an Application User](/openapi/okta-management/management/tag/ApplicationUsers/#tag/ApplicationUsers/operation/getApplicationUser), apply your profile update, and then `POST` back the updated profile.",
       "fields": {
-        "credentials": {
-          "description": "Specifies a user's credentials for the app. This parameter can be omitted for apps with [sign-on mode](/openapi/okta-management/management/tag/Application/#tag/Application/operation/getApplication!c=200&path=0/signOnMode&t=response) (`signOnMode`) or [authentication schemes](/openapi/okta-management/management/tag/Application/#tag/Application/operation/getApplication!c=200&path=0/credentials/scheme&t=response) (`credentials.scheme`) that don't require credentials.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "AppUserCredentialsInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
         "profile": {
           "description": "Specifies the default and custom profile properties for a user. Properties that are visible in the Admin Console for an app assignment can also be assigned through the API. Some properties are reference properties that are imported from the target app and can't be configured. See [profile](/openapi/okta-management/management/tag/User/#tag/User/operation/getUser!c=200&path=profile&t=response).",
           "type": {
@@ -16334,9 +16336,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "accessibility": {
           "description": "Specifies access settings for the app",
@@ -17315,49 +17315,6 @@
         }
       }
     },
-    "AssignRoleToClientBodyInput": {
-      "fields": {
-        "resource-set": {
-          "description": "Resource Set ID",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "role": {
-          "description": "Custom Role ID",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "type": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "JSON",
-              "type": "named"
-            }
-          }
-        }
-      }
-    },
     "AssignRoleToClientResult": {
       "fields": {
         "_embedded": {
@@ -17376,11 +17333,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -17416,7 +17382,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -17431,7 +17397,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -17506,7 +17472,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -17518,49 +17484,6 @@
             "type": [
               "string"
             ]
-          }
-        }
-      }
-    },
-    "AssignRoleToGroupBodyInput": {
-      "fields": {
-        "resource-set": {
-          "description": "Resource Set ID",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "role": {
-          "description": "Custom Role ID",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "type": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "JSON",
-              "type": "named"
-            }
           }
         }
       }
@@ -17583,11 +17506,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -17623,7 +17555,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -17638,7 +17570,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -17713,7 +17645,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -17725,49 +17657,6 @@
             "type": [
               "string"
             ]
-          }
-        }
-      }
-    },
-    "AssignRoleToUserBodyInput": {
-      "fields": {
-        "resource-set": {
-          "description": "Resource Set ID",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "role": {
-          "description": "Custom Role ID",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "type": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "JSON",
-              "type": "named"
-            }
           }
         }
       }
@@ -17790,11 +17679,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -17830,7 +17728,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -17845,7 +17743,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -17920,7 +17818,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -19691,6 +19589,41 @@
         }
       }
     },
+    "AuthorizationServerPolicyPeopleConditionInput": {
+      "description": "Identifies Users and Groups that are used together",
+      "fields": {
+        "groups": {
+          "description": "Specifies a set of Groups whose Users are to be included",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthorizationServerPolicyRuleGroupConditionInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "users": {
+          "description": "Specifies a set of Users to be included",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthorizationServerPolicyRuleUserConditionInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
     "AuthorizationServerPolicyRule": {
       "fields": {
         "_links": {
@@ -19711,12 +19644,14 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
+              "name": "AuthorizationServerPolicyRuleActions",
               "type": "named"
             }
           },
           "http": {
-            "type": []
+            "type": [
+              "object"
+            ]
           }
         },
         "conditions": {
@@ -19857,6 +19792,42 @@
         }
       }
     },
+    "AuthorizationServerPolicyRuleActions": {
+      "fields": {
+        "token": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TokenAuthorizationServerPolicyRuleAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "AuthorizationServerPolicyRuleActionsInput": {
+      "fields": {
+        "token": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TokenAuthorizationServerPolicyRuleActionInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
     "AuthorizationServerPolicyRuleConditions": {
       "fields": {
         "grantTypes": {
@@ -19909,6 +19880,58 @@
         }
       }
     },
+    "AuthorizationServerPolicyRuleConditionsInput": {
+      "fields": {
+        "grantTypes": {
+          "description": "Array of grant types that this condition includes. Determines the mechanism that Okta uses to authorize the creation of the tokens.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "GrantTypePolicyRuleConditionInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "people": {
+          "description": "Identifies Users and Groups that are used together",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthorizationServerPolicyPeopleConditionInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "AuthorizationServerPolicyPeopleCondition"
+            }
+          }
+        },
+        "scopes": {
+          "description": "Array of scopes that the condition includes",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OAuth2ScopesMediationPolicyRuleConditionInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
     "AuthorizationServerPolicyRuleGroupCondition": {
       "description": "Specifies a set of Groups whose Users are to be included",
       "fields": {
@@ -19937,7 +19960,184 @@
         }
       }
     },
+    "AuthorizationServerPolicyRuleGroupConditionInput": {
+      "description": "Specifies a set of Groups whose Users are to be included",
+      "fields": {
+        "include": {
+          "description": "Groups to be included",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AuthorizationServerPolicyRuleRequestInput": {
+      "fields": {
+        "_links": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "LinksSelfAndLifecycleInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "actions": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthorizationServerPolicyRuleActionsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "conditions": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthorizationServerPolicyRuleConditionsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "Name of the rule",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "priority": {
+          "description": "Priority of the rule",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "status": {
+          "description": "Status of the rule",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthorizationServerPolicyRuleStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "system": {
+          "description": "Set to `true` for system rules. You can't delete system rules.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "type": {
+          "description": "Rule type",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AuthorizationServerPolicyRuleType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
     "AuthorizationServerPolicyRuleUserCondition": {
+      "description": "Specifies a set of Users to be included",
+      "fields": {
+        "include": {
+          "description": "Users to be included",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AuthorizationServerPolicyRuleUserConditionInput": {
       "description": "Specifies a set of Users to be included",
       "fields": {
         "include": {
@@ -21303,6 +21503,79 @@
         }
       }
     },
+    "CapabilitiesInboundProvisioningObjectInput": {
+      "description": "Defines the configuration for the INBOUND_PROVISIONING feature",
+      "fields": {
+        "importRules": {
+          "description": "Defines user import rules",
+          "type": {
+            "name": "CapabilitiesImportRulesObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "CapabilitiesImportRulesObject"
+            }
+          }
+        },
+        "importSettings": {
+          "description": "Defines import settings",
+          "type": {
+            "name": "CapabilitiesImportSettingsObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "CapabilitiesImportSettingsObject"
+            }
+          }
+        }
+      }
+    },
+    "CapabilitiesObjectInput": {
+      "description": "Defines the configurations for the USER_PROVISIONING feature",
+      "fields": {
+        "create": {
+          "description": "Determines whether Okta assigns a new app account to each user managed by Okta.  Okta doesn't create a new account if it detects that the username specified in Okta already exists in the app. The user's Okta username is assigned by default.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CapabilitiesCreateObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "CapabilitiesCreateObject"
+            }
+          }
+        },
+        "update": {
+          "description": "Determines whether updates to a user's profile are pushed to the app",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CapabilitiesUpdateObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
     "CapabilitiesUpdateObjectInput": {
       "description": "Determines whether updates to a user's profile are pushed to the app",
       "fields": {
@@ -22422,8 +22695,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "PermissionConditionsInput",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "PermissionConditionsInput",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -22549,7 +22825,6 @@
             }
           },
           "http": {
-            "type": null,
             "xml": {
               "name": "CSRLinks"
             }
@@ -22757,6 +23032,55 @@
             "type": "nullable",
             "underlying_type": {
               "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "CustomRoleAssignmentSchemaInput": {
+      "fields": {
+        "resource-set": {
+          "description": "Resource Set ID",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "role": {
+          "description": "Custom Role ID",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of role. Specify `CUSTOM` for a custom role.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CustomRoleAssignmentSchemaType",
               "type": "named"
             }
           },
@@ -25375,8 +25699,11 @@
               "element_type": {
                 "type": "nullable",
                 "underlying_type": {
-                  "name": "EventHookChannelConfigHeader",
-                  "type": "named"
+                  "type": "nullable",
+                  "underlying_type": {
+                    "name": "EventHookChannelConfigHeader",
+                    "type": "named"
+                  }
                 }
               },
               "type": "array"
@@ -25600,8 +25927,11 @@
               "element_type": {
                 "type": "nullable",
                 "underlying_type": {
-                  "name": "EventHookChannelConfigHeaderInput",
-                  "type": "named"
+                  "type": "nullable",
+                  "underlying_type": {
+                    "name": "EventHookChannelConfigHeaderInput",
+                    "type": "named"
+                  }
                 }
               },
               "type": "array"
@@ -25921,8 +26251,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "EventHookFilters",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "EventHookFilters",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -25972,8 +26305,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "EventHookFiltersInput",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "EventHookFiltersInput",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -26336,11 +26672,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -26376,7 +26721,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -26391,7 +26736,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -26466,7 +26811,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -26500,11 +26845,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -26540,7 +26894,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -26555,7 +26909,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -26630,7 +26984,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -26666,6 +27020,34 @@
       }
     },
     "GrantTypePolicyRuleCondition": {
+      "description": "Array of grant types that this condition includes. Determines the mechanism that Okta uses to authorize the creation of the tokens.",
+      "fields": {
+        "include": {
+          "description": "Array of grant types that this condition includes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "GrantTypePolicyRuleConditionInput": {
       "description": "Array of grant types that this condition includes. Determines the mechanism that Okta uses to authorize the creation of the tokens.",
       "fields": {
         "include": {
@@ -26812,7 +27194,6 @@
           }
         },
         "profile": {
-          "description": "Specifies required and optional properties for a Group. The `objectClass` of a Group determines which additional properties are available.  You can extend Group Profiles with custom properties, but you must first add the properties to the Group Profile schema before you can reference them. Use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/)to manage schema extensions.  Custom properties can contain HTML tags. It is the client's responsibility to escape or encode this data before displaying it. Use [best-practices](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) to prevent cross-site scripting.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -26957,7 +27338,7 @@
       "description": "Specifies required and optional properties for a Group. The `objectClass` of a Group determines which additional properties are available.  You can extend Group Profiles with custom properties, but you must first add the properties to the Group Profile schema before you can reference them. Use the Profile Editor in the Admin Console or the [Schemas API](https://developer.okta.com/docs/api/openapi/okta-management/management/tag/Schema/)to manage schema extensions.  Custom properties can contain HTML tags. It is the client's responsibility to escape or encode this data before displaying it. Use [best-practices](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html) to prevent cross-site scripting.",
       "fields": {
         "description": {
-          "description": "Description of the Windows Group",
+          "description": "Description of the Group",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -27002,7 +27383,7 @@
           }
         },
         "name": {
-          "description": "Name of the Windows Group",
+          "description": "Name of the Group",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -27875,9 +28256,7 @@
             "type": [
               "array"
             ],
-            "items": {
-              "type": []
-            }
+            "items": {}
           }
         },
         "externalName": {
@@ -27944,8 +28323,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "UserSchemaAttributeMaster",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "UserSchemaAttributeMaster",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -28156,9 +28538,7 @@
             "type": [
               "array"
             ],
-            "items": {
-              "type": []
-            }
+            "items": {}
           }
         },
         "externalName": {
@@ -28225,8 +28605,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "UserSchemaAttributeMasterInput",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "UserSchemaAttributeMasterInput",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -29387,8 +29770,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "IdentityProviderProperties",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "IdentityProviderProperties",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -29398,7 +29784,6 @@
           }
         },
         "protocol": {
-          "description": "IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -29649,8 +30034,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "IdentityProviderPropertiesInput",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "IdentityProviderPropertiesInput",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -29660,7 +30048,6 @@
           }
         },
         "protocol": {
-          "description": "IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -29953,30 +30340,48 @@
       "description": "IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages",
       "fields": {
         "algorithms": {
+          "description": "Settings for signing and verifying SAML messages",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "credentials": {
+          "description": "Federation Trust Credentials for verifying assertions from the IdP and signing requests to the IdP",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "endpoints": {
+          "description": "SAML 2.0 HTTP binding settings for IdP and SP (Okta)",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "relayState": {
@@ -30036,7 +30441,7 @@
           }
         },
         "type": {
-          "description": "Mutual TLS",
+          "description": "SAML 2.0 protocol",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -30056,30 +30461,48 @@
       "description": "IdP-specific protocol settings for endpoints, bindings, and algorithms used to connect with the IdP and validate messages",
       "fields": {
         "algorithms": {
+          "description": "Settings for signing and verifying SAML messages",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "credentials": {
+          "description": "Federation Trust Credentials for verifying assertions from the IdP and signing requests to the IdP",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "endpoints": {
+          "description": "SAML 2.0 HTTP binding settings for IdP and SP (Okta)",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "relayState": {
@@ -30139,7 +30562,7 @@
           }
         },
         "type": {
-          "description": "Mutual TLS",
+          "description": "SAML 2.0 protocol",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -31974,11 +32397,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -32014,7 +32446,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -32029,7 +32461,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -32104,7 +32536,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -32138,11 +32570,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -32178,7 +32619,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -32193,7 +32634,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -32268,7 +32709,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -32367,11 +32808,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -32407,7 +32857,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -32422,7 +32872,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -32497,7 +32947,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -34762,9 +35212,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "alg": {
           "description": "Algorithm used in the key",
@@ -35092,9 +35540,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "client_secret": {
           "description": "The OAuth 2.0 client secret string",
@@ -36410,6 +36856,33 @@
         }
       }
     },
+    "OAuth2ScopesMediationPolicyRuleConditionInput": {
+      "description": "Array of scopes that the condition includes",
+      "fields": {
+        "include": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
     "OfflineAccessScopeResourceHrefObject": {
       "fields": {
         "href": {
@@ -36965,12 +37438,18 @@
     "OrgContactTypeObj": {
       "fields": {
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available for the org billing Contact Type object using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "contactType": {
@@ -38776,8 +39255,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "PermissionConditions",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "PermissionConditions",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -40208,9 +40690,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "clientSecret": {
           "description": "The client secret for the API Service Integration instance. This property is only returned in a POST response.",
@@ -40976,9 +41456,7 @@
             "name": "JSON",
             "type": "named"
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "status": {
           "description": "Provisioning Connection status",
@@ -42339,9 +42817,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "created": {
           "description": "Timestamp when the Resource Set Resource object was created",
@@ -42560,11 +43036,20 @@
           }
         },
         "_links": {
+          "description": "Specifies link relations (see [Web Linking](https://www.rfc-editor.org/rfc/rfc8288)) available using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "LinksAssignee"
             }
           }
         },
@@ -42600,7 +43085,7 @@
           }
         },
         "id": {
-          "description": "Binding Object ID",
+          "description": "Role Assignment ID",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -42615,7 +43100,7 @@
           }
         },
         "label": {
-          "description": "Label for the custom role assignment",
+          "description": "Label for the Role Assignment",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -42690,7 +43175,7 @@
           }
         },
         "type": {
-          "description": "CUSTOM for a custom role",
+          "description": "Standard role type",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -43257,7 +43742,6 @@
           }
         },
         "settings": {
-          "description": "Information about the Security Events Provider for signal ingestion",
           "type": {
             "name": "SecurityEventsProviderRequestSettingsInput",
             "type": "named"
@@ -45230,6 +45714,25 @@
         }
       }
     },
+    "StandardRoleAssignmentSchemaInput": {
+      "fields": {
+        "type": {
+          "description": "Specify the standard or IAM-based role type. See [standard roles](/openapi/okta-management/guides/roles/#standard-roles).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
     "StandardRoleEmbedded": {
       "description": "Optional embedded resources for the Role Assignment",
       "fields": {
@@ -45262,9 +45765,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": null
-          }
+          "http": {}
         },
         "groups": {
           "description": "Group targets",
@@ -45305,9 +45806,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": []
-          }
+          "http": {}
         },
         "delivery": {
           "description": "Contains information about the intended SET delivery method by the receiver",
@@ -45611,9 +46110,7 @@
               "type": "named"
             }
           },
-          "http": {
-            "type": []
-          }
+          "http": {}
         },
         "delivery": {
           "description": "Contains information about the intended SET delivery method by the receiver",
@@ -46359,6 +46856,168 @@
                 "string"
               ]
             }
+          }
+        }
+      }
+    },
+    "TokenAuthorizationServerPolicyRuleAction": {
+      "fields": {
+        "accessTokenLifetimeMinutes": {
+          "description": "Lifetime of the access token in minutes. The minimum is five minutes. The maximum is one day.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "inlineHook": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TokenAuthorizationServerPolicyRuleActionInlineHook",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "refreshTokenLifetimeMinutes": {
+          "description": "Lifetime of the refresh token is the minimum access token lifetime.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "refreshTokenWindowMinutes": {
+          "description": "Timeframe when the refresh token is valid. The minimum is 10 minutes. The maximum is five years (2,628,000 minutes).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "TokenAuthorizationServerPolicyRuleActionInlineHook": {
+      "fields": {
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "TokenAuthorizationServerPolicyRuleActionInlineHookInput": {
+      "fields": {
+        "id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "TokenAuthorizationServerPolicyRuleActionInput": {
+      "fields": {
+        "accessTokenLifetimeMinutes": {
+          "description": "Lifetime of the access token in minutes. The minimum is five minutes. The maximum is one day.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "inlineHook": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TokenAuthorizationServerPolicyRuleActionInlineHookInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "refreshTokenLifetimeMinutes": {
+          "description": "Lifetime of the refresh token is the minimum access token lifetime.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "refreshTokenWindowMinutes": {
+          "description": "Timeframe when the refresh token is valid. The minimum is 10 minutes. The maximum is five years (2,628,000 minutes).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
           }
         }
       }
@@ -47206,79 +47865,6 @@
         }
       }
     },
-    "UpdateFeatureForApplicationBodyInput": {
-      "fields": {
-        "create": {
-          "description": "Determines whether Okta assigns a new app account to each user managed by Okta.  Okta doesn't create a new account if it detects that the username specified in Okta already exists in the app. The user's Okta username is assigned by default.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CapabilitiesCreateObjectInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ],
-            "xml": {
-              "name": "CapabilitiesCreateObject"
-            }
-          }
-        },
-        "importRules": {
-          "description": "Defines user import rules",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CapabilitiesImportRulesObjectInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ],
-            "xml": {
-              "name": "CapabilitiesImportRulesObject"
-            }
-          }
-        },
-        "importSettings": {
-          "description": "Defines import settings",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CapabilitiesImportSettingsObjectInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ],
-            "xml": {
-              "name": "CapabilitiesImportSettingsObject"
-            }
-          }
-        },
-        "update": {
-          "description": "Determines whether updates to a user's profile are pushed to the app",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CapabilitiesUpdateObjectInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
     "UpdateIamRoleRequestInput": {
       "fields": {
         "description": {
@@ -47763,7 +48349,6 @@
           }
         },
         "_links": {
-          "description": "Specifies link relations (see [Web Linking](https://datatracker.ietf.org/doc/html/rfc8288) available for the current status of a user. The Links object is used for dynamic discovery of related resources, lifecycle operations, and credential operations. The Links object is read-only.  For an individual User result, the Links object contains a full set of link relations available for that User as determined by your policies. For a collection of users, the Links object contains only the `self` link. Operations that return a collection of Users include List Users and List Group Members.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -49053,16 +49638,21 @@
     "UserGetSingleton": {
       "fields": {
         "_embedded": {
+          "description": "Embedded resources related to the User using the [JSON Hypertext Application Language](https://datatracker.ietf.org/doc/html/draft-kelly-json-hal-06) specification",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "JSON",
               "type": "named"
             }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "_links": {
-          "description": "Specifies link relations (see [Web Linking](https://datatracker.ietf.org/doc/html/rfc8288) available for the current status of a user. The Links object is used for dynamic discovery of related resources, lifecycle operations, and credential operations. The Links object is read-only.  For an individual User result, the Links object contains a full set of link relations available for that User as determined by your policies. For a collection of users, the Links object contains only the `self` link. Operations that return a collection of Users include List Users and List Group Members.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -49866,9 +50456,7 @@
             "type": [
               "array"
             ],
-            "items": {
-              "type": []
-            }
+            "items": {}
           }
         },
         "externalName": {
@@ -49921,8 +50509,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "UserSchemaAttributeMaster",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "UserSchemaAttributeMaster",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -50212,9 +50803,7 @@
             "type": [
               "array"
             ],
-            "items": {
-              "type": []
-            }
+            "items": {}
           }
         },
         "externalName": {
@@ -50267,8 +50856,11 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "UserSchemaAttributeMasterInput",
-              "type": "named"
+              "type": "nullable",
+              "underlying_type": {
+                "name": "UserSchemaAttributeMasterInput",
+                "type": "named"
+              }
             }
           },
           "http": {
@@ -53755,7 +54347,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "xml": {
+                "name": "UserFactorActivateRequest"
+              }
+            }
           }
         },
         "factorId": {
@@ -54255,7 +54852,7 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /webauthn-registration/api/v1/activate",
+          "description": "Enrollment Initialization Request",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -54264,7 +54861,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EnrollmentActivationRequest"
+              }
+            }
           }
         }
       },
@@ -54493,7 +55098,8 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {}
           }
         }
       },
@@ -54548,7 +55154,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OAuth2ClientJsonWebKeyRequestBody"
+              }
+            }
           }
         }
       },
@@ -54587,7 +55201,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ResourceSetBindingAddMembersRequest"
+              }
+            }
           }
         },
         "resourceSetIdOrLabel": {
@@ -54658,7 +55280,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ResourceSetResourcePatchRequest"
+              }
+            }
           }
         },
         "resourceSetIdOrLabel": {
@@ -55201,7 +55831,7 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of PUT /api/v1/org/settings/clientPrivilegesSetting",
+          "description": "The org setting that assigns the super admin role by default to a public client app",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -55210,7 +55840,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ClientPrivilegesSetting"
+              }
+            }
           }
         }
       },
@@ -55249,7 +55887,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AssignGroupOwnerRequestBody"
+              }
+            }
           }
         },
         "groupId": {
@@ -55544,7 +56190,7 @@
           }
         },
         "body": {
-          "description": "Request body of PUT /api/v1/apps/{appId}/groups/{groupId}",
+          "description": "The Application Group object that defines a group of users' app-specific profile and credentials for an app",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -55553,7 +56199,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ApplicationGroupAssignment"
+              }
+            }
           }
         },
         "groupId": {
@@ -55653,7 +56307,7 @@
         }
       }
     },
-    "assignRoleToClient": {
+    "assignRoleToClient_CustomRoleAssignmentSchema": {
       "request": {
         "url": "/oauth2/v1/clients/{clientId}/roles",
         "method": "post",
@@ -55678,11 +56332,19 @@
         "body": {
           "description": "Request body of POST /oauth2/v1/clients/{clientId}/roles",
           "type": {
-            "name": "AssignRoleToClientBodyInput",
+            "name": "CustomRoleAssignmentSchemaInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CustomRoleAssignmentSchema"
+              }
+            }
           }
         },
         "clientId": {
@@ -55708,7 +56370,70 @@
         "type": "named"
       }
     },
-    "assignRoleToGroup": {
+    "assignRoleToClient_StandardRoleAssignmentSchema": {
+      "request": {
+        "url": "/oauth2/v1/clients/{clientId}/roles",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.roles.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /oauth2/v1/clients/{clientId}/roles",
+          "type": {
+            "name": "StandardRoleAssignmentSchemaInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "StandardRoleAssignmentSchema"
+              }
+            }
+          }
+        },
+        "clientId": {
+          "description": "`client_id` of the app",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "clientId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Assign a Client Role",
+      "result_type": {
+        "name": "AssignRoleToClientResult",
+        "type": "named"
+      }
+    },
+    "assignRoleToGroup_CustomRoleAssignmentSchema": {
       "request": {
         "url": "/api/v1/groups/{groupId}/roles",
         "method": "post",
@@ -55733,11 +56458,19 @@
         "body": {
           "description": "Request body of POST /api/v1/groups/{groupId}/roles",
           "type": {
-            "name": "AssignRoleToGroupBodyInput",
+            "name": "CustomRoleAssignmentSchemaInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CustomRoleAssignmentSchema"
+              }
+            }
           }
         },
         "disableNotifications": {
@@ -55782,7 +56515,89 @@
         "type": "named"
       }
     },
-    "assignRoleToUser": {
+    "assignRoleToGroup_StandardRoleAssignmentSchema": {
+      "request": {
+        "url": "/api/v1/groups/{groupId}/roles",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.roles.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/v1/groups/{groupId}/roles",
+          "type": {
+            "name": "StandardRoleAssignmentSchemaInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "StandardRoleAssignmentSchema"
+              }
+            }
+          }
+        },
+        "disableNotifications": {
+          "description": "Grants the Group third-party admin status when set to `true`",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "disableNotifications",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "groupId": {
+          "description": "The `id` of the group",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "groupId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Assign a Role to a Group",
+      "result_type": {
+        "name": "AssignRoleToGroupResult",
+        "type": "named"
+      }
+    },
+    "assignRoleToUser_CustomRoleAssignmentSchema": {
       "request": {
         "url": "/api/v1/users/{userId}/roles",
         "method": "post",
@@ -55807,11 +56622,101 @@
         "body": {
           "description": "Request body of POST /api/v1/users/{userId}/roles",
           "type": {
-            "name": "AssignRoleToUserBodyInput",
+            "name": "CustomRoleAssignmentSchemaInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CustomRoleAssignmentSchema"
+              }
+            }
+          }
+        },
+        "disableNotifications": {
+          "description": "Setting this to `true` grants the User third-party admin status",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "disableNotifications",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "userId": {
+          "description": "ID of an existing Okta user",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "userId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Assign a User Role",
+      "result_type": {
+        "name": "AssignRoleToUserResult",
+        "type": "named"
+      }
+    },
+    "assignRoleToUser_StandardRoleAssignmentSchema": {
+      "request": {
+        "url": "/api/v1/users/{userId}/roles",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.roles.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /api/v1/users/{userId}/roles",
+          "type": {
+            "name": "StandardRoleAssignmentSchemaInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "StandardRoleAssignmentSchema"
+              }
+            }
           }
         },
         "disableNotifications": {
@@ -55895,13 +56800,21 @@
           }
         },
         "body": {
-          "description": "Request body of POST /api/v1/apps/{appId}/users",
+          "description": "The Application User object defines a user's app-specific profile and credentials for an app",
           "type": {
             "name": "AppUserInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AppUser"
+              }
+            }
           }
         }
       },
@@ -56004,7 +56917,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BouncesRemoveListObj"
+              }
+            }
           }
         }
       },
@@ -56043,7 +56964,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ChangePasswordRequest"
+              }
+            }
           }
         },
         "strict": {
@@ -56111,13 +57040,18 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/users/{userId}/credentials/change_recovery_question",
+          "description": "Specifies primary authentication and recovery credentials for a User. Credential types and requirements vary depending on the provider and security policy of the org.",
           "type": {
             "name": "UserCredentialsInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "userId": {
@@ -56393,13 +57327,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/agentPools/{poolId}/updates",
+          "description": "Various information about agent auto update configuration",
           "type": {
             "name": "AgentPoolUpdateInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AgentPoolUpdate"
+              }
+            }
           }
         },
         "poolId": {
@@ -56449,7 +57391,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "postAPIServiceIntegrationInstanceRequest"
+              }
+            }
           }
         }
       },
@@ -56567,7 +57517,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "Application"
+              }
+            }
           }
         }
       },
@@ -56622,7 +57580,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AssociatedServerMediated"
+              }
+            }
           }
         }
       },
@@ -56683,7 +57649,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthenticatorBase"
+              }
+            }
           }
         }
       },
@@ -56722,7 +57696,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthorizationServer"
+              }
+            }
           }
         }
       },
@@ -56777,7 +57759,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthorizationServerPolicy"
+              }
+            }
           }
         }
       },
@@ -56828,11 +57818,19 @@
         "body": {
           "description": "Request body of POST /api/v1/authorizationServers/{authServerId}/policies/{policyId}/rules",
           "type": {
-            "name": "AuthorizationServerPolicyRuleRequest",
+            "name": "AuthorizationServerPolicyRuleRequestInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthorizationServerPolicyRule"
+              }
+            }
           }
         },
         "policyId": {
@@ -56887,7 +57885,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BehaviorRule"
+              }
+            }
           }
         }
       },
@@ -56929,7 +57935,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateBrandRequest"
+              }
+            }
           }
         }
       },
@@ -56968,7 +57982,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CAPTCHAInstance"
+              }
+            }
           }
         }
       },
@@ -57010,7 +58032,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ChildOrg"
+              }
+            }
           }
         }
       },
@@ -57049,7 +58079,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "DomainRequest"
+              }
+            }
           }
         }
       },
@@ -57088,7 +58126,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "DeviceAssurance"
+              }
+            }
           }
         }
       },
@@ -57130,7 +58176,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EmailCustomization"
+              }
+            }
           }
         },
         "brandId": {
@@ -57201,7 +58255,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BaseEmailDomain"
+              }
+            }
           }
         },
         "expand": {
@@ -57272,7 +58334,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BaseEmailServer"
+              }
+            }
           }
         }
       },
@@ -57311,7 +58381,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EventHook"
+              }
+            }
           }
         }
       },
@@ -57350,7 +58428,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateGroupRuleRequest"
+              }
+            }
           }
         }
       },
@@ -57389,7 +58475,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "KeyRequest"
+              }
+            }
           }
         }
       },
@@ -57428,7 +58522,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "IdentityProvider"
+              }
+            }
           }
         }
       },
@@ -57467,7 +58569,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "IdPCertificateCredential"
+              }
+            }
           }
         }
       },
@@ -57548,7 +58658,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "InlineHook"
+              }
+            }
           }
         }
       },
@@ -57587,7 +58705,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "LinkedObject"
+              }
+            }
           }
         }
       },
@@ -57626,7 +58752,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "LogStream"
+              }
+            }
           }
         }
       },
@@ -57665,7 +58799,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -57720,7 +58859,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OAuth2Claim"
+              }
+            }
           }
         }
       },
@@ -57778,7 +58925,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OAuth2ClientSecretRequestBody"
+              }
+            }
           }
         }
       },
@@ -57833,7 +58988,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OAuth2Scope"
+              }
+            }
           }
         }
       },
@@ -57891,7 +59054,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EntityRiskPolicy"
+              }
+            }
           }
         }
       },
@@ -57949,7 +59120,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "limit": {
@@ -58026,7 +59202,20 @@
             "type": "array"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "object"
+                ],
+                "xml": {
+                  "name": "SimulatePolicyBody"
+                }
+              }
+            }
           }
         },
         "expand": {
@@ -58087,7 +59276,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "PrincipalRateLimitEntity"
+              }
+            }
           }
         }
       },
@@ -58126,7 +59323,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -58165,7 +59367,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateRealmRequest"
+              }
+            }
           }
         }
       },
@@ -58204,7 +59414,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateRealmAssignmentRequest"
+              }
+            }
           }
         }
       },
@@ -58243,7 +59461,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateResourceSetRequest"
+              }
+            }
           }
         }
       },
@@ -58282,7 +59508,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ResourceSetBindingCreateRequest"
+              }
+            }
           }
         },
         "resourceSetIdOrLabel": {
@@ -58337,7 +59571,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "RiskProvider"
+              }
+            }
           }
         }
       },
@@ -58376,7 +59618,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateIamRoleRequest"
+              }
+            }
           }
         }
       },
@@ -58418,7 +59668,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateUpdateIamRolePermissionRequest"
+              }
+            }
           }
         },
         "permissionType": {
@@ -58486,13 +59744,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/security-events-providers",
+          "description": "The request schema for creating or updating a Security Events Provider. The `settings` must match one of the schemas.",
           "type": {
             "name": "SecurityEventsProviderRequestInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "SecurityEventsProviderRequest"
+              }
+            }
           }
         }
       },
@@ -58526,7 +59792,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateSessionRequest"
+              }
+            }
           }
         }
       },
@@ -58565,7 +59839,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "SmsTemplate"
+              }
+            }
           }
         }
       },
@@ -58601,7 +59883,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "StreamConfigurationCreateRequest"
+              }
+            }
           }
         }
       },
@@ -58640,7 +59930,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "TrustedOriginWrite"
+              }
+            }
           }
         }
       },
@@ -58673,13 +59971,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/meta/uischemas",
+          "description": "The request body properties for the new UI Schema",
           "type": {
             "name": "CreateUISchemaInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateUISchema"
+              }
+            }
           }
         }
       },
@@ -58737,7 +60043,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateUserRequest"
+              }
+            }
           }
         },
         "nextLogin": {
@@ -58817,7 +60131,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -63036,7 +64355,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ApiPrefer",
+              "name": "DeleteUserPrefer",
               "type": "named"
             }
           },
@@ -63328,7 +64647,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UserFactor"
+              }
+            }
           }
         },
         "templateId": {
@@ -63437,7 +64764,7 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /webauthn-registration/api/v1/enroll",
+          "description": "Enrollment Initialization Request",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -63446,7 +64773,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EnrollmentInitializationRequest"
+              }
+            }
           }
         }
       },
@@ -63485,7 +64820,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "InlineHookPayload"
+              }
+            }
           }
         },
         "inlineHookId": {
@@ -63540,7 +64883,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OperationRequest"
+              }
+            }
           }
         }
       },
@@ -63762,13 +65113,18 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/users/{userId}/credentials/forgot_password_recovery_question",
+          "description": "Specifies primary authentication and recovery credentials for a User. Credential types and requirements vary depending on the provider and security policy of the org.",
           "type": {
             "name": "UserCredentialsInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "sendEmail": {
@@ -63915,7 +65271,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CsrMetadata"
+              }
+            }
           }
         }
       },
@@ -63954,7 +65318,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CsrMetadata"
+              }
+            }
           }
         },
         "idpId": {
@@ -64003,7 +65375,7 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /webauthn-registration/api/v1/initiate-fulfillment-request",
+          "description": "Fulfillment Request",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -64012,7 +65384,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "FulfillmentRequest"
+              }
+            }
           }
         }
       },
@@ -64118,7 +65498,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OrgAerialConsent"
+              }
+            }
           }
         }
       },
@@ -64167,13 +65555,21 @@
           }
         },
         "body": {
-          "description": "Request body of POST /api/v1/apps/{appId}/grants",
+          "description": "Grant object that represents an app consent scope grant",
           "type": {
             "name": "OAuth2ScopeConsentGrantInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OAuth2ScopeConsentGrant"
+              }
+            }
           }
         }
       },
@@ -64237,7 +65633,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UserIdentityProviderLinkRequest"
+              }
+            }
           }
         },
         "idpId": {
@@ -64308,7 +65712,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "PolicyMappingRequest"
+              }
+            }
           }
         },
         "policyId": {
@@ -64465,13 +65877,19 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/idps/{idpId}/credentials/csrs/{idpCsrId}/lifecycle/publish",
+          "description": "X.509 certificate in `DER` format.  The client can either post in binary or Base64URL-encoded. If the post is Base64URL-encoded, set the `Content-Transfer-Encoding` header to `base64`.",
           "type": {
             "name": "Binary",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "binary"
+            }
           }
         },
         "idpCsrId": {
@@ -64552,13 +65970,19 @@
           }
         },
         "body": {
-          "description": "Request body of POST /api/v1/apps/{appId}/credentials/csrs/{csrId}/lifecycle/publish",
+          "description": "X.509 certificate in `DER` format.  The client can either post in binary or Base64URL-encoded. If the post is Base64URL-encoded, set the `Content-Transfer-Encoding` header to `base64`.",
           "type": {
             "name": "Binary",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "binary"
+            }
           }
         },
         "csrId": {
@@ -64603,7 +66027,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
           }
         }
       },
@@ -65045,7 +66474,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "Application"
+              }
+            }
           }
         }
       },
@@ -65100,7 +66537,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthenticatorBase"
+              }
+            }
           }
         }
       },
@@ -65158,7 +66603,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthenticatorMethodBase"
+              }
+            }
           }
         },
         "methodType": {
@@ -65213,7 +66666,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AttackProtectionAuthenticatorSettings"
+              }
+            }
           }
         }
       },
@@ -65268,7 +66729,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthorizationServer"
+              }
+            }
           }
         }
       },
@@ -65323,7 +66792,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthorizationServerPolicy"
+              }
+            }
           }
         },
         "policyId": {
@@ -65390,11 +66867,19 @@
         "body": {
           "description": "Request body of PUT /api/v1/authorizationServers/{authServerId}/policies/{policyId}/rules/{ruleId}",
           "type": {
-            "name": "AuthorizationServerPolicyRuleRequest",
+            "name": "AuthorizationServerPolicyRuleRequestInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AuthorizationServerPolicyRule"
+              }
+            }
           }
         },
         "policyId": {
@@ -65481,7 +66966,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BehaviorRule"
+              }
+            }
           }
         }
       },
@@ -65520,7 +67013,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BrandRequest"
+              }
+            }
           }
         },
         "brandId": {
@@ -65575,7 +67076,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UpdateThemeRequest"
+              }
+            }
           }
         },
         "brandId": {
@@ -65646,7 +67155,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CAPTCHAInstance"
+              }
+            }
           }
         },
         "captchaId": {
@@ -65701,7 +67218,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UpdateDomain"
+              }
+            }
           }
         },
         "domainId": {
@@ -65756,7 +67281,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ErrorPage"
+              }
+            }
           }
         },
         "brandId": {
@@ -65811,7 +67344,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "SignInPage"
+              }
+            }
           }
         },
         "brandId": {
@@ -65866,7 +67407,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "DesktopMFARecoveryPinOrgSetting"
+              }
+            }
           }
         }
       },
@@ -65905,7 +67454,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "DeviceAssurance"
+              }
+            }
           }
         },
         "deviceAssuranceId": {
@@ -65963,7 +67520,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EmailCustomization"
+              }
+            }
           }
         },
         "brandId": {
@@ -66050,7 +67615,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BaseEmailDomain"
+              }
+            }
           }
         },
         "emailDomainId": {
@@ -66136,7 +67709,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EmailSettings"
+              }
+            }
           }
         },
         "brandId": {
@@ -66207,7 +67788,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EventHook"
+              }
+            }
           }
         },
         "eventHookId": {
@@ -66272,13 +67861,21 @@
           }
         },
         "body": {
-          "description": "Request body of PUT /api/v1/first-party-app-settings/{appName}",
+          "description": "Settings specific to the Okta Admin Console",
           "type": {
             "name": "AdminConsoleSettingsInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AdminConsoleSettings"
+              }
+            }
           }
         }
       },
@@ -66317,7 +67914,8 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {}
           }
         },
         "groupId": {
@@ -66372,7 +67970,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "GroupRule"
+              }
+            }
           }
         },
         "groupRuleId": {
@@ -66427,7 +68033,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "KeyRequest"
+              }
+            }
           }
         },
         "id": {
@@ -66482,7 +68096,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "IdentityProvider"
+              }
+            }
           }
         },
         "idpId": {
@@ -66531,13 +68153,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of PUT /api/v1/idps/credentials/keys/{kid}",
+          "description": "A [JSON Web Key](https://tools.ietf.org/html/rfc7517) for a signature or encryption credential for an IdP",
           "type": {
             "name": "IdPKeyCredential",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "IdPKeyCredential"
+              }
+            }
           }
         },
         "kid": {
@@ -66592,7 +68222,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "InlineHook"
+              }
+            }
           }
         },
         "inlineHookId": {
@@ -66647,7 +68285,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "logStreamId": {
@@ -66702,7 +68345,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "zoneId": {
@@ -66773,7 +68421,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OAuth2Claim"
+              }
+            }
           }
         },
         "claimId": {
@@ -66844,7 +68500,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OAuth2Scope"
+              }
+            }
           }
         },
         "scopeId": {
@@ -66899,12 +68563,20 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OrgContactUser"
+              }
+            }
           }
         },
         "contactType": {
           "type": {
-            "name": "ApiContactType",
+            "name": "ReplaceOrgContactUserContactType",
             "type": "named"
           },
           "http": {
@@ -66953,7 +68625,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OrgSetting"
+              }
+            }
           }
         }
       },
@@ -66992,7 +68672,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EntityRiskPolicy"
+              }
+            }
           }
         },
         "policyId": {
@@ -67047,7 +68735,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "policyId": {
@@ -67118,7 +68811,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ErrorPage"
+              }
+            }
           }
         },
         "brandId": {
@@ -67173,7 +68874,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "SignInPage"
+              }
+            }
           }
         },
         "brandId": {
@@ -67228,7 +68937,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "PrincipalRateLimitEntity"
+              }
+            }
           }
         },
         "principalRateLimitId": {
@@ -67283,7 +69000,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "pushProviderId": {
@@ -67338,7 +69060,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "RateLimitAdminNotifications"
+              }
+            }
           }
         }
       },
@@ -67377,7 +69107,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "PerClientRateLimitSettings"
+              }
+            }
           }
         }
       },
@@ -67419,7 +69157,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "RateLimitWarningThresholdRequest"
+              }
+            }
           }
         }
       },
@@ -67458,7 +69204,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UpdateRealmRequest"
+              }
+            }
           }
         },
         "realmId": {
@@ -67529,7 +69283,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UpdateRealmAssignmentRequest"
+              }
+            }
           }
         }
       },
@@ -67568,7 +69330,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ResourceSet"
+              }
+            }
           }
         },
         "resourceSetIdOrLabel": {
@@ -67623,7 +69393,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "RiskProvider"
+              }
+            }
           }
         },
         "riskProviderId": {
@@ -67678,7 +69456,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UpdateIamRoleRequest"
+              }
+            }
           }
         },
         "roleIdOrLabel": {
@@ -67736,7 +69522,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CreateUpdateIamRolePermissionRequest"
+              }
+            }
           }
         },
         "permissionType": {
@@ -67801,13 +69595,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of PUT /api/v1/security-events-providers/{securityEventProviderId}",
+          "description": "The request schema for creating or updating a Security Events Provider. The `settings` must match one of the schemas.",
           "type": {
             "name": "SecurityEventsProviderRequestInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "SecurityEventsProviderRequest"
+              }
+            }
           }
         },
         "securityEventProviderId": {
@@ -67862,7 +69664,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "HostedPage"
+              }
+            }
           }
         },
         "brandId": {
@@ -67917,7 +69727,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "SmsTemplate"
+              }
+            }
           }
         },
         "templateId": {
@@ -67969,7 +69787,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "StreamConfiguration"
+              }
+            }
           }
         }
       },
@@ -68008,7 +69834,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "TrustedOrigin"
+              }
+            }
           }
         },
         "trustedOriginId": {
@@ -68057,13 +69891,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of PUT /api/v1/meta/uischemas/{id}",
+          "description": "The updated request body properties",
           "type": {
             "name": "UpdateUISchemaInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UpdateUISchema"
+              }
+            }
           }
         },
         "id": {
@@ -68118,7 +69960,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UpdateUserRequest"
+              }
+            }
           }
         },
         "id": {
@@ -68192,7 +70042,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UserLockoutSettings"
+              }
+            }
           }
         }
       },
@@ -68234,7 +70092,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UserTypePutRequest"
+              }
+            }
           }
         },
         "typeId": {
@@ -68288,7 +70154,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OrgCAPTCHASettings"
+              }
+            }
           }
         }
       },
@@ -68327,7 +70201,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ResendUserFactor"
+              }
+            }
           }
         },
         "factorId": {
@@ -68612,7 +70494,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OrgAerialConsent"
+              }
+            }
           }
         }
       },
@@ -69601,7 +71491,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "JwkUse"
+              }
+            }
           }
         }
       },
@@ -69637,7 +71535,7 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /webauthn-registration/api/v1/send-pin",
+          "description": "Pin Request",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -69646,7 +71544,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "PinRequest"
+              }
+            }
           }
         }
       },
@@ -69691,7 +71597,20 @@
             "type": "array"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "object"
+                ],
+                "xml": {
+                  "name": "RiskEvent"
+                }
+              }
+            }
           }
         }
       },
@@ -70156,7 +72075,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "EmailTestAddresses"
+              }
+            }
           }
         },
         "emailServerId": {
@@ -71426,13 +73353,21 @@
           }
         },
         "body": {
-          "description": "Request body of POST /api/v1/directories/{appInstanceId}/groups/modify",
+          "description": "Details about the AD Group membership update",
           "type": {
             "name": "AgentActionInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AgentAction"
+              }
+            }
           }
         }
       },
@@ -71468,13 +73403,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/agentPools/{poolId}/updates/{updateId}",
+          "description": "Various information about agent auto update configuration",
           "type": {
             "name": "AgentPoolUpdateInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AgentPoolUpdate"
+              }
+            }
           }
         },
         "poolId": {
@@ -71539,13 +73482,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/agentPools/{poolId}/updates/settings",
+          "description": "Setting for auto-update",
           "type": {
             "name": "AgentPoolUpdateSettingInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AgentPoolUpdateSetting"
+              }
+            }
           }
         },
         "poolId": {
@@ -71568,77 +73519,6 @@
       "description": "Update an Agent Pool update settings",
       "result_type": {
         "name": "AgentPoolUpdateSetting",
-        "type": "named"
-      }
-    },
-    "updateApplicationUser": {
-      "request": {
-        "url": "/api/v1/apps/{appId}/users/{userId}",
-        "method": "post",
-        "security": [
-          {
-            "apiToken": []
-          },
-          {
-            "oauth2": [
-              "okta.apps.manage"
-            ]
-          }
-        ],
-        "requestBody": {
-          "contentType": "application/json"
-        },
-        "response": {
-          "contentType": "application/json"
-        }
-      },
-      "arguments": {
-        "appId": {
-          "description": "Application ID",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "name": "appId",
-            "in": "path",
-            "schema": {
-              "type": [
-                "string"
-              ]
-            }
-          }
-        },
-        "body": {
-          "description": "Request body of POST /api/v1/apps/{appId}/users/{userId}",
-          "type": {
-            "name": "AppUserUpdateRequestInput",
-            "type": "named"
-          },
-          "http": {
-            "in": "body"
-          }
-        },
-        "userId": {
-          "description": "ID of an existing Okta user",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "name": "userId",
-            "in": "path",
-            "schema": {
-              "type": [
-                "string"
-              ]
-            }
-          }
-        }
-      },
-      "description": "Update an Application User",
-      "result_type": {
-        "name": "AppUser",
         "type": "named"
       }
     },
@@ -71690,13 +73570,179 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UserSchema"
+              }
+            }
           }
         }
       },
       "description": "Update the App User Profile Schema for an App",
       "result_type": {
         "name": "UserSchema",
+        "type": "named"
+      }
+    },
+    "updateApplicationUser_AppUserCredentialsRequestPayload": {
+      "request": {
+        "url": "/api/v1/apps/{appId}/users/{userId}",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.apps.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "appId": {
+          "description": "Application ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "appId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Updates the assigned user credentials",
+          "type": {
+            "name": "AppUserCredentialsRequestPayloadInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AppUserCredentialsRequestPayload"
+              }
+            }
+          }
+        },
+        "userId": {
+          "description": "ID of an existing Okta user",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "userId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update an Application User",
+      "result_type": {
+        "name": "AppUser",
+        "type": "named"
+      }
+    },
+    "updateApplicationUser_AppUserProfileRequestPayload": {
+      "request": {
+        "url": "/api/v1/apps/{appId}/users/{userId}",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.apps.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "appId": {
+          "description": "Application ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "appId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "**Note:** The Okta API currently doesn't support entity tags for conditional updates. As long as you're the only user updating the the user profile, Okta recommends you fetch the most recent profile with [Retrieve an Application User](/openapi/okta-management/management/tag/ApplicationUsers/#tag/ApplicationUsers/operation/getApplicationUser), apply your profile update, and then `POST` back the updated profile.",
+          "type": {
+            "name": "AppUserProfileRequestPayloadInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "AppUserProfileRequestPayload"
+              }
+            }
+          }
+        },
+        "userId": {
+          "description": "ID of an existing Okta user",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "userId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update an Application User",
+      "result_type": {
+        "name": "AppUser",
         "type": "named"
       }
     },
@@ -71729,7 +73775,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CAPTCHAInstance"
+              }
+            }
           }
         },
         "captchaId": {
@@ -71784,7 +73838,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ThreatInsightConfiguration"
+              }
+            }
           }
         }
       },
@@ -71794,7 +73856,7 @@
         "type": "named"
       }
     },
-    "updateDefaultProvisioningConnectionForApplication": {
+    "updateDefaultProvisioningConnectionForApplication_ProvisioningConnectionOauthRequest": {
       "request": {
         "url": "/api/v1/apps/{appId}/connections/default",
         "method": "post",
@@ -71854,11 +73916,95 @@
         "body": {
           "description": "Request body of POST /api/v1/apps/{appId}/connections/default",
           "type": {
-            "name": "JSON",
+            "name": "ProvisioningConnectionOauthRequest",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "xml": {
+                "name": "ProvisioningConnectionOauthRequest"
+              }
+            }
+          }
+        }
+      },
+      "description": "Update the default Provisioning Connection",
+      "result_type": {
+        "name": "ProvisioningConnectionResponse",
+        "type": "named"
+      }
+    },
+    "updateDefaultProvisioningConnectionForApplication_ProvisioningConnectionTokenRequest": {
+      "request": {
+        "url": "/api/v1/apps/{appId}/connections/default",
+        "method": "post",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.apps.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "activate": {
+          "description": "Activates the Provisioning Connection",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "activate",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "appId": {
+          "description": "Application ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "appId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /api/v1/apps/{appId}/connections/default",
+          "type": {
+            "name": "ProvisioningConnectionTokenRequest",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "xml": {
+                "name": "ProvisioningConnectionTokenRequest"
+              }
+            }
           }
         }
       },
@@ -71900,7 +74046,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BaseEmailServer"
+              }
+            }
           }
         },
         "emailServerId": {
@@ -71925,7 +74079,7 @@
         "type": "named"
       }
     },
-    "updateFeatureForApplication": {
+    "updateFeatureForApplication_CapabilitiesInboundProvisioningObject": {
       "request": {
         "url": "/api/v1/apps/{appId}/features/{featureName}",
         "method": "put",
@@ -71964,13 +74118,100 @@
           }
         },
         "body": {
-          "description": "Request body of PUT /api/v1/apps/{appId}/features/{featureName}",
+          "description": "Defines the configuration for the INBOUND_PROVISIONING feature",
           "type": {
-            "name": "UpdateFeatureForApplicationBodyInput",
+            "name": "CapabilitiesInboundProvisioningObjectInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CapabilitiesInboundProvisioningObject"
+              }
+            }
+          }
+        },
+        "featureName": {
+          "description": "Name of the Feature",
+          "type": {
+            "name": "ApplicationFeatureType",
+            "type": "named"
+          },
+          "http": {
+            "name": "featureName",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update a Feature",
+      "result_type": {
+        "name": "ApplicationFeature",
+        "type": "named"
+      }
+    },
+    "updateFeatureForApplication_CapabilitiesObject": {
+      "request": {
+        "url": "/api/v1/apps/{appId}/features/{featureName}",
+        "method": "put",
+        "security": [
+          {
+            "apiToken": []
+          },
+          {
+            "oauth2": [
+              "okta.apps.manage"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "appId": {
+          "description": "Application ID",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "appId",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Defines the configurations for the USER_PROVISIONING feature",
+          "type": {
+            "name": "CapabilitiesObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "CapabilitiesObject"
+              }
+            }
           }
         },
         "featureName": {
@@ -72127,7 +74368,20 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "object"
+                ],
+                "xml": {
+                  "name": "JsonPatchOperation"
+                }
+              }
+            }
           }
         },
         "groupId": {
@@ -72185,7 +74439,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "GroupSchema"
+              }
+            }
           }
         }
       },
@@ -72224,7 +74486,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "InlineHook"
+              }
+            }
           }
         },
         "inlineHookId": {
@@ -72282,7 +74552,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "OrgSetting"
+              }
+            }
           }
         }
       },
@@ -72315,13 +74593,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/mappings/{mappingId}",
+          "description": "The updated request body properties",
           "type": {
             "name": "ProfileMappingRequestInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ProfileMappingRequest"
+              }
+            }
           }
         },
         "mappingId": {
@@ -72376,7 +74662,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "SmsTemplate"
+              }
+            }
           }
         },
         "templateId": {
@@ -72428,7 +74722,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "StreamConfiguration"
+              }
+            }
           }
         }
       },
@@ -72461,13 +74763,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/org/orgSettings/thirdPartyAdminSetting",
+          "description": "The third-party admin setting",
           "type": {
             "name": "ThirdPartyAdminSettingInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ThirdPartyAdminSetting"
+              }
+            }
           }
         }
       },
@@ -72506,7 +74816,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UpdateUserRequest"
+              }
+            }
           }
         },
         "id": {
@@ -72580,7 +74898,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UserSchema"
+              }
+            }
           }
         },
         "schemaId": {
@@ -72634,7 +74960,15 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "UserTypePostRequest"
+              }
+            }
           }
         },
         "typeId": {
@@ -72707,7 +75041,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -72743,7 +75082,7 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/brands/{brandId}/themes/{themeId}/background-image",
+          "description": "The file must be in PNG, JPG, or GIF format and less than 2 MB in size.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -72752,7 +75091,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "brandId": {
@@ -72817,7 +75161,7 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/brands/{brandId}/themes/{themeId}/favicon",
+          "description": "The file must be in PNG or ICO format and have a 1:1 ratio with a maximum dimension of 512 x 512",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -72826,7 +75170,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "brandId": {
@@ -72891,7 +75240,7 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of POST /api/v1/brands/{brandId}/themes/{themeId}/logo",
+          "description": "The file must be in PNG, JPG, or GIF format and less than 100kB in size. For best results use landscape orientation, a transparent background, and a minimum size of 300px by 50px to prevent upscaling.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -72900,7 +75249,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "brandId": {
@@ -72974,7 +75328,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BulkDeleteRequestBody"
+              }
+            }
           }
         },
         "identitySourceId": {
@@ -73051,7 +75413,15 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "BulkUpsertRequestBody"
+              }
+            }
           }
         },
         "identitySourceId": {
@@ -73128,7 +75498,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         }
       },
@@ -73189,7 +75564,12 @@
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "expand": {
@@ -73216,7 +75596,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ApiFilter",
+              "name": "UploadYubikeyOtpTokenSeedFilter",
               "type": "named"
             }
           },
@@ -73274,7 +75654,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ApiSortBy",
+              "name": "UploadYubikeyOtpTokenSeedSortBy",
               "type": "named"
             }
           },
@@ -73353,13 +75733,21 @@
           }
         },
         "body": {
-          "description": "Request body of PUT /api/v1/api-tokens/{apiTokenId}",
+          "description": "An API Token Update Object for an Okta user. This token is NOT scoped any further and can be used for any API that the user has permissions to call.",
           "type": {
             "name": "ApiTokenUpdateInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "ApiTokenUpdate"
+              }
+            }
           }
         }
       },
@@ -73392,13 +75780,21 @@
       },
       "arguments": {
         "body": {
-          "description": "Request body of PUT /api/v1/domains/{domainId}/certificate",
+          "description": "Defines the properties of the certificate",
           "type": {
             "name": "DomainCertificateInput",
             "type": "named"
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "DomainCertificate"
+              }
+            }
           }
         },
         "domainId": {
@@ -73641,7 +76037,12 @@
             }
           },
           "http": {
-            "in": "body"
+            "in": "body",
+            "schema": {
+              "xml": {
+                "name": "UserFactorVerifyRequest"
+              }
+            }
           }
         },
         "factorId": {
@@ -73878,99 +76279,6 @@
           "Paused",
           "Scheduled",
           "Success"
-        ],
-        "type": "enum"
-      }
-    },
-    "ApiContactType": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "BILLING",
-          "TECHNICAL"
-        ],
-        "type": "enum"
-      }
-    },
-    "ApiExpand": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "themes",
-          "domains",
-          "emailDomain"
-        ],
-        "type": "enum"
-      }
-    },
-    "ApiFilter": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "profile.email",
-          "profile.serial",
-          "activated",
-          "user.id",
-          "created",
-          "status",
-          "lastVerified"
-        ],
-        "type": "enum"
-      }
-    },
-    "ApiPrefer": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "respond-async"
-        ],
-        "type": "enum"
-      }
-    },
-    "ApiSortBy": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "profile.email",
-          "profile.serial",
-          "activated",
-          "user.id",
-          "created",
-          "status",
-          "lastVerified"
-        ],
-        "type": "enum"
-      }
-    },
-    "ApiSortOrder": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "ASCENDING",
-          "DESCENDING"
-        ],
-        "type": "enum"
-      }
-    },
-    "ApiType": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "OKTA_SIGN_ON",
-          "PASSWORD",
-          "MFA_ENROLL",
-          "IDP_DISCOVERY",
-          "ACCESS_POLICY",
-          "PROFILE_ENROLLMENT",
-          "POST_AUTH_SESSION",
-          "ENTITY_RISK"
         ],
         "type": "enum"
       }
@@ -74311,13 +76619,6 @@
         "type": "enum"
       }
     },
-    "AuthorizationServerPolicyRuleRequest": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
-      }
-    },
     "AuthorizationServerPolicyRuleStatus": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -74530,6 +76831,16 @@
         "type": "enum"
       }
     },
+    "CustomRoleAssignmentSchemaType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CUSTOM"
+        ],
+        "type": "enum"
+      }
+    },
     "DNSRecordType": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -74547,6 +76858,16 @@
       "representation": {
         "one_of": [
           "brands"
+        ],
+        "type": "enum"
+      }
+    },
+    "DeleteUserPrefer": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "respond-async"
         ],
         "type": "enum"
       }
@@ -74924,6 +77245,18 @@
         "type": "enum"
       }
     },
+    "GetBrandExpand": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "themes",
+          "domains",
+          "emailDomain"
+        ],
+        "type": "enum"
+      }
+    },
     "GetEmailDomainExpand": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -74978,6 +77311,17 @@
           "REPORT_ADMIN",
           "SUPER_ADMIN",
           "USER_ADMIN"
+        ],
+        "type": "enum"
+      }
+    },
+    "GetOrgContactUserContactType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "BILLING",
+          "TECHNICAL"
         ],
         "type": "enum"
       }
@@ -75338,6 +77682,18 @@
         "type": "enum"
       }
     },
+    "ListBrandsExpand": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "themes",
+          "domains",
+          "emailDomain"
+        ],
+        "type": "enum"
+      }
+    },
     "ListDevicesExpand": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -75393,6 +77749,34 @@
         "type": "enum"
       }
     },
+    "ListLogEventsSortOrder": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ASCENDING",
+          "DESCENDING"
+        ],
+        "type": "enum"
+      }
+    },
+    "ListPoliciesType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "OKTA_SIGN_ON",
+          "PASSWORD",
+          "MFA_ENROLL",
+          "IDP_DISCOVERY",
+          "ACCESS_POLICY",
+          "PROFILE_ENROLLMENT",
+          "POST_AUTH_SESSION",
+          "ENTITY_RISK"
+        ],
+        "type": "enum"
+      }
+    },
     "ListRolesForClientResultTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -75412,6 +77796,38 @@
           "REPORT_ADMIN",
           "SUPER_ADMIN",
           "USER_ADMIN"
+        ],
+        "type": "enum"
+      }
+    },
+    "ListYubikeyOtpTokensFilter": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "profile.email",
+          "profile.serial",
+          "activated",
+          "user.id",
+          "created",
+          "status",
+          "lastVerified"
+        ],
+        "type": "enum"
+      }
+    },
+    "ListYubikeyOtpTokensSortBy": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "profile.email",
+          "profile.serial",
+          "activated",
+          "user.id",
+          "created",
+          "status",
+          "lastVerified"
         ],
         "type": "enum"
       }
@@ -76006,6 +78422,13 @@
         "type": "enum"
       }
     },
+    "ProvisioningConnectionOauthRequest": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
     "ProvisioningConnectionStatus": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -76026,6 +78449,13 @@
           "TOKEN"
         ],
         "type": "enum"
+      }
+    },
+    "ProvisioningConnectionTokenRequest": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
       }
     },
     "ProvisioningDeprovisionedAction": {
@@ -76104,6 +78534,17 @@
       "representation": {
         "one_of": [
           "brands"
+        ],
+        "type": "enum"
+      }
+    },
+    "ReplaceOrgContactUserContactType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "BILLING",
+          "TECHNICAL"
         ],
         "type": "enum"
       }
@@ -76470,6 +78911,38 @@
       "comparison_operators": {},
       "representation": {
         "type": "string"
+      }
+    },
+    "UploadYubikeyOtpTokenSeedFilter": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "profile.email",
+          "profile.serial",
+          "activated",
+          "user.id",
+          "created",
+          "status",
+          "lastVerified"
+        ],
+        "type": "enum"
+      }
+    },
+    "UploadYubikeyOtpTokenSeedSortBy": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "profile.email",
+          "profile.serial",
+          "activated",
+          "user.id",
+          "created",
+          "status",
+          "lastVerified"
+        ],
+        "type": "enum"
       }
     },
     "UploadYubikeyOtpTokenSeedSortOrder": {
