@@ -6,14 +6,12 @@ services:
     volumes:
       - ./schema:/etc/connector:ro
     environment:
-      # OKTA_SERVER_URL: http://mock-idp:4010
-      # OKTA_OAUTH_SERVER_URL: http://mock-oauth:4010
-      # OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_BASIC_USERNAME: user
-      # OKTA_CLIENT_AUTHENTICATION_CLIENT_SECRET_BASIC_PASSWORD: password
+      GITHUB_SERVER_URL: http://mock-api:4010
+      GITHUB_TOKEN: random-token
       HASURA_LOG_LEVEL: debug
 
   mock-api:
     image: stoplight/prism:5.12.1
-    command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/github/rest-api-description/refs/heads/main/descriptions/api.github.com/api.github.com.json"
+    command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/github/rest-api-description/refs/heads/main/descriptions-next/api.github.com/api.github.com.json"
     ports:
       - "4010"
