@@ -1,0 +1,17 @@
+services:
+  ndc-http:
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.7.0}
+    ports:
+      - 8080:8080
+    volumes:
+      - ./schema:/etc/connector:ro
+    environment:
+      GITHUB_SERVER_URL: http://mock-api:4010
+      GITHUB_TOKEN: random-token
+      HASURA_LOG_LEVEL: debug
+
+  mock-api:
+    image: stoplight/prism:5.12.1
+    command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/github/rest-api-description/refs/heads/main/descriptions-next/api.github.com/api.github.com.json"
+    ports:
+      - "4010"
