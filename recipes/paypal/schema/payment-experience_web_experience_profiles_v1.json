@@ -1,0 +1,1040 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api-m.paypal.com",
+          "env": "PAYPAL_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "Oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": {
+              "value": "/v1/oauth2/token",
+              "env": "PAYPAL_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "https://uri.paypal.com/services/payments/payment": "New special privileged scope available for payment and manage payment experience profiles. Available to internal clients only.",
+              "https://uri.paypal.com/services/payments/realtimepayment": "Permission to do any real-time payment and manage-payment experience profiles with support for sale, authorize, and order intents."
+            },
+            "clientId": {
+              "env": "PAYPAL_OAUTH2_CLIENT_ID"
+            },
+            "clientSecret": {
+              "env": "PAYPAL_OAUTH2_CLIENT_SECRET"
+            }
+          }
+        }
+      }
+    },
+    "version": "1.3"
+  },
+  "functions": {
+    "web_profile_get": {
+      "request": {
+        "url": "/v1/payment-experience/web-profiles/{id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment"
+            ]
+          },
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the profile to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show web experience profile details by ID",
+      "result_type": {
+        "name": "WebProfile",
+        "type": "named"
+      }
+    },
+    "web_profile_get_list": {
+      "request": {
+        "url": "/v1/payment-experience/web-profiles",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment"
+            ]
+          },
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "List web experience profiles",
+      "result_type": {
+        "element_type": {
+          "name": "WebProfile",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    }
+  },
+  "object_types": {
+    "PatchInput": {
+      "description": "The JSON patch object to apply partial updates to resources.",
+      "fields": {
+        "from": {
+          "description": "The JSON Pointer to the target document location from which to move the value. Required for the move operation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "op": {
+          "description": "The operation.",
+          "type": {
+            "name": "PatchOp",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "path": {
+          "description": "The JSON Pointer to the target document location at which to complete the operation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The value to apply. The remove operation does not require a value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {}
+        }
+      }
+    },
+    "WebProfile": {
+      "description": "A payment web experience profile.",
+      "fields": {
+        "flow_config": {
+          "description": "The flow configuration parameters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileFlowConfig",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the web experience profile.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 22,
+            "minLength": 22
+          }
+        },
+        "input_fields": {
+          "description": "The input field customization parameters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileInputFields",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "The web experience profile name. Must be unique for a set of profiles for a merchant.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 1
+          }
+        },
+        "presentation": {
+          "description": "The style and presentation parameters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfilePresentation",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "temporary": {
+          "description": "Indicates whether the profile persists for three hours or permanently. To persist the profile permanently, set to `false`. To persist the profile for three hours, set to `true`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "WebProfileFlowConfig": {
+      "description": "The flow configuration parameters.",
+      "fields": {
+        "bank_txn_pending_url": {
+          "description": "The merchant site URL to display after a bank transfer payment. In Germany, valid only for the Giropay payment method or bank transfer payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "landing_page_type": {
+          "description": "The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileFlowConfigLandingPageType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "return_uri_http_method": {
+          "description": "The HTTP method to use to redirect the customer to a return URL. Value is `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileFlowConfigReturnUriHttpMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "user_action": {
+          "description": "Presents either the **Continue** or **Pay Now** checkout flow to the customer.Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount. When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileFlowConfigUserAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "WebProfileFlowConfigInput": {
+      "description": "The flow configuration parameters.",
+      "fields": {
+        "bank_txn_pending_url": {
+          "description": "The merchant site URL to display after a bank transfer payment. In Germany, valid only for the Giropay payment method or bank transfer payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "landing_page_type": {
+          "description": "The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileFlowConfigLandingPageType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "return_uri_http_method": {
+          "description": "The HTTP method to use to redirect the customer to a return URL. Value is `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileFlowConfigReturnUriHttpMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "user_action": {
+          "description": "Presents either the **Continue** or **Pay Now** checkout flow to the customer.Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount. When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileFlowConfigUserAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "WebProfileInput": {
+      "description": "A payment web experience profile.",
+      "fields": {
+        "flow_config": {
+          "description": "The flow configuration parameters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileFlowConfigInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "input_fields": {
+          "description": "The input field customization parameters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileInputFieldsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "The web experience profile name. Must be unique for a set of profiles for a merchant.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 1
+          }
+        },
+        "presentation": {
+          "description": "The style and presentation parameters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfilePresentationInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "temporary": {
+          "description": "Indicates whether the profile persists for three hours or permanently. To persist the profile permanently, set to `false`. To persist the profile for three hours, set to `true`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "WebProfileInputFields": {
+      "description": "The input field customization parameters.",
+      "fields": {
+        "address_override": {
+          "description": "Indicates whether to display the shipping address that is passed to this call rather than the one on file for this buyer on the PayPal experience pages. Value is:0. Displays the shipping address on file.1. Displays the shipping address specified in this call. the customer cannot edit this shipping address.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 1,
+            "minimum": 0
+          }
+        },
+        "no_shipping": {
+          "description": "Indicates whether PayPal displays shipping address fields on the experience pages. Value is:0. Displays the shipping address on the PayPal pages.1. Redacts shipping address fields from the PayPal pages. For digital goods, this field is required and must be 1.2. Gets the shipping address from the customer's account profile.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 2,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "WebProfileInputFieldsInput": {
+      "description": "The input field customization parameters.",
+      "fields": {
+        "address_override": {
+          "description": "Indicates whether to display the shipping address that is passed to this call rather than the one on file for this buyer on the PayPal experience pages. Value is:0. Displays the shipping address on file.1. Displays the shipping address specified in this call. the customer cannot edit this shipping address.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 1,
+            "minimum": 0
+          }
+        },
+        "no_shipping": {
+          "description": "Indicates whether PayPal displays shipping address fields on the experience pages. Value is:0. Displays the shipping address on the PayPal pages.1. Redacts shipping address fields from the PayPal pages. For digital goods, this field is required and must be 1.2. Gets the shipping address from the customer's account profile.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 2,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "WebProfilePresentation": {
+      "description": "The style and presentation parameters.",
+      "fields": {
+        "brand_name": {
+          "description": "A label that overrides the business name in the PayPal account on the PayPal pages. Character length and limitations: 127 single-byte alphanumeric characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "locale_code": {
+          "description": "The locale of pages that the PayPal payment experience displays. A valid value is `AU`, `AT`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `ES`, `GB`, `FR`, `IT`, `NL`, `PL`, `PT`, `RU`, or `US`. A 5-character code is also valid for languages in these countries: `da_DK`, `he_IL`, `id_ID`, `ja_JP`, `no_NO`, `pt_BR`, `ru_RU`, `sv_SE`, `th_TH`, `zh_CN`, `zh_HK`, or `zh_TW`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 5,
+            "minLength": 2
+          }
+        },
+        "logo_image": {
+          "description": "A URL to the logo image. A valid media type is `.gif`, `.jpg`, or `.png`. The image's maximum width is 190 pixels and maximum height is 60 pixels. PayPal crops images that are larger. PayPal places your logo image at the top of the cart review area. PayPal recommends that you store the image on a secure (HTTPS) server. Otherwise, web browsers display a message that checkout pages contain non-secure items. Character length and limitations: 127 single-byte alphanumeric characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "WebProfilePresentationInput": {
+      "description": "The style and presentation parameters.",
+      "fields": {
+        "brand_name": {
+          "description": "A label that overrides the business name in the PayPal account on the PayPal pages. Character length and limitations: 127 single-byte alphanumeric characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "locale_code": {
+          "description": "The locale of pages that the PayPal payment experience displays. A valid value is `AU`, `AT`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `ES`, `GB`, `FR`, `IT`, `NL`, `PL`, `PT`, `RU`, or `US`. A 5-character code is also valid for languages in these countries: `da_DK`, `he_IL`, `id_ID`, `ja_JP`, `no_NO`, `pt_BR`, `ru_RU`, `sv_SE`, `th_TH`, `zh_CN`, `zh_HK`, or `zh_TW`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 5,
+            "minLength": 2
+          }
+        },
+        "logo_image": {
+          "description": "A URL to the logo image. A valid media type is `.gif`, `.jpg`, or `.png`. The image's maximum width is 190 pixels and maximum height is 60 pixels. PayPal crops images that are larger. PayPal places your logo image at the top of the cart review area. PayPal recommends that you store the image on a secure (HTTPS) server. Otherwise, web browsers display a message that checkout pages contain non-secure items. Character length and limitations: 127 single-byte alphanumeric characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "web_profile_create": {
+      "request": {
+        "url": "/v1/payment-experience/web-profiles",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment"
+            ]
+          },
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Request-Id": {
+          "description": "The server stores keys for three hours.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "A payment web experience profile.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "web_profile"
+              }
+            }
+          }
+        }
+      },
+      "description": "Create web experience profile",
+      "result_type": {
+        "name": "WebProfile",
+        "type": "named"
+      }
+    },
+    "web_profile_delete": {
+      "request": {
+        "url": "/v1/payment-experience/web-profiles/{id}",
+        "method": "delete",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment"
+            ]
+          },
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the profile to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete web experience profile",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "web_profile_partial_update": {
+      "request": {
+        "url": "/v1/payment-experience/web-profiles/{id}",
+        "method": "patch",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment"
+            ]
+          },
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "An array of JSON patch objects to apply partial updates to resources.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PatchInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "object"
+                ],
+                "xml": {
+                  "name": "patch"
+                }
+              },
+              "xml": {
+                "name": "patch_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the profile to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Partially update web experience profile",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "web_profile_update": {
+      "request": {
+        "url": "/v1/payment-experience/web-profiles/{id}",
+        "method": "put",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment"
+            ]
+          },
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "A payment web experience profile.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebProfileInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "web_profile"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the profile to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update web experience profile",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "PatchOp": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "add",
+          "remove",
+          "replace",
+          "move",
+          "copy",
+          "test"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "WebProfileFlowConfigLandingPageType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "login",
+          "billing"
+        ],
+        "type": "enum"
+      }
+    },
+    "WebProfileFlowConfigReturnUriHttpMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "WebProfileFlowConfigUserAction": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "COMMIT"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}

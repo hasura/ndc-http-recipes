@@ -1,0 +1,5405 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api-m.paypal.com",
+          "env": "PAYPAL_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "Oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": {
+              "value": "/v1/oauth2/token",
+              "env": "PAYPAL_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "https://uri.paypal.com/services/subscriptions": "Manage plan \u0026 subscription"
+            },
+            "clientId": {
+              "env": "PAYPAL_OAUTH2_CLIENT_ID"
+            },
+            "clientSecret": {
+              "env": "PAYPAL_OAUTH2_CLIENT_SECRET"
+            }
+          }
+        }
+      }
+    },
+    "version": "1.6"
+  },
+  "functions": {
+    "plans_get": {
+      "request": {
+        "url": "/v1/billing/plans/{id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show plan details",
+      "result_type": {
+        "name": "Plan",
+        "type": "named"
+      }
+    },
+    "plans_list": {
+      "request": {
+        "url": "/v1/billing/plans",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "Prefer": {
+          "description": "The preferred server response upon successful completion of the request. Value is:return=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.return=representation. The server returns a complete resource representation, including the current state of the resource.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Prefer",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page": {
+          "description": "A non-zero integer which is the start index of the entire list of items to return in the response. The combination of `page=1` and `page_size=20` returns the first 20 items. The combination of `page=2` and `page_size=20` returns the next 20 items.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 100000,
+              "minimum": 1
+            }
+          }
+        },
+        "page_size": {
+          "description": "The number of items to return in the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 20,
+              "minimum": 1
+            }
+          }
+        },
+        "plan_ids": {
+          "description": "Filters the response by list of plan IDs. Filter supports upto 10 plan IDs.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "plan_ids",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "maximum": 270,
+              "minimum": 3
+            }
+          }
+        },
+        "product_id": {
+          "description": "Filters the response by a Product ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "product_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "maxLength": 50,
+              "minLength": 6
+            }
+          }
+        },
+        "total_required": {
+          "description": "Indicates whether to show the total count in the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "total_required",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List plans",
+      "result_type": {
+        "name": "PlanCollection",
+        "type": "named"
+      }
+    },
+    "subscriptions_get": {
+      "request": {
+        "url": "/v1/billing/subscriptions/{id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "fields": {
+          "description": "List of fields that are to be returned in the response. Possible value for fields are last_failed_payment and plan.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "fields",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "maxLength": 100,
+              "minLength": 1
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show subscription details",
+      "result_type": {
+        "name": "SubscriptionStatus",
+        "type": "named"
+      }
+    },
+    "subscriptions_transactions": {
+      "request": {
+        "url": "/v1/billing/subscriptions/{id}/transactions",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "end_time": {
+          "description": "The end time of the range of transactions to list.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "end_time",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "ppaas_date_time_v3",
+              "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+              "maxLength": 64,
+              "minLength": 20
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "start_time": {
+          "description": "The start time of the range of transactions to list.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "start_time",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "format": "ppaas_date_time_v3",
+              "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+              "maxLength": 64,
+              "minLength": 20
+            }
+          }
+        }
+      },
+      "description": "List transactions for subscription",
+      "result_type": {
+        "name": "TransactionsList",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AddressPortable": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_details": {
+          "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressPortableAddressDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "address_line_1": {
+          "description": "The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address. For example, suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_3": {
+          "description": "The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A kanton.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "admin_area_3": {
+          "description": "A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:Brazil. Suburb, bairro, or neighborhood.India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "admin_area_4": {
+          "description": "The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:The postal sorting code for Guernsey and many French territories, such as French Guiana.The fine-grained administrative levels in China.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "AddressPortableAddressDetails": {
+      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+      "fields": {
+        "building_name": {
+          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "delivery_service": {
+          "description": "The delivery service. Post office box, bag number, or post office name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_name": {
+          "description": "The street name. Just `Drury` in `Drury Lane`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_number": {
+          "description": "The street number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_type": {
+          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "sub_building": {
+          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        }
+      }
+    },
+    "AddressPortableAddressDetailsInput": {
+      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+      "fields": {
+        "building_name": {
+          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "delivery_service": {
+          "description": "The delivery service. Post office box, bag number, or post office name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_name": {
+          "description": "The street name. Just `Drury` in `Drury Lane`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_number": {
+          "description": "The street number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_type": {
+          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "sub_building": {
+          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        }
+      }
+    },
+    "AddressPortableInput": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_details": {
+          "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressPortableAddressDetailsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "address_line_1": {
+          "description": "The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address. For example, suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_3": {
+          "description": "The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A kanton.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "admin_area_3": {
+          "description": "A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:Brazil. Suburb, bairro, or neighborhood.India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "admin_area_4": {
+          "description": "The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:The postal sorting code for Guernsey and many French territories, such as French Guiana.The fine-grained administrative levels in China.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "ApplicationContext": {
+      "description": "The application context, which customizes the payer experience during the subscription approval process with PayPal.",
+      "fields": {
+        "brand_name": {
+          "description": "The label that overrides the business name in the PayPal account on the PayPal site.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "cancel_url": {
+          "description": "The URL where the customer is redirected after the customer cancels the payment.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 4000,
+            "minLength": 10
+          }
+        },
+        "locale": {
+          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/docs/integration/direct/rest/country-codes/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_language_v3",
+            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$",
+            "maxLength": 10,
+            "minLength": 2,
+            "xml": {
+              "name": "language"
+            }
+          }
+        },
+        "payment_method": {
+          "description": "The customer and merchant payment preferences.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_method"
+            }
+          }
+        },
+        "return_url": {
+          "description": "The URL where the customer is redirected after the customer approves the payment.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 4000,
+            "minLength": 10
+          }
+        },
+        "shipping_preference": {
+          "description": "The location from which the shipping address is derived.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextShippingPreference",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "user_action": {
+          "description": "Configures the label name to `Continue` or `Subscribe Now` for subscription consent experience.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextUserAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "ApplicationContextInput": {
+      "description": "The application context, which customizes the payer experience during the subscription approval process with PayPal.",
+      "fields": {
+        "brand_name": {
+          "description": "The label that overrides the business name in the PayPal account on the PayPal site.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "cancel_url": {
+          "description": "The URL where the customer is redirected after the customer cancels the payment.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 4000,
+            "minLength": 10
+          }
+        },
+        "locale": {
+          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/docs/integration/direct/rest/country-codes/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_language_v3",
+            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$",
+            "maxLength": 10,
+            "minLength": 2,
+            "xml": {
+              "name": "language"
+            }
+          }
+        },
+        "payment_method": {
+          "description": "The customer and merchant payment preferences.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentMethodInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_method"
+            }
+          }
+        },
+        "return_url": {
+          "description": "The URL where the customer is redirected after the customer approves the payment.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 4000,
+            "minLength": 10
+          }
+        },
+        "shipping_preference": {
+          "description": "The location from which the shipping address is derived.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextShippingPreference",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "user_action": {
+          "description": "Configures the label name to `Continue` or `Subscribe Now` for subscription consent experience.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextUserAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "BillingCycle": {
+      "description": "The billing cycle details.",
+      "fields": {
+        "frequency": {
+          "description": "The frequency of the billing cycle.",
+          "type": {
+            "name": "Frequency",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "frequency"
+            }
+          }
+        },
+        "pricing_scheme": {
+          "description": "The pricing scheme details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PricingScheme",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "pricing_scheme"
+            }
+          }
+        },
+        "sequence": {
+          "description": "The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 99,
+            "minimum": 1
+          }
+        },
+        "tenure_type": {
+          "description": "The tenure type of the billing cycle. In case of a plan having trial cycle, only 2 trial cycles are allowed per plan.",
+          "type": {
+            "name": "BillingCycleTenureType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "total_cycles": {
+          "description": "The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between 1 and 999 for total_cycles). Regular billing cycles can be executed infinite times (value of 0 for total_cycles) or a finite number of times (value between 1 and 999 for total_cycles).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "BillingCycleInput": {
+      "description": "The billing cycle details.",
+      "fields": {
+        "frequency": {
+          "description": "The frequency of the billing cycle.",
+          "type": {
+            "name": "FrequencyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "frequency"
+            }
+          }
+        },
+        "pricing_scheme": {
+          "description": "The pricing scheme details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PricingSchemeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "pricing_scheme"
+            }
+          }
+        },
+        "sequence": {
+          "description": "The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 99,
+            "minimum": 1
+          }
+        },
+        "tenure_type": {
+          "description": "The tenure type of the billing cycle. In case of a plan having trial cycle, only 2 trial cycles are allowed per plan.",
+          "type": {
+            "name": "BillingCycleTenureType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "total_cycles": {
+          "description": "The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between 1 and 999 for total_cycles). Regular billing cycles can be executed infinite times (value of 0 for total_cycles) or a finite number of times (value between 1 and 999 for total_cycles).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "BillingCycleOverride": {
+      "description": "The billing cycle details to override at subscription level. The subscription billing cycle definition has to adhere to the plan billing cycle definition.",
+      "fields": {
+        "pricing_scheme": {
+          "description": "The pricing scheme details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PricingScheme",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "pricing_scheme"
+            }
+          }
+        },
+        "sequence": {
+          "description": "The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 99,
+            "minimum": 1
+          }
+        },
+        "total_cycles": {
+          "description": "The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between 1 and 999 for total_cycles). Regular billing cycles can be executed infinite times (value of 0 for total_cycles) or a finite number of times (value between 1 and 999 for total_cycles).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "BillingCycleOverrideInput": {
+      "description": "The billing cycle details to override at subscription level. The subscription billing cycle definition has to adhere to the plan billing cycle definition.",
+      "fields": {
+        "pricing_scheme": {
+          "description": "The pricing scheme details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PricingSchemeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "pricing_scheme"
+            }
+          }
+        },
+        "sequence": {
+          "description": "The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 99,
+            "minimum": 1
+          }
+        },
+        "total_cycles": {
+          "description": "The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between 1 and 999 for total_cycles). Regular billing cycles can be executed infinite times (value of 0 for total_cycles) or a finite number of times (value between 1 and 999 for total_cycles).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "CaptureStatus": {
+      "description": "The status of a captured payment.",
+      "fields": {
+        "status": {
+          "description": "The status of the captured payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CaptureStatusStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status_details": {
+          "description": "The details of the captured payment status.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CaptureStatusDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "capture_status_details"
+            }
+          }
+        }
+      }
+    },
+    "CaptureStatusDetails": {
+      "description": "The details of the captured payment status.",
+      "fields": {
+        "reason": {
+          "description": "The reason why the captured payment status is `PENDING` or `DENIED`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CaptureStatusDetailsReason",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Frequency": {
+      "description": "The frequency of the billing cycle.",
+      "fields": {
+        "interval_count": {
+          "description": "The number of intervals after which a subscriber is billed. For example, if the `interval_unit` is `DAY` with an `interval_count` of  `2`, the subscription is billed once every two days. The following table lists the maximum allowed values for the `interval_count` for each `interval_unit`:Interval unitMaximum interval countDAY365WEEK52MONTH12YEAR1</table>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 365,
+            "minimum": 1
+          }
+        },
+        "interval_unit": {
+          "description": "The interval at which the subscription is charged or billed.",
+          "type": {
+            "name": "FrequencyIntervalUnit",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "FrequencyInput": {
+      "description": "The frequency of the billing cycle.",
+      "fields": {
+        "interval_count": {
+          "description": "The number of intervals after which a subscriber is billed. For example, if the `interval_unit` is `DAY` with an `interval_count` of  `2`, the subscription is billed once every two days. The following table lists the maximum allowed values for the `interval_count` for each `interval_unit`:Interval unitMaximum interval countDAY365WEEK52MONTH12YEAR1</table>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 365,
+            "minimum": 1
+          }
+        },
+        "interval_unit": {
+          "description": "The interval at which the subscription is charged or billed.",
+          "type": {
+            "name": "FrequencyIntervalUnit",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "LinkDescription": {
+      "description": "The request-related [HATEOAS link](/docs/api/reference/api-responses/#hateoas-links) information.",
+      "fields": {
+        "href": {
+          "description": "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "method": {
+          "description": "The HTTP method required to make the related call.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "LinkDescriptionMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "rel": {
+          "description": "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Money": {
+      "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+      "fields": {
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    "MoneyInput": {
+      "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+      "fields": {
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    "Name": {
+      "description": "The name of the party.",
+      "fields": {
+        "alternate_full_name": {
+          "description": "DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "full_name": {
+          "description": "When the party is a person, the party's full name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "given_name": {
+          "description": "When the party is a person, the party's given, or first, name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "middle_name": {
+          "description": "When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "prefix": {
+          "description": "The prefix, or title, to the party's name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "suffix": {
+          "description": "The suffix for the party's name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "surname": {
+          "description": "When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        }
+      }
+    },
+    "NameInput": {
+      "description": "The name of the party.",
+      "fields": {
+        "alternate_full_name": {
+          "description": "DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "full_name": {
+          "description": "When the party is a person, the party's full name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "given_name": {
+          "description": "When the party is a person, the party's given, or first, name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "middle_name": {
+          "description": "When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "prefix": {
+          "description": "The prefix, or title, to the party's name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "suffix": {
+          "description": "The suffix for the party's name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "surname": {
+          "description": "When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        }
+      }
+    },
+    "PatchInput": {
+      "description": "The JSON patch object to apply partial updates to resources.",
+      "fields": {
+        "from": {
+          "description": "The JSON Pointer to the target document location from which to move the value. Required for the move operation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "op": {
+          "description": "The operation.",
+          "type": {
+            "name": "PatchOp",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "path": {
+          "description": "The JSON Pointer to the target document location at which to complete the operation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The value to apply. The remove operation does not require a value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {}
+        }
+      }
+    },
+    "PaymentMethod": {
+      "description": "The customer and merchant payment preferences.",
+      "fields": {
+        "payee_preferred": {
+          "description": "The merchant-preferred payment methods.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeePaymentMethodPreference",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1,
+            "xml": {
+              "name": "payee_payment_method_preference"
+            }
+          }
+        },
+        "payer_selected": {
+          "description": "The customer-selected payment method on the merchant site.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "minLength": 1
+          }
+        },
+        "standard_entry_class_code": {
+          "description": "NACHA (the regulatory body governing the ACH network) requires that API callers (merchants, partners) obtain the consumers explicit authorization before initiating a transaction. To stay compliant, youll need to make sure that you retain a compliant authorization for each transaction that you originate to the ACH Network using this API. ACH transactions are categorized (using SEC codes) by how you capture authorization from the Receiver (the person whose bank account is being debited or credited). PayPal supports the following SEC codes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentMethodStandardEntryClassCode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 3
+          }
+        }
+      }
+    },
+    "PaymentMethodInput": {
+      "description": "The customer and merchant payment preferences.",
+      "fields": {
+        "payee_preferred": {
+          "description": "The merchant-preferred payment methods.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeePaymentMethodPreference",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1,
+            "xml": {
+              "name": "payee_payment_method_preference"
+            }
+          }
+        },
+        "payer_selected": {
+          "description": "The customer-selected payment method on the merchant site.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "minLength": 1
+          }
+        },
+        "standard_entry_class_code": {
+          "description": "NACHA (the regulatory body governing the ACH network) requires that API callers (merchants, partners) obtain the consumers explicit authorization before initiating a transaction. To stay compliant, youll need to make sure that you retain a compliant authorization for each transaction that you originate to the ACH Network using this API. ACH transactions are categorized (using SEC codes) by how you capture authorization from the Receiver (the person whose bank account is being debited or credited). PayPal supports the following SEC codes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentMethodStandardEntryClassCode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 3
+          }
+        }
+      }
+    },
+    "PaymentPreferences": {
+      "description": "The payment preferences for a subscription.",
+      "fields": {
+        "auto_bill_outstanding": {
+          "description": "Indicates whether to automatically bill the outstanding amount in the next billing cycle.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "payment_failure_threshold": {
+          "description": "The maximum number of payment failures before a subscription is suspended. For example, if `payment_failure_threshold` is `2`, the subscription automatically updates to the `SUSPEND` state if two consecutive payments fail.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        },
+        "setup_fee": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "setup_fee_failure_action": {
+          "description": "The action to take on the subscription if the initial payment for the setup fails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentPreferencesSetupFeeFailureAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PaymentPreferencesInput": {
+      "description": "The payment preferences for a subscription.",
+      "fields": {
+        "auto_bill_outstanding": {
+          "description": "Indicates whether to automatically bill the outstanding amount in the next billing cycle.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "payment_failure_threshold": {
+          "description": "The maximum number of payment failures before a subscription is suspended. For example, if `payment_failure_threshold` is `2`, the subscription automatically updates to the `SUSPEND` state if two consecutive payments fail.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        },
+        "setup_fee": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "setup_fee_failure_action": {
+          "description": "The action to take on the subscription if the initial payment for the setup fails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentPreferencesSetupFeeFailureAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PaymentPreferencesOverride": {
+      "description": "The payment preferences to override at subscription level.",
+      "fields": {
+        "auto_bill_outstanding": {
+          "description": "Indicates whether to automatically bill the outstanding amount in the next billing cycle.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "payment_failure_threshold": {
+          "description": "The maximum number of payment failures before a subscription is suspended. For example, if `payment_failure_threshold` is `2`, the subscription automatically updates to the `SUSPEND` state if two consecutive payments fail.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        },
+        "setup_fee": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "setup_fee_failure_action": {
+          "description": "The action to take on the subscription if the initial payment for the setup fails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentPreferencesOverrideSetupFeeFailureAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PaymentPreferencesOverrideInput": {
+      "description": "The payment preferences to override at subscription level.",
+      "fields": {
+        "auto_bill_outstanding": {
+          "description": "Indicates whether to automatically bill the outstanding amount in the next billing cycle.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "payment_failure_threshold": {
+          "description": "The maximum number of payment failures before a subscription is suspended. For example, if `payment_failure_threshold` is `2`, the subscription automatically updates to the `SUSPEND` state if two consecutive payments fail.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        },
+        "setup_fee": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "setup_fee_failure_action": {
+          "description": "The action to take on the subscription if the initial payment for the setup fails.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentPreferencesOverrideSetupFeeFailureAction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "Plan": {
+      "description": "The plan details.",
+      "fields": {
+        "billing_cycles": {
+          "description": "An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "BillingCycle",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "billing_cycle"
+              }
+            }
+          }
+        },
+        "create_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        },
+        "description": {
+          "description": "The detailed description of the plan.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "id": {
+          "description": "The unique PayPal-generated ID for the plan.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 3
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "name": {
+          "description": "The plan name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "payment_preferences": {
+          "description": "The payment preferences for a subscription.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentPreferences",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_preferences"
+            }
+          }
+        },
+        "product_id": {
+          "description": "The ID for the product.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 6
+          }
+        },
+        "quantity_supported": {
+          "description": "Indicates whether you can subscribe to this plan by providing a quantity for the goods or service.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "status": {
+          "description": "The plan status.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PlanStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "taxes": {
+          "description": "The tax details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Taxes",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "taxes"
+            }
+          }
+        },
+        "update_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        }
+      }
+    },
+    "PlanCollection": {
+      "description": "The list of plans with details.",
+      "fields": {
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "plans": {
+          "description": "An array of plans.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Plan",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "plan"
+              }
+            }
+          }
+        },
+        "total_items": {
+          "description": "The total number of items.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 500000000,
+            "minimum": 0
+          }
+        },
+        "total_pages": {
+          "description": "The total number of pages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 100000000,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "PlanOverride": {
+      "description": "An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object.",
+      "fields": {
+        "billing_cycles": {
+          "description": "An array of billing cycles for trial billing and regular billing. The subscription billing cycle definition has to adhere to the plan billing cycle definition.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "BillingCycleOverride",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "billing_cycle_override"
+              }
+            }
+          }
+        },
+        "payment_preferences": {
+          "description": "The payment preferences to override at subscription level.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentPreferencesOverride",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_preferences_override"
+            }
+          }
+        },
+        "taxes": {
+          "description": "The tax details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TaxesOverride",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "taxes_override"
+            }
+          }
+        }
+      }
+    },
+    "PlanOverrideInput": {
+      "description": "An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object.",
+      "fields": {
+        "billing_cycles": {
+          "description": "An array of billing cycles for trial billing and regular billing. The subscription billing cycle definition has to adhere to the plan billing cycle definition.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "BillingCycleOverrideInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "billing_cycle_override"
+              }
+            }
+          }
+        },
+        "payment_preferences": {
+          "description": "The payment preferences to override at subscription level.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentPreferencesOverrideInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_preferences_override"
+            }
+          }
+        },
+        "taxes": {
+          "description": "The tax details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TaxesOverrideInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "taxes_override"
+            }
+          }
+        }
+      }
+    },
+    "PlanRequestPOSTInput": {
+      "description": "The create plan request details.",
+      "fields": {
+        "billing_cycles": {
+          "description": "An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle.",
+          "type": {
+            "element_type": {
+              "name": "BillingCycleInput",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "billing_cycle"
+              }
+            }
+          }
+        },
+        "description": {
+          "description": "The detailed description of the plan.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "name": {
+          "description": "The plan name.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "payment_preferences": {
+          "description": "The payment preferences for a subscription.",
+          "type": {
+            "name": "PaymentPreferencesInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_preferences"
+            }
+          }
+        },
+        "product_id": {
+          "description": "The ID of the product created through Catalog Products API.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 6
+          }
+        },
+        "quantity_supported": {
+          "description": "Indicates whether you can subscribe to this plan by providing a quantity for the goods or service.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "status": {
+          "description": "The initial state of the plan. Allowed input values are CREATED and ACTIVE.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PlanRequestPOSTStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "taxes": {
+          "description": "The tax details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TaxesInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "taxes"
+            }
+          }
+        }
+      }
+    },
+    "PricingScheme": {
+      "description": "The pricing scheme details.",
+      "fields": {
+        "create_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        },
+        "fixed_price": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "pricing_model": {
+          "description": "The pricing model for tiered plan. The `tiers` parameter is required.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PricingSchemePricingModel",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "tiers": {
+          "description": "An array of pricing tiers which are used for billing volume/tiered plans. pricing_model field has to be specified.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PricingTier",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "pricing_tier"
+              }
+            }
+          }
+        },
+        "update_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        },
+        "version": {
+          "description": "The version of the pricing scheme.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 999,
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "PricingSchemeInput": {
+      "description": "The pricing scheme details.",
+      "fields": {
+        "create_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        },
+        "fixed_price": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "pricing_model": {
+          "description": "The pricing model for tiered plan. The `tiers` parameter is required.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PricingSchemePricingModel",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "tiers": {
+          "description": "An array of pricing tiers which are used for billing volume/tiered plans. pricing_model field has to be specified.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PricingTierInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "pricing_tier"
+              }
+            }
+          }
+        },
+        "update_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        }
+      }
+    },
+    "PricingTier": {
+      "description": "The pricing tier details.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "Money",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "ending_quantity": {
+          "description": "The ending quantity for the tier. Optional for the last tier.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+|([0-9]+)?[.][0-9]+)$",
+            "maxLength": 32,
+            "minLength": 1
+          }
+        },
+        "starting_quantity": {
+          "description": "The starting quantity for the tier.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+|([0-9]+)?[.][0-9]+)$",
+            "maxLength": 32,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PricingTierInput": {
+      "description": "The pricing tier details.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "MoneyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "ending_quantity": {
+          "description": "The ending quantity for the tier. Optional for the last tier.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+|([0-9]+)?[.][0-9]+)$",
+            "maxLength": 32,
+            "minLength": 1
+          }
+        },
+        "starting_quantity": {
+          "description": "The starting quantity for the tier.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+|([0-9]+)?[.][0-9]+)$",
+            "maxLength": 32,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "ShippingDetail": {
+      "description": "The shipping details.",
+      "fields": {
+        "address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressPortable",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address_portable"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Name",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "name"
+            }
+          }
+        },
+        "type": {
+          "description": "The method by which the payer wants to get their items from the payee e.g shipping, in-person pickup. Either type or options but not both may be present.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingDetailType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "ShippingDetailInput": {
+      "description": "The shipping details.",
+      "fields": {
+        "address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressPortableInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address_portable"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NameInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "name"
+            }
+          }
+        },
+        "type": {
+          "description": "The method by which the payer wants to get their items from the payee e.g shipping, in-person pickup. Either type or options but not both may be present.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingDetailType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SubscriptionActivateRequestInput": {
+      "description": "The activate subscription request details.",
+      "fields": {
+        "reason": {
+          "description": "The reason for activation of a subscription. Required to reactivate the subscription.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 128,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SubscriptionCancelRequestInput": {
+      "description": "The cancel subscription request details.",
+      "fields": {
+        "reason": {
+          "description": "The reason for the cancellation of a subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 128,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SubscriptionCaptureRequestInput": {
+      "description": "The charge amount from the subscriber.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "MoneyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "capture_type": {
+          "description": "The type of capture.",
+          "type": {
+            "name": "SubscriptionCaptureRequestCaptureType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "note": {
+          "description": "The reason or note for the subscription charge.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 128,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SubscriptionRequestPostInput": {
+      "description": "The create subscription request details.",
+      "fields": {
+        "application_context": {
+          "description": "The application context, which customizes the payer experience during the subscription approval process with PayPal.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "application_context"
+            }
+          }
+        },
+        "auto_renewal": {
+          "description": "DEPRECATED. Indicates whether the subscription auto-renews after the billing cycles complete.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "custom_id": {
+          "description": "The custom id for the subscription. Can be invoice id.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[\\x20-\\x7E]+",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "plan": {
+          "description": "An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PlanOverrideInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "plan_override"
+            }
+          }
+        },
+        "plan_id": {
+          "description": "The ID of the plan.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 3
+          }
+        },
+        "quantity": {
+          "description": "The quantity of the product in the subscription.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+|([0-9]+)?[.][0-9]+)$",
+            "maxLength": 32,
+            "minLength": 1
+          }
+        },
+        "shipping_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "start_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        },
+        "subscriber": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubscriberRequest",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "subscriber_request"
+            }
+          }
+        }
+      }
+    },
+    "SubscriptionReviseRequest": {
+      "description": "The request to update the quantity of the product or service in a subscription. You can also use this method to switch the plan and update the `shipping_amount` and `shipping_address` values for the subscription. This type of update requires the buyer's consent.",
+      "fields": {
+        "application_context": {
+          "description": "The application context, which customizes the payer experience during the subscription approval process with PayPal.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContext",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "application_context"
+            }
+          }
+        },
+        "plan": {
+          "description": "An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PlanOverride",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "plan_override"
+            }
+          }
+        },
+        "plan_id": {
+          "description": "The unique PayPal-generated ID for the plan.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 3
+          }
+        },
+        "quantity": {
+          "description": "The quantity of the product or service in the subscription.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+|([0-9]+)?[.][0-9]+)$",
+            "maxLength": 32,
+            "minLength": 1
+          }
+        },
+        "shipping_address": {
+          "description": "The shipping details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingDetail",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_detail"
+            }
+          }
+        },
+        "shipping_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "SubscriptionReviseRequestInput": {
+      "description": "The request to update the quantity of the product or service in a subscription. You can also use this method to switch the plan and update the `shipping_amount` and `shipping_address` values for the subscription. This type of update requires the buyer's consent.",
+      "fields": {
+        "application_context": {
+          "description": "The application context, which customizes the payer experience during the subscription approval process with PayPal.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "application_context"
+            }
+          }
+        },
+        "plan": {
+          "description": "An inline plan object to customise the subscription. You can override plan level default attributes by providing customised values for the subscription in this object.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PlanOverrideInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "plan_override"
+            }
+          }
+        },
+        "plan_id": {
+          "description": "The unique PayPal-generated ID for the plan.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 3
+          }
+        },
+        "quantity": {
+          "description": "The quantity of the product or service in the subscription.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+|([0-9]+)?[.][0-9]+)$",
+            "maxLength": 32,
+            "minLength": 1
+          }
+        },
+        "shipping_address": {
+          "description": "The shipping details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingDetailInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_detail"
+            }
+          }
+        },
+        "shipping_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "SubscriptionStatus": {
+      "description": "The subscription status details.",
+      "fields": {
+        "status": {
+          "description": "The status of the subscription.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubscriptionStatusStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "status_change_note": {
+          "description": "The reason or notes for the status of the subscription.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 128,
+            "minLength": 1
+          }
+        },
+        "status_update_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        }
+      }
+    },
+    "SubscriptionSuspendRequestInput": {
+      "description": "The suspend subscription request details.",
+      "fields": {
+        "reason": {
+          "description": "The reason for suspenson of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 128,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "Taxes": {
+      "description": "The tax details.",
+      "fields": {
+        "inclusive": {
+          "description": "Indicates whether the tax was already included in the billing amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "percentage": {
+          "description": "The percentage, as a fixed-point, signed decimal number. For example, define a 19.99% interest rate as `19.99`.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_percentage_v2",
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "xml": {
+              "name": "percentage"
+            }
+          }
+        }
+      }
+    },
+    "TaxesInput": {
+      "description": "The tax details.",
+      "fields": {
+        "inclusive": {
+          "description": "Indicates whether the tax was already included in the billing amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "percentage": {
+          "description": "The percentage, as a fixed-point, signed decimal number. For example, define a 19.99% interest rate as `19.99`.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_percentage_v2",
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "xml": {
+              "name": "percentage"
+            }
+          }
+        }
+      }
+    },
+    "TaxesOverride": {
+      "description": "The tax details.",
+      "fields": {
+        "inclusive": {
+          "description": "Indicates whether the tax was already included in the billing amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "percentage": {
+          "description": "The percentage, as a fixed-point, signed decimal number. For example, define a 19.99% interest rate as `19.99`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_percentage_v2",
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "xml": {
+              "name": "percentage"
+            }
+          }
+        }
+      }
+    },
+    "TaxesOverrideInput": {
+      "description": "The tax details.",
+      "fields": {
+        "inclusive": {
+          "description": "Indicates whether the tax was already included in the billing amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "percentage": {
+          "description": "The percentage, as a fixed-point, signed decimal number. For example, define a 19.99% interest rate as `19.99`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_percentage_v2",
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "xml": {
+              "name": "percentage"
+            }
+          }
+        }
+      }
+    },
+    "TransactionsList": {
+      "description": "The list transactions for a subscription request details.",
+      "fields": {
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "total_items": {
+          "description": "The total number of items.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 500000000,
+            "minimum": 0
+          }
+        },
+        "total_pages": {
+          "description": "The total number of pages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 100000000,
+            "minimum": 0
+          }
+        },
+        "transactions": {
+          "description": "An array of transactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "CaptureStatus",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "capture_status"
+              }
+            }
+          }
+        }
+      }
+    },
+    "UpdatePricingSchemeRequestInput": {
+      "description": "The update pricing scheme request details.",
+      "fields": {
+        "billing_cycle_sequence": {
+          "description": "The billing cycle sequence.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 99,
+            "minimum": 1
+          }
+        },
+        "pricing_scheme": {
+          "description": "The pricing scheme details.",
+          "type": {
+            "name": "PricingSchemeInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "pricing_scheme"
+            }
+          }
+        }
+      }
+    },
+    "UpdatePricingSchemesListRequestInput": {
+      "description": "The update pricing scheme request details.",
+      "fields": {
+        "pricing_schemes": {
+          "description": "An array of pricing schemes.",
+          "type": {
+            "element_type": {
+              "name": "UpdatePricingSchemeRequestInput",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "update_pricing_scheme_request"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "plans_activate": {
+      "request": {
+        "url": "/v1/billing/plans/{id}/activate",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Activate plan",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "plans_create": {
+      "request": {
+        "url": "/v1/billing/plans",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Request-Id": {
+          "description": "The server stores keys for 72 hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "Prefer": {
+          "description": "The preferred server response upon successful completion of the request. Value is:return=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.return=representation. The server returns a complete resource representation, including the current state of the resource.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Prefer",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "The create plan request details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PlanRequestPOSTInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "plan_request_POST"
+              }
+            }
+          }
+        }
+      },
+      "description": "Create plan",
+      "result_type": {
+        "name": "Plan",
+        "type": "named"
+      }
+    },
+    "plans_deactivate": {
+      "request": {
+        "url": "/v1/billing/plans/{id}/deactivate",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Deactivate plan",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "plans_patch": {
+      "request": {
+        "url": "/v1/billing/plans/{id}",
+        "method": "patch",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "An array of JSON patch objects to apply partial updates to resources.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PatchInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "object"
+                ],
+                "xml": {
+                  "name": "patch"
+                }
+              },
+              "xml": {
+                "name": "patch_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update plan",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "plans_update_pricing_schemes": {
+      "request": {
+        "url": "/v1/billing/plans/{id}/update-pricing-schemes",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The update pricing scheme request details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UpdatePricingSchemesListRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "update_pricing_schemes_list_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update pricing",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "subscriptions_activate": {
+      "request": {
+        "url": "/v1/billing/subscriptions/{id}/activate",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The activate subscription request details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubscriptionActivateRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "subscription_activate_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Activate subscription",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "subscriptions_cancel": {
+      "request": {
+        "url": "/v1/billing/subscriptions/{id}/cancel",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The cancel subscription request details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubscriptionCancelRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "subscription_cancel_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Cancel subscription",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "subscriptions_capture": {
+      "request": {
+        "url": "/v1/billing/subscriptions/{id}/capture",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Request-Id": {
+          "description": "The server stores keys for 72 hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "The charge amount from the subscriber.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubscriptionCaptureRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "subscription_capture_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Capture authorized payment on subscription",
+      "result_type": {
+        "name": "CaptureStatus",
+        "type": "named"
+      }
+    },
+    "subscriptions_create": {
+      "request": {
+        "url": "/v1/billing/subscriptions",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Request-Id": {
+          "description": "The server stores keys for 72 hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "Prefer": {
+          "description": "The preferred server response upon successful completion of the request. Value is:return=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.return=representation. The server returns a complete resource representation, including the current state of the resource.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Prefer",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "The create subscription request details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubscriptionRequestPostInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "subscription_request_post"
+              }
+            }
+          }
+        }
+      },
+      "description": "Create subscription",
+      "result_type": {
+        "name": "SubscriptionStatus",
+        "type": "named"
+      }
+    },
+    "subscriptions_patch": {
+      "request": {
+        "url": "/v1/billing/subscriptions/{id}",
+        "method": "patch",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "An array of JSON patch objects to apply partial updates to resources.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PatchInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "object"
+                ],
+                "xml": {
+                  "name": "patch"
+                }
+              },
+              "xml": {
+                "name": "patch_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update subscription",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "subscriptions_revise": {
+      "request": {
+        "url": "/v1/billing/subscriptions/{id}/revise",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The request to update the quantity of the product or service in a subscription. You can also use this method to switch the plan and update the `shipping_amount` and `shipping_address` values for the subscription. This type of update requires the buyer's consent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubscriptionReviseRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "subscription_revise_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Revise plan or quantity of subscription",
+      "result_type": {
+        "name": "SubscriptionReviseRequest",
+        "type": "named"
+      }
+    },
+    "subscriptions_suspend": {
+      "request": {
+        "url": "/v1/billing/subscriptions/{id}/suspend",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/subscriptions"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The suspend subscription request details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SubscriptionSuspendRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "subscription_suspend_request"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the subscription.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Suspend subscription",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    }
+  },
+  "scalar_types": {
+    "ApplicationContextShippingPreference": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET_FROM_FILE",
+          "NO_SHIPPING",
+          "SET_PROVIDED_ADDRESS"
+        ],
+        "type": "enum"
+      }
+    },
+    "ApplicationContextUserAction": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CONTINUE",
+          "SUBSCRIBE_NOW"
+        ],
+        "type": "enum"
+      }
+    },
+    "BillingCycleTenureType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "REGULAR",
+          "TRIAL"
+        ],
+        "type": "enum"
+      }
+    },
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "CaptureStatusDetailsReason": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "BUYER_COMPLAINT",
+          "CHARGEBACK",
+          "ECHECK",
+          "INTERNATIONAL_WITHDRAWAL",
+          "OTHER",
+          "PENDING_REVIEW",
+          "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION",
+          "REFUNDED",
+          "TRANSACTION_APPROVED_AWAITING_FUNDING",
+          "UNILATERAL",
+          "VERIFICATION_REQUIRED"
+        ],
+        "type": "enum"
+      }
+    },
+    "CaptureStatusStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "COMPLETED",
+          "DECLINED",
+          "PARTIALLY_REFUNDED",
+          "PENDING",
+          "REFUNDED"
+        ],
+        "type": "enum"
+      }
+    },
+    "FrequencyIntervalUnit": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DAY",
+          "WEEK",
+          "MONTH",
+          "YEAR"
+        ],
+        "type": "enum"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "LinkDescriptionMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "HEAD",
+          "CONNECT",
+          "OPTIONS",
+          "PATCH"
+        ],
+        "type": "enum"
+      }
+    },
+    "PatchOp": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "add",
+          "remove",
+          "replace",
+          "move",
+          "copy",
+          "test"
+        ],
+        "type": "enum"
+      }
+    },
+    "PayeePaymentMethodPreference": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "UNRESTRICTED",
+          "IMMEDIATE_PAYMENT_REQUIRED"
+        ],
+        "type": "enum"
+      }
+    },
+    "PaymentMethodStandardEntryClassCode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "TEL",
+          "WEB",
+          "CCD",
+          "PPD"
+        ],
+        "type": "enum"
+      }
+    },
+    "PaymentPreferencesOverrideSetupFeeFailureAction": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CONTINUE",
+          "CANCEL"
+        ],
+        "type": "enum"
+      }
+    },
+    "PaymentPreferencesSetupFeeFailureAction": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CONTINUE",
+          "CANCEL"
+        ],
+        "type": "enum"
+      }
+    },
+    "PlanRequestPOSTStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CREATED",
+          "INACTIVE",
+          "ACTIVE"
+        ],
+        "type": "enum"
+      }
+    },
+    "PlanStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CREATED",
+          "INACTIVE",
+          "ACTIVE"
+        ],
+        "type": "enum"
+      }
+    },
+    "PricingSchemePricingModel": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "VOLUME",
+          "TIERED"
+        ],
+        "type": "enum"
+      }
+    },
+    "ShippingDetailType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "SHIPPING",
+          "PICKUP_IN_PERSON"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "SubscriberRequest": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "SubscriptionCaptureRequestCaptureType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "OUTSTANDING_BALANCE"
+        ],
+        "type": "enum"
+      }
+    },
+    "SubscriptionStatusStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "APPROVAL_PENDING",
+          "APPROVED",
+          "ACTIVE",
+          "SUSPENDED",
+          "CANCELLED",
+          "EXPIRED"
+        ],
+        "type": "enum"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

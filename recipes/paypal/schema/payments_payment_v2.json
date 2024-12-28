@@ -1,0 +1,1024 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api-m.paypal.com",
+          "env": "PAYPAL_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "Oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": {
+              "value": "/v1/oauth2/token",
+              "env": "PAYPAL_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "https://uri.paypal.com/services/payments/non-referenced-credit": "Permission to initiate non referenced credit",
+              "https://uri.paypal.com/services/payments/payment/authcapture": "Permission to do non-real time payments like capture on authorization",
+              "https://uri.paypal.com/services/payments/realtimepayment": "Permission to do any real time payment, with support for sale/authorize/order intents",
+              "https://uri.paypal.com/services/payments/refund": "Permission to initiate a refund on a capture transaction",
+              "https://uri.paypal.com/services/payments/reversepayment": "Permission to do any reverse payment"
+            },
+            "clientId": {
+              "env": "PAYPAL_OAUTH2_CLIENT_ID"
+            },
+            "clientSecret": {
+              "env": "PAYPAL_OAUTH2_CLIENT_SECRET"
+            }
+          }
+        }
+      }
+    },
+    "version": "2.5"
+  },
+  "functions": {
+    "authorizations_get": {
+      "request": {
+        "url": "/v2/payments/authorizations/{authorization_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment/authcapture"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "authorization_id": {
+          "description": "The PayPal-generated ID for the authorized payment to void.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorization_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show details for authorized payment",
+      "result_type": {
+        "name": "Authorization2",
+        "type": "named"
+      }
+    },
+    "captures_get": {
+      "request": {
+        "url": "/v2/payments/captures/{capture_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment/authcapture"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "capture_id": {
+          "description": "The PayPal-generated ID for the captured payment to refund.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "capture_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show captured payment details",
+      "result_type": {
+        "name": "Capture2",
+        "type": "named"
+      }
+    },
+    "refunds_get": {
+      "request": {
+        "url": "/v2/payments/refunds/{refund_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/refund"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "refund_id": {
+          "description": "The PayPal-generated ID for the refund for which to show details.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "refund_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show refund details",
+      "result_type": {
+        "name": "Refund",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "MoneyInput": {
+      "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+      "fields": {
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    "PayeeBaseInput": {
+      "description": "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee.",
+      "fields": {
+        "email_address": {
+          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "merchant_common_email_address_v2",
+            "pattern": "(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+            "maxLength": 254,
+            "minLength": 3,
+            "xml": {
+              "name": "email"
+            }
+          }
+        },
+        "merchant_id": {
+          "description": "The account identifier for a PayPal account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_payer_id_v3",
+            "pattern": "^[2-9A-HJ-NP-Z]{13}$",
+            "maxLength": 13,
+            "minLength": 13,
+            "xml": {
+              "name": "account_id"
+            }
+          }
+        }
+      }
+    },
+    "PaymentInstruction2Input": {
+      "description": "Any additional payments instructions during refund payment processing. This object is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability.",
+      "fields": {
+        "platform_fees": {
+          "description": "Specifies the amount that the API caller will contribute to the refund being processed. The amount needs to be lower than platform_fees amount originally captured or the amount that is remaining if multiple refunds have been processed. This field is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PlatformFeeInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "platform_fee"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PlatformFeeInput": {
+      "description": "The platform or partner fee, commission, or brokerage fee that is associated with the transaction. Not a separate or isolated transaction leg from the external perspective. The platform fee is limited in scope and is always associated with the original payment for the purchase unit.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "MoneyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "payee": {
+          "description": "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeBaseInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee_base"
+            }
+          }
+        }
+      }
+    },
+    "ReauthorizeRequestInput": {
+      "description": "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.A reauthorized payment itself has a new honor period of three days.You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.Supports only the `amount` request parameter.Note: This request is currently not supported for Partner use cases.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "Refund": {
+      "description": "The refund information.",
+      "fields": {
+        "create_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        },
+        "status": {
+          "description": "The status of the refund.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RefundStatusStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status_details": {
+          "description": "The details of the refund status.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RefundStatusDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "refund_status_details"
+            }
+          }
+        },
+        "update_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        }
+      }
+    },
+    "RefundRequestInput": {
+      "description": "Refunds a captured payment, by ID. For a full refund, include an empty request body. For a partial refund, include an amount object in the request body.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "custom_id": {
+          "description": "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. The pattern is defined by an external party and supports Unicode.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "invoice_id": {
+          "description": "The API caller-provided external invoice ID for this order. The pattern is defined by an external party and supports Unicode.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "note_to_payer": {
+          "description": "The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. The pattern is defined by an external party and supports Unicode.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "payment_instruction": {
+          "description": "Any additional payments instructions during refund payment processing. This object is only applicable to merchants that have been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability. Please speak to your account manager if you want to use this capability.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentInstruction2Input",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_instruction-2"
+            }
+          }
+        }
+      }
+    },
+    "RefundStatusDetails": {
+      "description": "The details of the refund status.",
+      "fields": {
+        "reason": {
+          "description": "The reason why the refund has the `PENDING` or `FAILED` status.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RefundStatusDetailsReason",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SupplementaryPurchaseDataInput": {
+      "description": "The capture identification-related fields. Includes the invoice ID, custom ID, note to payer, and soft descriptor.",
+      "fields": {
+        "invoice_id": {
+          "description": "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.{1,127}$",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "note_to_payer": {
+          "description": "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.{1,255}$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "authorizations_capture": {
+      "request": {
+        "url": "/v2/payments/authorizations/{authorization_id}/capture",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment/authcapture"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Request-Id": {
+          "description": "The server stores keys for 45 days.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "Prefer": {
+          "description": "The preferred server response upon successful completion of the request. Value is:return=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.return=representation. The server returns a complete resource representation, including the current state of the resource.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Prefer",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "authorization_id": {
+          "description": "The PayPal-generated ID for the authorized payment to void.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorization_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "The capture identification-related fields. Includes the invoice ID, custom ID, note to payer, and soft descriptor.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SupplementaryPurchaseDataInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "supplementary_purchase_data"
+              }
+            }
+          }
+        }
+      },
+      "description": "Capture authorized payment",
+      "result_type": {
+        "name": "Capture2",
+        "type": "named"
+      }
+    },
+    "authorizations_reauthorize": {
+      "request": {
+        "url": "/v2/payments/authorizations/{authorization_id}/reauthorize",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment/authcapture"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Request-Id": {
+          "description": "The server stores keys for 45 days.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "Prefer": {
+          "description": "The preferred server response upon successful completion of the request. Value is:return=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.return=representation. The server returns a complete resource representation, including the current state of the resource.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Prefer",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "authorization_id": {
+          "description": "The PayPal-generated ID for the authorized payment to void.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorization_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.A reauthorized payment itself has a new honor period of three days.You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.Supports only the `amount` request parameter.Note: This request is currently not supported for Partner use cases.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ReauthorizeRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "reauthorize_request"
+              }
+            }
+          }
+        }
+      },
+      "description": "Reauthorize authorized payment",
+      "result_type": {
+        "name": "Authorization2",
+        "type": "named"
+      }
+    },
+    "authorizations_void": {
+      "request": {
+        "url": "/v2/payments/authorizations/{authorization_id}/void",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment/authcapture"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Auth-Assertion": {
+          "description": "An API-caller-provided JSON Web Token (JWT) assertion that identifies the merchant. For details, see [PayPal-Auth-Assertion](/docs/api/reference/api-requests/#paypal-auth-assertion).Note:For three party transactions in which a partner is managing the API calls on behalf of a merchant, the partner must identify the merchant using either a PayPal-Auth-Assertion header or an access token with target_subject.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Auth-Assertion",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "Prefer": {
+          "description": "The preferred server response upon successful completion of the request. Value is:return=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.return=representation. The server returns a complete resource representation, including the current state of the resource.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Prefer",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "authorization_id": {
+          "description": "The PayPal-generated ID for the authorized payment to void.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "authorization_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Void authorized payment",
+      "result_type": {
+        "name": "Authorization2",
+        "type": "named"
+      }
+    },
+    "captures_refund": {
+      "request": {
+        "url": "/v2/payments/captures/{capture_id}/refund",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/refund"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Auth-Assertion": {
+          "description": "An API-caller-provided JSON Web Token (JWT) assertion that identifies the merchant. For details, see [PayPal-Auth-Assertion](/docs/api/reference/api-requests/#paypal-auth-assertion).Note:For three party transactions in which a partner is managing the API calls on behalf of a merchant, the partner must identify the merchant using either a PayPal-Auth-Assertion header or an access token with target_subject.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Auth-Assertion",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "PayPal-Request-Id": {
+          "description": "The server stores keys for 45 days.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "Prefer": {
+          "description": "The preferred server response upon successful completion of the request. Value is:return=minimal. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the id, status and HATEOAS links.return=representation. The server returns a complete resource representation, including the current state of the resource.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "Prefer",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Refunds a captured payment, by ID. For a full refund, include an empty request body. For a partial refund, include an amount object in the request body.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RefundRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "refund_request"
+              }
+            }
+          }
+        },
+        "capture_id": {
+          "description": "The PayPal-generated ID for the captured payment to refund.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "capture_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Refund captured payment",
+      "result_type": {
+        "name": "Refund",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Authorization2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "Capture2": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "RefundStatusDetailsReason": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ECHECK"
+        ],
+        "type": "enum"
+      }
+    },
+    "RefundStatusStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CANCELLED",
+          "FAILED",
+          "PENDING",
+          "COMPLETED"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

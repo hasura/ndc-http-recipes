@@ -1,0 +1,6090 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api-m.paypal.com",
+          "env": "PAYPAL_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "Oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": {
+              "value": "/v1/oauth2/token",
+              "env": "PAYPAL_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "https://uri.paypal.com/services/invoicing/internal": "Manage invoice resource internal clients.",
+              "https://uri.paypal.com/services/invoicing/invoices/read": "For Reading the invoice details.",
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite": "For managing (Create, Update, Delete) invoice."
+            },
+            "clientId": {
+              "env": "PAYPAL_OAUTH2_CLIENT_ID"
+            },
+            "clientSecret": {
+              "env": "PAYPAL_OAUTH2_CLIENT_SECRET"
+            }
+          }
+        }
+      }
+    },
+    "version": "2.3"
+  },
+  "functions": {
+    "invoices_get": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show invoice details",
+      "result_type": {
+        "name": "Invoice",
+        "type": "named"
+      }
+    },
+    "invoices_list": {
+      "request": {
+        "url": "/v2/invoicing/invoices",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "fields": {
+          "description": "The fields to return in the response. Value is `all` or `none`. To return only the template name, ID, and default attributes, specify `none`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "fields",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "(?i)^(all|none)$"
+            }
+          }
+        },
+        "page": {
+          "description": "The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "page_size": {
+          "description": "The maximum number of templates to return in the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        },
+        "total_required": {
+          "description": "Indicates whether the to show total_pages and total_items in the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "total_required",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List invoices",
+      "result_type": {
+        "name": "Invoices",
+        "type": "named"
+      }
+    },
+    "templates_get": {
+      "request": {
+        "url": "/v2/invoicing/templates/{template_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "template_id": {
+          "description": "The ID of the template to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "template_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show template details",
+      "result_type": {
+        "name": "Template",
+        "type": "named"
+      }
+    },
+    "templates_list": {
+      "request": {
+        "url": "/v2/invoicing/templates",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/read"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "fields": {
+          "description": "The fields to return in the response. Value is `all` or `none`. To return only the template name, ID, and default attributes, specify `none`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "fields",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "(?i)^(all|none)$"
+            }
+          }
+        },
+        "page": {
+          "description": "The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "page_size": {
+          "description": "The maximum number of templates to return in the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        }
+      },
+      "description": "List templates",
+      "result_type": {
+        "name": "Templates",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "AddressPortable": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_details": {
+          "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressPortableAddressDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "address_line_1": {
+          "description": "The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address. For example, suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_3": {
+          "description": "The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A kanton.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "admin_area_3": {
+          "description": "A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:Brazil. Suburb, bairro, or neighborhood.India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "admin_area_4": {
+          "description": "The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:The postal sorting code for Guernsey and many French territories, such as French Guiana.The fine-grained administrative levels in China.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "AddressPortableAddressDetails": {
+      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+      "fields": {
+        "building_name": {
+          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "delivery_service": {
+          "description": "The delivery service. Post office box, bag number, or post office name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_name": {
+          "description": "The street name. Just `Drury` in `Drury Lane`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_number": {
+          "description": "The street number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_type": {
+          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "sub_building": {
+          "description": "The first-order entity below a named building or location that represents the sub-premise. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        }
+      }
+    },
+    "AggregatedDiscount": {
+      "description": "The discount. Can be an item- or invoice-level discount, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent.",
+      "fields": {
+        "invoice_discount": {
+          "description": "The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Discount",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "discount"
+            }
+          }
+        },
+        "item_discount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "AggregatedDiscountInput": {
+      "description": "The discount. Can be an item- or invoice-level discount, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent.",
+      "fields": {
+        "invoice_discount": {
+          "description": "The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DiscountInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "discount"
+            }
+          }
+        },
+        "item_discount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "AmountRangeInput": {
+      "description": "The amount range.",
+      "fields": {
+        "lower_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "MoneyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "upper_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "MoneyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "AmountSummaryDetail": {
+      "description": "The invoice amount summary of item total, discount, tax total, and shipping.",
+      "fields": {
+        "breakdown": {
+          "description": "The breakdown of the amount. Includes total item amount, total tax amount, custom amount, and shipping and discounts, if any.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountWithBreakdown",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount_with_breakdown"
+            }
+          }
+        },
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    "AmountSummaryDetailInput": {
+      "description": "The invoice amount summary of item total, discount, tax total, and shipping.",
+      "fields": {
+        "breakdown": {
+          "description": "The breakdown of the amount. Includes total item amount, total tax amount, custom amount, and shipping and discounts, if any.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountWithBreakdownInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount_with_breakdown"
+            }
+          }
+        },
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    "AmountWithBreakdown": {
+      "description": "The breakdown of the amount. Includes total item amount, total tax amount, custom amount, and shipping and discounts, if any.",
+      "fields": {
+        "custom": {
+          "description": "The custom amount to apply to an invoice. If you include a label, you must include a custom amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CustomAmount",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "custom_amount"
+            }
+          }
+        },
+        "discount": {
+          "description": "The discount. Can be an item- or invoice-level discount, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AggregatedDiscount",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "aggregated_discount"
+            }
+          }
+        },
+        "item_total": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "shipping": {
+          "description": "The shipping fee for all items. Includes tax on shipping.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingCost",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_cost"
+            }
+          }
+        },
+        "tax_total": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "AmountWithBreakdownInput": {
+      "description": "The breakdown of the amount. Includes total item amount, total tax amount, custom amount, and shipping and discounts, if any.",
+      "fields": {
+        "custom": {
+          "description": "The custom amount to apply to an invoice. If you include a label, you must include a custom amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CustomAmountInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "custom_amount"
+            }
+          }
+        },
+        "discount": {
+          "description": "The discount. Can be an item- or invoice-level discount, or both. Can be applied as a percent or amount. If you provide both amount and percent, amount takes precedent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AggregatedDiscountInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "aggregated_discount"
+            }
+          }
+        },
+        "item_total": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "shipping": {
+          "description": "The shipping fee for all items. Includes tax on shipping.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingCostInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_cost"
+            }
+          }
+        },
+        "tax_total": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "BusinessName": {
+      "description": "The business name of the party.",
+      "fields": {
+        "business_name": {
+          "description": "Required. The business name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        }
+      }
+    },
+    "BusinessNameInput": {
+      "description": "The business name of the party.",
+      "fields": {
+        "business_name": {
+          "description": "Required. The business name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        }
+      }
+    },
+    "CustomAmount": {
+      "description": "The custom amount to apply to an invoice. If you include a label, you must include a custom amount.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "label": {
+          "description": "The label to the custom amount of the invoice.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50
+          }
+        }
+      }
+    },
+    "CustomAmountInput": {
+      "description": "The custom amount to apply to an invoice. If you include a label, you must include a custom amount.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "label": {
+          "description": "The label to the custom amount of the invoice.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50
+          }
+        }
+      }
+    },
+    "DateRangeInput": {
+      "description": "The date range. Filters invoices by creation date, invoice date, due date, and payment date.",
+      "fields": {
+        "end": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10,
+            "xml": {
+              "name": "date_no_time"
+            }
+          }
+        },
+        "start": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10,
+            "xml": {
+              "name": "date_no_time"
+            }
+          }
+        }
+      }
+    },
+    "DateTimeRangeInput": {
+      "description": "The date and time range. Filters invoices by creation date, invoice date, due date, and payment date.",
+      "fields": {
+        "end": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        },
+        "start": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20,
+            "xml": {
+              "name": "date_time"
+            }
+          }
+        }
+      }
+    },
+    "Discount": {
+      "description": "The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "percent": {
+          "description": "The percentage, as a fixed-point, signed decimal number. For example, define a 19.99% interest rate as `19.99`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_percentage_v2",
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "xml": {
+              "name": "percentage"
+            }
+          }
+        }
+      }
+    },
+    "DiscountInput": {
+      "description": "The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "percent": {
+          "description": "The percentage, as a fixed-point, signed decimal number. For example, define a 19.99% interest rate as `19.99`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_percentage_v2",
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "xml": {
+              "name": "percentage"
+            }
+          }
+        }
+      }
+    },
+    "Invoice": {
+      "description": "The invoice details which includes all information of the invoice like items, billing information.",
+      "fields": {
+        "additional_recipients": {
+          "description": "An array of one or more CC: emails to which notifications are sent. If you omit this parameter, a notification is sent to all CC: email addresses that are part of the invoice.Note: Valid values are email addresses in the `additional_recipients` value associated with the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "ppaas_common_email_address_v2",
+              "pattern": "^.+@[^\"\\-].+$",
+              "maxLength": 254,
+              "minLength": 3,
+              "xml": {
+                "name": "email_address"
+              }
+            }
+          }
+        },
+        "amount": {
+          "description": "The invoice amount summary of item total, discount, tax total, and shipping.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountSummaryDetail",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount_summary_detail"
+            }
+          }
+        },
+        "configuration": {
+          "description": "The template configuration details. Includes tax information, tip, and partial payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateConfiguration",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_configuration"
+            }
+          }
+        },
+        "detail": {
+          "description": "The details of the invoice. Includes invoice number, date, payment terms, and audit metadata.",
+          "type": {
+            "name": "InvoiceDetail",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "invoice_detail"
+            }
+          }
+        },
+        "due_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "gratuity": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 30
+          }
+        },
+        "invoicer": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "InvoicerInfo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "invoicer_info"
+            }
+          }
+        },
+        "items": {
+          "description": "An array of invoice line item information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Item",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "item"
+              }
+            }
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "parent_id": {
+          "description": "The parent ID to an invoice that defines the group invoice to which the invoice is related.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 30
+          }
+        },
+        "payments": {
+          "description": "An array of payments registered against the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Payments",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payments"
+            }
+          }
+        },
+        "primary_recipients": {
+          "description": "The billing and shipping information. Includes name, email, address, phone and language.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "RecipientInfo",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "recipient_info"
+              }
+            }
+          }
+        },
+        "refunds": {
+          "description": "The invoicing refund details. Includes the refund type, date, amount, and method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Refunds",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "refunds"
+            }
+          }
+        },
+        "status": {
+          "description": "The status of the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "InvoiceStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "invoice_status"
+            }
+          }
+        }
+      }
+    },
+    "InvoiceInput": {
+      "description": "The invoice details which includes all information of the invoice like items, billing information.",
+      "fields": {
+        "additional_recipients": {
+          "description": "An array of one or more CC: emails to which notifications are sent. If you omit this parameter, a notification is sent to all CC: email addresses that are part of the invoice.Note: Valid values are email addresses in the `additional_recipients` value associated with the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "ppaas_common_email_address_v2",
+              "pattern": "^.+@[^\"\\-].+$",
+              "maxLength": 254,
+              "minLength": 3,
+              "xml": {
+                "name": "email_address"
+              }
+            }
+          }
+        },
+        "amount": {
+          "description": "The invoice amount summary of item total, discount, tax total, and shipping.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountSummaryDetailInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount_summary_detail"
+            }
+          }
+        },
+        "configuration": {
+          "description": "The template configuration details. Includes tax information, tip, and partial payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateConfigurationInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_configuration"
+            }
+          }
+        },
+        "detail": {
+          "description": "The details of the invoice. Includes invoice number, date, payment terms, and audit metadata.",
+          "type": {
+            "name": "InvoiceDetail",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "invoice_detail"
+            }
+          }
+        },
+        "due_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "gratuity": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "invoicer": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "InvoicerInfo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "invoicer_info"
+            }
+          }
+        },
+        "items": {
+          "description": "An array of invoice line item information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ItemInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "item"
+              }
+            }
+          }
+        },
+        "payments": {
+          "description": "An array of payments registered against the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payments"
+            }
+          }
+        },
+        "primary_recipients": {
+          "description": "The billing and shipping information. Includes name, email, address, phone and language.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "RecipientInfoInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "recipient_info"
+              }
+            }
+          }
+        },
+        "refunds": {
+          "description": "The invoicing refund details. Includes the refund type, date, amount, and method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RefundsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "refunds"
+            }
+          }
+        },
+        "status": {
+          "description": "The status of the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "InvoiceStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "invoice_status"
+            }
+          }
+        }
+      }
+    },
+    "InvoiceNumber": {
+      "description": "The invoice number.",
+      "fields": {
+        "invoice_number": {
+          "description": "The invoice number. If you omit this value, the default is the auto-incremented number from the last number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 25
+          }
+        }
+      }
+    },
+    "Invoices": {
+      "description": "An array of merchant invoices. Includes the total invoices count and [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links) for navigation.",
+      "fields": {
+        "items": {
+          "description": "The list of invoices that match the search criteria.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Invoice",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "invoice"
+              }
+            }
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "total_items": {
+          "description": "The total number of invoices that match the search criteria.Note: Clients MUST NOT assume that the value of total_items is constant. The value MAY change from one request to the next.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "total_pages": {
+          "description": "The total number of pages that are available for the search criteria. Note: Clients MUST NOT assume that the value of total_pages is constant. The value MAY change from one request to the next",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "Item": {
+      "description": "An array of invoice line item information. The maximum items for an invoice is `100`.",
+      "fields": {
+        "description": {
+          "description": "The item description for the invoice line item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1000
+          }
+        },
+        "discount": {
+          "description": "The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Discount",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "discount"
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the invoice line item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 22
+          }
+        },
+        "item_date": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10,
+            "xml": {
+              "name": "date_no_time"
+            }
+          }
+        },
+        "name": {
+          "description": "The item name for the invoice line item.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 200
+          }
+        },
+        "quantity": {
+          "description": "The quantity of the item that the invoicer provides to the payer. Value is from `-1000000` to `1000000`. Supports up to five decimal places.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 14,
+            "minLength": 0
+          }
+        },
+        "tax": {
+          "description": "The tax information. Includes the tax name and tax rate of invoice items. The tax amount is added to the item total.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Tax",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "tax"
+            }
+          }
+        },
+        "unit_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "Money",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "unit_of_measure": {
+          "description": "The unit of measure for the invoiced item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UnitOfMeasure",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "unit_of_measure"
+            }
+          }
+        }
+      }
+    },
+    "ItemInput": {
+      "description": "An array of invoice line item information. The maximum items for an invoice is `100`.",
+      "fields": {
+        "description": {
+          "description": "The item description for the invoice line item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1000
+          }
+        },
+        "discount": {
+          "description": "The discount as a percent or amount at invoice level. The invoice discount amount is subtracted from the item total.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DiscountInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "discount"
+            }
+          }
+        },
+        "item_date": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10,
+            "xml": {
+              "name": "date_no_time"
+            }
+          }
+        },
+        "name": {
+          "description": "The item name for the invoice line item.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 200
+          }
+        },
+        "quantity": {
+          "description": "The quantity of the item that the invoicer provides to the payer. Value is from `-1000000` to `1000000`. Supports up to five decimal places.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 14,
+            "minLength": 0
+          }
+        },
+        "tax": {
+          "description": "The tax information. Includes the tax name and tax rate of invoice items. The tax amount is added to the item total.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TaxInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "tax"
+            }
+          }
+        },
+        "unit_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "MoneyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "unit_of_measure": {
+          "description": "The unit of measure for the invoiced item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UnitOfMeasure",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "unit_of_measure"
+            }
+          }
+        }
+      }
+    },
+    "LinkDescription": {
+      "description": "The request-related [HATEOAS link](/docs/api/reference/api-responses/#hateoas-links) information.",
+      "fields": {
+        "href": {
+          "description": "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "method": {
+          "description": "The HTTP method required to make the related call.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "LinkDescriptionMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "rel": {
+          "description": "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Money": {
+      "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+      "fields": {
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    "MoneyInput": {
+      "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+      "fields": {
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
+          }
+        }
+      }
+    },
+    "NotificationInput": {
+      "description": "The email or SMS notification to send to the invoicer or payer on sending an invoice.",
+      "fields": {
+        "additional_recipients": {
+          "description": "An array of one or more CC: emails to which notifications are sent. If you omit this parameter, a notification is sent to all CC: email addresses that are part of the invoice.Note: Valid values are email addresses in the `additional_recipients` value associated with the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "ppaas_common_email_address_v2",
+              "pattern": "^.+@[^\"\\-].+$",
+              "maxLength": 254,
+              "minLength": 3,
+              "xml": {
+                "name": "email_address"
+              }
+            }
+          }
+        },
+        "note": {
+          "description": "A note to the payer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 4000
+          }
+        },
+        "send_to_invoicer": {
+          "description": "Indicates whether to send a copy of the email to the merchant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "send_to_recipient": {
+          "description": "Indicates whether to send a copy of the email to the recipient.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "subject": {
+          "description": "The subject of the email that is sent as a notification to the recipient.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 4000
+          }
+        }
+      }
+    },
+    "PartialPayment": {
+      "description": "The partial payment details. Includes the minimum amount that the invoicer expects from the payer.",
+      "fields": {
+        "allow_partial_payment": {
+          "description": "Indicates whether the invoice allows a partial payment. If `false`, the invoice must be paid in full. If `true`, the invoice allows partial payments.Note: This feature is not available for users in `India`, `Brazil`, or `Israel`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "minimum_amount_due": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "PartialPaymentInput": {
+      "description": "The partial payment details. Includes the minimum amount that the invoicer expects from the payer.",
+      "fields": {
+        "allow_partial_payment": {
+          "description": "Indicates whether the invoice allows a partial payment. If `false`, the invoice must be paid in full. If `true`, the invoice allows partial payments.Note: This feature is not available for users in `India`, `Brazil`, or `Israel`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "minimum_amount_due": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "PaymentDetail": {
+      "description": "The payment details of the invoice. Includes payment type, method, date, discount, and transaction type.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "method": {
+          "description": "The payment mode or method through which the invoicer can accept the payments.",
+          "type": {
+            "name": "PaymentMethod",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "payment_method"
+            }
+          }
+        },
+        "note": {
+          "description": "A note associated with an external cash or check payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 2000
+          }
+        },
+        "payment_date": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10,
+            "xml": {
+              "name": "date_no_time"
+            }
+          }
+        },
+        "payment_id": {
+          "description": "The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 22
+          }
+        },
+        "shipping_info": {
+          "description": "The business name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BusinessName",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "business_name"
+            }
+          }
+        },
+        "type": {
+          "description": "The payment type. Can be PayPal or an external payment. Includes cash or a check.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "payment_type"
+            }
+          }
+        }
+      }
+    },
+    "PaymentDetailInput": {
+      "description": "The payment details of the invoice. Includes payment type, method, date, discount, and transaction type.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "method": {
+          "description": "The payment mode or method through which the invoicer can accept the payments.",
+          "type": {
+            "name": "PaymentMethod",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "payment_method"
+            }
+          }
+        },
+        "note": {
+          "description": "A note associated with an external cash or check payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 2000
+          }
+        },
+        "payment_date": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10,
+            "xml": {
+              "name": "date_no_time"
+            }
+          }
+        },
+        "payment_id": {
+          "description": "The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 22
+          }
+        },
+        "shipping_info": {
+          "description": "The business name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BusinessNameInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "business_name"
+            }
+          }
+        },
+        "type": {
+          "description": "The payment type. Can be PayPal or an external payment. Includes cash or a check.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "payment_type"
+            }
+          }
+        }
+      }
+    },
+    "PaymentReference": {
+      "description": "The reference to the payment detail.",
+      "fields": {
+        "payment_id": {
+          "description": "The ID for the invoice payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Payments": {
+      "description": "An array of payments registered against the invoice.",
+      "fields": {
+        "paid_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "transactions": {
+          "description": "An array of payment details for the invoice. The payment details of the invoice like payment type, method, date, discount and transaction type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PaymentDetail",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "payment_detail"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PaymentsInput": {
+      "description": "An array of payments registered against the invoice.",
+      "fields": {
+        "paid_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "Phone": {
+      "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
+      "fields": {
+        "country_code": {
+          "description": "The country calling code (CC), in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the CC and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,3}?$",
+            "maxLength": 3,
+            "minLength": 1
+          }
+        },
+        "extension_number": {
+          "description": "The extension number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,15}?$",
+            "maxLength": 15,
+            "minLength": 1
+          }
+        },
+        "national_number": {
+          "description": "The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,14}?$",
+            "maxLength": 14,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "QrConfigInput": {
+      "description": "The configuration for a QR code.",
+      "fields": {
+        "action": {
+          "description": "The type of URL for which to generate a QR code. Valid values are `pay` and `details`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "(?i)^(pay|details)$",
+            "maxLength": 7
+          }
+        },
+        "height": {
+          "description": "The height, in pixels, of the QR code image. Value is from `150` to `500`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 500,
+            "minimum": 150
+          }
+        },
+        "width": {
+          "description": "The width, in pixels, of the QR code image. Value is from `150` to `500`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 500,
+            "minimum": 150
+          }
+        }
+      }
+    },
+    "RecipientInfo": {
+      "description": "The billing and shipping information. Includes name, email, address, phone, and language.",
+      "fields": {
+        "billing_info": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BillingInfo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "billing_info"
+            }
+          }
+        },
+        "shipping_info": {
+          "description": "The business name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BusinessName",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "business_name"
+            }
+          }
+        }
+      }
+    },
+    "RecipientInfoInput": {
+      "description": "The billing and shipping information. Includes name, email, address, phone, and language.",
+      "fields": {
+        "billing_info": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BillingInfo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "billing_info"
+            }
+          }
+        },
+        "shipping_info": {
+          "description": "The business name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BusinessNameInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "business_name"
+            }
+          }
+        }
+      }
+    },
+    "RefundDetail": {
+      "description": "The refund details of the invoice. Includes the refund type, date, amount, and method.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "method": {
+          "description": "The payment mode or method through which the invoicer can accept the payments.",
+          "type": {
+            "name": "PaymentMethod",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "payment_method"
+            }
+          }
+        },
+        "refund_date": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10,
+            "xml": {
+              "name": "date_no_time"
+            }
+          }
+        },
+        "refund_id": {
+          "description": "The ID for a PayPal payment transaction. Required for the `PAYPAL` payment type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 22
+          }
+        },
+        "type": {
+          "description": "The payment type. Can be PayPal or an external payment. Includes cash or a check.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "payment_type"
+            }
+          }
+        }
+      }
+    },
+    "RefundDetailInput": {
+      "description": "The refund details of the invoice. Includes the refund type, date, amount, and method.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "method": {
+          "description": "The payment mode or method through which the invoicer can accept the payments.",
+          "type": {
+            "name": "PaymentMethod",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "payment_method"
+            }
+          }
+        },
+        "refund_date": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10,
+            "xml": {
+              "name": "date_no_time"
+            }
+          }
+        },
+        "type": {
+          "description": "The payment type. Can be PayPal or an external payment. Includes cash or a check.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "payment_type"
+            }
+          }
+        }
+      }
+    },
+    "RefundReference": {
+      "description": "The reference to the refund payment detail.",
+      "fields": {
+        "refund_id": {
+          "description": "The ID of the refund of an invoice payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Refunds": {
+      "description": "The invoicing refund details. Includes the refund type, date, amount, and method.",
+      "fields": {
+        "refund_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "transactions": {
+          "description": "An array of refund details for the invoice. Includes the refund type, date, amount, and method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "RefundDetail",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "refund_detail"
+              }
+            }
+          }
+        }
+      }
+    },
+    "RefundsInput": {
+      "description": "The invoicing refund details. Includes the refund type, date, amount, and method.",
+      "fields": {
+        "refund_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "SearchDataInput": {
+      "description": "The invoice search parameters.",
+      "fields": {
+        "archived": {
+          "description": "Indicates whether to list merchant-archived invoices in the response. Value is:true. Response lists only merchant-archived invoices.false. Response lists only unarchived invoices.null. Response lists all invoices.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "creation_date_range": {
+          "description": "The date and time range. Filters invoices by creation date, invoice date, due date, and payment date.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DateTimeRangeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "date_time_range"
+            }
+          }
+        },
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "due_date_range": {
+          "description": "The date range. Filters invoices by creation date, invoice date, due date, and payment date.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DateRangeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "date_range"
+            }
+          }
+        },
+        "fields": {
+          "description": "A CSV file of fields to return for the user, if available. Because the invoice object can be very large, field filtering is required. Valid collection fields are items, payments, refunds, additional_recipients_info, and attachments.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "invoice_date_range": {
+          "description": "The date range. Filters invoices by creation date, invoice date, due date, and payment date.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DateRangeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "date_range"
+            }
+          }
+        },
+        "invoice_number": {
+          "description": "Filters the search by the invoice number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 25
+          }
+        },
+        "memo": {
+          "description": "A private bookkeeping memo for the user.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 500
+          }
+        },
+        "payment_date_range": {
+          "description": "The date and time range. Filters invoices by creation date, invoice date, due date, and payment date.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DateTimeRangeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "date_time_range"
+            }
+          }
+        },
+        "recipient_business_name": {
+          "description": "Filters the search by the recipient business name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "recipient_email": {
+          "description": "Filters the search by the email address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 254
+          }
+        },
+        "recipient_first_name": {
+          "description": "Filters the search by the recipient first name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "recipient_last_name": {
+          "description": "Filters the search by the recipient last name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "reference": {
+          "description": "The reference data, such as a PO number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "status": {
+          "description": "An array of status values.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "InvoiceStatus",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "invoice_status"
+              }
+            }
+          }
+        },
+        "total_amount_range": {
+          "description": "The amount range.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountRangeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount_range"
+            }
+          }
+        }
+      }
+    },
+    "ShippingCost": {
+      "description": "The shipping fee for all items. Includes tax on shipping.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "tax": {
+          "description": "The tax information. Includes the tax name and tax rate of invoice items. The tax amount is added to the item total.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Tax",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "tax"
+            }
+          }
+        }
+      }
+    },
+    "ShippingCostInput": {
+      "description": "The shipping fee for all items. Includes tax on shipping.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "tax": {
+          "description": "The tax information. Includes the tax name and tax rate of invoice items. The tax amount is added to the item total.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TaxInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "tax"
+            }
+          }
+        }
+      }
+    },
+    "Tax": {
+      "description": "The tax information. Includes the tax name and tax rate of invoice items. The tax amount is added to the item total.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the tax applied on the invoice items.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "percent": {
+          "description": "The percentage, as a fixed-point, signed decimal number. For example, define a 19.99% interest rate as `19.99`.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_percentage_v2",
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "xml": {
+              "name": "percentage"
+            }
+          }
+        }
+      }
+    },
+    "TaxInput": {
+      "description": "The tax information. Includes the tax name and tax rate of invoice items. The tax amount is added to the item total.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the tax applied on the invoice items.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "percent": {
+          "description": "The percentage, as a fixed-point, signed decimal number. For example, define a 19.99% interest rate as `19.99`.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_percentage_v2",
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "xml": {
+              "name": "percentage"
+            }
+          }
+        }
+      }
+    },
+    "Template": {
+      "description": "The template with invoice details to load with all captured fields.",
+      "fields": {
+        "default_template": {
+          "description": "Indicates whether this template is the default template. A invoicer can have one default template.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the template.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 30
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "name": {
+          "description": "The template name.Note: The template name must be unique.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 500,
+            "minLength": 1
+          }
+        },
+        "settings": {
+          "description": "The template settings. Sets a template as the default template or edit template.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateSettings",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_settings"
+            }
+          }
+        },
+        "standard_template": {
+          "description": "Indicates whether this template is a invoicer-created custom template. The system generates non-custom templates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "template_info": {
+          "description": "The template details. Includes invoicer business information, invoice recipients, items, and configuration.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateInfo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_info"
+            }
+          }
+        },
+        "unit_of_measure": {
+          "description": "The unit of measure for the invoiced item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UnitOfMeasure",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "unit_of_measure"
+            }
+          }
+        }
+      }
+    },
+    "TemplateConfiguration": {
+      "description": "The template configuration details. Includes tax information, tip, and partial payment.",
+      "fields": {
+        "allow_tip": {
+          "description": "Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.Note: This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "partial_payment": {
+          "description": "The partial payment details. Includes the minimum amount that the invoicer expects from the payer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PartialPayment",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "partial_payment"
+            }
+          }
+        },
+        "tax_calculated_after_discount": {
+          "description": "Indicates whether the tax is calculated before or after a discount. If `false`, the tax is calculated before a discount. If `true`, the tax is calculated after a discount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "tax_inclusive": {
+          "description": "Indicates whether the unit price includes tax.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "TemplateConfigurationInput": {
+      "description": "The template configuration details. Includes tax information, tip, and partial payment.",
+      "fields": {
+        "allow_tip": {
+          "description": "Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.Note: This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "partial_payment": {
+          "description": "The partial payment details. Includes the minimum amount that the invoicer expects from the payer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PartialPaymentInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "partial_payment"
+            }
+          }
+        },
+        "tax_calculated_after_discount": {
+          "description": "Indicates whether the tax is calculated before or after a discount. If `false`, the tax is calculated before a discount. If `true`, the tax is calculated after a discount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "tax_inclusive": {
+          "description": "Indicates whether the unit price includes tax.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "TemplateDisplayPreference": {
+      "description": "The template display preference.",
+      "fields": {
+        "hidden": {
+          "description": "Indicates whether to show or hide this field.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "TemplateDisplayPreferenceInput": {
+      "description": "The template display preference.",
+      "fields": {
+        "hidden": {
+          "description": "Indicates whether to show or hide this field.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "TemplateInfo": {
+      "description": "The template details. Includes invoicer business information, invoice recipients, items, and configuration.",
+      "fields": {
+        "additional_recipients": {
+          "description": "An array of one or more CC: emails to which notifications are sent. If you omit this parameter, a notification is sent to all CC: email addresses that are part of the invoice.Note: Valid values are email addresses in the `additional_recipients` value associated with the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "ppaas_common_email_address_v2",
+              "pattern": "^.+@[^\"\\-].+$",
+              "maxLength": 254,
+              "minLength": 3,
+              "xml": {
+                "name": "email_address"
+              }
+            }
+          }
+        },
+        "amount": {
+          "description": "The invoice amount summary of item total, discount, tax total, and shipping.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountSummaryDetail",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount_summary_detail"
+            }
+          }
+        },
+        "configuration": {
+          "description": "The template configuration details. Includes tax information, tip, and partial payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateConfiguration",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_configuration"
+            }
+          }
+        },
+        "detail": {
+          "description": "The template-related details. Includes notes, terms and conditions, memo, and attachments.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateDetail",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_detail"
+            }
+          }
+        },
+        "due_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "invoicer": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "InvoicerInfo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "invoicer_info"
+            }
+          }
+        },
+        "items": {
+          "description": "An array of invoice line-item information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Item",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "item"
+              }
+            }
+          }
+        },
+        "primary_recipients": {
+          "description": "The billing and shipping information. Includes name, email, address, phone, and language.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "RecipientInfo",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "recipient_info"
+              }
+            }
+          }
+        }
+      }
+    },
+    "TemplateInfoInput": {
+      "description": "The template details. Includes invoicer business information, invoice recipients, items, and configuration.",
+      "fields": {
+        "additional_recipients": {
+          "description": "An array of one or more CC: emails to which notifications are sent. If you omit this parameter, a notification is sent to all CC: email addresses that are part of the invoice.Note: Valid values are email addresses in the `additional_recipients` value associated with the invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "ppaas_common_email_address_v2",
+              "pattern": "^.+@[^\"\\-].+$",
+              "maxLength": 254,
+              "minLength": 3,
+              "xml": {
+                "name": "email_address"
+              }
+            }
+          }
+        },
+        "amount": {
+          "description": "The invoice amount summary of item total, discount, tax total, and shipping.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountSummaryDetailInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount_summary_detail"
+            }
+          }
+        },
+        "configuration": {
+          "description": "The template configuration details. Includes tax information, tip, and partial payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateConfigurationInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_configuration"
+            }
+          }
+        },
+        "detail": {
+          "description": "The template-related details. Includes notes, terms and conditions, memo, and attachments.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateDetail",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_detail"
+            }
+          }
+        },
+        "due_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "invoicer": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "InvoicerInfo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "invoicer_info"
+            }
+          }
+        },
+        "items": {
+          "description": "An array of invoice line-item information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ItemInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "item"
+              }
+            }
+          }
+        },
+        "primary_recipients": {
+          "description": "The billing and shipping information. Includes name, email, address, phone, and language.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "RecipientInfoInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "recipient_info"
+              }
+            }
+          }
+        }
+      }
+    },
+    "TemplateInput": {
+      "description": "The template with invoice details to load with all captured fields.",
+      "fields": {
+        "default_template": {
+          "description": "Indicates whether this template is the default template. A invoicer can have one default template.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "name": {
+          "description": "The template name.Note: The template name must be unique.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 500,
+            "minLength": 1
+          }
+        },
+        "settings": {
+          "description": "The template settings. Sets a template as the default template or edit template.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateSettingsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_settings"
+            }
+          }
+        },
+        "template_info": {
+          "description": "The template details. Includes invoicer business information, invoice recipients, items, and configuration.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateInfoInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_info"
+            }
+          }
+        },
+        "unit_of_measure": {
+          "description": "The unit of measure for the invoiced item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UnitOfMeasure",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "unit_of_measure"
+            }
+          }
+        }
+      }
+    },
+    "TemplateItemSetting": {
+      "description": "The template item setting. Sets a template as the default template or edit template.",
+      "fields": {
+        "display_preference": {
+          "description": "The template display preference.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateDisplayPreference",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_display_preference"
+            }
+          }
+        },
+        "field_name": {
+          "description": "The field names for the invoice line items in the template.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateItemField",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "template_item_field"
+            }
+          }
+        }
+      }
+    },
+    "TemplateItemSettingInput": {
+      "description": "The template item setting. Sets a template as the default template or edit template.",
+      "fields": {
+        "display_preference": {
+          "description": "The template display preference.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateDisplayPreferenceInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_display_preference"
+            }
+          }
+        },
+        "field_name": {
+          "description": "The field names for the invoice line items in the template.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateItemField",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "template_item_field"
+            }
+          }
+        }
+      }
+    },
+    "TemplateSettings": {
+      "description": "The template settings. Sets a template as the default template or edit template.",
+      "fields": {
+        "template_item_settings": {
+          "description": "The template item headers display preference.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TemplateItemSetting",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "template_item_setting"
+              }
+            }
+          }
+        },
+        "template_subtotal_settings": {
+          "description": "The template subtotal headers display preference.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TemplateSubtotalSetting",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "template_subtotal_setting"
+              }
+            }
+          }
+        }
+      }
+    },
+    "TemplateSettingsInput": {
+      "description": "The template settings. Sets a template as the default template or edit template.",
+      "fields": {
+        "template_item_settings": {
+          "description": "The template item headers display preference.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TemplateItemSettingInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "template_item_setting"
+              }
+            }
+          }
+        },
+        "template_subtotal_settings": {
+          "description": "The template subtotal headers display preference.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "TemplateSubtotalSettingInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "template_subtotal_setting"
+              }
+            }
+          }
+        }
+      }
+    },
+    "TemplateSubtotalSetting": {
+      "description": "The template subtotal setting. Includes the field name and display preference.",
+      "fields": {
+        "display_preference": {
+          "description": "The template display preference.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateDisplayPreference",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_display_preference"
+            }
+          }
+        },
+        "field_name": {
+          "description": "The field names in the template for discount, shipping, and custom amounts.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateSubtotalField",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "template_subtotal_field"
+            }
+          }
+        }
+      }
+    },
+    "TemplateSubtotalSettingInput": {
+      "description": "The template subtotal setting. Includes the field name and display preference.",
+      "fields": {
+        "display_preference": {
+          "description": "The template display preference.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateDisplayPreferenceInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "template_display_preference"
+            }
+          }
+        },
+        "field_name": {
+          "description": "The field names in the template for discount, shipping, and custom amounts.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TemplateSubtotalField",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "name": "template_subtotal_field"
+            }
+          }
+        }
+      }
+    },
+    "Templates": {
+      "description": "An array of merchant-created templates with associated details that include the emails, addresses, and phone numbers from the user's PayPal profile.",
+      "fields": {
+        "addresses": {
+          "description": "An array of addresses in the user's PayPal profile.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "AddressPortable",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "address_portable"
+              }
+            }
+          }
+        },
+        "emails": {
+          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_email_address_v2",
+            "pattern": "^.+@[^\"\\-].+$",
+            "maxLength": 254,
+            "minLength": 3,
+            "xml": {
+              "name": "email_address"
+            }
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "phones": {
+          "description": "An array of phone numbers in the user's PayPal profile.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Phone",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "phone"
+              }
+            }
+          }
+        },
+        "templates": {
+          "description": "An array of details for each template. If `fields` is `none`, returns only the template name, ID, and default status.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Template",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "template"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "invoices_cancel": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}/cancel",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The email or SMS notification to send to the invoicer or payer on sending an invoice.",
+          "type": {
+            "name": "NotificationInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "notification"
+              }
+            }
+          }
+        },
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Cancel sent invoice",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "invoices_create": {
+      "request": {
+        "url": "/v2/invoicing/invoices",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The invoice details which includes all information of the invoice like items, billing information.",
+          "type": {
+            "name": "InvoiceInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "invoice"
+              }
+            }
+          }
+        }
+      },
+      "description": "Create draft invoice",
+      "result_type": {
+        "name": "Invoice",
+        "type": "named"
+      }
+    },
+    "invoices_delete": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}",
+        "method": "delete",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete invoice",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "invoices_generate_qr_code": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}/generate-qr-code",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The configuration for a QR code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "QrConfigInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "qr_config"
+              }
+            }
+          }
+        },
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Generate QR code",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "invoices_payments": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}/payments",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The payment details of the invoice. Includes payment type, method, date, discount, and transaction type.",
+          "type": {
+            "name": "PaymentDetailInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "payment_detail"
+              }
+            }
+          }
+        },
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Record payment for invoice",
+      "result_type": {
+        "name": "PaymentReference",
+        "type": "named"
+      }
+    },
+    "invoices_payments_delete": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}/payments/{transaction_id}",
+        "method": "delete",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "transaction_id": {
+          "description": "The ID of the external refund transaction to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "transaction_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete external payment",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "invoices_refunds": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}/refunds",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The refund details of the invoice. Includes the refund type, date, amount, and method.",
+          "type": {
+            "name": "RefundDetailInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "refund_detail"
+              }
+            }
+          }
+        },
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Record refund for invoice",
+      "result_type": {
+        "name": "RefundReference",
+        "type": "named"
+      }
+    },
+    "invoices_refunds_delete": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}/refunds/{transaction_id}",
+        "method": "delete",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "transaction_id": {
+          "description": "The ID of the external refund transaction to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "transaction_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete external refund",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "invoices_remind": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}/remind",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The email or SMS notification to send to the invoicer or payer on sending an invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NotificationInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "notification"
+              }
+            }
+          }
+        },
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Send invoice reminder",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "invoices_search_invoices": {
+      "request": {
+        "url": "/v2/invoicing/search-invoices",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/read"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The invoice search parameters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SearchDataInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "search_data"
+              }
+            }
+          }
+        },
+        "page": {
+          "description": "The page number to be retrieved, for the list of templates. So, a combination of `page=1` and `page_size=20` returns the first 20 templates. A combination of `page=2` and `page_size=20` returns the next 20 templates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "page_size": {
+          "description": "The maximum number of templates to return in the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        },
+        "total_required": {
+          "description": "Indicates whether the to show total_pages and total_items in the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "total_required",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Search for invoices",
+      "result_type": {
+        "name": "Invoices",
+        "type": "named"
+      }
+    },
+    "invoices_send": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}/send",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The email or SMS notification to send to the invoicer or payer on sending an invoice.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NotificationInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "notification"
+              }
+            }
+          }
+        },
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Send invoice",
+      "result_type": {
+        "name": "LinkDescription",
+        "type": "named"
+      }
+    },
+    "invoices_update": {
+      "request": {
+        "url": "/v2/invoicing/invoices/{invoice_id}",
+        "method": "put",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The invoice details which includes all information of the invoice like items, billing information.",
+          "type": {
+            "name": "InvoiceInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "invoice"
+              }
+            }
+          }
+        },
+        "invoice_id": {
+          "description": "The ID of the draft invoice to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "invoice_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "send_to_invoicer": {
+          "description": "Indicates whether to send the invoice update notification to the merchant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "send_to_invoicer",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
+        "send_to_recipient": {
+          "description": "Indicates whether to send the invoice update notification to the recipient.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "send_to_recipient",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Fully update invoice",
+      "result_type": {
+        "name": "Invoice",
+        "type": "named"
+      }
+    },
+    "invoicing_generate_next_invoice_number": {
+      "request": {
+        "url": "/v2/invoicing/generate-next-invoice-number",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Generate invoice number",
+      "result_type": {
+        "name": "InvoiceNumber",
+        "type": "named"
+      }
+    },
+    "templates_create": {
+      "request": {
+        "url": "/v2/invoicing/templates",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The template with invoice details to load with all captured fields.",
+          "type": {
+            "name": "TemplateInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "template"
+              }
+            }
+          }
+        }
+      },
+      "description": "Create template",
+      "result_type": {
+        "name": "Template",
+        "type": "named"
+      }
+    },
+    "templates_delete": {
+      "request": {
+        "url": "/v2/invoicing/templates/{template_id}",
+        "method": "delete",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "template_id": {
+          "description": "The ID of the template to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "template_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete template",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "templates_update": {
+      "request": {
+        "url": "/v2/invoicing/templates/{template_id}",
+        "method": "put",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "The template with invoice details to load with all captured fields.",
+          "type": {
+            "name": "TemplateInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "template"
+              }
+            }
+          }
+        },
+        "template_id": {
+          "description": "The ID of the template to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "template_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Fully update template",
+      "result_type": {
+        "name": "Template",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "BillingInfo": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "InvoiceDetail": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "InvoiceStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DRAFT",
+          "SENT",
+          "SCHEDULED",
+          "PAID",
+          "MARKED_AS_PAID",
+          "CANCELLED",
+          "REFUNDED",
+          "PARTIALLY_PAID",
+          "PARTIALLY_REFUNDED",
+          "MARKED_AS_REFUNDED",
+          "UNPAID",
+          "PAYMENT_PENDING"
+        ],
+        "type": "enum"
+      }
+    },
+    "InvoicerInfo": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "LinkDescriptionMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "HEAD",
+          "CONNECT",
+          "OPTIONS",
+          "PATCH"
+        ],
+        "type": "enum"
+      }
+    },
+    "PaymentMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "BANK_TRANSFER",
+          "CASH",
+          "CHECK",
+          "CREDIT_CARD",
+          "DEBIT_CARD",
+          "PAYPAL",
+          "WIRE_TRANSFER",
+          "OTHER"
+        ],
+        "type": "enum"
+      }
+    },
+    "PaymentType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "PAYPAL",
+          "EXTERNAL"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TemplateDetail": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "TemplateItemField": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ITEMS_QUANTITY",
+          "ITEMS_DESCRIPTION",
+          "ITEMS_DATE",
+          "ITEMS_DISCOUNT",
+          "ITEMS_TAX"
+        ],
+        "type": "enum"
+      }
+    },
+    "TemplateSubtotalField": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DISCOUNT",
+          "SHIPPING",
+          "CUSTOM"
+        ],
+        "type": "enum"
+      }
+    },
+    "UnitOfMeasure": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "QUANTITY",
+          "HOURS",
+          "AMOUNT"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}

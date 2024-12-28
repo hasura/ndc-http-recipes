@@ -1,0 +1,342 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api-m.paypal.com",
+          "env": "PAYPAL_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "Oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": {
+              "value": "/v1/oauth2/token",
+              "env": "PAYPAL_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "https://uri.paypal.com/services/customer/partner": "Manage seller resources.",
+              "https://uri.paypal.com/services/customer/partner-referrals": "Manage referral data shared by Partner with PayPal. To be used by only internal apps",
+              "https://uri.paypal.com/services/customer/partner-referrals/readwrite": "Manage external referral data with PayPal"
+            },
+            "clientId": {
+              "env": "PAYPAL_OAUTH2_CLIENT_ID"
+            },
+            "clientSecret": {
+              "env": "PAYPAL_OAUTH2_CLIENT_SECRET"
+            }
+          }
+        }
+      }
+    },
+    "version": "2.4"
+  },
+  "functions": {
+    "partner_referrals_read": {
+      "request": {
+        "url": "/v2/customer/partner-referrals/{partner_referral_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/customer/partner-referrals/readwrite"
+            ]
+          },
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/customer/partner-referrals"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "partner_referral_id": {
+          "description": "The ID of the partner-referrals data for which to show details.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "partner_referral_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show referral data",
+      "result_type": {
+        "name": "ReferralDataResponse",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "Account": {
+      "description": "Common account object to hold the account related details of the customer.",
+      "fields": {
+        "business_entity": {
+          "description": "The business entity of the account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BusinessEntity",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "business_entity"
+            }
+          }
+        },
+        "individual_owners": {
+          "description": "List of owners in the account. There should be only one primary account owner which is mentioned in their role_type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "IndividualOwner",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "xml": {
+                "name": "individual_owner"
+              }
+            }
+          }
+        }
+      }
+    },
+    "AccountInput": {
+      "description": "Common account object to hold the account related details of the customer.",
+      "fields": {
+        "business_entity": {
+          "description": "The business entity of the account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BusinessEntity",
+              "type": "named"
+            }
+          },
+          "http": {
+            "xml": {
+              "name": "business_entity"
+            }
+          }
+        },
+        "individual_owners": {
+          "description": "List of owners in the account. There should be only one primary account owner which is mentioned in their role_type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "IndividualOwner",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "xml": {
+                "name": "individual_owner"
+              }
+            }
+          }
+        }
+      }
+    },
+    "CreateReferralDataResponse": {
+      "description": "The shared referral data.",
+      "fields": {
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/overview/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        }
+      }
+    },
+    "ReferralDataResponse": {
+      "description": "The share referral data response.",
+      "fields": {
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/overview/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ]
+          }
+        },
+        "partner_referral_id": {
+          "description": "The ID to access the customer's data shared by the partner with PayPal.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Za-z_-.]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "referral_data": {
+          "description": "Common account object to hold the account related details of the customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Account",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "account"
+            }
+          }
+        },
+        "submitter_payer_id": {
+          "description": "The payer ID of the partner who shared the referral data.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z]+$",
+            "maxLength": 20,
+            "minLength": 1
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "partner_referrals_create": {
+      "request": {
+        "url": "/v2/customer/partner-referrals",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/customer/partner-referrals/readwrite"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Common account object to hold the account related details of the customer.",
+          "type": {
+            "name": "AccountInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "account"
+              }
+            }
+          }
+        }
+      },
+      "description": "Create partner referral",
+      "result_type": {
+        "name": "CreateReferralDataResponse",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "BusinessEntity": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "IndividualOwner": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}

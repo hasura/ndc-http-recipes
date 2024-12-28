@@ -1,0 +1,1830 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api-m.paypal.com",
+          "env": "PAYPAL_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "Oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": {
+              "value": "/v1/oauth2/token",
+              "env": "PAYPAL_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "https://uri.paypal.com/services/applications/verify-webhook-signature": "Verify Webhook Signature",
+              "https://uri.paypal.com/services/applications/webhooks": "Access/update Webhooks."
+            },
+            "clientId": {
+              "env": "PAYPAL_OAUTH2_CLIENT_ID"
+            },
+            "clientSecret": {
+              "env": "PAYPAL_OAUTH2_CLIENT_SECRET"
+            }
+          }
+        }
+      }
+    },
+    "version": "1.11"
+  },
+  "functions": {
+    "event_types_list": {
+      "request": {
+        "url": "/v1/notifications/webhooks/{webhook_id}/event-types",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "webhook_id": {
+          "description": "The ID of the webhook for which to list subscriptions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "webhook_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List event subscriptions for webhook",
+      "result_type": {
+        "name": "EventTypeList",
+        "type": "named"
+      }
+    },
+    "webhooks_event_types_list": {
+      "request": {
+        "url": "/v1/notifications/webhooks-event-types",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "List available events",
+      "result_type": {
+        "name": "EventTypeList",
+        "type": "named"
+      }
+    },
+    "webhooks_events_get": {
+      "request": {
+        "url": "/v1/notifications/webhooks-events/{event_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "event_id": {
+          "description": "The ID of the webhook event notification to resend.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "event_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^[a-zA-Z0-9]+$",
+              "maxLength": 50
+            }
+          }
+        }
+      },
+      "description": "Show event notification details",
+      "result_type": {
+        "name": "Event",
+        "type": "named"
+      }
+    },
+    "webhooks_events_list": {
+      "request": {
+        "url": "/v1/notifications/webhooks-events",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "end_time": {
+          "description": "Filters the webhook event notifications in the response to those created on or after the `start_time` and on or before this date and time. Both values are in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6) format. Example: `end_time=2013-03-06T11:00:00Z`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "end_time",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "event_type": {
+          "description": "Filters the response to a single event.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "event_type",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page_size": {
+          "description": "The number of webhook event notifications to return in the response.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "start_time": {
+          "description": "Filters the webhook event notifications in the response to those created on or after this date and time and on or before the `end_time` value. Both values are in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6) format. Example: `start_time=2013-03-06T11:00:00Z`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "start_time",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "transaction_id": {
+          "description": "Filters the response to a single transaction, by ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "transaction_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List event notifications",
+      "result_type": {
+        "name": "EventList",
+        "type": "named"
+      }
+    },
+    "webhooks_get": {
+      "request": {
+        "url": "/v1/notifications/webhooks/{webhook_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "webhook_id": {
+          "description": "The ID of the webhook for which to list subscriptions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "webhook_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show webhook details",
+      "result_type": {
+        "name": "Webhook",
+        "type": "named"
+      }
+    },
+    "webhooks_list": {
+      "request": {
+        "url": "/v1/notifications/webhooks",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "anchor_type": {
+          "description": "Filters the webhooks in the response by an `anchor_id` entity type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebhooksListAnchorType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "anchor_type",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List webhooks",
+      "result_type": {
+        "name": "WebhookList",
+        "type": "named"
+      }
+    },
+    "webhooks_lookup_get": {
+      "request": {
+        "url": "/v1/notifications/webhooks-lookup/{webhook_lookup_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "webhook_lookup_id": {
+          "description": "The ID of the webhook lookup to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "webhook_lookup_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show webhook lookup details",
+      "result_type": {
+        "name": "WebhooksLookup",
+        "type": "named"
+      }
+    },
+    "webhooks_lookup_list": {
+      "request": {
+        "url": "/v1/notifications/webhooks-lookup",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "List webhook lookups",
+      "result_type": {
+        "name": "WebhookLookupList",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "Event": {
+      "description": "A webhook event notification.",
+      "fields": {
+        "create_time": {
+          "description": "The date and time when the webhook event notification was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "event_type": {
+          "description": "The event that triggered the webhook event notification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "event_version": {
+          "description": "The event version in the webhook notification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+.[0-9]+)$",
+            "xml": {
+              "name": "event_version"
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the webhook event notification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "resource": {
+          "description": "The resource that triggered the webhook event notification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "resource_type": {
+          "description": "The name of the resource related to the webhook notification event.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "resource_version": {
+          "description": "The resource version in the webhook notification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+.[0-9]+)$",
+            "xml": {
+              "name": "resource_version"
+            }
+          }
+        },
+        "summary": {
+          "description": "A summary description for the event notification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "EventInput": {
+      "description": "A webhook event notification.",
+      "fields": {
+        "event_version": {
+          "description": "The event version in the webhook notification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+.[0-9]+)$",
+            "xml": {
+              "name": "event_version"
+            }
+          }
+        },
+        "resource_version": {
+          "description": "The resource version in the webhook notification.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+.[0-9]+)$",
+            "xml": {
+              "name": "resource_version"
+            }
+          }
+        }
+      }
+    },
+    "EventList": {
+      "description": "A list of webhooks events.",
+      "fields": {
+        "count": {
+          "description": "The number of items in each range of results. Note that the response might have fewer items than the requested `page_size` value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "events": {
+          "description": "An array of webhooks events.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Event",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "EventResendInput": {
+      "description": "Resends a webhook event notification, by ID.",
+      "fields": {
+        "webhook_ids": {
+          "description": "An array of webhook account IDs.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "EventType": {
+      "description": "An event type.",
+      "fields": {
+        "description": {
+          "description": "A human-readable description of the event.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "name": {
+          "description": "The unique event name.Note: To subscribe to all events, including events as they are added, specify an `*` as the value to represent a wildcard.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "resource_versions": {
+          "description": "Identifier for the event type example: 1.0/2.0 etc.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "status": {
+          "description": "The status of a webhook event.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "EventTypeInput": {
+      "description": "An event type.",
+      "fields": {
+        "name": {
+          "description": "The unique event name.Note: To subscribe to all events, including events as they are added, specify an `*` as the value to represent a wildcard.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "EventTypeList": {
+      "description": "A list of webhook events.",
+      "fields": {
+        "event_types": {
+          "description": "An array of webhook events.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "EventType",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "LinkDescription": {
+      "description": "The request-related [HATEOAS link](/docs/api/reference/api-responses/#hateoas-links) information.",
+      "fields": {
+        "href": {
+          "description": "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "method": {
+          "description": "The HTTP method required to make the related call.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "LinkDescriptionMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "rel": {
+          "description": "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "PatchInput": {
+      "description": "The JSON patch object to apply partial updates to resources.",
+      "fields": {
+        "from": {
+          "description": "The JSON Pointer to the target document location from which to move the value. Required for the move operation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "op": {
+          "description": "The operation.",
+          "type": {
+            "name": "PatchOp",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "path": {
+          "description": "The JSON Pointer to the target document location at which to complete the operation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The value to apply. The remove operation does not require a value.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {}
+        }
+      }
+    },
+    "SimulateEventInput": {
+      "description": "Simulates a mock webhook event.",
+      "fields": {
+        "event_type": {
+          "description": "The event name. Specify one of the subscribed events. For each request, provide only one event.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z0-9.]+$",
+            "maxLength": 50
+          }
+        },
+        "resource_version": {
+          "description": "The identifier for event type ex: 1.0/2.0 etc.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The URL for the webhook endpoint. If omitted, the webhook ID is required.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 2048
+          }
+        },
+        "webhook_id": {
+          "description": "The ID of the webhook. If omitted, the URL is required.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z0-9]+$",
+            "maxLength": 50
+          }
+        }
+      }
+    },
+    "VerifyWebhookSignatureInput": {
+      "description": "A verify webhook signature request.",
+      "fields": {
+        "auth_algo": {
+          "description": "The algorithm that PayPal uses to generate the signature and that you can use to verify the signature. Extract this value from the `PAYPAL-AUTH-ALGO` response header, which is received with the webhook notification.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z0-9]+$",
+            "maxLength": 100
+          }
+        },
+        "cert_url": {
+          "description": "The X.509 public key certificate. Download the certificate from this URL and use it to verify the signature. Extract this value from the `PAYPAL-CERT-URL` response header, which is received with the webhook notification.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 500
+          }
+        },
+        "transmission_id": {
+          "description": "The ID of the HTTP transmission. Contained in the `PAYPAL-TRANSMISSION-ID` header of the notification message.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^(?!\\d+$)\\w+\\S+",
+            "maxLength": 50
+          }
+        },
+        "transmission_sig": {
+          "description": "The PayPal-generated asymmetric signature. Appears in the `PAYPAL-TRANSMISSION-SIG` header of the notification message.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^(?!\\d+$)\\w+\\S+",
+            "maxLength": 500
+          }
+        },
+        "transmission_time": {
+          "description": "The date and time of the HTTP transmission, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Appears in the `PAYPAL-TRANSMISSION-TIME` header of the notification message.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time",
+            "maxLength": 100
+          }
+        },
+        "webhook_event": {
+          "description": "A webhook event notification.",
+          "type": {
+            "name": "EventInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "event"
+            }
+          }
+        },
+        "webhook_id": {
+          "description": "The ID of the webhook as configured in your Developer Portal account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z0-9]+$",
+            "maxLength": 50
+          }
+        }
+      }
+    },
+    "VerifyWebhookSignatureResponse": {
+      "description": "The verify webhook signature response.",
+      "fields": {
+        "verification_status": {
+          "description": "The status of the signature verification.",
+          "type": {
+            "name": "VerifyWebhookSignatureResponseVerificationStatus",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Webhook": {
+      "description": "One or more webhook objects.",
+      "fields": {
+        "event_types": {
+          "description": "An array of events to which to subscribe your webhook. To subscribe to all events, including events as they are added, specify the asterisk wild card. To replace the `event_types` array, specify the asterisk wild card. To list all supported events, list available events.",
+          "type": {
+            "element_type": {
+              "name": "EventType",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "event_type"
+              }
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the webhook.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "url": {
+          "description": "The URL that is configured to listen on `localhost` for incoming `POST` notification messages that contain event information.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 2048
+          }
+        }
+      }
+    },
+    "WebhookInput": {
+      "description": "One or more webhook objects.",
+      "fields": {
+        "event_types": {
+          "description": "An array of events to which to subscribe your webhook. To subscribe to all events, including events as they are added, specify the asterisk wild card. To replace the `event_types` array, specify the asterisk wild card. To list all supported events, list available events.",
+          "type": {
+            "element_type": {
+              "name": "EventTypeInput",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "event_type"
+              }
+            }
+          }
+        },
+        "url": {
+          "description": "The URL that is configured to listen on `localhost` for incoming `POST` notification messages that contain event information.",
+          "type": {
+            "name": "URI",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 2048
+          }
+        }
+      }
+    },
+    "WebhookList": {
+      "description": "A list of webhooks.",
+      "fields": {
+        "webhooks": {
+          "description": "An array of webhooks.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Webhook",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "WebhookLookupList": {
+      "description": "A list of webhook lookups.",
+      "fields": {
+        "webhooks_lookups": {
+          "description": "An array of webhook lookups.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "WebhooksLookup",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "WebhooksLookup": {
+      "description": "The webhook lookup details.",
+      "fields": {
+        "client_id": {
+          "description": "The application client ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^(?!\\d+$)\\w+\\S+",
+            "maxLength": 128
+          }
+        },
+        "id": {
+          "description": "The ID of the webhook lookup.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "simulate_event_post": {
+      "request": {
+        "url": "/v1/notifications/simulate-event",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Simulates a mock webhook event.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SimulateEventInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "simulate_event"
+              }
+            }
+          }
+        }
+      },
+      "description": "Simulate webhook event",
+      "result_type": {
+        "name": "Event",
+        "type": "named"
+      }
+    },
+    "verify_webhook_signature_post": {
+      "request": {
+        "url": "/v1/notifications/verify-webhook-signature",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks",
+              "https://uri.paypal.com/services/applications/verify-webhook-signature"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "A verify webhook signature request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VerifyWebhookSignatureInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "verify_webhook_signature"
+              }
+            }
+          }
+        }
+      },
+      "description": "Verify webhook signature",
+      "result_type": {
+        "name": "VerifyWebhookSignatureResponse",
+        "type": "named"
+      }
+    },
+    "webhooks_delete": {
+      "request": {
+        "url": "/v1/notifications/webhooks/{webhook_id}",
+        "method": "delete",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "webhook_id": {
+          "description": "The ID of the webhook for which to list subscriptions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "webhook_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete webhook",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "webhooks_events_resend": {
+      "request": {
+        "url": "/v1/notifications/webhooks-events/{event_id}/resend",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Resends a webhook event notification, by ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "EventResendInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "event_resend"
+              }
+            }
+          }
+        },
+        "event_id": {
+          "description": "The ID of the webhook event notification to resend.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "event_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^[a-zA-Z0-9]+$",
+              "maxLength": 50
+            }
+          }
+        }
+      },
+      "description": "Resend event notification",
+      "result_type": {
+        "name": "Event",
+        "type": "named"
+      }
+    },
+    "webhooks_lookup_delete": {
+      "request": {
+        "url": "/v1/notifications/webhooks-lookup/{webhook_lookup_id}",
+        "method": "delete",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "webhook_lookup_id": {
+          "description": "The ID of the webhook lookup to delete.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "webhook_lookup_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete webhook lookup",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "webhooks_lookup_post": {
+      "request": {
+        "url": "/v1/notifications/webhooks-lookup",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "Create webhook lookup",
+      "result_type": {
+        "name": "WebhooksLookup",
+        "type": "named"
+      }
+    },
+    "webhooks_post": {
+      "request": {
+        "url": "/v1/notifications/webhooks",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "One or more webhook objects.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WebhookInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "webhook"
+              }
+            }
+          }
+        }
+      },
+      "description": "Create webhook",
+      "result_type": {
+        "name": "Webhook",
+        "type": "named"
+      }
+    },
+    "webhooks_update": {
+      "request": {
+        "url": "/v1/notifications/webhooks/{webhook_id}",
+        "method": "patch",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/applications/webhooks"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "An array of JSON patch objects to apply partial updates to resources.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PatchInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "array"
+              ],
+              "items": {
+                "type": [
+                  "object"
+                ],
+                "xml": {
+                  "name": "patch"
+                }
+              },
+              "xml": {
+                "name": "patch_request"
+              }
+            }
+          }
+        },
+        "webhook_id": {
+          "description": "The ID of the webhook for which to list subscriptions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "webhook_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update webhook",
+      "result_type": {
+        "name": "Webhook",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "LinkDescriptionMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "HEAD",
+          "CONNECT",
+          "OPTIONS",
+          "PATCH"
+        ],
+        "type": "enum"
+      }
+    },
+    "PatchOp": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "add",
+          "remove",
+          "replace",
+          "move",
+          "copy",
+          "test"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "VerifyWebhookSignatureResponseVerificationStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "SUCCESS",
+          "FAILURE"
+        ],
+        "type": "enum"
+      }
+    },
+    "WebhooksListAnchorType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "APPLICATION",
+          "ACCOUNT"
+        ],
+        "type": "enum"
+      }
+    }
+  }
+}
