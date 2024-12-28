@@ -2,6 +2,16 @@
 
 This configuration is built from [OpenAI's OpenAPI Specification](https://github.com/openai/openai-openapi).
 
+## Usage
+
+Import the schema file, add required environment variables and start the connector.
+
+```yaml
+files:
+  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/openai/schema/openai.json
+    spec: ndc
+```
+
 ## Environment Variables
 
 | Name                      | Description                       | Default Value             |

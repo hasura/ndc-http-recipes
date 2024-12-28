@@ -2,6 +2,16 @@
 
 This configuration is built from [Open Build Service's OpenAPI Specification](https://api.opensuse.org/apidocs/).
 
+## Usage
+
+Import the schema file, add required environment variables and start the connector.
+
+```yaml
+files:
+  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/open-build-service/schema/open-build-service.json
+    spec: ndc
+```
+
 ## Environment Variables
 
 | Name                              | Description                               | Default Value |

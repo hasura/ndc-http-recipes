@@ -4,6 +4,16 @@ This configuration is built from [CollegeFootballData.com's OpenAPI Specificatio
 
 ## V1
 
+## Usage
+
+Import the schema file, add required environment variables and start the connector.
+
+```yaml
+files:
+  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/collegefootballdata/v1/schema/collegefootballdata.json
+    spec: ndc
+```
+
 ### Environment Variables
 
 | Name         | Description                                  | Default Value |
@@ -19,6 +29,16 @@ make build-schema-v1
 ```
 
 ## V2
+
+## Usage
+
+Import the schema file, add required environment variables and start the connector.
+
+```yaml
+files:
+  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/collegefootballdata/v2/schema/collegefootballdata.json
+    spec: ndc
+```
 
 ### Environment Variables
 

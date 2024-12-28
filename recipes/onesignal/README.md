@@ -2,6 +2,16 @@
 
 This configuration is built from [OneSignal's OpenAPI Specification](https://github.com/OneSignal/api).
 
+## Usage
+
+Import the schema file, add required environment variables and start the connector.
+
+```yaml
+files:
+  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/onesignal/schema/onesignal_v1.json
+    spec: ndc
+```
+
 ## Environment Variables
 
 | Name                     | Description                          | Default Value                |
