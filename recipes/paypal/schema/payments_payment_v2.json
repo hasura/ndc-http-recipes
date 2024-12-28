@@ -157,6 +157,337 @@
     }
   },
   "object_types": {
+    "Authorization2": {
+      "fields": {
+        "payee": {
+          "description": "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeBase",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee_base"
+            }
+          }
+        },
+        "supplementary_data": {
+          "description": "The supplementary data.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SupplementaryData",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "supplementary_data"
+            }
+          }
+        }
+      }
+    },
+    "Capture2": {
+      "fields": {
+        "payee": {
+          "description": "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeBase",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee_base"
+            }
+          }
+        },
+        "supplementary_data": {
+          "description": "The supplementary data.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SupplementaryData",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "supplementary_data"
+            }
+          }
+        }
+      }
+    },
+    "CaptureRequestInput": {
+      "description": "Captures either a portion or the full authorized amount of an authorized payment.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "final_capture": {
+          "description": "Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "invoice_id": {
+          "description": "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.{1,127}$",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "note_to_payer": {
+          "description": "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.{1,255}$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "payment_instruction": {
+          "description": "Any additional payment instructions to be consider during payment processing. This processing instruction is applicable for Capturing an order or Authorizing an Order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentInstructionInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_instruction"
+            }
+          }
+        },
+        "soft_descriptor": {
+          "description": "The payment descriptor on the payer's account statement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 22
+          }
+        }
+      }
+    },
+    "ExchangeRate": {
+      "description": "The exchange rate that determines the amount to convert from one currency to another currency.",
+      "fields": {
+        "source_currency": {
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "target_currency": {
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The target currency amount. Equivalent to one unit of the source currency. Formatted as integer or decimal value with one to 15 digits to the right of the decimal point.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "LinkDescription": {
+      "description": "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information.",
+      "fields": {
+        "href": {
+          "description": "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "method": {
+          "description": "The HTTP method required to make the related call.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "LinkDescriptionMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "rel": {
+          "description": "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "Money": {
+      "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+      "fields": {
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_currency_code_v2",
+            "maxLength": 3,
+            "minLength": 3,
+            "xml": {
+              "name": "currency_code"
+            }
+          }
+        },
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
+          }
+        }
+      }
+    },
     "MoneyInput": {
       "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
       "fields": {
@@ -190,6 +521,114 @@
             ],
             "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
             "maxLength": 32
+          }
+        }
+      }
+    },
+    "NetAmountBreakdownItem": {
+      "description": "The net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the merchant holds their funds.",
+      "fields": {
+        "converted_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "exchange_rate": {
+          "description": "The exchange rate that determines the amount to convert from one currency to another currency.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ExchangeRate",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "exchange_rate"
+            }
+          }
+        },
+        "payable_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        }
+      }
+    },
+    "PayeeBase": {
+      "description": "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee.",
+      "fields": {
+        "email_address": {
+          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "merchant_common_email_address_v2",
+            "pattern": "(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+            "maxLength": 254,
+            "minLength": 3,
+            "xml": {
+              "name": "email"
+            }
+          }
+        },
+        "merchant_id": {
+          "description": "The account identifier for a PayPal account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_payer_id_v3",
+            "pattern": "^[2-9A-HJ-NP-Z]{13}$",
+            "maxLength": 13,
+            "minLength": 13,
+            "xml": {
+              "name": "account_id"
+            }
           }
         }
       }
@@ -274,6 +713,132 @@
         }
       }
     },
+    "PaymentInstructionInput": {
+      "description": "Any additional payment instructions to be consider during payment processing. This processing instruction is applicable for Capturing an order or Authorizing an Order.",
+      "fields": {
+        "disbursement_mode": {
+          "description": "The funds that are held on behalf of the merchant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DisbursementMode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 16,
+            "minLength": 1,
+            "xml": {
+              "name": "disbursement_mode"
+            }
+          }
+        },
+        "payee_pricing_tier_id": {
+          "description": "This field is only enabled for selected merchants/partners to use and provides the ability to trigger a specific pricing rate/plan for a payment transaction. The list of eligible 'payee_pricing_tier_id' would be provided to you by your Account Manager. Specifying values other than the one provided to you by your account manager would result in an error.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 20,
+            "minLength": 1
+          }
+        },
+        "payee_receivable_fx_rate_id": {
+          "description": "FX identifier generated returned by PayPal to be used for payment processing in order to honor FX rate (for eligible integrations) to be used when amount is settled/received into the payee account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 4000,
+            "minLength": 1
+          }
+        },
+        "platform_fees": {
+          "description": "An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PlatformFeeInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "platform_fee"
+              }
+            }
+          }
+        }
+      }
+    },
+    "PlatformFee": {
+      "description": "The platform or partner fee, commission, or brokerage fee that is associated with the transaction. Not a separate or isolated transaction leg from the external perspective. The platform fee is limited in scope and is always associated with the original payment for the purchase unit.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "Money",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "payee": {
+          "description": "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeBase",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee_base"
+            }
+          }
+        }
+      }
+    },
     "PlatformFeeInput": {
       "description": "The platform or partner fee, commission, or brokerage fee that is associated with the transaction. Not a separate or isolated transaction leg from the external perspective. The platform fee is limited in scope and is always associated with the original payment for the purchase unit.",
       "fields": {
@@ -338,6 +903,42 @@
     "Refund": {
       "description": "The refund information.",
       "fields": {
+        "acquirer_reference_number": {
+          "description": "Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z0-9]+$",
+            "maxLength": 36,
+            "minLength": 1
+          }
+        },
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
         "create_time": {
           "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
           "type": {
@@ -358,6 +959,128 @@
             "xml": {
               "name": "date_time"
             }
+          }
+        },
+        "custom_id": {
+          "description": "The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Za-z0-9-_.,]*$",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "id": {
+          "description": "The PayPal-generated ID for the refund.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "invoice_id": {
+          "description": "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "note_to_payer": {
+          "description": "The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payer": {
+          "description": "The details for the merchant who receives the funds and fulfills the order. The merchant is also known as the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeBase",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee_base"
+            }
+          }
+        },
+        "seller_payable_breakdown": {
+          "description": "The breakdown of the refund.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Refund1SellerPayableBreakdown",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
           }
         },
         "status": {
@@ -412,6 +1135,171 @@
             "minLength": 20,
             "xml": {
               "name": "date_time"
+            }
+          }
+        }
+      }
+    },
+    "Refund1SellerPayableBreakdown": {
+      "description": "The breakdown of the refund.",
+      "fields": {
+        "gross_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "net_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "net_amount_breakdown": {
+          "description": "An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "NetAmountBreakdownItem",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "net_amount_breakdown_item"
+              }
+            }
+          }
+        },
+        "net_amount_in_receivable_currency": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "paypal_fee": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "paypal_fee_in_receivable_currency": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
+            }
+          }
+        },
+        "platform_fees": {
+          "description": "An array of platform or partner fees, commissions, or brokerage fees for the refund.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PlatformFee",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "platform_fee"
+              }
+            }
+          }
+        },
+        "total_refunded_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "money"
             }
           }
         }
@@ -532,11 +1420,11 @@
         }
       }
     },
-    "SupplementaryPurchaseDataInput": {
-      "description": "The capture identification-related fields. Includes the invoice ID, custom ID, note to payer, and soft descriptor.",
+    "RelatedIds": {
+      "description": "Identifiers related to a specific resource.",
       "fields": {
-        "invoice_id": {
-          "description": "The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives.",
+        "authorization_id": {
+          "description": "Authorization ID related to the resource.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -548,13 +1436,13 @@
             "type": [
               "string"
             ],
-            "pattern": "^.{1,127}$",
-            "maxLength": 127,
+            "pattern": "^[A-Z0-9]+$",
+            "maxLength": 20,
             "minLength": 1
           }
         },
-        "note_to_payer": {
-          "description": "An informational note about this settlement. Appears in both the payer's transaction history and the emails that the payer receives.",
+        "capture_id": {
+          "description": "Capture ID related to the resource.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -566,9 +1454,50 @@
             "type": [
               "string"
             ],
-            "pattern": "^.{1,255}$",
-            "maxLength": 255,
+            "pattern": "^[A-Z0-9]+$",
+            "maxLength": 20,
             "minLength": 1
+          }
+        },
+        "order_id": {
+          "description": "Order ID related to the resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z0-9]+$",
+            "maxLength": 20,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SupplementaryData": {
+      "description": "The supplementary data.",
+      "fields": {
+        "related_ids": {
+          "description": "Identifiers related to a specific resource.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RelatedIds",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "related_ids"
+            }
           }
         }
       }
@@ -649,11 +1578,11 @@
           }
         },
         "body": {
-          "description": "The capture identification-related fields. Includes the invoice ID, custom ID, note to payer, and soft descriptor.",
+          "description": "Request body of POST /v2/payments/authorizations/{authorization_id}/capture",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "SupplementaryPurchaseDataInput",
+              "name": "CaptureRequestInput",
               "type": "named"
             }
           },
@@ -664,7 +1593,7 @@
                 "object"
               ],
               "xml": {
-                "name": "supplementary_purchase_data"
+                "name": "capture_request"
               }
             }
           }
@@ -976,18 +1905,39 @@
     }
   },
   "scalar_types": {
-    "Authorization2": {
+    "Boolean": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
-        "type": "json"
+        "type": "boolean"
       }
     },
-    "Capture2": {
+    "DisbursementMode": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
-        "type": "json"
+        "one_of": [
+          "INSTANT",
+          "DELAYED"
+        ],
+        "type": "enum"
+      }
+    },
+    "LinkDescriptionMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "HEAD",
+          "CONNECT",
+          "OPTIONS",
+          "PATCH"
+        ],
+        "type": "enum"
       }
     },
     "RefundStatusDetailsReason": {

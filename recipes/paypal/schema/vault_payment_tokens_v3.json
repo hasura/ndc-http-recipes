@@ -224,6 +224,30 @@
     }
   },
   "object_types": {
+    "AchDebitResponse2": {
+      "fields": {
+        "verification_status": {
+          "description": "The ach debit verification status.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1,
+            "xml": {
+              "name": "ach_debit_verification_status"
+            }
+          }
+        }
+      }
+    },
     "AddressPortable": {
       "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
       "fields": {
@@ -1003,8 +1027,8 @@
         }
       }
     },
-    "CardInput": {
-      "description": "The payment card to use to fund a payment. Can be a credit or debit card.",
+    "CardRequestInput": {
+      "description": "A Resource representing a request to vault a Card.",
       "fields": {
         "billing_address": {
           "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
@@ -1063,6 +1087,24 @@
             "minLength": 1,
             "xml": {
               "name": "card_brand"
+            }
+          }
+        },
+        "experience_context": {
+          "description": "Customizes the Vault creation flow experience for your customers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ExperienceContextInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "experience_context"
             }
           }
         },
@@ -1180,6 +1222,27 @@
             "minLength": 1,
             "xml": {
               "name": "card_type"
+            }
+          }
+        },
+        "verification_method": {
+          "description": "The verification method of the card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1,
+            "xml": {
+              "name": "card_verification_method"
             }
           }
         }
@@ -1468,6 +1531,234 @@
         }
       }
     },
+    "CustomerVaultPaymentTokensResponse": {
+      "description": "Collection of payment tokens saved for a given customer.",
+      "fields": {
+        "customer": {
+          "description": "Customer in merchant's or partner's system of records.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Customer",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "customer"
+            }
+          }
+        },
+        "links": {
+          "description": "An array of related [HATEOAS links](/api/rest/responses/#hateoas).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "payment_tokens": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PaymentTokenResponse",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "payment_token_response"
+              }
+            }
+          }
+        },
+        "total_items": {
+          "description": "Total number of items.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 50,
+            "minimum": 1
+          }
+        },
+        "total_pages": {
+          "description": "Total number of pages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 10,
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "ExperienceContextInput": {
+      "description": "Customizes the Vault creation flow experience for your customers.",
+      "fields": {
+        "brand_name": {
+          "description": "The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 300,
+            "minLength": 1
+          }
+        },
+        "cancel_url": {
+          "description": "The URL where the customer is redirected after customer cancels or leaves the flow. It is a required field for contingency flows like PayPal wallet, 3DS.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 4000,
+            "minLength": 1
+          }
+        },
+        "locale": {
+          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/api/rest/reference/country-codes/) or [M49 region code](https://unstats.un.org/unsd/methodology/m49/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_language_v3",
+            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|[0-9]{3}))?$",
+            "maxLength": 10,
+            "minLength": 2,
+            "xml": {
+              "name": "language"
+            }
+          }
+        },
+        "return_url": {
+          "description": "The URL where the customer is redirected after customer approves leaves the flow. It is a required field for contingency flows like PayPal wallet, 3DS.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 4000,
+            "minLength": 1
+          }
+        },
+        "shipping_preference": {
+          "description": "The shipping preference. This only applies to PayPal payment source.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "vault_instruction": {
+          "description": "Vault Instruction on action to be performed after a successful payer approval.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1,
+            "xml": {
+              "name": "vault_instruction"
+            }
+          }
+        }
+      }
+    },
     "LinkDescription": {
       "description": "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information.",
       "fields": {
@@ -1666,6 +1957,123 @@
         }
       }
     },
+    "NameInput": {
+      "description": "The name of the party.",
+      "fields": {
+        "alternate_full_name": {
+          "description": "DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "full_name": {
+          "description": "When the party is a person, the party's full name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "given_name": {
+          "description": "When the party is a person, the party's given, or first, name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "middle_name": {
+          "description": "When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "prefix": {
+          "description": "The prefix, or title, to the party's name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "suffix": {
+          "description": "The suffix for the party's name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "surname": {
+          "description": "When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        }
+      }
+    },
     "PaymentTokenRequestInput": {
       "description": "Payment Token Request where the `source` defines the type of instrument to be stored.",
       "fields": {
@@ -1719,11 +2127,10 @@
       "description": "The payment method to vault with the instrument details.",
       "fields": {
         "card": {
-          "description": "The payment card to use to fund a payment. Can be a credit or debit card.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CardInput",
+              "name": "CardRequestInput",
               "type": "named"
             }
           },
@@ -1732,7 +2139,7 @@
               "object"
             ],
             "xml": {
-              "name": "card"
+              "name": "card_request"
             }
           }
         },
@@ -1899,7 +2306,6 @@
           }
         },
         "paypal": {
-          "description": "Resource consolidating common request and response attributes for vaulting a Digital Wallet.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1912,12 +2318,11 @@
               "object"
             ],
             "xml": {
-              "name": "wallet_base"
+              "name": "paypal_wallet_response"
             }
           }
         },
         "venmo": {
-          "description": "Resource consolidating common request and response attributes for vaulting a Digital Wallet.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1930,15 +2335,147 @@
               "object"
             ],
             "xml": {
-              "name": "wallet_base"
+              "name": "venmo_response"
             }
           }
         }
       }
     },
-    "PaypalWalletResponse": {
-      "description": "Resource consolidating common request and response attributes for vaulting a Digital Wallet.",
+    "PaypalWalletRequestInput": {
+      "description": "A resource representing a request to vault PayPal Wallet.",
       "fields": {
+        "customer_type": {
+          "description": "The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "description": {
+          "description": "The description displayed to the consumer on the approval flow for a digital wallet, as well as on the merchant view of the payment token management experience. exp: PayPal.com.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z0-9_'\\-., :;\\!?\"]*$",
+            "maxLength": 128,
+            "minLength": 1
+          }
+        },
+        "experience_context": {
+          "description": "Customizes the Vault creation flow experience for your customers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ExperienceContextInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "experience_context"
+            }
+          }
+        },
+        "permit_multiple_payment_tokens": {
+          "description": "Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "shipping": {
+          "description": "The shipping details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingDetailInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_detail"
+            }
+          }
+        },
+        "usage_type": {
+          "description": "The usage type associated with a digital wallet payment token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PaypalWalletResponse": {
+      "description": "Full representation of a PayPal Payment Token.",
+      "fields": {
+        "account_id": {
+          "description": "The account identifier for a PayPal account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_payer_id_v3",
+            "pattern": "^[2-9A-HJ-NP-Z]{13}$",
+            "maxLength": 13,
+            "minLength": 13,
+            "xml": {
+              "name": "account_id"
+            }
+          }
+        },
         "customer_type": {
           "description": "The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.",
           "type": {
@@ -1990,6 +2527,24 @@
             ]
           }
         },
+        "phone_number": {
+          "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Phone",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "phone"
+            }
+          }
+        },
         "shipping": {
           "description": "The shipping details.",
           "type": {
@@ -2023,6 +2578,59 @@
             ],
             "pattern": "^[0-9A-Z_]+$",
             "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "Phone": {
+      "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
+      "fields": {
+        "country_code": {
+          "description": "The country calling code (CC), in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the CC and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,3}?$",
+            "maxLength": 3,
+            "minLength": 1
+          }
+        },
+        "extension_number": {
+          "description": "The extension number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,15}?$",
+            "maxLength": 15,
+            "minLength": 1
+          }
+        },
+        "national_number": {
+          "description": "The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,14}?$",
+            "maxLength": 14,
             "minLength": 1
           }
         }
@@ -2131,10 +2739,84 @@
         "payment_source": {
           "description": "The payment method to vault with the instrument details.",
           "type": {
-            "name": "JSON",
+            "name": "SetupTokenRequestPaymentSourceInput",
             "type": "named"
           },
           "http": {}
+        }
+      }
+    },
+    "SetupTokenRequestPaymentSourceInput": {
+      "description": "The payment method to vault with the instrument details.",
+      "fields": {
+        "card": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "card_request"
+            }
+          }
+        },
+        "paypal": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaypalWalletRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "paypal_wallet_request"
+            }
+          }
+        },
+        "token": {
+          "description": "The Tokenized Payment Source representing a Request to Vault a Token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TokenIdRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "token_id_request"
+            }
+          }
+        },
+        "venmo": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VenmoRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "venmo_request"
+            }
+          }
         }
       }
     },
@@ -2231,7 +2913,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
+              "name": "SetupTokenResponsePaymentSource",
               "type": "named"
             }
           },
@@ -2255,6 +2937,63 @@
             "minLength": 1,
             "xml": {
               "name": "payment_token_status"
+            }
+          }
+        }
+      }
+    },
+    "SetupTokenResponsePaymentSource": {
+      "description": "The setup payment method details.",
+      "fields": {
+        "card": {
+          "description": "Full representation of a Card Payment Token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardResponse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "card_response"
+            }
+          }
+        },
+        "paypal": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaypalWalletResponse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "paypal_wallet_response"
+            }
+          }
+        },
+        "venmo": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VenmoResponse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "venmo_response"
             }
           }
         }
@@ -2287,6 +3026,65 @@
             "type": "nullable",
             "underlying_type": {
               "name": "Name",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "name"
+            }
+          }
+        },
+        "type": {
+          "description": "The method by which the payer wants to get their items from the payee e.g shipping, in-person pickup. Either type or options but not both may be present.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingDetailType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "ShippingDetailInput": {
+      "description": "The shipping details.",
+      "fields": {
+        "address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressPortableInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address_portable"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NameInput",
               "type": "named"
             }
           },
@@ -2368,8 +3166,118 @@
         }
       }
     },
+    "VenmoRequestInput": {
+      "description": "A resource representing a request to vault Venmo.",
+      "fields": {
+        "customer_type": {
+          "description": "The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "description": {
+          "description": "The description displayed to the consumer on the approval flow for a digital wallet, as well as on the merchant view of the payment token management experience. exp: PayPal.com.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[a-zA-Z0-9_'\\-., :;\\!?\"]*$",
+            "maxLength": 128,
+            "minLength": 1
+          }
+        },
+        "experience_context": {
+          "description": "Customizes the Vault creation flow experience for your customers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ExperienceContextInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "experience_context"
+            }
+          }
+        },
+        "permit_multiple_payment_tokens": {
+          "description": "Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "shipping": {
+          "description": "The shipping details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingDetailInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_detail"
+            }
+          }
+        },
+        "usage_type": {
+          "description": "The usage type associated with a digital wallet payment token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
     "VenmoResponse": {
-      "description": "Resource consolidating common request and response attributes for vaulting a Digital Wallet.",
+      "description": "Full representation of a Venmo Payment Token.",
       "fields": {
         "customer_type": {
           "description": "The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.",
@@ -2455,6 +3363,24 @@
             ],
             "pattern": "^[0-9A-Z_]+$",
             "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "user_name": {
+          "description": "The Venmo username, as chosen by the user.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[-a-zA-Z0-9_]*$",
+            "maxLength": 50,
             "minLength": 1
           }
         }
@@ -2636,13 +3562,6 @@
         "type": "json"
       }
     },
-    "AchDebitResponse2": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
-      }
-    },
     "AddressEntity": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -2696,25 +3615,11 @@
         "type": "enum"
       }
     },
-    "CustomerVaultPaymentTokensResponse": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
-      }
-    },
     "Int32": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
         "type": "int32"
-      }
-    },
-    "JSON": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
       }
     },
     "LinkDescriptionMethod": {
@@ -2997,6 +3902,13 @@
           "BILLING_AGREEMENT"
         ],
         "type": "enum"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
       }
     }
   }

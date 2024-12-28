@@ -1051,7 +1051,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "Business",
+                "name": "BusinessBeneficialOwner",
                 "type": "named"
               },
               "type": "array"
@@ -1066,7 +1066,7 @@
                 "object"
               ],
               "xml": {
-                "name": "business"
+                "name": "business_beneficial_owner"
               }
             }
           }
@@ -1088,6 +1088,9 @@
               "array"
             ],
             "items": {
+              "type": [
+                "object"
+              ],
               "xml": {
                 "name": "individual_beneficial_owner"
               }
@@ -1105,7 +1108,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "BusinessInput",
+                "name": "BusinessBeneficialOwnerInput",
                 "type": "named"
               },
               "type": "array"
@@ -1120,7 +1123,7 @@
                 "object"
               ],
               "xml": {
-                "name": "business"
+                "name": "business_beneficial_owner"
               }
             }
           }
@@ -1131,7 +1134,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "IndividualBeneficialOwner",
+                "name": "IndividualBeneficialOwnerInput",
                 "type": "named"
               },
               "type": "array"
@@ -1142,6 +1145,9 @@
               "array"
             ],
             "items": {
+              "type": [
+                "object"
+              ],
               "xml": {
                 "name": "individual_beneficial_owner"
               }
@@ -1388,8 +1394,8 @@
         }
       }
     },
-    "Business": {
-      "description": "Details of the business entity.",
+    "BusinessBeneficialOwner": {
+      "description": "The individual owner of the account.",
       "fields": {
         "annual_sales_volume_range": {
           "description": "The currency range, from the minimum inclusive amount to the maximum inclusive amount.",
@@ -1545,6 +1551,23 @@
             }
           }
         },
+        "percentage_of_ownership": {
+          "description": "The percentage of shares this person owns in the company.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 20,
+            "minLength": 1
+          }
+        },
         "phone_contacts": {
           "description": "An array of phone contacts for the business.",
           "type": {
@@ -1576,11 +1599,292 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
+              "element_type": {
+                "name": "PurposeCodeEnum",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "purpose_code_enum"
+              }
+            }
+          }
+        },
+        "sub_category": {
+          "description": "The customer's business subcategory code. PayPal uses the industry standard seller category codes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
               "type": "named"
             }
           },
-          "http": {}
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^\\d+$",
+            "maxLength": 50,
+            "minLength": 1
+          }
+        },
+        "website_urls": {
+          "description": "An array of website URLs for the business.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "URI",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "maxLength": 128,
+            "minLength": 1,
+            "items": {
+              "type": [
+                "string"
+              ],
+              "format": "uri"
+            }
+          }
+        }
+      }
+    },
+    "BusinessBeneficialOwnerInput": {
+      "description": "The individual owner of the account.",
+      "fields": {
+        "annual_sales_volume_range": {
+          "description": "The currency range, from the minimum inclusive amount to the maximum inclusive amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CurrencyRangeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency_range"
+            }
+          }
+        },
+        "average_monthly_volume_range": {
+          "description": "The currency range, from the minimum inclusive amount to the maximum inclusive amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CurrencyRangeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency_range"
+            }
+          }
+        },
+        "business_address": {
+          "description": "A simple postal address with coarse-grained fields. Do not use for an international address. Use for backward compatibility only. Does not contain phone.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address"
+            }
+          }
+        },
+        "business_subtype": {
+          "description": "Sub classification of the business type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BusinessSubType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1,
+            "xml": {
+              "name": "business_sub_type"
+            }
+          }
+        },
+        "business_type": {
+          "description": "The type of business.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 128,
+            "minLength": 1
+          }
+        },
+        "category": {
+          "description": "The customer's business category code. PayPal uses the industry standard seller category codes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^\\d+$",
+            "maxLength": 50,
+            "minLength": 1
+          }
+        },
+        "merchant_category_code": {
+          "description": "The customer's business seller category code. PayPal uses the industry standard seller category codes.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^\\d+$",
+            "maxLength": 50,
+            "minLength": 1
+          }
+        },
+        "names": {
+          "description": "An array of business names.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "BusinessNameInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "business_name"
+              }
+            }
+          }
+        },
+        "percentage_of_ownership": {
+          "description": "The percentage of shares this person owns in the company.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 20,
+            "minLength": 1
+          }
+        },
+        "phone_contacts": {
+          "description": "An array of phone contacts for the business.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PhoneDetailsInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "phone_details"
+              }
+            }
+          }
+        },
+        "purpose_code": {
+          "description": "The account's purpose code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PurposeCodeEnum",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "purpose_code_enum"
+              }
+            }
+          }
         },
         "sub_category": {
           "description": "The customer's business subcategory code. PayPal uses the industry standard seller category codes.",
@@ -1929,6 +2233,9 @@
               "array"
             ],
             "items": {
+              "type": [
+                "object"
+              ],
               "xml": {
                 "name": "office_bearer"
               }
@@ -1966,11 +2273,23 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
-              "type": "named"
+              "element_type": {
+                "name": "PurposeCodeEnum",
+                "type": "named"
+              },
+              "type": "array"
             }
           },
-          "http": {}
+          "http": {
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "purpose_code_enum"
+              }
+            }
+          }
         },
         "sub_category": {
           "description": "The customer's business subcategory code. PayPal uses the industry standard seller category codes.",
@@ -2304,7 +2623,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "OfficeBearer",
+                "name": "OfficeBearerInput",
                 "type": "named"
               },
               "type": "array"
@@ -2315,6 +2634,9 @@
               "array"
             ],
             "items": {
+              "type": [
+                "object"
+              ],
               "xml": {
                 "name": "office_bearer"
               }
@@ -2352,11 +2674,23 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
-              "type": "named"
+              "element_type": {
+                "name": "PurposeCodeEnum",
+                "type": "named"
+              },
+              "type": "array"
             }
           },
-          "http": {}
+          "http": {
+            "items": {
+              "type": [
+                "string"
+              ],
+              "xml": {
+                "name": "purpose_code_enum"
+              }
+            }
+          }
         },
         "sub_category": {
           "description": "The customer's business subcategory code. PayPal uses the industry standard seller category codes.",
@@ -2390,246 +2724,6 @@
             "type": [
               "array"
             ],
-            "items": {
-              "type": [
-                "string"
-              ],
-              "format": "uri"
-            }
-          }
-        }
-      }
-    },
-    "BusinessInput": {
-      "description": "Details of the business entity.",
-      "fields": {
-        "annual_sales_volume_range": {
-          "description": "The currency range, from the minimum inclusive amount to the maximum inclusive amount.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CurrencyRangeInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ],
-            "xml": {
-              "name": "currency_range"
-            }
-          }
-        },
-        "average_monthly_volume_range": {
-          "description": "The currency range, from the minimum inclusive amount to the maximum inclusive amount.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CurrencyRangeInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ],
-            "xml": {
-              "name": "currency_range"
-            }
-          }
-        },
-        "business_address": {
-          "description": "A simple postal address with coarse-grained fields. Do not use for an international address. Use for backward compatibility only. Does not contain phone.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "AddressInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ],
-            "xml": {
-              "name": "address"
-            }
-          }
-        },
-        "business_subtype": {
-          "description": "Sub classification of the business type.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "BusinessSubType",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9A-Z_]+$",
-            "maxLength": 255,
-            "minLength": 1,
-            "xml": {
-              "name": "business_sub_type"
-            }
-          }
-        },
-        "business_type": {
-          "description": "The type of business.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 128,
-            "minLength": 1
-          }
-        },
-        "category": {
-          "description": "The customer's business category code. PayPal uses the industry standard seller category codes.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^\\d+$",
-            "maxLength": 50,
-            "minLength": 1
-          }
-        },
-        "merchant_category_code": {
-          "description": "The customer's business seller category code. PayPal uses the industry standard seller category codes.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^\\d+$",
-            "maxLength": 50,
-            "minLength": 1
-          }
-        },
-        "names": {
-          "description": "An array of business names.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "BusinessNameInput",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ],
-              "xml": {
-                "name": "business_name"
-              }
-            }
-          }
-        },
-        "phone_contacts": {
-          "description": "An array of phone contacts for the business.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "PhoneDetailsInput",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ],
-              "xml": {
-                "name": "phone_details"
-              }
-            }
-          }
-        },
-        "purpose_code": {
-          "description": "The account's purpose code.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "JSON",
-              "type": "named"
-            }
-          },
-          "http": {}
-        },
-        "sub_category": {
-          "description": "The customer's business subcategory code. PayPal uses the industry standard seller category codes.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^\\d+$",
-            "maxLength": 50,
-            "minLength": 1
-          }
-        },
-        "website_urls": {
-          "description": "An array of website URLs for the business.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "URI",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "maxLength": 128,
-            "minLength": 1,
             "items": {
               "type": [
                 "string"
@@ -3433,6 +3527,218 @@
               "string"
             ],
             "pattern": "^[A-Za-z0-9]+$"
+          }
+        }
+      }
+    },
+    "IndividualBeneficialOwner": {
+      "description": "The individual owner of the account.",
+      "fields": {
+        "home_address": {
+          "description": "A simple postal address with coarse-grained fields. Do not use for an international address. Use for backward compatibility only. Does not contain phone.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Address",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Name",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "name"
+            }
+          }
+        },
+        "nationality_country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "percentage_of_ownership": {
+          "description": "The percentage of shares this person owns in the company.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 20,
+            "minLength": 1
+          }
+        },
+        "phone_contacts": {
+          "description": "An array of contact phone numbers for the customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PhoneDetails",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "phone_details"
+              }
+            }
+          }
+        }
+      }
+    },
+    "IndividualBeneficialOwnerInput": {
+      "description": "The individual owner of the account.",
+      "fields": {
+        "home_address": {
+          "description": "A simple postal address with coarse-grained fields. Do not use for an international address. Use for backward compatibility only. Does not contain phone.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NameInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "name"
+            }
+          }
+        },
+        "nationality_country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "percentage_of_ownership": {
+          "description": "The percentage of shares this person owns in the company.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 20,
+            "minLength": 1
+          }
+        },
+        "phone_contacts": {
+          "description": "An array of contact phone numbers for the customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PhoneDetailsInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "phone_details"
+              }
+            }
           }
         }
       }
@@ -4816,6 +5122,226 @@
               "type": [
                 "string"
               ]
+            }
+          }
+        }
+      }
+    },
+    "OfficeBearer": {
+      "description": "The office bearers of the account.",
+      "fields": {
+        "home_address": {
+          "description": "A simple postal address with coarse-grained fields. Do not use for an international address. Use for backward compatibility only. Does not contain phone.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Address",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Name",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "name"
+            }
+          }
+        },
+        "nationality_country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "phone_contacts": {
+          "description": "An array of contact phone numbers for the customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PhoneDetails",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "phone_details"
+              }
+            }
+          }
+        },
+        "role": {
+          "description": "Role of the person party played in the business.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OfficeBearerRole",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1,
+            "xml": {
+              "name": "office_bearer_role"
+            }
+          }
+        }
+      }
+    },
+    "OfficeBearerInput": {
+      "description": "The office bearers of the account.",
+      "fields": {
+        "home_address": {
+          "description": "A simple postal address with coarse-grained fields. Do not use for an international address. Use for backward compatibility only. Does not contain phone.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address"
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NameInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "name"
+            }
+          }
+        },
+        "nationality_country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "phone_contacts": {
+          "description": "An array of contact phone numbers for the customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PhoneDetailsInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "phone_details"
+              }
+            }
+          }
+        },
+        "role": {
+          "description": "Role of the person party played in the business.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OfficeBearerRole",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1,
+            "xml": {
+              "name": "office_bearer_role"
             }
           }
         }
@@ -7595,13 +8121,6 @@
         "type": "enum"
       }
     },
-    "IndividualBeneficialOwner": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
-      }
-    },
     "IntegrationDetailsRestApiIntegrationIntegrationMethod": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -7729,11 +8248,19 @@
         "type": "enum"
       }
     },
-    "OfficeBearer": {
+    "OfficeBearerRole": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
-        "type": "json"
+        "one_of": [
+          "CEO",
+          "CHAIRMAN",
+          "DIRECTOR",
+          "SECRETARY",
+          "TREASURER",
+          "TRUSTEE"
+        ],
+        "type": "enum"
       }
     },
     "PartnerAgreementTypes": {
@@ -7988,6 +8515,29 @@
           "IN_REVIEW",
           "NEED_MORE_DATA",
           "DENIED"
+        ],
+        "type": "enum"
+      }
+    },
+    "PurposeCodeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "P0104",
+          "P0301",
+          "P0801",
+          "P0802",
+          "P0803",
+          "P0805",
+          "P0806",
+          "P0902",
+          "P1004",
+          "P1005",
+          "P1006",
+          "P1007",
+          "P1008",
+          "P1009"
         ],
         "type": "enum"
       }
