@@ -5,6 +5,16 @@
 
 This configuration is built from [Ollama's OpenAPI Specification](https://github.com/ollama/ollama/pull/5040).
 
+## Usage
+
+Import the schema file, add required environment variables and start the connector.
+
+```yaml
+files:
+  - file: https://raw.githubusercontent.com/hasura/ndc-http-recipes/refs/heads/main/recipes/ollama/schema/ollama.json
+    spec: ndc
+```
+
 ## Environment Variables
 
 | Name              | Description                       | Default Value          |

@@ -1,6 +1,6 @@
-# HTTP Connector configuration for Github APIs
+# HTTP Connector configuration for GitHub APIs
 
-This configuration is built from [Github API's OpenAPI Specification](https://github.com/github/rest-api-description).
+This configuration is built from [GitHub API's OpenAPI Specification](https://github.com/github/rest-api-description).
 
 ## Usage
 
@@ -14,6 +14,15 @@ files:
 
 ## Environment Variables
 
-| Name         | Description           | Default Value |
-| ------------ | --------------------- | ------------- |
-| GITHUB_TOKEN | Personal access token |               |
+### api.github.com
+
+| Name         | Description           |
+| ------------ | --------------------- |
+| GITHUB_TOKEN | Personal access token |
+
+### GitHub Enterprise Server (ghes)
+
+| Name              | Description                        | Example                      |
+| ----------------- | ---------------------------------- | ---------------------------- |
+| GITHUB_SERVER_URL | Base URL of the Github Server API. | `http://example.com//api/v3` |
+| GITHUB_TOKEN      | Personal access token              |                              |
