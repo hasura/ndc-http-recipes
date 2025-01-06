@@ -1,0 +1,5102 @@
+{
+  "$schema": "https://raw.githubusercontent.com/hasura/ndc-http/refs/heads/main/ndc-http-schema/jsonschema/ndc-http-schema.schema.json",
+  "settings": {
+    "servers": [
+      {
+        "url": {
+          "value": "https://api-m.paypal.com",
+          "env": "PAYPAL_SERVER_URL"
+        }
+      }
+    ],
+    "securitySchemes": {
+      "Oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "clientCredentials": {
+            "tokenUrl": {
+              "value": "/v1/oauth2/token",
+              "env": "PAYPAL_OAUTH2_TOKEN_URL"
+            },
+            "scopes": {
+              "https://uri.paypal.com/services/payments/channelpartner": "Permission to explicitly specify the receiver of a payment on request payload.",
+              "https://uri.paypal.com/services/payments/funding-options": "Access payer's funding options available for the payment.",
+              "https://uri.paypal.com/services/payments/partnerfee": "Permission to partners to withdraw partner fee as part of the payment.",
+              "https://uri.paypal.com/services/payments/payment": "Manage payments and checkout workflow.",
+              "https://uri.paypal.com/services/payments/realtimepayment": "Permission to do any real time payment, with support for sale/authorize/order intents",
+              "https://uri.paypal.com/services/payments/unilateralrefund": "This scope enables partners/facilitators to perform unilateralrefund and also refund."
+            },
+            "clientId": {
+              "env": "PAYPAL_OAUTH2_CLIENT_ID"
+            },
+            "clientSecret": {
+              "env": "PAYPAL_OAUTH2_CLIENT_SECRET"
+            }
+          }
+        }
+      }
+    },
+    "version": "1.1"
+  },
+  "functions": {
+    "orders_get": {
+      "request": {
+        "url": "/v1/checkout/orders/{order_id}",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment",
+              "https://uri.paypal.com/services/payments/channelpartner",
+              "https://uri.paypal.com/services/payments/partnerfee",
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "order_id": {
+          "description": "The ID of the order for which to execute a payment.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "order_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Show order details",
+      "result_type": {
+        "name": "Order",
+        "type": "named"
+      }
+    }
+  },
+  "object_types": {
+    "Address": {
+      "description": "The billing address or shipping address for a payment.",
+      "fields": {
+        "city": {
+          "description": "The city name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "line1": {
+          "description": "The first line of the address. For example, number, street, and so on.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "line2": {
+          "description": "The second line of the address. For example, suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "normalization_status": {
+          "description": "The address normalization status. Returned only for payers from Brazil.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressNormalizationStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "phone": {
+          "description": "The phone number, in [E.123 format](https://www.itu.int/rec/T-REC-E.123-200102-I/en). Maximum length is 50 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "phone"
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "state": {
+          "description": "The [code](/docs/integration/direct/rest/state-codes/) for a US state or the equivalent for other countries. Required for transactions if the address is in one of these countries: [Argentina](/docs/integration/direct/rest/state-codes/#argentina), [Brazil](/docs/integration/direct/rest/state-codes/#brazil), [Canada](/docs/integration/direct/rest/state-codes/#canada), [India](/docs/integration/direct/rest/state-codes/#india), [Italy](/docs/integration/direct/rest/state-codes/#italy), [Japan](/docs/integration/direct/rest/state-codes/#japan), [Mexico](/docs/integration/direct/rest/state-codes/#mexico), [Thailand](/docs/integration/direct/rest/state-codes/#thailand), or [United States](/docs/integration/direct/rest/state-codes/#usa). Maximum length is 40 single-byte characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of address. For example, `HOME_OR_WORK`, `GIFT`, and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "address"
+      }
+    },
+    "AddressInput": {
+      "description": "The billing address or shipping address for a payment.",
+      "fields": {
+        "city": {
+          "description": "The city name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "line1": {
+          "description": "The first line of the address. For example, number, street, and so on.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "line2": {
+          "description": "The second line of the address. For example, suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "phone": {
+          "description": "The phone number, in [E.123 format](https://www.itu.int/rec/T-REC-E.123-200102-I/en). Maximum length is 50 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "phone"
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "state": {
+          "description": "The [code](/docs/integration/direct/rest/state-codes/) for a US state or the equivalent for other countries. Required for transactions if the address is in one of these countries: [Argentina](/docs/integration/direct/rest/state-codes/#argentina), [Brazil](/docs/integration/direct/rest/state-codes/#brazil), [Canada](/docs/integration/direct/rest/state-codes/#canada), [India](/docs/integration/direct/rest/state-codes/#india), [Italy](/docs/integration/direct/rest/state-codes/#italy), [Japan](/docs/integration/direct/rest/state-codes/#japan), [Mexico](/docs/integration/direct/rest/state-codes/#mexico), [Thailand](/docs/integration/direct/rest/state-codes/#thailand), or [United States](/docs/integration/direct/rest/state-codes/#usa). Maximum length is 40 single-byte characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of address. For example, `HOME_OR_WORK`, `GIFT`, and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "address"
+      }
+    },
+    "Amount": {
+      "description": "The payment amount, with details.",
+      "fields": {
+        "currency": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/). PayPal does not support all currencies.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "details": {
+          "description": "The additional details about the payment amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "total": {
+          "description": "The total amount charged to the payee by the payer. For refunds, represents the amount that the payee refunds to the original payer. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "amount"
+      }
+    },
+    "AmountDetails": {
+      "description": "The additional details about the payment amount.",
+      "fields": {
+        "gift_wrap": {
+          "description": "The gift wrap fee. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "handling_fee": {
+          "description": "The handling fee. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.Supported for the PayPal payment method only.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "insurance": {
+          "description": "The insurance fee. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.Supported only for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "shipping": {
+          "description": "The shipping fee. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "shipping_discount": {
+          "description": "The shipping fee discount. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.Supported for the PayPal payment method only.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subtotal": {
+          "description": "The subtotal amount for the items. If the request includes line items, this property is **required**. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "tax": {
+          "description": "The tax. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "amount"
+      }
+    },
+    "AmountDetailsInput": {
+      "description": "The additional details about the payment amount.",
+      "fields": {
+        "gift_wrap": {
+          "description": "The gift wrap fee. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "handling_fee": {
+          "description": "The handling fee. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.Supported for the PayPal payment method only.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "insurance": {
+          "description": "The insurance fee. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.Supported only for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "shipping": {
+          "description": "The shipping fee. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "shipping_discount": {
+          "description": "The shipping fee discount. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.Supported for the PayPal payment method only.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subtotal": {
+          "description": "The subtotal amount for the items. If the request includes line items, this property is **required**. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "tax": {
+          "description": "The tax. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "amount"
+      }
+    },
+    "AmountInput": {
+      "description": "The payment amount, with details.",
+      "fields": {
+        "currency": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/). PayPal does not support all currencies.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "details": {
+          "description": "The additional details about the payment amount.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountDetailsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "total": {
+          "description": "The total amount charged to the payee by the payer. For refunds, represents the amount that the payee refunds to the original payer. Maximum length is 10 characters, which includes:Seven digits before the decimal point.The decimal point.Two digits after the decimal point.</ul>",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "amount"
+      }
+    },
+    "ApplicationContext": {
+      "description": "Customizes the payer experience during the approval process for the payment with PayPal.Note: The PayPal Commerce Platform might configure brand_name and shipping_preference during partner account setup, which overrides the request values.",
+      "fields": {
+        "brand_name": {
+          "description": "The label that overrides the business name in the PayPal account on the PayPal pages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "locale": {
+          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/docs/integration/direct/rest/country-codes/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_language_v3",
+            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$",
+            "maxLength": 10,
+            "minLength": 2,
+            "xml": {
+              "name": "language"
+            }
+          }
+        },
+        "shipping_preference": {
+          "description": "The shipping preferences.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextShippingPreference",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "supplementary_data": {
+          "description": "An array of name-and-value pairs that contain supplementary data required by PayPal for transaction processing.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "NameValuePair",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "name_value_pair"
+              }
+            }
+          }
+        },
+        "user_action": {
+          "description": "Defines whether to present the customer with a Continue or Pay Now checkout flow. To present buyers with the Pay Now checkout flow, set useraction=commit. Default is the Continue checkout flow.Checkout&nbsp;flowChoose whenDescriptionContinueYou do not know the final payment amount when you initiate the checkout flow.The default flow. Redirects the customer to the PayPal payment page, which shows the Continue button. When the customer clicks Continue, the customer can change the payment amount.Pay NowYou know the final payment amount when you initiate the checkout flow.Set user_action=commit. Redirects the customer to the PayPal payment page, which shows the Pay Now button. When the customer clicks Pay Now, the payment is processed immediately.</table>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "application_context"
+      }
+    },
+    "ApplicationContextInput": {
+      "description": "Customizes the payer experience during the approval process for the payment with PayPal.Note: The PayPal Commerce Platform might configure brand_name and shipping_preference during partner account setup, which overrides the request values.",
+      "fields": {
+        "brand_name": {
+          "description": "The label that overrides the business name in the PayPal account on the PayPal pages.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "locale": {
+          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/docs/integration/direct/rest/country-codes/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_language_v3",
+            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$",
+            "maxLength": 10,
+            "minLength": 2,
+            "xml": {
+              "name": "language"
+            }
+          }
+        },
+        "shipping_preference": {
+          "description": "The shipping preferences.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextShippingPreference",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "supplementary_data": {
+          "description": "An array of name-and-value pairs that contain supplementary data required by PayPal for transaction processing.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "NameValuePairInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "name_value_pair"
+              }
+            }
+          }
+        },
+        "user_action": {
+          "description": "Defines whether to present the customer with a Continue or Pay Now checkout flow. To present buyers with the Pay Now checkout flow, set useraction=commit. Default is the Continue checkout flow.Checkout&nbsp;flowChoose whenDescriptionContinueYou do not know the final payment amount when you initiate the checkout flow.The default flow. Redirects the customer to the PayPal payment page, which shows the Continue button. When the customer clicks Continue, the customer can change the payment amount.Pay NowYou know the final payment amount when you initiate the checkout flow.Set user_action=commit. Redirects the customer to the PayPal payment page, which shows the Pay Now button. When the customer clicks Pay Now, the payment is processed immediately.</table>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "application_context"
+      }
+    },
+    "Capture": {
+      "description": "A capture transaction.",
+      "fields": {
+        "amount": {
+          "description": "The payment amount, with details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Amount",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount"
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the capture transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "reason_code": {
+          "description": "A reason code that indicates the reason for the transaction state of PENDING or REVERSED.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CaptureReasonCode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "The status of the capture transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CaptureStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "transaction_fee": {
+          "description": "The currency and amount for a transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Currency",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "capture"
+      }
+    },
+    "CaptureInput": {
+      "description": "A capture transaction.",
+      "fields": {
+        "amount": {
+          "description": "The payment amount, with details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount"
+            }
+          }
+        },
+        "transaction_fee": {
+          "description": "The currency and amount for a transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CurrencyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "capture"
+      }
+    },
+    "CreditCardInput": {
+      "description": "Deprecated. The credit card details. You can use this instrument to fund a payment. Use a payment card instead.",
+      "fields": {
+        "billing_address": {
+          "description": "The billing address or shipping address for a payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address"
+            }
+          }
+        },
+        "cvv2": {
+          "description": "The three- to four-digit card validation code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expire_month": {
+          "description": "The expiration month with no leading zero. Value is from `1` to `12`.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "expire_year": {
+          "description": "The four-digit expiration year.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "first_name": {
+          "description": "The card holder's first name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_name": {
+          "description": "The card holder's last name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "number": {
+          "description": "The credit card number. Value is numeric characters only with no spaces or punctuation. Must conform to the modulo and length required by each credit card type. *Redacted in responses.*",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The credit card type. Value is `visa`, `mastercard`, `discover`, or `amex`. Do not use these lowercase values for display.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "credit_card"
+      }
+    },
+    "CreditCardTokenInput": {
+      "description": "The tokenized credit card details. You can use this instrument to fund a payment.",
+      "fields": {
+        "credit_card_id": {
+          "description": "The ID of credit card that is stored in the PayPal vault.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payer_id": {
+          "description": "A unique ID that you can assign and track when you store a credit card in the vault or use a vaulted credit card. This ID can help to avoid unintentional use or misuse of credit cards and can be any value, such as a UUID, user name, or email address. **Required** when you use a vaulted credit card and if a `payer_id` was originally provided when you vaulted the credit card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "credit_card_token"
+      }
+    },
+    "Currency": {
+      "description": "The currency and amount for a transaction.",
+      "fields": {
+        "currency": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/). PayPal does not support all currencies.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The amount. Includes the specified number of digits after decimal separator for the [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "currency"
+      }
+    },
+    "CurrencyInput": {
+      "description": "The currency and amount for a transaction.",
+      "fields": {
+        "currency": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/). PayPal does not support all currencies.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The amount. Includes the specified number of digits after decimal separator for the [ISO-4217 currency code](https://en.wikipedia.org/wiki/ISO_4217#Active_codes).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "currency"
+      }
+    },
+    "FundingInstrumentInput": {
+      "description": "The funding instrument details. An instance of this schema is valid if and only if it validates against exactly one of these supported properties.",
+      "fields": {
+        "credit_card": {
+          "description": "Deprecated. The credit card details. You can use this instrument to fund a payment. Use a payment card instead.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreditCardInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "credit_card"
+            }
+          }
+        },
+        "credit_card_token": {
+          "description": "The tokenized credit card details. You can use this instrument to fund a payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CreditCardTokenInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "credit_card_token"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "funding_instrument"
+      }
+    },
+    "Item": {
+      "description": "The item details.",
+      "fields": {
+        "currency": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "description": {
+          "description": "The item description. Supported only for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "name": {
+          "description": "The item name. Maximum length is 127 characters.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "price": {
+          "description": "The item cost. Supports two decimal places.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{0,10}(\\.[0-9]{0,2})?$",
+            "maxLength": 10
+          }
+        },
+        "quantity": {
+          "description": "The item quantity. Must be a whole number.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{0,10}$",
+            "maxLength": 10
+          }
+        },
+        "sku": {
+          "description": "The stock keeping unit (SKU) for the item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "tax": {
+          "description": "The item tax. Supported only for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The URL to item information. Available to the payer in the transaction history.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      },
+      "xml": {
+        "name": "item"
+      }
+    },
+    "ItemInput": {
+      "description": "The item details.",
+      "fields": {
+        "currency": {
+          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "description": {
+          "description": "The item description. Supported only for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "name": {
+          "description": "The item name. Maximum length is 127 characters.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "price": {
+          "description": "The item cost. Supports two decimal places.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{0,10}(\\.[0-9]{0,2})?$",
+            "maxLength": 10
+          }
+        },
+        "quantity": {
+          "description": "The item quantity. Must be a whole number.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{0,10}$",
+            "maxLength": 10
+          }
+        },
+        "sku": {
+          "description": "The stock keeping unit (SKU) for the item.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "tax": {
+          "description": "The item tax. Supported only for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "url": {
+          "description": "The URL to item information. Available to the payer in the transaction history.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      },
+      "xml": {
+        "name": "item"
+      }
+    },
+    "LinkDescription": {
+      "description": "The request-related [HATEOAS link](/docs/api/overview/#hateoas-links) information.",
+      "fields": {
+        "href": {
+          "description": "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "method": {
+          "description": "The HTTP method required to make the related call.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "LinkDescriptionMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "rel": {
+          "description": "The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "link_description"
+      }
+    },
+    "Metadata": {
+      "description": "The name-and-value pairs that contain external data, such as user, user feedback, score, and so on.",
+      "fields": {
+        "supplementary_data": {
+          "description": "An array of name-and-value pairs that contain data required by PayPal for transaction processing.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "NameValuePair",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "name_value_pair"
+              }
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "metadata"
+      }
+    },
+    "MetadataInput": {
+      "description": "The name-and-value pairs that contain external data, such as user, user feedback, score, and so on.",
+      "fields": {
+        "supplementary_data": {
+          "description": "An array of name-and-value pairs that contain data required by PayPal for transaction processing.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "NameValuePairInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "name_value_pair"
+              }
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "metadata"
+      }
+    },
+    "NameValuePair": {
+      "description": "The name-and-value pair details.",
+      "fields": {
+        "name": {
+          "description": "The key for the name-and-value pair. You must correlate the value and name types.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The value for the name-and-value pair.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "name_value_pair"
+      }
+    },
+    "NameValuePairInput": {
+      "description": "The name-and-value pair details.",
+      "fields": {
+        "name": {
+          "description": "The key for the name-and-value pair. You must correlate the value and name types.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "value": {
+          "description": "The value for the name-and-value pair.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "name_value_pair"
+      }
+    },
+    "Order": {
+      "description": "An order.",
+      "fields": {
+        "application_context": {
+          "description": "Customizes the payer experience during the approval process for the payment with PayPal.Note: The PayPal Commerce Platform might configure brand_name and shipping_preference during partner account setup, which overrides the request values.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContext",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "application_context"
+            }
+          }
+        },
+        "create_time": {
+          "description": "The date and time when the resource was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "gross_total_amount": {
+          "description": "The currency and amount for a transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Currency",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency"
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "intent": {
+          "description": "The intent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OrderIntent",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links). To complete the buyer approval, use the `approval_url` link with the `GET` method and do not use the link that shows the `REDIRECT` method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "metadata": {
+          "description": "The name-and-value pairs that contain external data, such as user, user feedback, score, and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "metadata"
+            }
+          }
+        },
+        "payment_details": {
+          "description": "The payment details for the order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_details"
+            }
+          }
+        },
+        "purchase_units": {
+          "description": "An array of purchase units. Each purchase unit establishes a contract between a customer and merchant.",
+          "type": {
+            "element_type": {
+              "name": "PurchaseUnit",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "purchase_unit"
+              }
+            }
+          }
+        },
+        "redirect_urls": {
+          "description": "The redirect URLs. Required only for the PayPal payment method. The supported settings are return and cancel URLs.",
+          "type": {
+            "name": "OrderRedirectUrls",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "status": {
+          "description": "The status of the order. After the customer approves the order, the status is `APPROVED`. After the payment is made for the order and the order completes, the status is `COMPLETED`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OrderStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "update_time": {
+          "description": "The date and time when the resource was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "xml": {
+        "name": "order"
+      }
+    },
+    "OrderInput": {
+      "description": "An order.",
+      "fields": {
+        "application_context": {
+          "description": "Customizes the payer experience during the approval process for the payment with PayPal.Note: The PayPal Commerce Platform might configure brand_name and shipping_preference during partner account setup, which overrides the request values.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplicationContextInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "application_context"
+            }
+          }
+        },
+        "gross_total_amount": {
+          "description": "The currency and amount for a transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CurrencyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency"
+            }
+          }
+        },
+        "intent": {
+          "description": "The intent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OrderIntent",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "metadata": {
+          "description": "The name-and-value pairs that contain external data, such as user, user feedback, score, and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MetadataInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "metadata"
+            }
+          }
+        },
+        "payment_details": {
+          "description": "The payment details for the order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentDetailsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_details"
+            }
+          }
+        },
+        "purchase_units": {
+          "description": "An array of purchase units. Each purchase unit establishes a contract between a customer and merchant.",
+          "type": {
+            "element_type": {
+              "name": "PurchaseUnitInput",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "purchase_unit"
+              }
+            }
+          }
+        },
+        "redirect_urls": {
+          "description": "The redirect URLs. Required only for the PayPal payment method. The supported settings are return and cancel URLs.",
+          "type": {
+            "name": "OrderRedirectUrlsInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "order"
+      }
+    },
+    "OrderRedirectUrls": {
+      "description": "The redirect URLs. Required only for the PayPal payment method. The supported settings are return and cancel URLs.",
+      "fields": {
+        "cancel_url": {
+          "description": "The URL where the payer is redirected after the payer cancels the payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "return_url": {
+          "description": "The URL where the payer is redirected after the payer approves the payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      },
+      "xml": {
+        "name": "order"
+      }
+    },
+    "OrderRedirectUrlsInput": {
+      "description": "The redirect URLs. Required only for the PayPal payment method. The supported settings are return and cancel URLs.",
+      "fields": {
+        "cancel_url": {
+          "description": "The URL where the payer is redirected after the payer cancels the payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "return_url": {
+          "description": "The URL where the payer is redirected after the payer approves the payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      },
+      "xml": {
+        "name": "order"
+      }
+    },
+    "PartnerFeeDetails": {
+      "description": "The partner fee that is collected for the original transaction.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a transaction.",
+          "type": {
+            "name": "Currency",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency"
+            }
+          }
+        },
+        "receiver": {
+          "description": "The payee who receives the funds and fulfills the order.",
+          "type": {
+            "name": "Payee",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "partner_fee_details"
+      }
+    },
+    "PartnerFeeDetailsInput": {
+      "description": "The partner fee that is collected for the original transaction.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a transaction.",
+          "type": {
+            "name": "CurrencyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency"
+            }
+          }
+        },
+        "receiver": {
+          "description": "The payee who receives the funds and fulfills the order.",
+          "type": {
+            "name": "PayeeInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "partner_fee_details"
+      }
+    },
+    "PayOrderRequestInput": {
+      "description": "An execute order request.",
+      "fields": {
+        "disbursement_mode": {
+          "description": "Indicates whether to disburse money instantly or later.",
+          "type": {
+            "name": "PayOrderRequestDisbursementMode",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payer": {
+          "description": "The payer. The payer funds the payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayerInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payer"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "pay_order_request"
+      }
+    },
+    "PayOrderResponse": {
+      "description": "A pay order response.",
+      "fields": {
+        "create_time": {
+          "description": "The date and time when the resource was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "intent": {
+          "description": "The intent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayOrderResponseIntent",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "order_id": {
+          "description": "The ID of the order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payer_info": {
+          "description": "The payer information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayerInfo",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payer_info"
+            }
+          }
+        },
+        "purchase_units": {
+          "description": "An array of purchase units. Each purchase unit establishes a contract between a customer and merchant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PurchaseUnit",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "purchase_unit"
+              }
+            }
+          }
+        },
+        "status": {
+          "description": "The status of the order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayOrderResponseStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "update_time": {
+          "description": "The date and time when the resource was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "xml": {
+        "name": "pay_order_response"
+      }
+    },
+    "Payee": {
+      "description": "The payee who receives the funds and fulfills the order.",
+      "fields": {
+        "email": {
+          "description": "The email address associated with the payee's PayPal account. For an intent of authorize or order, the email address must be associated with a confirmed PayPal business account. For an intent of sale, the email can either:Be associated with a confirmed PayPal personal or business account.Not be associated with a PayPal account.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "merchant_id": {
+          "description": "The encrypted PayPal account ID for the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payee_display_metadata": {
+          "description": "The display-only metadata for the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeDisplayMetadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee_display_metadata"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "payee"
+      }
+    },
+    "PayeeDisplayMetadata": {
+      "description": "The display-only metadata for the payee.",
+      "fields": {
+        "brand_name": {
+          "description": "The payer's business name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "display_phone": {
+          "description": "The payee's phone number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeDisplayMetadataDisplayPhone",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "email": {
+          "description": "The email address for the payer. Maximum length is 127 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        }
+      },
+      "xml": {
+        "name": "payee_display_metadata"
+      }
+    },
+    "PayeeDisplayMetadataDisplayPhone": {
+      "description": "The payee's phone number.",
+      "fields": {
+        "country_code": {
+          "description": "The [two-character IS0-3166-1 country code](https://developer.paypal.com/docs/integration/direct/rest/country-codes/) of the payee's country.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "number": {
+          "description": "The in-country phone number, in [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164-201011-I).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "payee_display_metadata"
+      }
+    },
+    "PayeeDisplayMetadataDisplayPhoneInput": {
+      "description": "The payee's phone number.",
+      "fields": {
+        "country_code": {
+          "description": "The [two-character IS0-3166-1 country code](https://developer.paypal.com/docs/integration/direct/rest/country-codes/) of the payee's country.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "number": {
+          "description": "The in-country phone number, in [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164-201011-I).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "payee_display_metadata"
+      }
+    },
+    "PayeeDisplayMetadataInput": {
+      "description": "The display-only metadata for the payee.",
+      "fields": {
+        "brand_name": {
+          "description": "The payer's business name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "display_phone": {
+          "description": "The payee's phone number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeDisplayMetadataDisplayPhoneInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "email": {
+          "description": "The email address for the payer. Maximum length is 127 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        }
+      },
+      "xml": {
+        "name": "payee_display_metadata"
+      }
+    },
+    "PayeeInput": {
+      "description": "The payee who receives the funds and fulfills the order.",
+      "fields": {
+        "email": {
+          "description": "The email address associated with the payee's PayPal account. For an intent of authorize or order, the email address must be associated with a confirmed PayPal business account. For an intent of sale, the email can either:Be associated with a confirmed PayPal personal or business account.Not be associated with a PayPal account.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "merchant_id": {
+          "description": "The encrypted PayPal account ID for the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payee_display_metadata": {
+          "description": "The display-only metadata for the payee.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeDisplayMetadataInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee_display_metadata"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "payee"
+      }
+    },
+    "PayerInfo": {
+      "description": "The payer information.",
+      "fields": {
+        "billing_address": {
+          "description": "The billing address or shipping address for a payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Address",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address"
+            }
+          }
+        },
+        "birth_date": {
+          "description": "The birth date of the payer, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, `1990-04-12`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "country_code": {
+          "description": "The payer's [two-character IS0-3166-1 country code](/docs/integration/direct/rest/country-codes/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "email": {
+          "description": "The payer's email address. Maximum length is 127 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "first_name": {
+          "description": "The payer's first name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "last_name": {
+          "description": "The payer's last name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "middle_name": {
+          "description": "The payer's middle name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payer_id": {
+          "description": "The PayPal-assigned encrypted payer ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "salutation": {
+          "description": "The payer's salutation.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "shipping_address": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingAddress",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_address"
+            }
+          }
+        },
+        "suffix": {
+          "description": "The payer's suffix.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "tax_id": {
+          "description": "The payers tax ID. Supported for the PayPal payment method only.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 14
+          }
+        },
+        "tax_id_type": {
+          "description": "The payers tax ID type. Supported for the PayPal payment method only.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayerInfoTaxIdType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "payer_info"
+      }
+    },
+    "PayerInfoInput": {
+      "description": "The payer information.",
+      "fields": {
+        "billing_address": {
+          "description": "The billing address or shipping address for a payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "address"
+            }
+          }
+        },
+        "birth_date": {
+          "description": "The birth date of the payer, in [Internet date format](https://tools.ietf.org/html/rfc3339#section-5.6). For example, `1990-04-12`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "country_code": {
+          "description": "The payer's [two-character IS0-3166-1 country code](/docs/integration/direct/rest/country-codes/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "email": {
+          "description": "The payer's email address. Maximum length is 127 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "email"
+          }
+        },
+        "shipping_address": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingAddressInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_address"
+            }
+          }
+        },
+        "tax_id": {
+          "description": "The payers tax ID. Supported for the PayPal payment method only.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 14
+          }
+        },
+        "tax_id_type": {
+          "description": "The payers tax ID type. Supported for the PayPal payment method only.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayerInfoTaxIdType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "payer_info"
+      }
+    },
+    "PayerInput": {
+      "description": "The payer. The payer funds the payment.",
+      "fields": {
+        "funding_instruments": {
+          "description": "An array of a single funding instrument for the current payment. Valid only and required for the credit card payment method. The array must include either a `credit_card` or `credit_card_token` object. If the array contains more than one instrument, the payment is declined.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "FundingInstrumentInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "funding_instrument"
+              }
+            }
+          }
+        },
+        "payer_info": {
+          "description": "The payer information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayerInfoInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payer_info"
+            }
+          }
+        },
+        "payment_method": {
+          "description": "The payment method. Value is PayPal Wallet payment, bank direct debit, or direct credit card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayerPaymentMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "payer"
+      }
+    },
+    "PaymentDetails": {
+      "description": "The payment details for the order.",
+      "fields": {
+        "disbursement_mode": {
+          "description": "Indicates whether to disburse the payment instantly or delay the payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentDetailsDisbursementMode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "payment_id": {
+          "description": "The payment ID for the order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "payment_details"
+      }
+    },
+    "PaymentDetailsInput": {
+      "description": "The payment details for the order.",
+      "fields": {
+        "xmlValue": {
+          "description": "Value of the xml field",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "xml": {
+              "text": true
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "payment_details"
+      }
+    },
+    "PaymentSummary": {
+      "description": "The payment summary.",
+      "fields": {
+        "authorizations": {
+          "description": "An array of authorizations for a purchase unit. A purchase unit can have zero or more authorizations.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Sale",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "sale"
+              }
+            }
+          }
+        },
+        "captures": {
+          "description": "An array of captures for a purchase unit. A purchase unit can have zero or more captures.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Capture",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "capture"
+              }
+            }
+          }
+        },
+        "refunds": {
+          "description": "An array of refunds for a purchase unit. A purchase unit can have zero or more refunds.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Refund",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "refund"
+              }
+            }
+          }
+        },
+        "sales": {
+          "description": "An array of sales for a purchase unit. A purchase unit can have zero or more sales.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Sale",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "sale"
+              }
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "payment_summary"
+      }
+    },
+    "PaymentSummaryInput": {
+      "description": "The payment summary.",
+      "fields": {
+        "authorizations": {
+          "description": "An array of authorizations for a purchase unit. A purchase unit can have zero or more authorizations.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "SaleInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "sale"
+              }
+            }
+          }
+        },
+        "captures": {
+          "description": "An array of captures for a purchase unit. A purchase unit can have zero or more captures.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "CaptureInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "capture"
+              }
+            }
+          }
+        },
+        "refunds": {
+          "description": "An array of refunds for a purchase unit. A purchase unit can have zero or more refunds.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "RefundInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "refund"
+              }
+            }
+          }
+        },
+        "sales": {
+          "description": "An array of sales for a purchase unit. A purchase unit can have zero or more sales.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "SaleInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "sale"
+              }
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "payment_summary"
+      }
+    },
+    "PurchaseUnit": {
+      "description": "A purchase unit. Establishes a contract between the payer and payee.",
+      "fields": {
+        "amount": {
+          "description": "The payment amount, with details.",
+          "type": {
+            "name": "Amount",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount"
+            }
+          }
+        },
+        "custom": {
+          "description": "The client-provided external ID. Used to reconcile client transactions with PayPal transactions. Returned in transaction and settlement reports. Only supported for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "description": {
+          "description": "The purchase description.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "invoice_number": {
+          "description": "The API caller-provided external invoice ID for this order.. Only supported for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 256
+          }
+        },
+        "items": {
+          "description": "An array of items that the customer is purchasing from the merchant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Item",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "item"
+              }
+            }
+          }
+        },
+        "metadata": {
+          "description": "The name-and-value pairs that contain external data, such as user, user feedback, score, and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Metadata",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "metadata"
+            }
+          }
+        },
+        "notify_url": {
+          "description": "The payment notifications URL.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 2048
+          }
+        },
+        "partner_fee_details": {
+          "description": "The partner fee that is collected for the original transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PartnerFeeDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "partner_fee_details"
+            }
+          }
+        },
+        "payee": {
+          "description": "The payee who receives the funds and fulfills the order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Payee",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee"
+            }
+          }
+        },
+        "payment_descriptor": {
+          "description": "The payment descriptor on the buyer credit card statement of account activity.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 22
+          }
+        },
+        "payment_linked_group": {
+          "description": "An ID that groups multiple linked purchase units. The purchase transactions are linked only for the payment and not for refund. A refund is processed only for the specific transaction within the same linked group.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 100,
+            "minimum": 1
+          }
+        },
+        "payment_summary": {
+          "description": "The payment summary.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentSummary",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_summary"
+            }
+          }
+        },
+        "reason_code": {
+          "description": "The reason code for a transaction status of PENDING or REVERSED. Eventually, this field will replace pending_reason. Supported only for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PurchaseUnitReasonCode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "reference_id": {
+          "description": "The merchant ID for the purchase unit.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 256
+          }
+        },
+        "shipping_address": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingAddress",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_address"
+            }
+          }
+        },
+        "shipping_method": {
+          "description": "The shipping method. For example, `USPSParcel`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "The transaction state.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PurchaseUnitStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "purchase_unit"
+      }
+    },
+    "PurchaseUnitInput": {
+      "description": "A purchase unit. Establishes a contract between the payer and payee.",
+      "fields": {
+        "amount": {
+          "description": "The payment amount, with details.",
+          "type": {
+            "name": "AmountInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount"
+            }
+          }
+        },
+        "custom": {
+          "description": "The client-provided external ID. Used to reconcile client transactions with PayPal transactions. Returned in transaction and settlement reports. Only supported for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "description": {
+          "description": "The purchase description.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "invoice_number": {
+          "description": "The API caller-provided external invoice ID for this order.. Only supported for the PayPal payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 256
+          }
+        },
+        "items": {
+          "description": "An array of items that the customer is purchasing from the merchant.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ItemInput",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "item"
+              }
+            }
+          }
+        },
+        "metadata": {
+          "description": "The name-and-value pairs that contain external data, such as user, user feedback, score, and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MetadataInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "metadata"
+            }
+          }
+        },
+        "notify_url": {
+          "description": "The payment notifications URL.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URI",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 2048
+          }
+        },
+        "partner_fee_details": {
+          "description": "The partner fee that is collected for the original transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PartnerFeeDetailsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "partner_fee_details"
+            }
+          }
+        },
+        "payee": {
+          "description": "The payee who receives the funds and fulfills the order.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PayeeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payee"
+            }
+          }
+        },
+        "payment_descriptor": {
+          "description": "The payment descriptor on the buyer credit card statement of account activity.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 22
+          }
+        },
+        "payment_linked_group": {
+          "description": "An ID that groups multiple linked purchase units. The purchase transactions are linked only for the payment and not for refund. A refund is processed only for the specific transaction within the same linked group.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 100,
+            "minimum": 1
+          }
+        },
+        "payment_summary": {
+          "description": "The payment summary.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentSummaryInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "payment_summary"
+            }
+          }
+        },
+        "reference_id": {
+          "description": "The merchant ID for the purchase unit.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 256
+          }
+        },
+        "shipping_address": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ShippingAddressInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "shipping_address"
+            }
+          }
+        },
+        "shipping_method": {
+          "description": "The shipping method. For example, `USPSParcel`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "purchase_unit"
+      }
+    },
+    "Refund": {
+      "description": "A refund transaction.",
+      "fields": {
+        "amount": {
+          "description": "The payment amount, with details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Amount",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount"
+            }
+          }
+        },
+        "capture_id": {
+          "description": "The ID of the sale transaction to refund.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "id": {
+          "description": "The ID of the refund transaction. Maximum length is 17 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "sale_id": {
+          "description": "The ID of the sale transaction to refund.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "The status of the refund.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RefundStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "xml": {
+        "name": "refund"
+      }
+    },
+    "RefundInput": {
+      "description": "A refund transaction.",
+      "fields": {
+        "amount": {
+          "description": "The payment amount, with details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "refund"
+      }
+    },
+    "Sale": {
+      "description": "A sale transaction.",
+      "fields": {
+        "amount": {
+          "description": "The payment amount, with details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Amount",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount"
+            }
+          }
+        },
+        "create_time": {
+          "description": "The date and time when the resource was created, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "id": {
+          "description": "The ID of the sale transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "link_description"
+              }
+            }
+          }
+        },
+        "reason_code": {
+          "description": "A reason code that indicates the reason for the transaction state of PENDING or REVERSED.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SaleReasonCode",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "status": {
+          "description": "The status of the sale transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SaleStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "transaction_fee": {
+          "description": "The currency and amount for a transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Currency",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency"
+            }
+          }
+        },
+        "update_time": {
+          "description": "The date and time when the resource was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "xml": {
+        "name": "sale"
+      }
+    },
+    "SaleInput": {
+      "description": "A sale transaction.",
+      "fields": {
+        "amount": {
+          "description": "The payment amount, with details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AmountInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "amount"
+            }
+          }
+        },
+        "transaction_fee": {
+          "description": "The currency and amount for a transaction.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CurrencyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ],
+            "xml": {
+              "name": "currency"
+            }
+          }
+        }
+      },
+      "xml": {
+        "name": "sale"
+      }
+    },
+    "ShippingAddress": {
+      "description": "The shipping address details.",
+      "fields": {
+        "city": {
+          "description": "The city name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "line1": {
+          "description": "The first line of the address. For example, number, street, and so on.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "line2": {
+          "description": "The second line of the address. For example, suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "normalization_status": {
+          "description": "The address normalization status. Returned only for payers from Brazil.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AddressNormalizationStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "phone": {
+          "description": "The phone number, in [E.123 format](https://www.itu.int/rec/T-REC-E.123-200102-I/en). Maximum length is 50 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "phone"
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "recipient_name": {
+          "description": "The name of the recipient at this address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "state": {
+          "description": "The [code](/docs/integration/direct/rest/state-codes/) for a US state or the equivalent for other countries. Required for transactions if the address is in one of these countries: [Argentina](/docs/integration/direct/rest/state-codes/#argentina), [Brazil](/docs/integration/direct/rest/state-codes/#brazil), [Canada](/docs/integration/direct/rest/state-codes/#canada), [India](/docs/integration/direct/rest/state-codes/#india), [Italy](/docs/integration/direct/rest/state-codes/#italy), [Japan](/docs/integration/direct/rest/state-codes/#japan), [Mexico](/docs/integration/direct/rest/state-codes/#mexico), [Thailand](/docs/integration/direct/rest/state-codes/#thailand), or [United States](/docs/integration/direct/rest/state-codes/#usa). Maximum length is 40 single-byte characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of address. For example, `HOME_OR_WORK`, `GIFT`, and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ShippingAddressInput": {
+      "description": "The shipping address details.",
+      "fields": {
+        "city": {
+          "description": "The city name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "country_code": {
+          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2,
+            "xml": {
+              "name": "country_code"
+            }
+          }
+        },
+        "line1": {
+          "description": "The first line of the address. For example, number, street, and so on.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "line2": {
+          "description": "The second line of the address. For example, suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "phone": {
+          "description": "The phone number, in [E.123 format](https://www.itu.int/rec/T-REC-E.123-200102-I/en). Maximum length is 50 characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "phone"
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "recipient_name": {
+          "description": "The name of the recipient at this address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127
+          }
+        },
+        "state": {
+          "description": "The [code](/docs/integration/direct/rest/state-codes/) for a US state or the equivalent for other countries. Required for transactions if the address is in one of these countries: [Argentina](/docs/integration/direct/rest/state-codes/#argentina), [Brazil](/docs/integration/direct/rest/state-codes/#brazil), [Canada](/docs/integration/direct/rest/state-codes/#canada), [India](/docs/integration/direct/rest/state-codes/#india), [Italy](/docs/integration/direct/rest/state-codes/#italy), [Japan](/docs/integration/direct/rest/state-codes/#japan), [Mexico](/docs/integration/direct/rest/state-codes/#mexico), [Thailand](/docs/integration/direct/rest/state-codes/#thailand), or [United States](/docs/integration/direct/rest/state-codes/#usa). Maximum length is 40 single-byte characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "type": {
+          "description": "The type of address. For example, `HOME_OR_WORK`, `GIFT`, and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "procedures": {
+    "orders_cancel": {
+      "request": {
+        "url": "/v1/checkout/orders/{order_id}",
+        "method": "delete",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment",
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "order_id": {
+          "description": "The ID of the order for which to execute a payment.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "order_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Cancel order",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "orders_create": {
+      "request": {
+        "url": "/v1/checkout/orders",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment",
+              "https://uri.paypal.com/services/payments/channelpartner",
+              "https://uri.paypal.com/services/payments/partnerfee",
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Partner-Attribution-Id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Partner-Attribution-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "An order.",
+          "type": {
+            "name": "OrderInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "order"
+              }
+            }
+          }
+        }
+      },
+      "description": "Create order",
+      "result_type": {
+        "name": "Order",
+        "type": "named"
+      }
+    },
+    "orders_pay": {
+      "request": {
+        "url": "/v1/checkout/orders/{order_id}/pay",
+        "method": "post",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/payments/payment",
+              "https://uri.paypal.com/services/payments/realtimepayment"
+            ]
+          }
+        ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "PayPal-Partner-Attribution-Id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Partner-Attribution-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "PayPal-Request-Id": {
+          "description": "The server stores keys forever.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "An execute order request.",
+          "type": {
+            "name": "PayOrderRequestInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ],
+              "xml": {
+                "name": "pay_order_request"
+              }
+            }
+          }
+        },
+        "order_id": {
+          "description": "The ID of the order for which to execute a payment.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "order_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Pay for order",
+      "result_type": {
+        "name": "PayOrderResponse",
+        "type": "named"
+      }
+    }
+  },
+  "scalar_types": {
+    "AddressNormalizationStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "UNKNOWN",
+          "UNNORMALIZED_USER_PREFERRED",
+          "NORMALIZED",
+          "UNNORMALIZED"
+        ],
+        "type": "enum"
+      }
+    },
+    "ApplicationContextShippingPreference": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "NO_SHIPPING",
+          "GET_FROM_FILE",
+          "SET_PROVIDED_ADDRESS"
+        ],
+        "type": "enum"
+      }
+    },
+    "Boolean": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "boolean"
+      }
+    },
+    "CaptureReasonCode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CHARGEBACK",
+          "GUARANTEE",
+          "BUYER_COMPLAINT",
+          "REFUND",
+          "UNCONFIRMED_SHIPPING_ADDRESS",
+          "ECHECK",
+          "INTERNATIONAL_WITHDRAWAL",
+          "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION",
+          "PAYMENT_REVIEW",
+          "REGULATORY_REVIEW",
+          "UNILATERAL",
+          "VERIFICATION_REQUIRED",
+          "DELAYED_DISBURSEMENT"
+        ],
+        "type": "enum"
+      }
+    },
+    "CaptureStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "PENDING",
+          "COMPLETED",
+          "REFUNDED",
+          "PARTIALLY_REFUNDED",
+          "DENIED"
+        ],
+        "type": "enum"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "LinkDescriptionMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "HEAD",
+          "CONNECT",
+          "OPTIONS",
+          "PATCH"
+        ],
+        "type": "enum"
+      }
+    },
+    "OrderIntent": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "SALE",
+          "AUTHORIZE"
+        ],
+        "type": "enum"
+      }
+    },
+    "OrderStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CREATED",
+          "APPROVED",
+          "COMPLETED",
+          "FAILED"
+        ],
+        "type": "enum"
+      }
+    },
+    "PayOrderRequestDisbursementMode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "INSTANT",
+          "DELAYED"
+        ],
+        "type": "enum"
+      }
+    },
+    "PayOrderResponseIntent": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "SALE",
+          "AUTHORIZE"
+        ],
+        "type": "enum"
+      }
+    },
+    "PayOrderResponseStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "APPROVED",
+          "CANCELED",
+          "COMPLETED",
+          "CREATED",
+          "EXPIRED",
+          "FAILED",
+          "IN_PROGRESS",
+          "PARTIALLY_COMPLETED",
+          "SUBMITTED"
+        ],
+        "type": "enum"
+      }
+    },
+    "PayerInfoTaxIdType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "BR_CPF",
+          "BR_CNPJ"
+        ],
+        "type": "enum"
+      }
+    },
+    "PayerPaymentMethod": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "credit_card",
+          "bank",
+          "paypal",
+          "pay_upon_invoice",
+          "carrier",
+          "alternate_payment"
+        ],
+        "type": "enum"
+      }
+    },
+    "PaymentDetailsDisbursementMode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "INSTANT",
+          "DELAYED"
+        ],
+        "type": "enum"
+      }
+    },
+    "PurchaseUnitReasonCode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "PAYER_SHIPPING_UNCONFIRMED",
+          "MULTI_CURRENCY",
+          "RISK_REVIEW",
+          "REGULATORY_REVIEW",
+          "VERIFICATION_REQUIRED",
+          "ORDER",
+          "OTHER",
+          "DECLINED_BY_POLICY"
+        ],
+        "type": "enum"
+      }
+    },
+    "PurchaseUnitStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "NOT_PROCESSED",
+          "PENDING",
+          "VOIDED",
+          "AUTHORIZED",
+          "CAPTURED"
+        ],
+        "type": "enum"
+      }
+    },
+    "RefundStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "PENDING",
+          "COMPLETED",
+          "FAILED"
+        ],
+        "type": "enum"
+      }
+    },
+    "SaleReasonCode": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CHARGEBACK",
+          "GUARANTEE",
+          "BUYER_COMPLAINT",
+          "REFUND",
+          "UNCONFIRMED_SHIPPING_ADDRESS",
+          "ECHECK",
+          "INTERNATIONAL_WITHDRAWAL",
+          "RECEIVING_PREFERENCE_MANDATES_MANUAL_ACTION",
+          "PAYMENT_REVIEW",
+          "REGULATORY_REVIEW",
+          "UNILATERAL",
+          "VERIFICATION_REQUIRED",
+          "DELAYED_DISBURSEMENT"
+        ],
+        "type": "enum"
+      }
+    },
+    "SaleStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "COMPLETED",
+          "PARTIALLY_REFUNDED",
+          "PENDING",
+          "REFUNDED",
+          "DENIED"
+        ],
+        "type": "enum"
+      }
+    },
+    "String": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    },
+    "TimestampTZ": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "timestamptz"
+      }
+    },
+    "URI": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "string"
+      }
+    }
+  }
+}
