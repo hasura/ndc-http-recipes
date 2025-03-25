@@ -1,6 +1,6 @@
 services:
   ndc-http:
-    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.8.1}
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.9.0}
     ports:
       - 8080:8080
     volumes:
@@ -13,13 +13,13 @@ services:
       HASURA_LOG_LEVEL: debug
 
   mock-idp:
-    image: stoplight/prism:5.12.1
+    image: ghcr.io/hgiasac/prism:latest
     command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/okta/okta-management-openapi-spec/refs/heads/master/dist/2024.08.3/idp-minimal.yaml"
     ports:
-      - "4010"
+      - "4011:4010"
 
   mock-oauth:
-    image: stoplight/prism:5.12.1
+    image: ghcr.io/hgiasac/prism:latest
     command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/okta/okta-management-openapi-spec/refs/heads/master/dist/2024.08.3/oauth-minimal.yaml"
     ports:
-      - "4010"
+      - "4010:4010"

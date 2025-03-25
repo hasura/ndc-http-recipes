@@ -1,0 +1,17 @@
+services:
+  ndc-http:
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.9.0}
+    ports:
+      - 8080:8080
+    volumes:
+      - ./schema:/etc/connector:ro
+    environment:
+      ASANA_SERVER_URL: http://mock-api:4010
+      ASANA_PERSONAL_ACCESS_TOKEN: random-token
+      HASURA_LOG_LEVEL: debug
+
+  mock-api:
+    image: ghcr.io/hgiasac/prism:latest
+    command: "mock -h 0.0.0.0 https://raw.githubusercontent.com/Asana/openapi/7d1d65782705d07a0214ac5a2651b15449c680d9/defs/asana_oas.yaml"
+    ports:
+      - "4010:4010"
