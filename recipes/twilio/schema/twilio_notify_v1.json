@@ -358,7 +358,7 @@
       },
       "description": "GET /v1/Services/{ServiceSid}/Bindings",
       "result_type": {
-        "name": "NotifyListBindingResult",
+        "name": "NotifyListBindingResultObject",
         "type": "named"
       }
     },
@@ -439,7 +439,7 @@
       },
       "description": "GET /v1/Credentials",
       "result_type": {
-        "name": "NotifyListCredentialResult",
+        "name": "NotifyListCredentialResultObject",
         "type": "named"
       }
     },
@@ -539,13 +539,13 @@
       },
       "description": "GET /v1/Services",
       "result_type": {
-        "name": "NotifyListServiceResult",
+        "name": "NotifyListServiceResultObject",
         "type": "named"
       }
     }
   },
   "object_types": {
-    "NotifyCreateBindingBodyInput": {
+    "NotifyCreateBindingBodyObjectInput": {
       "fields": {
         "Address": {
           "description": "The channel-specific address. For APNS, the device token. For FCM and GCM, the registration token. For SMS, a phone number in E.164 format. For Facebook Messenger, the Messenger ID of the user or a phone number in E.164 format.",
@@ -655,7 +655,7 @@
         }
       }
     },
-    "NotifyCreateCredentialBodyInput": {
+    "NotifyCreateCredentialBodyObjectInput": {
       "fields": {
         "ApiKey": {
           "description": "[GCM only] The `Server key` of your project from Firebase console under Settings / Cloud messaging.",
@@ -760,7 +760,7 @@
         }
       }
     },
-    "NotifyCreateNotificationBodyInput": {
+    "NotifyCreateNotificationBodyObjectInput": {
       "fields": {
         "Action": {
           "description": "The actions to display for the notification. For APNS, translates to the `aps.category` value. For GCM, translates to the `data.twi_action` value. For SMS, this parameter is not supported and is omitted from deliveries to those channels.",
@@ -1037,7 +1037,7 @@
         }
       }
     },
-    "NotifyCreateServiceBodyInput": {
+    "NotifyCreateServiceBodyObjectInput": {
       "fields": {
         "AlexaSkillId": {
           "description": "Deprecated.",
@@ -1263,7 +1263,113 @@
         }
       }
     },
-    "NotifyListBindingResult": {
+    "NotifyListBindingResultMetaObject": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "NotifyListBindingResultObject": {
       "fields": {
         "bindings": {
           "type": {
@@ -1291,7 +1397,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyListBindingResultMeta",
+              "name": "NotifyListBindingResultMetaObject",
               "type": "named"
             }
           },
@@ -1303,7 +1409,7 @@
         }
       }
     },
-    "NotifyListBindingResultMeta": {
+    "NotifyListCredentialResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -1409,7 +1515,7 @@
         }
       }
     },
-    "NotifyListCredentialResult": {
+    "NotifyListCredentialResultObject": {
       "fields": {
         "credentials": {
           "type": {
@@ -1437,7 +1543,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyListCredentialResultMeta",
+              "name": "NotifyListCredentialResultMetaObject",
               "type": "named"
             }
           },
@@ -1449,7 +1555,7 @@
         }
       }
     },
-    "NotifyListCredentialResultMeta": {
+    "NotifyListServiceResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -1555,13 +1661,13 @@
         }
       }
     },
-    "NotifyListServiceResult": {
+    "NotifyListServiceResultObject": {
       "fields": {
         "meta": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyListServiceResultMeta",
+              "name": "NotifyListServiceResultMetaObject",
               "type": "named"
             }
           },
@@ -1591,112 +1697,6 @@
                 "object"
               ]
             }
-          }
-        }
-      }
-    },
-    "NotifyListServiceResultMeta": {
-      "fields": {
-        "first_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "key": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "next_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "page": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "page_size": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "previous_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
           }
         }
       }
@@ -2710,7 +2710,7 @@
       },
       "alias": "notify.v1.service.notification"
     },
-    "NotifyUpdateCredentialBodyInput": {
+    "NotifyUpdateCredentialBodyObjectInput": {
       "fields": {
         "ApiKey": {
           "description": "[GCM only] The `Server key` of your project from Firebase console under Settings / Cloud messaging.",
@@ -2804,7 +2804,7 @@
         }
       }
     },
-    "NotifyUpdateServiceBodyInput": {
+    "NotifyUpdateServiceBodyObjectInput": {
       "fields": {
         "AlexaSkillId": {
           "description": "Deprecated.",
@@ -3073,7 +3073,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyCreateBindingBodyInput",
+              "name": "NotifyCreateBindingBodyObjectInput",
               "type": "named"
             }
           },
@@ -3115,7 +3115,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyCreateCredentialBodyInput",
+              "name": "NotifyCreateCredentialBodyObjectInput",
               "type": "named"
             }
           },
@@ -3176,7 +3176,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyCreateNotificationBodyInput",
+              "name": "NotifyCreateNotificationBodyObjectInput",
               "type": "named"
             }
           },
@@ -3218,7 +3218,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyCreateServiceBodyInput",
+              "name": "NotifyCreateServiceBodyObjectInput",
               "type": "named"
             }
           },
@@ -3427,7 +3427,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyUpdateCredentialBodyInput",
+              "name": "NotifyUpdateCredentialBodyObjectInput",
               "type": "named"
             }
           },
@@ -3488,7 +3488,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "NotifyUpdateServiceBodyInput",
+              "name": "NotifyUpdateServiceBodyObjectInput",
               "type": "named"
             }
           },

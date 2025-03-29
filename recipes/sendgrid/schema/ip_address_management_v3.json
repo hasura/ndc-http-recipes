@@ -74,7 +74,7 @@
       },
       "description": "Get Details for an IP Address",
       "result_type": {
-        "name": "GetIpResult",
+        "name": "GetIpResultObject",
         "type": "named"
       }
     },
@@ -125,7 +125,7 @@
       },
       "description": "Get Details for an IP Pool",
       "result_type": {
-        "name": "GetIpPoolResult",
+        "name": "GetIpPoolResultObject",
         "type": "named"
       }
     },
@@ -369,7 +369,7 @@
       },
       "description": "Get a List of all IP Addresses on your Account",
       "result_type": {
-        "name": "ListIpResult",
+        "name": "ListIpResultObject",
         "type": "named"
       }
     },
@@ -458,7 +458,7 @@
       },
       "description": "Get IPs Assigned to an IP Pool",
       "result_type": {
-        "name": "ListIpAssignedToIpPoolResult",
+        "name": "ListIpAssignedToIpPoolResultObject",
         "type": "named"
       }
     },
@@ -569,7 +569,7 @@
       },
       "description": "GET all IP Pools that have Associated IPs",
       "result_type": {
-        "name": "ListIpPoolResult",
+        "name": "ListIpPoolResultObject",
         "type": "named"
       }
     },
@@ -640,13 +640,13 @@
       },
       "description": "Get a List of Subusers Assigned to an IP",
       "result_type": {
-        "name": "ListSubUserAssignedToIpResult",
+        "name": "ListSubUserAssignedToIpResultObject",
         "type": "named"
       }
     }
   },
   "object_types": {
-    "AddIpBodyInput": {
+    "AddIpBodyObjectInput": {
       "fields": {
         "include_region": {
           "description": "Boolean indicating whether or not to return the IP address's region information in the response.",
@@ -726,7 +726,7 @@
         }
       }
     },
-    "AddIpResult": {
+    "AddIpResultObject": {
       "fields": {
         "ip": {
           "description": "The IP address that was added to your account.",
@@ -812,7 +812,7 @@
         }
       }
     },
-    "AddIpsToIpPoolBodyInput": {
+    "AddIpsToIpPoolBodyObjectInput": {
       "fields": {
         "ips": {
           "description": "An array of IP addresses to assign to the specified IP Pool. All assignments must succeed.",
@@ -836,7 +836,7 @@
         }
       }
     },
-    "AddIpsToIpPoolResult": {
+    "AddIpsToIpPoolResultObject": {
       "fields": {
         "id": {
           "description": "The unique ID of the IP Pool.",
@@ -893,7 +893,7 @@
         }
       }
     },
-    "AddSubUsersToIpBodyInput": {
+    "AddSubUsersToIpBodyObjectInput": {
       "fields": {
         "subusers": {
           "description": "An array of Subuser IDs to be assigned to the specified IP address. All Subuser assignments must succeed.",
@@ -917,7 +917,7 @@
         }
       }
     },
-    "AddSubUsersToIpResult": {
+    "AddSubUsersToIpResultObject": {
       "fields": {
         "ip": {
           "description": "The IP address the Subusers were assigned to.",
@@ -959,7 +959,7 @@
         }
       }
     },
-    "CreateIpPoolBodyInput": {
+    "CreateIpPoolBodyObjectInput": {
       "fields": {
         "ips": {
           "description": "An array of IP addresses to assign to the IP Pool. All assignments must succeed.",
@@ -998,7 +998,7 @@
         }
       }
     },
-    "CreateIpPoolResult": {
+    "CreateIpPoolResultObject": {
       "fields": {
         "id": {
           "description": "The unique ID of the IP Pool.",
@@ -1055,7 +1055,7 @@
         }
       }
     },
-    "DeleteIpsFromIpPoolBodyInput": {
+    "DeleteIpsFromIpPoolBodyObjectInput": {
       "fields": {
         "ips": {
           "description": "An array of IP addresses to remove from the specified IP Pool.",
@@ -1079,7 +1079,7 @@
         }
       }
     },
-    "DeleteSubUsersFromIpBodyInput": {
+    "DeleteSubUsersFromIpBodyObjectInput": {
       "fields": {
         "subusers": {
           "description": "An array of Subuser IDs to be removed from the specified IP address.",
@@ -1103,7 +1103,40 @@
         }
       }
     },
-    "GetIpPoolResult": {
+    "GetIpPoolResultIpCountByRegionObject": {
+      "fields": {
+        "count": {
+          "description": "The number of IP addresses in the pool that are assigned to the region specified in the `region` property for this count.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "region": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Region5",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetIpPoolResultObject": {
       "fields": {
         "id": {
           "description": "The unique ID of the IP Pool.",
@@ -1126,7 +1159,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "GetIpPoolResultIpCountByRegion",
+                "name": "GetIpPoolResultIpCountByRegionObject",
                 "type": "named"
               },
               "type": "array"
@@ -1198,40 +1231,7 @@
         }
       }
     },
-    "GetIpPoolResultIpCountByRegion": {
-      "fields": {
-        "count": {
-          "description": "The number of IP addresses in the pool that are assigned to the region specified in the `region` property for this count.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "region": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Region5",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        }
-      }
-    },
-    "GetIpResult": {
+    "GetIpResultObject": {
       "fields": {
         "added_at": {
           "description": "A timestamp indicating when the IP address was added to your account.",
@@ -1329,7 +1329,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "GetIpResultPools",
+                "name": "GetIpResultPoolsObject",
                 "type": "named"
               },
               "type": "array"
@@ -1378,7 +1378,7 @@
         }
       }
     },
-    "GetIpResultPools": {
+    "GetIpResultPoolsObject": {
       "fields": {
         "id": {
           "description": "The ID of the IP Pool.",
@@ -1412,66 +1412,7 @@
         }
       }
     },
-    "ListIpAssignedToIpPoolResult": {
-      "fields": {
-        "_metadata": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ListIpAssignedToIpPoolResultMetadata",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "result": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "ListIpAssignedToIpPoolResultResult",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "ListIpAssignedToIpPoolResultMetadata": {
-      "fields": {
-        "next_params": {
-          "description": "A collection of fields that can be used to work the endpoint.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ListIpAssignedToIpPoolResultMetadataNextParams",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
-    "ListIpAssignedToIpPoolResultMetadataNextParams": {
+    "ListIpAssignedToIpPoolResultMetadataNextParamsObject": {
       "description": "A collection of fields that can be used to work the endpoint.",
       "fields": {
         "after_key": {
@@ -1521,7 +1462,66 @@
         }
       }
     },
-    "ListIpAssignedToIpPoolResultResult": {
+    "ListIpAssignedToIpPoolResultMetadataObject": {
+      "fields": {
+        "next_params": {
+          "description": "A collection of fields that can be used to work the endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListIpAssignedToIpPoolResultMetadataNextParamsObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListIpAssignedToIpPoolResultObject": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListIpAssignedToIpPoolResultMetadataObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListIpAssignedToIpPoolResultResultObject",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListIpAssignedToIpPoolResultResultObject": {
       "fields": {
         "ip": {
           "description": "An IP address assigned to the IP Pool.",
@@ -1544,7 +1544,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "ListIpAssignedToIpPoolResultResultPools",
+                "name": "ListIpAssignedToIpPoolResultResultPoolsObject",
                 "type": "named"
               },
               "type": "array"
@@ -1577,7 +1577,7 @@
         }
       }
     },
-    "ListIpAssignedToIpPoolResultResultPools": {
+    "ListIpAssignedToIpPoolResultResultPoolsObject": {
       "fields": {
         "id": {
           "description": "The unique ID of the IP Pool.",
@@ -1611,66 +1611,7 @@
         }
       }
     },
-    "ListIpPoolResult": {
-      "fields": {
-        "_metadata": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ListIpPoolResultMetadata",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "result": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "ListIpPoolResultResult",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "ListIpPoolResultMetadata": {
-      "fields": {
-        "next_params": {
-          "description": "A collection of fields that can be used to work the endpoint.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ListIpPoolResultMetadataNextParams",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
-    "ListIpPoolResultMetadataNextParams": {
+    "ListIpPoolResultMetadataNextParamsObject": {
       "description": "A collection of fields that can be used to work the endpoint.",
       "fields": {
         "after_key": {
@@ -1749,7 +1690,66 @@
         }
       }
     },
-    "ListIpPoolResultResult": {
+    "ListIpPoolResultMetadataObject": {
+      "fields": {
+        "next_params": {
+          "description": "A collection of fields that can be used to work the endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListIpPoolResultMetadataNextParamsObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListIpPoolResultObject": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListIpPoolResultMetadataObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListIpPoolResultResultObject",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListIpPoolResultResultObject": {
       "fields": {
         "id": {
           "description": "The unique ID of the IP Pool.",
@@ -1844,65 +1844,7 @@
         }
       }
     },
-    "ListIpResult": {
-      "fields": {
-        "_metadata": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ListIpResultMetadata",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "result": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "ListIpResultResult",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "ListIpResultMetadata": {
-      "fields": {
-        "next_params": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ListIpResultMetadataNextParams",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
-    "ListIpResultMetadataNextParams": {
+    "ListIpResultMetadataNextParamsObject": {
       "fields": {
         "after_key": {
           "description": "Specifies which items to be returned by the API. When the `after_key` is specified, the API will return items beginning from the first item after the item specified. This parameter can be used in combination with `limit` to iterate through paginated results. The `after_key` cannot be used in combination with the `before_key` parameter.",
@@ -2085,7 +2027,65 @@
         }
       }
     },
-    "ListIpResultResult": {
+    "ListIpResultMetadataObject": {
+      "fields": {
+        "next_params": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListIpResultMetadataNextParamsObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListIpResultObject": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListIpResultMetadataObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "result": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListIpResultResultObject",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "ListIpResultResultObject": {
       "fields": {
         "added_at": {
           "description": "A timestamp representing when the IP address was added to your account.",
@@ -2183,7 +2183,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "ListIpResultResultPools",
+                "name": "ListIpResultResultPoolsObject",
                 "type": "named"
               },
               "type": "array"
@@ -2231,7 +2231,7 @@
         }
       }
     },
-    "ListIpResultResultPools": {
+    "ListIpResultResultPoolsObject": {
       "fields": {
         "id": {
           "description": "The unique ID of the IP Pool.",
@@ -2265,67 +2265,7 @@
         }
       }
     },
-    "ListSubUserAssignedToIpResult": {
-      "fields": {
-        "_metadata": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ListSubUserAssignedToIpResultMetadata",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "result": {
-          "description": "An array of Subuser IDs that have been assigned the specified IP address.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "String",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "string"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "ListSubUserAssignedToIpResultMetadata": {
-      "fields": {
-        "next_params": {
-          "description": "A collection of fields that can be used to work the endpoint.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ListSubUserAssignedToIpResultMetadataNextParams",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
-    "ListSubUserAssignedToIpResultMetadataNextParams": {
+    "ListSubUserAssignedToIpResultMetadataNextParamsObject": {
       "description": "A collection of fields that can be used to work the endpoint.",
       "fields": {
         "after_key": {
@@ -2360,7 +2300,67 @@
         }
       }
     },
-    "UpdateIpBodyInput": {
+    "ListSubUserAssignedToIpResultMetadataObject": {
+      "fields": {
+        "next_params": {
+          "description": "A collection of fields that can be used to work the endpoint.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListSubUserAssignedToIpResultMetadataNextParamsObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ListSubUserAssignedToIpResultObject": {
+      "fields": {
+        "_metadata": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ListSubUserAssignedToIpResultMetadataObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "result": {
+          "description": "An array of Subuser IDs that have been assigned the specified IP address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "UpdateIpBodyObjectInput": {
       "fields": {
         "is_auto_warmup": {
           "description": "Indicates if the IP address is set to automatically [warmup](https://docs.sendgrid.com/ui/sending-email/warming-up-an-ip-address).",
@@ -2409,7 +2409,7 @@
         }
       }
     },
-    "UpdateIpPoolBodyInput": {
+    "UpdateIpPoolBodyObjectInput": {
       "fields": {
         "name": {
           "description": "The name to assign to the IP Pool. An IP Pool name cannot begin with a space or period.",
@@ -2425,7 +2425,7 @@
         }
       }
     },
-    "UpdateIpPoolResult": {
+    "UpdateIpPoolResultObject": {
       "fields": {
         "id": {
           "description": "The unique ID of the IP Pool.",
@@ -2459,7 +2459,7 @@
         }
       }
     },
-    "UpdateIpResult": {
+    "UpdateIpResultObject": {
       "fields": {
         "ip": {
           "description": "The IP address that was updated.",
@@ -2542,7 +2542,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddIpBodyInput",
+              "name": "AddIpBodyObjectInput",
               "type": "named"
             }
           },
@@ -2558,7 +2558,7 @@
       },
       "description": "Add a Twilio SendGrid IP Address",
       "result_type": {
-        "name": "AddIpResult",
+        "name": "AddIpResultObject",
         "type": "named"
       }
     },
@@ -2579,7 +2579,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddIpsToIpPoolBodyInput",
+              "name": "AddIpsToIpPoolBodyObjectInput",
               "type": "named"
             }
           },
@@ -2611,7 +2611,7 @@
       },
       "description": "Add a Batch of IPs to an IP Pool",
       "result_type": {
-        "name": "AddIpsToIpPoolResult",
+        "name": "AddIpsToIpPoolResultObject",
         "type": "named"
       }
     },
@@ -2632,7 +2632,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddSubUsersToIpBodyInput",
+              "name": "AddSubUsersToIpBodyObjectInput",
               "type": "named"
             }
           },
@@ -2664,7 +2664,7 @@
       },
       "description": "Assign a Batch of Subusers to an IP",
       "result_type": {
-        "name": "AddSubUsersToIpResult",
+        "name": "AddSubUsersToIpResultObject",
         "type": "named"
       }
     },
@@ -2685,7 +2685,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateIpPoolBodyInput",
+              "name": "CreateIpPoolBodyObjectInput",
               "type": "named"
             }
           },
@@ -2701,7 +2701,7 @@
       },
       "description": "Create an IP Pool with a Name and IP Assignments",
       "result_type": {
-        "name": "CreateIpPoolResult",
+        "name": "CreateIpPoolResultObject",
         "type": "named"
       }
     },
@@ -2757,7 +2757,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "DeleteIpsFromIpPoolBodyInput",
+              "name": "DeleteIpsFromIpPoolBodyObjectInput",
               "type": "named"
             }
           },
@@ -2813,7 +2813,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "DeleteSubUsersFromIpBodyInput",
+              "name": "DeleteSubUsersFromIpBodyObjectInput",
               "type": "named"
             }
           },
@@ -2869,7 +2869,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "UpdateIpBodyInput",
+              "name": "UpdateIpBodyObjectInput",
               "type": "named"
             }
           },
@@ -2901,7 +2901,7 @@
       },
       "description": "Update Details for an IP Address",
       "result_type": {
-        "name": "UpdateIpResult",
+        "name": "UpdateIpResultObject",
         "type": "named"
       }
     },
@@ -2922,7 +2922,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "UpdateIpPoolBodyInput",
+              "name": "UpdateIpPoolBodyObjectInput",
               "type": "named"
             }
           },
@@ -2954,7 +2954,7 @@
       },
       "description": "Update an IP Pool Name",
       "result_type": {
-        "name": "UpdateIpPoolResult",
+        "name": "UpdateIpPoolResultObject",
         "type": "named"
       }
     }

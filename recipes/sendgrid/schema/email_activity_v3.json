@@ -56,7 +56,7 @@
       },
       "description": "Download CSV",
       "result_type": {
-        "name": "DownloadCsvResult",
+        "name": "DownloadCsvResultObject",
         "type": "named"
       }
     },
@@ -88,7 +88,7 @@
       },
       "description": "Filter messages by message ID",
       "result_type": {
-        "name": "GetMessageResult",
+        "name": "GetMessageResultObject",
         "type": "named"
       }
     },
@@ -141,13 +141,13 @@
       },
       "description": "Filter all messages",
       "result_type": {
-        "name": "ListMessageResult",
+        "name": "ListMessageResultObject",
         "type": "named"
       }
     }
   },
   "object_types": {
-    "DownloadCsvResult": {
+    "DownloadCsvResultObject": {
       "fields": {
         "csv": {
           "description": "Returns the aws signed link to the csv file which mako UI should perform a get on to trigger the csv download for the user",
@@ -181,7 +181,118 @@
         }
       }
     },
-    "GetMessageResult": {
+    "GetMessageResultEventsObject": {
+      "fields": {
+        "attempt_num": {
+          "description": "Used with \"deferred\" events to indicate the attempt number out of 10. One \"deferred\" entry will exists under events array for each time a message was deferred with error message from the server.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 10,
+            "minimum": 1
+          }
+        },
+        "bounce_type": {
+          "type": {
+            "name": "BounceType",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "event_name": {
+          "type": {
+            "name": "EventName",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "http_user_agent": {
+          "description": "Client recipient used to click or open message",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "mx_server": {
+          "description": "The MX server that received the email. For example, mx.gmail.com",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "processed": {
+          "description": "The date when the event was processed",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "reason": {
+          "description": "Explanation of what caused the message to be \"bounced\", \"deferred\", or \"blocked\". Usually contains error message from the server - e.g. message from gmail why mail was deferred.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 1024
+          }
+        },
+        "url": {
+          "description": "Used with \"clicked\" event to indicate which url the user clicked.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^((http[s]?|ftp):\\/)?\\/?([^:\\/\\s]+)((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(.*)?(#[\\w\\-]+)?$"
+          }
+        }
+      }
+    },
+    "GetMessageResultObject": {
       "fields": {
         "api_key_id": {
           "description": "The ID of the API Key used to authenticate the sending request for the message.",
@@ -235,7 +346,7 @@
           "description": "List of events related to email message",
           "type": {
             "element_type": {
-              "name": "GetMessageResultEvents",
+              "name": "GetMessageResultEventsObject",
               "type": "named"
             },
             "type": "array"
@@ -405,144 +516,7 @@
         }
       }
     },
-    "GetMessageResultEvents": {
-      "fields": {
-        "attempt_num": {
-          "description": "Used with \"deferred\" events to indicate the attempt number out of 10. One \"deferred\" entry will exists under events array for each time a message was deferred with error message from the server.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ],
-            "maximum": 10,
-            "minimum": 1
-          }
-        },
-        "bounce_type": {
-          "type": {
-            "name": "BounceType",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "event_name": {
-          "type": {
-            "name": "EventName",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "http_user_agent": {
-          "description": "Client recipient used to click or open message",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "mx_server": {
-          "description": "The MX server that received the email. For example, mx.gmail.com",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "processed": {
-          "description": "The date when the event was processed",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "reason": {
-          "description": "Explanation of what caused the message to be \"bounced\", \"deferred\", or \"blocked\". Usually contains error message from the server - e.g. message from gmail why mail was deferred.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 1024
-          }
-        },
-        "url": {
-          "description": "Used with \"clicked\" event to indicate which url the user clicked.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^((http[s]?|ftp):\\/)?\\/?([^:\\/\\s]+)((\\/\\w+)*\\/)([\\w\\-\\.]+[^#?\\s]+)(.*)?(#[\\w\\-]+)?$"
-          }
-        }
-      }
-    },
-    "ListMessageResult": {
-      "fields": {
-        "messages": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "ListMessageResultMessages",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "ListMessageResultMessages": {
+    "ListMessageResultMessagesObject": {
       "fields": {
         "clicks_count": {
           "type": {
@@ -635,7 +609,33 @@
         }
       }
     },
-    "RequestCsvResult": {
+    "ListMessageResultObject": {
+      "fields": {
+        "messages": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "ListMessageResultMessagesObject",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "RequestCsvResultObject": {
       "fields": {
         "message": {
           "type": {
@@ -700,7 +700,7 @@
       },
       "description": "Request CSV",
       "result_type": {
-        "name": "RequestCsvResult",
+        "name": "RequestCsvResultObject",
         "type": "named"
       }
     }

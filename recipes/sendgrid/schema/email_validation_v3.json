@@ -83,7 +83,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "GetValidationsEmailJobs200ResponseResult",
+                "name": "GetValidationsEmailJobs200ResponseResultObject",
                 "type": "named"
               },
               "type": "array"
@@ -102,7 +102,7 @@
         }
       }
     },
-    "GetValidationsEmailJobs200ResponseResult": {
+    "GetValidationsEmailJobs200ResponseResultObject": {
       "fields": {
         "finished_at": {
           "description": "The ISO8601 timestamp when the Job was finished.",
@@ -171,7 +171,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "GetValidationsEmailJobsJobId200ResponseResult",
+              "name": "GetValidationsEmailJobsJobId200ResponseResultObject",
               "type": "named"
             }
           },
@@ -183,7 +183,26 @@
         }
       }
     },
-    "GetValidationsEmailJobsJobId200ResponseResult": {
+    "GetValidationsEmailJobsJobId200ResponseResultErrorsObject": {
+      "fields": {
+        "message": {
+          "description": "Description of the error encountered during execution of the Bulk Email Address Validation Job.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "GetValidationsEmailJobsJobId200ResponseResultObject": {
       "fields": {
         "errors": {
           "description": "Array containing error messages related to the Bulk Email Address Validation Job. Array is empty if no errors ocurred.",
@@ -191,7 +210,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "GetValidationsEmailJobsJobId200ResponseResultErrors",
+                "name": "GetValidationsEmailJobsJobId200ResponseResultErrorsObject",
                 "type": "named"
               },
               "type": "array"
@@ -314,26 +333,7 @@
         }
       }
     },
-    "GetValidationsEmailJobsJobId200ResponseResultErrors": {
-      "fields": {
-        "message": {
-          "description": "Description of the error encountered during execution of the Bulk Email Address Validation Job.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        }
-      }
-    },
-    "ListEmailJobForVerificationBodyInput": {
+    "ListEmailJobForVerificationBodyObjectInput": {
       "fields": {
         "file_type": {
           "type": {
@@ -371,7 +371,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "PutValidationsEmailJobs200ResponseUploadHeaders",
+                "name": "PutValidationsEmailJobs200ResponseUploadHeadersObject",
                 "type": "named"
               },
               "type": "array"
@@ -405,7 +405,7 @@
         }
       }
     },
-    "PutValidationsEmailJobs200ResponseUploadHeaders": {
+    "PutValidationsEmailJobs200ResponseUploadHeadersObject": {
       "fields": {
         "header": {
           "description": "The name of the header that must be included in the upload request.",
@@ -439,7 +439,7 @@
         }
       }
     },
-    "ValidateEmailBodyInput": {
+    "ValidateEmailBodyObjectInput": {
       "fields": {
         "email": {
           "description": "The email address that you want to validate.",
@@ -470,11 +470,11 @@
         }
       }
     },
-    "ValidateEmailResult": {
+    "ValidateEmailResultObject": {
       "fields": {
         "result": {
           "type": {
-            "name": "ValidateEmailResultResult",
+            "name": "ValidateEmailResultResultObject",
             "type": "named"
           },
           "http": {
@@ -485,12 +485,140 @@
         }
       }
     },
-    "ValidateEmailResultResult": {
+    "ValidateEmailResultResultChecksAdditionalObject": {
+      "description": "Additional checks on the email address.",
+      "fields": {
+        "has_known_bounces": {
+          "description": "Whether email sent to this address from your account has bounced.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_suspected_bounces": {
+          "description": "Whether our model predicts that the email address might bounce.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResultChecksDomainObject": {
+      "description": "Checks on the domain portion of the email address.",
+      "fields": {
+        "has_mx_or_a_record": {
+          "description": "Whether the email has appropriate DNS records to deliver a message.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_valid_address_syntax": {
+          "description": "Whether the email address syntax is valid.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "is_suspected_disposable_address": {
+          "description": "Whether the domain appears to be from a disposable email address service.",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResultChecksLocalPartObject": {
+      "description": "Checks on the local part of the email address.",
+      "fields": {
+        "is_suspected_role_address": {
+          "description": "Whether the local part of email appears to be a role or group (e.g., hr, admin)",
+          "type": {
+            "name": "Boolean",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResultChecksObject": {
+      "description": "Granular checks for email address validity.",
+      "fields": {
+        "additional": {
+          "description": "Additional checks on the email address.",
+          "type": {
+            "name": "ValidateEmailResultResultChecksAdditionalObject",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "domain": {
+          "description": "Checks on the domain portion of the email address.",
+          "type": {
+            "name": "ValidateEmailResultResultChecksDomainObject",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "local_part": {
+          "description": "Checks on the local part of the email address.",
+          "type": {
+            "name": "ValidateEmailResultResultChecksLocalPartObject",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "ValidateEmailResultResultObject": {
       "fields": {
         "checks": {
           "description": "Granular checks for email address validity.",
           "type": {
-            "name": "ValidateEmailResultResultChecks",
+            "name": "ValidateEmailResultResultChecksObject",
             "type": "named"
           },
           "http": {
@@ -603,134 +731,6 @@
           }
         }
       }
-    },
-    "ValidateEmailResultResultChecks": {
-      "description": "Granular checks for email address validity.",
-      "fields": {
-        "additional": {
-          "description": "Additional checks on the email address.",
-          "type": {
-            "name": "ValidateEmailResultResultChecksAdditional",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "domain": {
-          "description": "Checks on the domain portion of the email address.",
-          "type": {
-            "name": "ValidateEmailResultResultChecksDomain",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "local_part": {
-          "description": "Checks on the local part of the email address.",
-          "type": {
-            "name": "ValidateEmailResultResultChecksLocalPart",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
-    "ValidateEmailResultResultChecksAdditional": {
-      "description": "Additional checks on the email address.",
-      "fields": {
-        "has_known_bounces": {
-          "description": "Whether email sent to this address from your account has bounced.",
-          "type": {
-            "name": "Boolean",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "boolean"
-            ]
-          }
-        },
-        "has_suspected_bounces": {
-          "description": "Whether our model predicts that the email address might bounce.",
-          "type": {
-            "name": "Boolean",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "boolean"
-            ]
-          }
-        }
-      }
-    },
-    "ValidateEmailResultResultChecksDomain": {
-      "description": "Checks on the domain portion of the email address.",
-      "fields": {
-        "has_mx_or_a_record": {
-          "description": "Whether the email has appropriate DNS records to deliver a message.",
-          "type": {
-            "name": "Boolean",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "boolean"
-            ]
-          }
-        },
-        "has_valid_address_syntax": {
-          "description": "Whether the email address syntax is valid.",
-          "type": {
-            "name": "Boolean",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "boolean"
-            ]
-          }
-        },
-        "is_suspected_disposable_address": {
-          "description": "Whether the domain appears to be from a disposable email address service.",
-          "type": {
-            "name": "Boolean",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "boolean"
-            ]
-          }
-        }
-      }
-    },
-    "ValidateEmailResultResultChecksLocalPart": {
-      "description": "Checks on the local part of the email address.",
-      "fields": {
-        "is_suspected_role_address": {
-          "description": "Whether the local part of email appears to be a role or group (e.g., hr, admin)",
-          "type": {
-            "name": "Boolean",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "boolean"
-            ]
-          }
-        }
-      }
     }
   },
   "procedures": {
@@ -751,7 +751,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ListEmailJobForVerificationBodyInput",
+              "name": "ListEmailJobForVerificationBodyObjectInput",
               "type": "named"
             }
           },
@@ -788,7 +788,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ValidateEmailBodyInput",
+              "name": "ValidateEmailBodyObjectInput",
               "type": "named"
             }
           },
@@ -804,7 +804,7 @@
       },
       "description": "Validate an email",
       "result_type": {
-        "name": "ValidateEmailResult",
+        "name": "ValidateEmailResultObject",
         "type": "named"
       }
     }
