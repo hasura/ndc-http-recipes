@@ -55,7 +55,7 @@
       },
       "description": "Retrieve all IP pools an IP address belongs to",
       "result_type": {
-        "name": "GetIpResult",
+        "name": "GetIpResultObject",
         "type": "named"
       }
     },
@@ -87,7 +87,7 @@
       },
       "description": "Retrieve all the IPs in a specified pool",
       "result_type": {
-        "name": "GetIpPoolResult",
+        "name": "GetIpPoolResultObject",
         "type": "named"
       }
     },
@@ -103,7 +103,7 @@
       "description": "Retrieve all assigned IPs",
       "result_type": {
         "element_type": {
-          "name": "ListAssignedIpResult",
+          "name": "ListAssignedIpResultObject",
           "type": "named"
         },
         "type": "array"
@@ -238,7 +238,7 @@
       "description": "Retrieve all IP addresses",
       "result_type": {
         "element_type": {
-          "name": "ListIpResult",
+          "name": "ListIpResultObject",
           "type": "named"
         },
         "type": "array"
@@ -273,13 +273,13 @@
       "arguments": {},
       "description": "Get remaining IPs count",
       "result_type": {
-        "name": "ListRemainingIpCountResult",
+        "name": "ListRemainingIpCountResultObject",
         "type": "named"
       }
     }
   },
   "object_types": {
-    "AddIpBodyInput": {
+    "AddIpBodyObjectInput": {
       "fields": {
         "count": {
           "description": "The amount of IPs to add to the account.",
@@ -333,13 +333,49 @@
         }
       }
     },
-    "AddIpResult": {
+    "AddIpResultIpsObject": {
+      "fields": {
+        "ip": {
+          "description": "IP added to account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subusers": {
+          "description": "Array of usernames assigned a send IP.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "AddIpResultObject": {
       "fields": {
         "ips": {
           "description": "List of IP objects.",
           "type": {
             "element_type": {
-              "name": "AddIpResultIps",
+              "name": "AddIpResultIpsObject",
               "type": "named"
             },
             "type": "array"
@@ -381,43 +417,7 @@
         }
       }
     },
-    "AddIpResultIps": {
-      "fields": {
-        "ip": {
-          "description": "IP added to account.",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "subusers": {
-          "description": "Array of usernames assigned a send IP.",
-          "type": {
-            "element_type": {
-              "name": "String",
-              "type": "named"
-            },
-            "type": "array"
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "string"
-              ]
-            }
-          }
-        }
-      }
-    },
-    "AddIpToIpPoolBodyInput": {
+    "AddIpToIpPoolBodyObjectInput": {
       "fields": {
         "ip": {
           "description": "The IP address that you want to add to the named pool.",
@@ -436,7 +436,7 @@
         }
       }
     },
-    "AddIpToIpPoolResult": {
+    "AddIpToIpPoolResultObject": {
       "fields": {
         "ip": {
           "description": "The IP address.",
@@ -496,7 +496,7 @@
         }
       }
     },
-    "CreateIpPoolBodyInput": {
+    "CreateIpPoolBodyObjectInput": {
       "fields": {
         "name": {
           "description": "The name of your new IP pool.",
@@ -513,7 +513,7 @@
         }
       }
     },
-    "GetIpPoolResult": {
+    "GetIpPoolResultObject": {
       "fields": {
         "ips": {
           "description": "The IP addresses that belong to this pool.",
@@ -556,7 +556,7 @@
         }
       }
     },
-    "GetIpResult": {
+    "GetIpResultObject": {
       "fields": {
         "ip": {
           "description": "The IP address.",
@@ -682,7 +682,7 @@
         }
       }
     },
-    "ListAssignedIpResult": {
+    "ListAssignedIpResultObject": {
       "fields": {
         "ip": {
           "description": "The IP address.",
@@ -742,7 +742,7 @@
         }
       }
     },
-    "ListIpResult": {
+    "ListIpResultObject": {
       "fields": {
         "assigned_at": {
           "description": "The date that the IP address was assigned to the user.",
@@ -867,12 +867,12 @@
         }
       }
     },
-    "ListRemainingIpCountResult": {
+    "ListRemainingIpCountResultObject": {
       "fields": {
         "results": {
           "type": {
             "element_type": {
-              "name": "ListRemainingIpCountResultResults",
+              "name": "ListRemainingIpCountResultResultsObject",
               "type": "named"
             },
             "type": "array"
@@ -890,7 +890,7 @@
         }
       }
     },
-    "ListRemainingIpCountResultResults": {
+    "ListRemainingIpCountResultResultsObject": {
       "fields": {
         "period": {
           "description": "The length of time until user can add more IPs.",
@@ -930,7 +930,7 @@
         }
       }
     },
-    "UpdateIpPoolBodyInput": {
+    "UpdateIpPoolBodyObjectInput": {
       "fields": {
         "name": {
           "description": "The new name for your IP pool.",
@@ -969,7 +969,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddIpBodyInput",
+              "name": "AddIpBodyObjectInput",
               "type": "named"
             }
           },
@@ -985,7 +985,7 @@
       },
       "description": "Add IPs",
       "result_type": {
-        "name": "AddIpResult",
+        "name": "AddIpResultObject",
         "type": "named"
       }
     },
@@ -1006,7 +1006,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddIpToIpPoolBodyInput",
+              "name": "AddIpToIpPoolBodyObjectInput",
               "type": "named"
             }
           },
@@ -1038,7 +1038,7 @@
       },
       "description": "Add an IP address to a pool",
       "result_type": {
-        "name": "AddIpToIpPoolResult",
+        "name": "AddIpToIpPoolResultObject",
         "type": "named"
       }
     },
@@ -1059,7 +1059,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CreateIpPoolBodyInput",
+              "name": "CreateIpPoolBodyObjectInput",
               "type": "named"
             }
           },
@@ -1182,7 +1182,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "UpdateIpPoolBodyInput",
+              "name": "UpdateIpPoolBodyObjectInput",
               "type": "named"
             }
           },

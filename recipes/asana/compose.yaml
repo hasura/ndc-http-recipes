@@ -1,10 +1,23 @@
 services:
   ndc-http:
-    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.9.0}
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.10.0}
     ports:
       - 8080:8080
     volumes:
       - ./schema:/etc/connector:ro
+    environment:
+      ASANA_SERVER_URL: http://mock-api:4010
+      ASANA_PERSONAL_ACCESS_TOKEN: random-token
+      HASURA_LOG_LEVEL: debug
+
+  ndc-http-transform:
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.10.0}
+    ports:
+      - 8081:8080
+    volumes:
+      - ./schema/api.json:/etc/connector/api.json:ro
+      - ./testdata/transform/config.yaml:/etc/connector/config.yaml:ro
+      - ./testdata/transform/response-transform.yaml:/etc/connector/response-transform.yaml:ro
     environment:
       ASANA_SERVER_URL: http://mock-api:4010
       ASANA_PERSONAL_ACCESS_TOKEN: random-token

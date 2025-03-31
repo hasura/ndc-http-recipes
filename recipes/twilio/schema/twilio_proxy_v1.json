@@ -608,7 +608,7 @@
       },
       "description": "Retrieve a list of all Interactions for a Session. A maximum of 100 records will be returned per page.",
       "result_type": {
-        "name": "ProxyListInteractionResult",
+        "name": "ProxyListInteractionResultObject",
         "type": "named"
       }
     },
@@ -746,7 +746,7 @@
       },
       "description": "GET /v1/Services/{ServiceSid}/Sessions/{SessionSid}/Participants/{ParticipantSid}/MessageInteractions",
       "result_type": {
-        "name": "ProxyListMessageInteractionResult",
+        "name": "ProxyListMessageInteractionResultObject",
         "type": "named"
       }
     },
@@ -865,7 +865,7 @@
       },
       "description": "Retrieve a list of all Participants in a Session.",
       "result_type": {
-        "name": "ProxyListParticipantResult",
+        "name": "ProxyListParticipantResultObject",
         "type": "named"
       }
     },
@@ -965,7 +965,7 @@
       },
       "description": "Retrieve a list of all Phone Numbers in the Proxy Number Pool for a Service. A maximum of 100 records will be returned per page.",
       "result_type": {
-        "name": "ProxyListPhoneNumberResult",
+        "name": "ProxyListPhoneNumberResultObject",
         "type": "named"
       }
     },
@@ -1046,7 +1046,7 @@
       },
       "description": "Retrieve a list of all Services for Twilio Proxy. A maximum of 100 records will be returned per page.",
       "result_type": {
-        "name": "ProxyListServiceResult",
+        "name": "ProxyListServiceResultObject",
         "type": "named"
       }
     },
@@ -1146,7 +1146,7 @@
       },
       "description": "Retrieve a list of all Sessions for the Service. A maximum of 100 records will be returned per page.",
       "result_type": {
-        "name": "ProxyListSessionResult",
+        "name": "ProxyListSessionResultObject",
         "type": "named"
       }
     },
@@ -1246,13 +1246,13 @@
       },
       "description": "Retrieve a list of all Short Codes in the Proxy Number Pool for the Service. A maximum of 100 records will be returned per page.",
       "result_type": {
-        "name": "ProxyListShortCodeResult",
+        "name": "ProxyListShortCodeResultObject",
         "type": "named"
       }
     }
   },
   "object_types": {
-    "ProxyCreateMessageInteractionBodyInput": {
+    "ProxyCreateMessageInteractionBodyObjectInput": {
       "fields": {
         "Body": {
           "description": "The message to send to the participant",
@@ -1295,7 +1295,7 @@
         }
       }
     },
-    "ProxyCreateParticipantBodyInput": {
+    "ProxyCreateParticipantBodyObjectInput": {
       "fields": {
         "FriendlyName": {
           "description": "The string that you assigned to describe the participant. This value must be 255 characters or fewer. **This value should not have PII.**",
@@ -1359,7 +1359,7 @@
         }
       }
     },
-    "ProxyCreatePhoneNumberBodyInput": {
+    "ProxyCreatePhoneNumberBodyObjectInput": {
       "fields": {
         "IsReserved": {
           "description": "Whether the new phone number should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.",
@@ -1412,7 +1412,7 @@
         }
       }
     },
-    "ProxyCreateServiceBodyInput": {
+    "ProxyCreateServiceBodyObjectInput": {
       "fields": {
         "CallbackUrl": {
           "description": "The URL we should call when the interaction status changes.",
@@ -1537,7 +1537,7 @@
         }
       }
     },
-    "ProxyCreateSessionBodyInput": {
+    "ProxyCreateSessionBodyObjectInput": {
       "fields": {
         "DateExpiry": {
           "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.",
@@ -1634,7 +1634,7 @@
         }
       }
     },
-    "ProxyCreateShortCodeBodyInput": {
+    "ProxyCreateShortCodeBodyObjectInput": {
       "fields": {
         "Sid": {
           "description": "The SID of a Twilio [ShortCode](https://www.twilio.com/en-us/messaging/channels/sms/short-codes) resource that represents the short code you would like to assign to your Proxy Service.",
@@ -1653,7 +1653,113 @@
         }
       }
     },
-    "ProxyListInteractionResult": {
+    "ProxyListInteractionResultMetaObject": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "ProxyListInteractionResultObject": {
       "fields": {
         "interactions": {
           "type": {
@@ -1681,7 +1787,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyListInteractionResultMeta",
+              "name": "ProxyListInteractionResultMetaObject",
               "type": "named"
             }
           },
@@ -1693,7 +1799,7 @@
         }
       }
     },
-    "ProxyListInteractionResultMeta": {
+    "ProxyListMessageInteractionResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -1799,7 +1905,7 @@
         }
       }
     },
-    "ProxyListMessageInteractionResult": {
+    "ProxyListMessageInteractionResultObject": {
       "fields": {
         "interactions": {
           "type": {
@@ -1827,7 +1933,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyListMessageInteractionResultMeta",
+              "name": "ProxyListMessageInteractionResultMetaObject",
               "type": "named"
             }
           },
@@ -1839,7 +1945,7 @@
         }
       }
     },
-    "ProxyListMessageInteractionResultMeta": {
+    "ProxyListParticipantResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -1945,13 +2051,13 @@
         }
       }
     },
-    "ProxyListParticipantResult": {
+    "ProxyListParticipantResultObject": {
       "fields": {
         "meta": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyListParticipantResultMeta",
+              "name": "ProxyListParticipantResultMetaObject",
               "type": "named"
             }
           },
@@ -1985,7 +2091,7 @@
         }
       }
     },
-    "ProxyListParticipantResultMeta": {
+    "ProxyListPhoneNumberResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -2091,13 +2197,13 @@
         }
       }
     },
-    "ProxyListPhoneNumberResult": {
+    "ProxyListPhoneNumberResultObject": {
       "fields": {
         "meta": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyListPhoneNumberResultMeta",
+              "name": "ProxyListPhoneNumberResultMetaObject",
               "type": "named"
             }
           },
@@ -2131,7 +2237,7 @@
         }
       }
     },
-    "ProxyListPhoneNumberResultMeta": {
+    "ProxyListServiceResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -2237,13 +2343,13 @@
         }
       }
     },
-    "ProxyListServiceResult": {
+    "ProxyListServiceResultObject": {
       "fields": {
         "meta": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyListServiceResultMeta",
+              "name": "ProxyListServiceResultMetaObject",
               "type": "named"
             }
           },
@@ -2277,7 +2383,7 @@
         }
       }
     },
-    "ProxyListServiceResultMeta": {
+    "ProxyListSessionResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -2383,13 +2489,13 @@
         }
       }
     },
-    "ProxyListSessionResult": {
+    "ProxyListSessionResultObject": {
       "fields": {
         "meta": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyListSessionResultMeta",
+              "name": "ProxyListSessionResultMetaObject",
               "type": "named"
             }
           },
@@ -2423,7 +2529,7 @@
         }
       }
     },
-    "ProxyListSessionResultMeta": {
+    "ProxyListShortCodeResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -2529,13 +2635,13 @@
         }
       }
     },
-    "ProxyListShortCodeResult": {
+    "ProxyListShortCodeResultObject": {
       "fields": {
         "meta": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyListShortCodeResultMeta",
+              "name": "ProxyListShortCodeResultMetaObject",
               "type": "named"
             }
           },
@@ -2565,112 +2671,6 @@
                 "object"
               ]
             }
-          }
-        }
-      }
-    },
-    "ProxyListShortCodeResultMeta": {
-      "fields": {
-        "first_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "key": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "next_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "page": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "page_size": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "previous_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
           }
         }
       }
@@ -2929,7 +2929,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyProxyV1ServicePhoneNumberCapabilities",
+              "name": "ProxyProxyV1ServicePhoneNumberCapabilitiesObject",
               "type": "named"
             }
           },
@@ -3103,7 +3103,7 @@
       },
       "alias": "proxy.v1.service.phone_number"
     },
-    "ProxyProxyV1ServicePhoneNumberCapabilities": {
+    "ProxyProxyV1ServicePhoneNumberCapabilitiesObject": {
       "description": "The capabilities of the phone number.",
       "fields": {
         "fax": {
@@ -4319,7 +4319,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyProxyV1ServiceShortCodeCapabilities",
+              "name": "ProxyProxyV1ServiceShortCodeCapabilitiesObject",
               "type": "named"
             }
           },
@@ -4462,7 +4462,7 @@
       },
       "alias": "proxy.v1.service.short_code"
     },
-    "ProxyProxyV1ServiceShortCodeCapabilities": {
+    "ProxyProxyV1ServiceShortCodeCapabilitiesObject": {
       "description": "The capabilities of the short code.",
       "fields": {
         "fax": {
@@ -4523,7 +4523,7 @@
         }
       }
     },
-    "ProxyUpdatePhoneNumberBodyInput": {
+    "ProxyUpdatePhoneNumberBodyObjectInput": {
       "fields": {
         "IsReserved": {
           "description": "Whether the phone number should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.",
@@ -4542,7 +4542,7 @@
         }
       }
     },
-    "ProxyUpdateServiceBodyInput": {
+    "ProxyUpdateServiceBodyObjectInput": {
       "fields": {
         "CallbackUrl": {
           "description": "The URL we should call when the interaction status changes.",
@@ -4670,7 +4670,7 @@
         }
       }
     },
-    "ProxyUpdateSessionBodyInput": {
+    "ProxyUpdateSessionBodyObjectInput": {
       "fields": {
         "DateExpiry": {
           "description": "The [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601) date when the Session should expire. If this is value is present, it overrides the `ttl` value.",
@@ -4719,7 +4719,7 @@
         }
       }
     },
-    "ProxyUpdateShortCodeBodyInput": {
+    "ProxyUpdateShortCodeBodyObjectInput": {
       "fields": {
         "IsReserved": {
           "description": "Whether the short code should be reserved and not be assigned to a participant using proxy pool logic. See [Reserved Phone Numbers](https://www.twilio.com/docs/proxy/reserved-phone-numbers) for more information.",
@@ -4819,7 +4819,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyCreateMessageInteractionBodyInput",
+              "name": "ProxyCreateMessageInteractionBodyObjectInput",
               "type": "named"
             }
           },
@@ -4899,7 +4899,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyCreateParticipantBodyInput",
+              "name": "ProxyCreateParticipantBodyObjectInput",
               "type": "named"
             }
           },
@@ -4960,7 +4960,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyCreatePhoneNumberBodyInput",
+              "name": "ProxyCreatePhoneNumberBodyObjectInput",
               "type": "named"
             }
           },
@@ -5002,7 +5002,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyCreateServiceBodyInput",
+              "name": "ProxyCreateServiceBodyObjectInput",
               "type": "named"
             }
           },
@@ -5063,7 +5063,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyCreateSessionBodyInput",
+              "name": "ProxyCreateSessionBodyObjectInput",
               "type": "named"
             }
           },
@@ -5124,7 +5124,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyCreateShortCodeBodyInput",
+              "name": "ProxyCreateShortCodeBodyObjectInput",
               "type": "named"
             }
           },
@@ -5595,7 +5595,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyUpdatePhoneNumberBodyInput",
+              "name": "ProxyUpdatePhoneNumberBodyObjectInput",
               "type": "named"
             }
           },
@@ -5656,7 +5656,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyUpdateServiceBodyInput",
+              "name": "ProxyUpdateServiceBodyObjectInput",
               "type": "named"
             }
           },
@@ -5736,7 +5736,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyUpdateSessionBodyInput",
+              "name": "ProxyUpdateSessionBodyObjectInput",
               "type": "named"
             }
           },
@@ -5816,7 +5816,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProxyUpdateShortCodeBodyInput",
+              "name": "ProxyUpdateShortCodeBodyObjectInput",
               "type": "named"
             }
           },

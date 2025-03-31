@@ -383,7 +383,7 @@
       },
       "description": "GET /v1/ByocTrunks",
       "result_type": {
-        "name": "VoiceListByocTrunkResult",
+        "name": "VoiceListByocTrunkResultObject",
         "type": "named"
       }
     },
@@ -464,7 +464,7 @@
       },
       "description": "GET /v1/ConnectionPolicies",
       "result_type": {
-        "name": "VoiceListConnectionPolicyResult",
+        "name": "VoiceListConnectionPolicyResultObject",
         "type": "named"
       }
     },
@@ -564,7 +564,7 @@
       },
       "description": "GET /v1/ConnectionPolicies/{ConnectionPolicySid}/Targets",
       "result_type": {
-        "name": "VoiceListConnectionPolicyTargetResult",
+        "name": "VoiceListConnectionPolicyTargetResultObject",
         "type": "named"
       }
     },
@@ -760,7 +760,7 @@
       },
       "description": "Retrieve all voice dialing country permissions for this account",
       "result_type": {
-        "name": "VoiceListDialingPermissionsCountryResult",
+        "name": "VoiceListDialingPermissionsCountryResultObject",
         "type": "named"
       }
     },
@@ -858,7 +858,7 @@
       },
       "description": "Fetch the high-risk special services prefixes from the country resource corresponding to the [ISO country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)",
       "result_type": {
-        "name": "VoiceListDialingPermissionsHrsPrefixesResult",
+        "name": "VoiceListDialingPermissionsHrsPrefixesResultObject",
         "type": "named"
       }
     },
@@ -939,7 +939,7 @@
       },
       "description": "GET /v1/IpRecords",
       "result_type": {
-        "name": "VoiceListIpRecordResult",
+        "name": "VoiceListIpRecordResultObject",
         "type": "named"
       }
     },
@@ -1020,13 +1020,13 @@
       },
       "description": "GET /v1/SourceIpMappings",
       "result_type": {
-        "name": "VoiceListSourceIpMappingResult",
+        "name": "VoiceListSourceIpMappingResultObject",
         "type": "named"
       }
     }
   },
   "object_types": {
-    "VoiceCreateByocTrunkBodyInput": {
+    "VoiceCreateByocTrunkBodyObjectInput": {
       "fields": {
         "CnamLookupEnabled": {
           "description": "Whether Caller ID Name (CNAM) lookup is enabled for the trunk. If enabled, all inbound calls to the BYOC Trunk from the United States and Canada automatically perform a CNAM Lookup and display Caller ID data on your phone. See [CNAM Lookups](https://www.twilio.com/docs/sip-trunking#CNAM) for more information.",
@@ -1099,7 +1099,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateByocTrunkBodyStatusCallbackMethod",
+              "name": "VoiceCreateByocTrunkBodyStatusCallbackMethodEnum",
               "type": "named"
             }
           },
@@ -1131,7 +1131,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateByocTrunkBodyVoiceFallbackMethod",
+              "name": "VoiceCreateByocTrunkBodyVoiceFallbackMethodEnum",
               "type": "named"
             }
           },
@@ -1163,7 +1163,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateByocTrunkBodyVoiceMethod",
+              "name": "VoiceCreateByocTrunkBodyVoiceMethodEnum",
               "type": "named"
             }
           },
@@ -1192,7 +1192,7 @@
         }
       }
     },
-    "VoiceCreateConnectionPolicyBodyInput": {
+    "VoiceCreateConnectionPolicyBodyObjectInput": {
       "fields": {
         "FriendlyName": {
           "description": "A descriptive string that you create to describe the resource. It is not unique and can be up to 255 characters long.",
@@ -1211,7 +1211,7 @@
         }
       }
     },
-    "VoiceCreateConnectionPolicyTargetBodyInput": {
+    "VoiceCreateConnectionPolicyTargetBodyObjectInput": {
       "fields": {
         "Enabled": {
           "description": "Whether the Target is enabled. The default is `true`.",
@@ -1288,7 +1288,7 @@
         }
       }
     },
-    "VoiceCreateDialingPermissionsCountryBulkUpdateBodyInput": {
+    "VoiceCreateDialingPermissionsCountryBulkUpdateBodyObjectInput": {
       "fields": {
         "UpdateRequest": {
           "description": "URL encoded JSON array of update objects. example : `[ { \"iso_code\": \"GB\", \"low_risk_numbers_enabled\": \"true\", \"high_risk_special_numbers_enabled\":\"true\", \"high_risk_tollfraud_numbers_enabled\": \"false\" } ]`",
@@ -1304,7 +1304,7 @@
         }
       }
     },
-    "VoiceCreateIpRecordBodyInput": {
+    "VoiceCreateIpRecordBodyObjectInput": {
       "fields": {
         "CidrPrefixLength": {
           "description": "An integer representing the length of the [CIDR](https://tools.ietf.org/html/rfc4632) prefix to use with this IP address. By default the entire IP address is used, which for IPv4 is value 32.",
@@ -1350,7 +1350,7 @@
         }
       }
     },
-    "VoiceCreateSourceIpMappingBodyInput": {
+    "VoiceCreateSourceIpMappingBodyObjectInput": {
       "fields": {
         "IpRecordSid": {
           "description": "The Twilio-provided string that uniquely identifies the IP Record resource to map from.",
@@ -1384,7 +1384,113 @@
         }
       }
     },
-    "VoiceListByocTrunkResult": {
+    "VoiceListByocTrunkResultMetaObject": {
+      "fields": {
+        "first_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "key": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "next_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "page_size": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "previous_page_url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "url": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        }
+      }
+    },
+    "VoiceListByocTrunkResultObject": {
       "fields": {
         "byoc_trunks": {
           "type": {
@@ -1412,7 +1518,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceListByocTrunkResultMeta",
+              "name": "VoiceListByocTrunkResultMetaObject",
               "type": "named"
             }
           },
@@ -1424,7 +1530,7 @@
         }
       }
     },
-    "VoiceListByocTrunkResultMeta": {
+    "VoiceListConnectionPolicyResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -1530,7 +1636,7 @@
         }
       }
     },
-    "VoiceListConnectionPolicyResult": {
+    "VoiceListConnectionPolicyResultObject": {
       "fields": {
         "connection_policies": {
           "type": {
@@ -1558,7 +1664,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceListConnectionPolicyResultMeta",
+              "name": "VoiceListConnectionPolicyResultMetaObject",
               "type": "named"
             }
           },
@@ -1570,7 +1676,7 @@
         }
       }
     },
-    "VoiceListConnectionPolicyResultMeta": {
+    "VoiceListConnectionPolicyTargetResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -1676,13 +1782,13 @@
         }
       }
     },
-    "VoiceListConnectionPolicyTargetResult": {
+    "VoiceListConnectionPolicyTargetResultObject": {
       "fields": {
         "meta": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceListConnectionPolicyTargetResultMeta",
+              "name": "VoiceListConnectionPolicyTargetResultMetaObject",
               "type": "named"
             }
           },
@@ -1716,7 +1822,7 @@
         }
       }
     },
-    "VoiceListConnectionPolicyTargetResultMeta": {
+    "VoiceListDialingPermissionsCountryResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -1822,7 +1928,7 @@
         }
       }
     },
-    "VoiceListDialingPermissionsCountryResult": {
+    "VoiceListDialingPermissionsCountryResultObject": {
       "fields": {
         "content": {
           "type": {
@@ -1850,7 +1956,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceListDialingPermissionsCountryResultMeta",
+              "name": "VoiceListDialingPermissionsCountryResultMetaObject",
               "type": "named"
             }
           },
@@ -1862,7 +1968,7 @@
         }
       }
     },
-    "VoiceListDialingPermissionsCountryResultMeta": {
+    "VoiceListDialingPermissionsHrsPrefixesResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -1968,7 +2074,7 @@
         }
       }
     },
-    "VoiceListDialingPermissionsHrsPrefixesResult": {
+    "VoiceListDialingPermissionsHrsPrefixesResultObject": {
       "fields": {
         "content": {
           "type": {
@@ -1996,7 +2102,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceListDialingPermissionsHrsPrefixesResultMeta",
+              "name": "VoiceListDialingPermissionsHrsPrefixesResultMetaObject",
               "type": "named"
             }
           },
@@ -2008,7 +2114,7 @@
         }
       }
     },
-    "VoiceListDialingPermissionsHrsPrefixesResultMeta": {
+    "VoiceListIpRecordResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -2114,7 +2220,7 @@
         }
       }
     },
-    "VoiceListIpRecordResult": {
+    "VoiceListIpRecordResultObject": {
       "fields": {
         "ip_records": {
           "type": {
@@ -2142,7 +2248,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceListIpRecordResultMeta",
+              "name": "VoiceListIpRecordResultMetaObject",
               "type": "named"
             }
           },
@@ -2154,7 +2260,7 @@
         }
       }
     },
-    "VoiceListIpRecordResultMeta": {
+    "VoiceListSourceIpMappingResultMetaObject": {
       "fields": {
         "first_page_url": {
           "type": {
@@ -2260,13 +2366,13 @@
         }
       }
     },
-    "VoiceListSourceIpMappingResult": {
+    "VoiceListSourceIpMappingResultObject": {
       "fields": {
         "meta": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceListSourceIpMappingResultMeta",
+              "name": "VoiceListSourceIpMappingResultMetaObject",
               "type": "named"
             }
           },
@@ -2300,113 +2406,7 @@
         }
       }
     },
-    "VoiceListSourceIpMappingResultMeta": {
-      "fields": {
-        "first_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "key": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "next_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "page": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "page_size": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "previous_page_url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        },
-        "url": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri"
-          }
-        }
-      }
-    },
-    "VoiceUpdateByocTrunkBodyInput": {
+    "VoiceUpdateByocTrunkBodyObjectInput": {
       "fields": {
         "CnamLookupEnabled": {
           "description": "Whether Caller ID Name (CNAM) lookup is enabled for the trunk. If enabled, all inbound calls to the BYOC Trunk from the United States and Canada automatically perform a CNAM Lookup and display Caller ID data on your phone. See [CNAM Lookups](https://www.twilio.com/docs/sip-trunking#CNAM) for more information.",
@@ -2479,7 +2479,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateByocTrunkBodyStatusCallbackMethod",
+              "name": "VoiceUpdateByocTrunkBodyStatusCallbackMethodEnum",
               "type": "named"
             }
           },
@@ -2511,7 +2511,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateByocTrunkBodyVoiceFallbackMethod",
+              "name": "VoiceUpdateByocTrunkBodyVoiceFallbackMethodEnum",
               "type": "named"
             }
           },
@@ -2543,7 +2543,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateByocTrunkBodyVoiceMethod",
+              "name": "VoiceUpdateByocTrunkBodyVoiceMethodEnum",
               "type": "named"
             }
           },
@@ -2572,7 +2572,7 @@
         }
       }
     },
-    "VoiceUpdateConnectionPolicyBodyInput": {
+    "VoiceUpdateConnectionPolicyBodyObjectInput": {
       "fields": {
         "FriendlyName": {
           "description": "A descriptive string that you create to describe the resource. It is not unique and can be up to 255 characters long.",
@@ -2591,7 +2591,7 @@
         }
       }
     },
-    "VoiceUpdateConnectionPolicyTargetBodyInput": {
+    "VoiceUpdateConnectionPolicyTargetBodyObjectInput": {
       "fields": {
         "Enabled": {
           "description": "Whether the Target is enabled.",
@@ -2671,7 +2671,7 @@
         }
       }
     },
-    "VoiceUpdateDialingPermissionsSettingsBodyInput": {
+    "VoiceUpdateDialingPermissionsSettingsBodyObjectInput": {
       "fields": {
         "DialingPermissionsInheritance": {
           "description": "`true` for the sub-account to inherit voice dialing permissions from the Master Project; otherwise `false`.",
@@ -2690,7 +2690,7 @@
         }
       }
     },
-    "VoiceUpdateIpRecordBodyInput": {
+    "VoiceUpdateIpRecordBodyObjectInput": {
       "fields": {
         "FriendlyName": {
           "description": "A descriptive string that you create to describe the resource. It is not unique and can be up to 255 characters long.",
@@ -2709,7 +2709,7 @@
         }
       }
     },
-    "VoiceUpdateSourceIpMappingBodyInput": {
+    "VoiceUpdateSourceIpMappingBodyObjectInput": {
       "fields": {
         "SipDomainSid": {
           "description": "The SID of the SIP Domain that the IP Record should be mapped to.",
@@ -2869,7 +2869,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceVoiceV1ByocTrunkStatusCallbackMethod",
+              "name": "VoiceVoiceV1ByocTrunkStatusCallbackMethodEnum",
               "type": "named"
             }
           },
@@ -2917,7 +2917,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceVoiceV1ByocTrunkVoiceFallbackMethod",
+              "name": "VoiceVoiceV1ByocTrunkVoiceFallbackMethodEnum",
               "type": "named"
             }
           },
@@ -2949,7 +2949,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceVoiceV1ByocTrunkVoiceMethod",
+              "name": "VoiceVoiceV1ByocTrunkVoiceMethodEnum",
               "type": "named"
             }
           },
@@ -3940,7 +3940,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateByocTrunkBodyInput",
+              "name": "VoiceCreateByocTrunkBodyObjectInput",
               "type": "named"
             }
           },
@@ -3982,7 +3982,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateConnectionPolicyBodyInput",
+              "name": "VoiceCreateConnectionPolicyBodyObjectInput",
               "type": "named"
             }
           },
@@ -4043,7 +4043,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateConnectionPolicyTargetBodyInput",
+              "name": "VoiceCreateConnectionPolicyTargetBodyObjectInput",
               "type": "named"
             }
           },
@@ -4085,7 +4085,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateDialingPermissionsCountryBulkUpdateBodyInput",
+              "name": "VoiceCreateDialingPermissionsCountryBulkUpdateBodyObjectInput",
               "type": "named"
             }
           },
@@ -4127,7 +4127,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateIpRecordBodyInput",
+              "name": "VoiceCreateIpRecordBodyObjectInput",
               "type": "named"
             }
           },
@@ -4169,7 +4169,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceCreateSourceIpMappingBodyInput",
+              "name": "VoiceCreateSourceIpMappingBodyObjectInput",
               "type": "named"
             }
           },
@@ -4524,7 +4524,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateByocTrunkBodyInput",
+              "name": "VoiceUpdateByocTrunkBodyObjectInput",
               "type": "named"
             }
           },
@@ -4585,7 +4585,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateConnectionPolicyBodyInput",
+              "name": "VoiceUpdateConnectionPolicyBodyObjectInput",
               "type": "named"
             }
           },
@@ -4665,7 +4665,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateConnectionPolicyTargetBodyInput",
+              "name": "VoiceUpdateConnectionPolicyTargetBodyObjectInput",
               "type": "named"
             }
           },
@@ -4707,7 +4707,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateDialingPermissionsSettingsBodyInput",
+              "name": "VoiceUpdateDialingPermissionsSettingsBodyObjectInput",
               "type": "named"
             }
           },
@@ -4768,7 +4768,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateIpRecordBodyInput",
+              "name": "VoiceUpdateIpRecordBodyObjectInput",
               "type": "named"
             }
           },
@@ -4829,7 +4829,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "VoiceUpdateSourceIpMappingBodyInput",
+              "name": "VoiceUpdateSourceIpMappingBodyObjectInput",
               "type": "named"
             }
           },
@@ -4900,7 +4900,7 @@
         "type": "string"
       }
     },
-    "VoiceCreateByocTrunkBodyStatusCallbackMethod": {
+    "VoiceCreateByocTrunkBodyStatusCallbackMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -4911,7 +4911,7 @@
         "type": "enum"
       }
     },
-    "VoiceCreateByocTrunkBodyVoiceFallbackMethod": {
+    "VoiceCreateByocTrunkBodyVoiceFallbackMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -4922,7 +4922,7 @@
         "type": "enum"
       }
     },
-    "VoiceCreateByocTrunkBodyVoiceMethod": {
+    "VoiceCreateByocTrunkBodyVoiceMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -4933,7 +4933,7 @@
         "type": "enum"
       }
     },
-    "VoiceUpdateByocTrunkBodyStatusCallbackMethod": {
+    "VoiceUpdateByocTrunkBodyStatusCallbackMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -4944,7 +4944,7 @@
         "type": "enum"
       }
     },
-    "VoiceUpdateByocTrunkBodyVoiceFallbackMethod": {
+    "VoiceUpdateByocTrunkBodyVoiceFallbackMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -4955,7 +4955,7 @@
         "type": "enum"
       }
     },
-    "VoiceUpdateByocTrunkBodyVoiceMethod": {
+    "VoiceUpdateByocTrunkBodyVoiceMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -4966,7 +4966,7 @@
         "type": "enum"
       }
     },
-    "VoiceVoiceV1ByocTrunkStatusCallbackMethod": {
+    "VoiceVoiceV1ByocTrunkStatusCallbackMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -4977,7 +4977,7 @@
         "type": "enum"
       }
     },
-    "VoiceVoiceV1ByocTrunkVoiceFallbackMethod": {
+    "VoiceVoiceV1ByocTrunkVoiceFallbackMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -4988,7 +4988,7 @@
         "type": "enum"
       }
     },
-    "VoiceVoiceV1ByocTrunkVoiceMethod": {
+    "VoiceVoiceV1ByocTrunkVoiceMethodEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
