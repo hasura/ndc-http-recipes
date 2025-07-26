@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT="$(pwd)"
-NDC_TEST_VERSION=v0.1.6
+NDC_TEST_VERSION=v0.2.5
 NDC_TEST_PATH="$ROOT/tmp/ndc-test"
 
 # helper functions
