@@ -9099,6 +9099,114 @@
         "type": "named"
       }
     },
+    "billing_get_github_billing_usage_report_user": {
+      "request": {
+        "url": "/users/{username}/settings/billing/usage",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "day": {
+          "description": "If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "day",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "hour": {
+          "description": "If specified, only return results for a single hour. The value of `hour` is an integer between `0` and `23`. If no `year`, `month`, or `day` is specified, the default `year`, `month`, and `day` are used.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "hour",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "month": {
+          "description": "If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. If no year is specified the default `year` is used.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "month",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "username": {
+          "description": "The handle for the GitHub user account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "year": {
+          "description": "If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get billing usage report for a user",
+      "result_type": {
+        "name": "BillingUsageReportUser",
+        "type": "named"
+      }
+    },
     "billing_get_github_packages_billing_org": {
       "request": {
         "url": "/orgs/{org}/settings/billing/packages",
@@ -9225,6 +9333,184 @@
       "result_type": {
         "name": "CombinedBillingUsage",
         "type": "named"
+      }
+    },
+    "campaigns_get_campaign_summary": {
+      "request": {
+        "url": "/orgs/{org}/campaigns/{campaign_number}",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "campaign_number": {
+          "description": "The campaign number.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "campaign_number",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Get a campaign for an organization",
+      "result_type": {
+        "name": "CampaignSummary",
+        "type": "named"
+      }
+    },
+    "campaigns_list_org_campaigns": {
+      "request": {
+        "url": "/orgs/{org}/campaigns",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "direction": {
+          "description": "The direction to sort the results by.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CampaignsListOrgCampaignsDirectionEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "direction",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page": {
+          "description": "The page number of the results to fetch. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "per_page": {
+          "description": "The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "per_page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "sort": {
+          "description": "The property by which to sort the results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CampaignsListOrgCampaignsSortEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "sort",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "state": {
+          "description": "If specified, only campaigns with this state will be returned.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CampaignState",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List campaigns for an organization",
+      "result_type": {
+        "element_type": {
+          "name": "CampaignSummary",
+          "type": "named"
+        },
+        "type": "array"
       }
     },
     "checks_get": {
@@ -14542,6 +14828,21 @@
             }
           }
         },
+        "has": {
+          "description": "Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "has",
+            "in": "query",
+            "schema": {}
+          }
+        },
         "last": {
           "description": "**Deprecated**. The number of results per page (max 100), starting from the last matching result. This parameter must not be used in combination with `first`. Instead, use `per_page` in combination with `before` to fetch the last page of results.",
           "type": {
@@ -14810,6 +15111,21 @@
               "maximum": 100,
               "minimum": 1
             }
+          }
+        },
+        "has": {
+          "description": "Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "has",
+            "in": "query",
+            "schema": {}
           }
         },
         "last": {
@@ -15096,6 +15412,21 @@
               "maximum": 100,
               "minimum": 1
             }
+          }
+        },
+        "has": {
+          "description": "Filters the list of alerts based on whether the alert has the given value. If specified, only alerts meeting this criterion will be returned. Multiple `has` filters can be passed to filter for alerts that have all of the values. Currently, only `patch` is supported.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "has",
+            "in": "query",
+            "schema": {}
           }
         },
         "last": {
@@ -15552,6 +15883,79 @@
       "description": "List selected repositories for an organization secret",
       "result_type": {
         "name": "DependabotListSelectedReposForOrgSecretResultObject",
+        "type": "named"
+      }
+    },
+    "dependabot_repository_access_for_org": {
+      "request": {
+        "url": "/organizations/{org}/dependabot/repository-access",
+        "method": "get",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "page": {
+          "description": "The page number of results to fetch.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "minimum": 1
+            }
+          }
+        },
+        "per_page": {
+          "description": "Number of results per page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "per_page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "maximum": 100,
+              "minimum": 1
+            }
+          }
+        }
+      },
+      "description": "Lists the repositories Dependabot can access in an organization",
+      "result_type": {
+        "name": "DependabotRepositoryAccessDetails",
         "type": "named"
       }
     },
@@ -22092,7 +22496,7 @@
       },
       "arguments": {
         "filter": {
-          "description": "Filter members returned in the list. `2fa_disabled` means that only members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. This options is only available for organization owners.",
+          "description": "Filter members returned in the list. `2fa_disabled` means that only members without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. `2fa_insecure` means that only members with [insecure 2FA methods](https://docs.github.com/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization#requiring-secure-methods-of-two-factor-authentication-in-your-organization) will be returned. These options are only available for organization owners.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -22489,7 +22893,7 @@
       },
       "arguments": {
         "filter": {
-          "description": "Filter the list of outside collaborators. `2fa_disabled` means that only outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned.",
+          "description": "Filter the list of outside collaborators. `2fa_disabled` means that only outside collaborators without [two-factor authentication](https://github.com/blog/1614-two-factor-authentication) enabled will be returned. `2fa_insecure` means that only outside collaborators with [insecure 2FA methods](https://docs.github.com/organizations/keeping-your-organization-secure/managing-two-factor-authentication-for-your-organization/requiring-two-factor-authentication-in-your-organization#requiring-secure-methods-of-two-factor-authentication-in-your-organization) will be returned.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -24861,7 +25265,7 @@
         "type": "named"
       }
     },
-    "projects_get": {
+    "projects_classic_get": {
       "request": {
         "url": "/projects/{project_id}",
         "method": "get",
@@ -24893,7 +25297,7 @@
         "type": "named"
       }
     },
-    "projects_get_card": {
+    "projects_classic_get_card": {
       "request": {
         "url": "/projects/columns/cards/{card_id}",
         "method": "get",
@@ -24925,7 +25329,7 @@
         "type": "named"
       }
     },
-    "projects_get_column": {
+    "projects_classic_get_column": {
       "request": {
         "url": "/projects/columns/{column_id}",
         "method": "get",
@@ -24957,7 +25361,7 @@
         "type": "named"
       }
     },
-    "projects_get_permission_for_user": {
+    "projects_classic_get_permission_for_user": {
       "request": {
         "url": "/projects/{project_id}/collaborators/{username}/permission",
         "method": "get",
@@ -25005,7 +25409,7 @@
         "type": "named"
       }
     },
-    "projects_list_cards": {
+    "projects_classic_list_cards": {
       "request": {
         "url": "/projects/columns/{column_id}/cards",
         "method": "get",
@@ -25019,7 +25423,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsListCardsArchivedStateEnum",
+              "name": "ProjectsClassicListCardsArchivedStateEnum",
               "type": "named"
             }
           },
@@ -25097,7 +25501,7 @@
         "type": "array"
       }
     },
-    "projects_list_collaborators": {
+    "projects_classic_list_collaborators": {
       "request": {
         "url": "/projects/{project_id}/collaborators",
         "method": "get",
@@ -25111,7 +25515,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsListCollaboratorsAffiliationEnum",
+              "name": "ProjectsClassicListCollaboratorsAffiliationEnum",
               "type": "named"
             }
           },
@@ -25189,7 +25593,7 @@
         "type": "array"
       }
     },
-    "projects_list_columns": {
+    "projects_classic_list_columns": {
       "request": {
         "url": "/projects/{project_id}/columns",
         "method": "get",
@@ -25262,7 +25666,7 @@
         "type": "array"
       }
     },
-    "projects_list_for_org": {
+    "projects_classic_list_for_org": {
       "request": {
         "url": "/orgs/{org}/projects",
         "method": "get",
@@ -25330,7 +25734,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsListForOrgStateEnum",
+              "name": "ProjectsClassicListForOrgStateEnum",
               "type": "named"
             }
           },
@@ -25354,7 +25758,7 @@
         "type": "array"
       }
     },
-    "projects_list_for_repo": {
+    "projects_classic_list_for_repo": {
       "request": {
         "url": "/repos/{owner}/{repo}/projects",
         "method": "get",
@@ -25438,7 +25842,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsListForRepoStateEnum",
+              "name": "ProjectsClassicListForRepoStateEnum",
               "type": "named"
             }
           },
@@ -25462,7 +25866,7 @@
         "type": "array"
       }
     },
-    "projects_list_for_user": {
+    "projects_classic_list_for_user": {
       "request": {
         "url": "/users/{username}/projects",
         "method": "get",
@@ -25514,7 +25918,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsListForUserStateEnum",
+              "name": "ProjectsClassicListForUserStateEnum",
               "type": "named"
             }
           },
@@ -30684,7 +31088,7 @@
           }
         },
         "rule_suite_result": {
-          "description": "The rule results to filter on. When specified, only suites with this result will be returned.",
+          "description": "The rule suite results to filter on. When specified, only suites with this result will be returned.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -30703,7 +31107,7 @@
           }
         },
         "time_period": {
-          "description": "The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).",
+          "description": "The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for rule suites that occurred in the past 7 days (168 hours).",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -31780,7 +32184,7 @@
           }
         },
         "rule_suite_result": {
-          "description": "The rule results to filter on. When specified, only suites with this result will be returned.",
+          "description": "The rule suite results to filter on. When specified, only suites with this result will be returned.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -31799,7 +32203,7 @@
           }
         },
         "time_period": {
-          "description": "The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for insights that occurred in the past 7 days (168 hours).",
+          "description": "The time period to filter by.  For example, `day` will filter for rule suites that occurred in the past 24 hours, and `week` will filter for rule suites that occurred in the past 7 days (168 hours).",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -37048,6 +37452,25 @@
             }
           }
         },
+        "hide_secret": {
+          "description": "A boolean value representing whether or not to hide literal secrets in the results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "hide_secret",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
         "owner": {
           "description": "The account owner of the repository. The name is not case sensitive.",
           "type": {
@@ -37217,6 +37640,25 @@
             }
           }
         },
+        "hide_secret": {
+          "description": "A boolean value representing whether or not to hide literal secrets in the results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "hide_secret",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
         "is_multi_repo": {
           "description": "A boolean value representing whether or not to filter alerts by the multi-repo tag being present.",
           "type": {
@@ -37294,7 +37736,7 @@
           }
         },
         "secret_type": {
-          "description": "A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter. See \"[Supported secret scanning patterns](https://docs.github.com/enterprise-cloud@latest/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)\" for a complete list of secret types.",
+          "description": "A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter. See \"[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)\" for a complete list of secret types.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -37445,6 +37887,25 @@
             }
           }
         },
+        "hide_secret": {
+          "description": "A boolean value representing whether or not to hide literal secrets in the results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "hide_secret",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
         "is_multi_repo": {
           "description": "A boolean value representing whether or not to filter alerts by the multi-repo tag being present.",
           "type": {
@@ -37557,7 +38018,7 @@
           }
         },
         "secret_type": {
-          "description": "A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter. See \"[Supported secret scanning patterns](https://docs.github.com/enterprise-cloud@latest/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)\" for a complete list of secret types.",
+          "description": "A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter. See \"[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)\" for a complete list of secret types.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -37708,6 +38169,25 @@
             }
           }
         },
+        "hide_secret": {
+          "description": "A boolean value representing whether or not to hide literal secrets in the results.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "hide_secret",
+            "in": "query",
+            "schema": {
+              "type": [
+                "boolean"
+              ]
+            }
+          }
+        },
         "is_multi_repo": {
           "description": "A boolean value representing whether or not to filter alerts by the multi-repo tag being present.",
           "type": {
@@ -37836,7 +38316,7 @@
           }
         },
         "secret_type": {
-          "description": "A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter. See \"[Supported secret scanning patterns](https://docs.github.com/enterprise-cloud@latest/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)\" for a complete list of secret types.",
+          "description": "A comma-separated list of secret types to return. All default secret patterns are returned. To return generic patterns, pass the token name(s) in the parameter. See \"[Supported secret scanning patterns](https://docs.github.com/code-security/secret-scanning/introduction/supported-secret-scanning-patterns#supported-secrets)\" for a complete list of secret types.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -46891,6 +47371,21 @@
             ]
           }
         },
+        "code_search_index_status": {
+          "description": "The status of the code search index for this repository",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RepositoryCodeSearchIndexStatusObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
         "collaborators_url": {
           "type": {
             "type": "nullable",
@@ -52754,6 +53249,160 @@
         }
       }
     },
+    "BillingUsageReportUser": {
+      "fields": {
+        "usageItems": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "BillingUsageReportUserUsageItemsObject",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      },
+      "alias": "billing-usage-report-user"
+    },
+    "BillingUsageReportUserUsageItemsObject": {
+      "fields": {
+        "date": {
+          "description": "Date of the usage line item.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "discountAmount": {
+          "description": "Discount amount of the usage line item.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "grossAmount": {
+          "description": "Gross amount of the usage line item.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "netAmount": {
+          "description": "Net amount of the usage line item.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "pricePerUnit": {
+          "description": "Price per unit of the usage line item.",
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "product": {
+          "description": "Product name.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "quantity": {
+          "description": "Quantity of the usage line item.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "repositoryName": {
+          "description": "Name of the repository.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "sku": {
+          "description": "SKU name.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "unitType": {
+          "description": "Unit type of the usage line item.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
     "Blob": {
       "description": "Blob",
       "fields": {
@@ -54588,6 +55237,556 @@
               "string"
             ],
             "format": "uri"
+          }
+        }
+      }
+    },
+    "CampaignSummary": {
+      "description": "The campaign metadata and alert stats.",
+      "fields": {
+        "alert_stats": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CampaignSummaryAlertStatsObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "closed_at": {
+          "description": "The date and time the campaign was closed, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ. Will be null if the campaign is still open.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "contact_link": {
+          "description": "The contact link of the campaign.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "created_at": {
+          "description": "The date and time the campaign was created, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "description": {
+          "description": "The campaign description",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "ends_at": {
+          "description": "The date and time the campaign has ended, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "managers": {
+          "description": "The campaign managers",
+          "type": {
+            "element_type": {
+              "name": "SimpleUser",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "name": {
+          "description": "The campaign name",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "number": {
+          "description": "The number of the newly created campaign",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "published_at": {
+          "description": "The date and time the campaign was published, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "state": {
+          "description": "Indicates whether a campaign is open or closed",
+          "type": {
+            "name": "CampaignState",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "team_managers": {
+          "description": "The campaign team managers",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Team",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "updated_at": {
+          "description": "The date and time the campaign was last updated, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        }
+      },
+      "alias": "campaign-summary"
+    },
+    "CampaignSummaryAlertStatsObject": {
+      "fields": {
+        "closed_count": {
+          "description": "The number of closed alerts",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "in_progress_count": {
+          "description": "The number of in-progress alerts",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        },
+        "open_count": {
+          "description": "The number of open alerts",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "CampaignsCreateCampaignBodyCodeScanningAlertsObjectInput": {
+      "fields": {
+        "alert_numbers": {
+          "description": "The alert numbers",
+          "type": {
+            "element_type": {
+              "name": "Int32",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "repository_id": {
+          "description": "The repository id",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ]
+          }
+        }
+      }
+    },
+    "CampaignsCreateCampaignBodyObjectInput": {
+      "fields": {
+        "code_scanning_alerts": {
+          "description": "The code scanning alerts to include in this campaign",
+          "type": {
+            "element_type": {
+              "name": "CampaignsCreateCampaignBodyCodeScanningAlertsObjectInput",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "contact_link": {
+          "description": "The contact link of the campaign. Must be a URI.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "description": {
+          "description": "A description for the campaign",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "ends_at": {
+          "description": "The end date and time of the campaign. The date must be in the future.",
+          "type": {
+            "name": "TimestampTZ",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "generate_issues": {
+          "description": "If true, will automatically generate issues for the campaign. The default is false.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "managers": {
+          "description": "The logins of the users to set as the campaign managers. At this time, only a single manager can be supplied.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the campaign",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 1
+          }
+        },
+        "team_managers": {
+          "description": "The slugs of the teams to set as the campaign managers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "CampaignsUpdateCampaignBodyObjectInput": {
+      "fields": {
+        "contact_link": {
+          "description": "The contact link of the campaign. Must be a URI.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "description": {
+          "description": "A description for the campaign",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "ends_at": {
+          "description": "The end date and time of the campaign, in ISO 8601 format':' YYYY-MM-DDTHH:MM:SSZ.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
+        "managers": {
+          "description": "The logins of the users to set as the campaign managers. At this time, only a single manager can be supplied.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "name": {
+          "description": "The name of the campaign",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 50,
+            "minLength": 1
+          }
+        },
+        "state": {
+          "description": "Indicates whether a campaign is open or closed",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CampaignState",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "team_managers": {
+          "description": "The slugs of the teams to set as the campaign managers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
           }
         }
       }
@@ -58059,6 +59258,21 @@
             ]
           }
         },
+        "threat_model": {
+          "description": "Threat model to be used for code scanning analysis. Use `remote` to analyze only network sources and `remote_and_local` to include local sources like filesystem access, command-line arguments, database reads, environment variable and standard input.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeScanningDefaultSetupThreatModelEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
         "updated_at": {
           "description": "Timestamp of latest configuration update.",
           "type": {
@@ -58199,9 +59413,45 @@
               "string"
             ]
           }
+        },
+        "threat_model": {
+          "description": "Threat model to be used for code scanning analysis. Use `remote` to analyze only network sources and `remote_and_local` to include local sources like filesystem access, command-line arguments, database reads, environment variable and standard input.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeScanningDefaultSetupUpdateThreatModelEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
         }
       },
       "alias": "code-scanning-default-setup-update"
+    },
+    "CodeScanningOptionsInput": {
+      "description": "Security Configuration feature options for code scanning",
+      "fields": {
+        "allow_advanced": {
+          "description": "Whether to allow repos which use advanced setup",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      },
+      "alias": "code-scanning-options"
     },
     "CodeScanningOrganizationAlertItems": {
       "fields": {
@@ -59593,6 +60843,21 @@
             ]
           }
         },
+        "code_scanning_options": {
+          "description": "Feature options for code scanning",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityConfigurationCodeScanningOptionsObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
         "created_at": {
           "type": {
             "type": "nullable",
@@ -59978,6 +61243,26 @@
         }
       }
     },
+    "CodeSecurityConfigurationCodeScanningOptionsObject": {
+      "description": "Feature options for code scanning",
+      "fields": {
+        "allow_advanced": {
+          "description": "Whether to allow repos which use advanced setup",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
     "CodeSecurityConfigurationDependencyGraphAutosubmitActionOptionsObject": {
       "description": "Feature options for Automatic dependency submission",
       "fields": {
@@ -60149,7 +61434,7 @@
     "CodeSecurityCreateConfigurationBodyObjectInput": {
       "fields": {
         "advanced_security": {
-          "description": "The enablement status of GitHub Advanced Security",
+          "description": "`code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -60199,6 +61484,36 @@
             "type": "nullable",
             "underlying_type": {
               "name": "CodeSecurityCreateConfigurationBodyCodeScanningDelegatedAlertDismissalEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "code_scanning_options": {
+          "description": "Security Configuration feature options for code scanning",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeScanningOptionsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "code_security": {
+          "description": "The enablement status of GitHub Code Security features.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityCreateConfigurationBodyCodeSecurityEnum",
               "type": "named"
             }
           },
@@ -60329,6 +61644,21 @@
             "type": "nullable",
             "underlying_type": {
               "name": "CodeSecurityCreateConfigurationBodyPrivateVulnerabilityReportingEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "secret_protection": {
+          "description": "The enablement status of GitHub Secret Protection features.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityCreateConfigurationBodySecretProtectionEnum",
               "type": "named"
             }
           },
@@ -60539,7 +61869,7 @@
     "CodeSecurityCreateConfigurationForEnterpriseBodyObjectInput": {
       "fields": {
         "advanced_security": {
-          "description": "The enablement status of GitHub Advanced Security",
+          "description": "`code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -60589,6 +61919,36 @@
             "type": "nullable",
             "underlying_type": {
               "name": "CodeSecurityCreateConfigurationForEnterpriseBodyCodeScanningDelegatedAlertDismissalEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "code_scanning_options": {
+          "description": "Security Configuration feature options for code scanning",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeScanningOptionsInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "code_security": {
+          "description": "The enablement status of GitHub Code Security features.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityCreateConfigurationForEnterpriseBodyCodeSecurityEnum",
               "type": "named"
             }
           },
@@ -60728,6 +62088,21 @@
             ]
           }
         },
+        "secret_protection": {
+          "description": "The enablement status of GitHub Secret Protection features.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityCreateConfigurationForEnterpriseBodySecretProtectionEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
         "secret_scanning": {
           "description": "The enablement status of secret scanning",
           "type": {
@@ -60854,7 +62229,7 @@
     "CodeSecurityDetachConfigurationBodyObjectInput": {
       "fields": {
         "selected_repository_ids": {
-          "description": "An array of repository IDs to detach from configurations.",
+          "description": "An array of repository IDs to detach from configurations. Up to 1000 IDs can be provided.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -61007,7 +62382,7 @@
     "CodeSecurityUpdateConfigurationBodyObjectInput": {
       "fields": {
         "advanced_security": {
-          "description": "The enablement status of GitHub Advanced Security",
+          "description": "`code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -61057,6 +62432,21 @@
             "type": "nullable",
             "underlying_type": {
               "name": "CodeSecurityUpdateConfigurationBodyCodeScanningDelegatedAlertDismissalEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "code_security": {
+          "description": "The enablement status of GitHub Code Security features.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityUpdateConfigurationBodyCodeSecurityEnum",
               "type": "named"
             }
           },
@@ -61193,6 +62583,21 @@
             "type": "nullable",
             "underlying_type": {
               "name": "CodeSecurityUpdateConfigurationBodyPrivateVulnerabilityReportingEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "secret_protection": {
+          "description": "The enablement status of GitHub Secret Protection features.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityUpdateConfigurationBodySecretProtectionEnum",
               "type": "named"
             }
           },
@@ -61403,7 +62808,7 @@
     "CodeSecurityUpdateEnterpriseConfigurationBodyObjectInput": {
       "fields": {
         "advanced_security": {
-          "description": "The enablement status of GitHub Advanced Security. Must be set to enabled if you want to enable any GHAS settings.",
+          "description": "`code_security` and `secret_protection` are deprecated values for this field. Prefer the individual `code_security` and `secret_protection` fields to set the status of these features.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -61453,6 +62858,21 @@
             "type": "nullable",
             "underlying_type": {
               "name": "CodeSecurityUpdateEnterpriseConfigurationBodyCodeScanningDelegatedAlertDismissalEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "code_security": {
+          "description": "The enablement status of GitHub Code Security features.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityUpdateEnterpriseConfigurationBodyCodeSecurityEnum",
               "type": "named"
             }
           },
@@ -61589,6 +63009,21 @@
             "type": "nullable",
             "underlying_type": {
               "name": "CodeSecurityUpdateEnterpriseConfigurationBodyPrivateVulnerabilityReportingEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "secret_protection": {
+          "description": "The enablement status of GitHub Secret Protection features.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CodeSecurityUpdateEnterpriseConfigurationBodySecretProtectionEnum",
               "type": "named"
             }
           },
@@ -68310,8 +69745,11 @@
         "assignee": {
           "description": "A GitHub user.",
           "type": {
-            "name": "SimpleUser",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SimpleUser",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -68587,6 +70025,20 @@
             ]
           }
         },
+        "organization_selection_type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
         "parent": {
           "description": "Groups of organization members that gives permissions on specified repositories.",
           "type": {
@@ -68715,6 +70167,30 @@
               "string"
             ],
             "format": "uri"
+          }
+        }
+      }
+    },
+    "CredentialsRevokeBodyObjectInput": {
+      "fields": {
+        "credentials": {
+          "description": "A list of credentials to be revoked, up to 1000 per request.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
           }
         }
       }
@@ -70585,6 +72061,52 @@
       },
       "alias": "dependabot-public-key"
     },
+    "DependabotRepositoryAccessDetails": {
+      "description": "Information about repositories that Dependabot is able to access in an organization",
+      "fields": {
+        "accessible_repositories": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "type": "nullable",
+                "underlying_type": {
+                  "name": "SimpleRepository",
+                  "type": "named"
+                }
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "default_level": {
+          "description": "The default repository access level for Dependabot updates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DependabotRepositoryAccessDetailsDefaultLevelEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "alias": "dependabot-repository-access-details"
+    },
     "DependabotSecret": {
       "description": "Set secrets for Dependabot.",
       "fields": {
@@ -70626,6 +72148,22 @@
         }
       },
       "alias": "dependabot-secret"
+    },
+    "DependabotSetRepositoryAccessDefaultLevelBodyObjectInput": {
+      "fields": {
+        "default_level": {
+          "description": "The default repository access level for Dependabot updates.",
+          "type": {
+            "name": "DependabotSetRepositoryAccessDefaultLevelBodyDefaultLevelEnum",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
     },
     "DependabotSetSelectedReposForOrgSecretBodyObjectInput": {
       "fields": {
@@ -70694,6 +72232,56 @@
             "type": [
               "string"
             ]
+          }
+        }
+      }
+    },
+    "DependabotUpdateRepositoryAccessForOrgBodyObjectInput": {
+      "fields": {
+        "repository_ids_to_add": {
+          "description": "List of repository IDs to add.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Int32",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "repository_ids_to_remove": {
+          "description": "List of repository IDs to remove.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Int32",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "integer"
+              ]
+            }
           }
         }
       }
@@ -71433,14 +73021,15 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "TimestampTZ",
               "type": "named"
             }
           },
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "format": "date-time"
           }
         },
         "read_only": {
@@ -78265,8 +79854,11 @@
         },
         "url": {
           "type": {
-            "name": "URIString",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -78282,11 +79874,8 @@
       "fields": {
         "mode": {
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -78296,11 +79885,8 @@
         },
         "path": {
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -78310,11 +79896,8 @@
         },
         "sha": {
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -78338,11 +79921,8 @@
         },
         "type": {
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
@@ -80708,6 +82288,20 @@
             ]
           }
         },
+        "client_id": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
         "contact_email": {
           "type": {
             "type": "nullable",
@@ -81473,20 +83067,6 @@
             ]
           }
         },
-        "client_secret": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
         "created_at": {
           "type": {
             "name": "TimestampTZ",
@@ -81514,7 +83094,7 @@
           }
         },
         "events": {
-          "description": "The list of events for the GitHub app",
+          "description": "The list of events for the GitHub app. Note that the `installation_target`, `security_advisory`, and `meta` events are not included because they are global events and not specific to an installation.",
           "type": {
             "element_type": {
               "name": "String",
@@ -81570,7 +83150,7 @@
           }
         },
         "installations_count": {
-          "description": "The number of installations associated with the GitHub app",
+          "description": "The number of installations associated with the GitHub app. Only returned when the integration is requesting details about itself.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -81618,20 +83198,6 @@
             ]
           }
         },
-        "pem": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
         "permissions": {
           "description": "The set of permissions for the GitHub app",
           "type": {
@@ -81669,20 +83235,6 @@
               "string"
             ],
             "format": "date-time"
-          }
-        },
-        "webhook_secret": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
           }
         }
       },
@@ -84729,7 +86281,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "IssueSearchResultItemSubIssuesSummaryObject",
+              "name": "SubIssuesSummary",
               "type": "named"
             }
           },
@@ -85022,43 +86574,6 @@
               "string"
             ],
             "format": "uri"
-          }
-        }
-      }
-    },
-    "IssueSearchResultItemSubIssuesSummaryObject": {
-      "fields": {
-        "completed": {
-          "type": {
-            "name": "Int32",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "percent_completed": {
-          "type": {
-            "name": "Int32",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
-          }
-        },
-        "total": {
-          "type": {
-            "name": "Int32",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "integer"
-            ]
           }
         }
       }
@@ -86487,6 +88002,21 @@
             ]
           }
         },
+        "last_used": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
         "read_only": {
           "type": {
             "name": "Boolean",
@@ -86537,6 +88067,21 @@
     "KeySimple": {
       "description": "Key Simple",
       "fields": {
+        "created_at": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
+          }
+        },
         "id": {
           "type": {
             "name": "Int32",
@@ -86557,6 +88102,21 @@
             "type": [
               "string"
             ]
+          }
+        },
+        "last_used": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TimestampTZ",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "date-time"
           }
         }
       },
@@ -89063,6 +90623,21 @@
             "format": "date-time"
           }
         },
+        "custom_properties": {
+          "description": "The custom properties that were defined for the repository. The keys are the custom property names, and the values are the corresponding custom property values.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
         "default_branch": {
           "type": {
             "type": "nullable",
@@ -90596,6 +92171,44 @@
     "OrgMembership": {
       "description": "Org Membership",
       "fields": {
+        "direct_membership": {
+          "description": "Whether the user has direct membership in the organization.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "enterprise_teams_providing_indirect_membership": {
+          "description": "The slugs of the enterprise teams providing the user with indirect membership in the organization. A limit of 100 enterprise team slugs is returned.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
         "organization": {
           "description": "A GitHub organization.",
           "type": {
@@ -90947,6 +92560,39 @@
       },
       "alias": "org-repo-custom-property-values"
     },
+    "OrgRulesInput": {
+      "description": "A repository rule.",
+      "fields": {
+        "parameters": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OrgRulesTypeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
     "OrganizationActionsSecret": {
       "description": "Secrets for GitHub Actions for an organization.",
       "fields": {
@@ -91136,21 +92782,6 @@
           "type": {
             "name": "Boolean",
             "type": "named"
-          },
-          "http": {
-            "type": [
-              "boolean"
-            ]
-          }
-        },
-        "is_private": {
-          "description": "Whether or not the issue type is restricted to issues in private repositories.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Boolean",
-              "type": "named"
-            }
           },
           "http": {
             "type": [
@@ -91357,6 +92988,21 @@
             "format": "date-time"
           }
         },
+        "default_repository_branch": {
+          "description": "The default branch for repositories created in this organization.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
         "default_repository_permission": {
           "type": {
             "type": "nullable",
@@ -91456,6 +93102,20 @@
           "http": {
             "type": [
               "integer"
+            ]
+          }
+        },
+        "display_commenter_full_name_setting_enabled": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
             ]
           }
         },
@@ -91628,6 +93288,20 @@
             ]
           }
         },
+        "members_can_change_repo_visibility": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
         "members_can_create_internal_repositories": {
           "type": {
             "type": "nullable",
@@ -91726,7 +93400,77 @@
             ]
           }
         },
+        "members_can_create_teams": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "members_can_delete_issues": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "members_can_delete_repositories": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
         "members_can_fork_private_repositories": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "members_can_invite_outside_collaborators": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "members_can_view_dependency_insights": {
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -91848,6 +93592,20 @@
           "http": {
             "type": [
               "integer"
+            ]
+          }
+        },
+        "readers_can_create_discussions": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
             ]
           }
         },
@@ -92789,6 +94547,35 @@
             "format": "date-time"
           }
         },
+        "first_location_detected": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SecretScanningFirstDetectedLocation",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "has_more_locations": {
+          "description": "A boolean value representing whether or not the token in the alert was detected in more than one location.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
         "html_url": {
           "description": "The GitHub URL of the alert resource.",
           "type": {
@@ -93362,21 +95149,6 @@
             ]
           }
         },
-        "is_private": {
-          "description": "Whether or not the issue type is restricted to issues in private repositories.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Boolean",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "boolean"
-            ]
-          }
-        },
         "name": {
           "description": "Name of the issue type.",
           "type": {
@@ -93703,6 +95475,54 @@
         }
       }
     },
+    "OrgsDeleteAttestationsBulkBodyOneOf0ObjectInput": {
+      "fields": {
+        "subject_digests": {
+          "description": "List of subject digests associated with the artifact attestations to delete.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "OrgsDeleteAttestationsBulkBodyOneOf1ObjectInput": {
+      "fields": {
+        "attestation_ids": {
+          "description": "List of unique IDs associated with the artifact attestations to delete.",
+          "type": {
+            "element_type": {
+              "name": "Int32",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      }
+    },
     "OrgsEnableOrDisableSecurityProductOnAllOrgReposBodyObjectInput": {
       "fields": {
         "query_suite": {
@@ -93751,6 +95571,144 @@
           "http": {
             "type": [
               "integer"
+            ]
+          }
+        }
+      }
+    },
+    "OrgsListAttestationsBulkBodyObjectInput": {
+      "fields": {
+        "predicate_type": {
+          "description": "Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subject_digests": {
+          "description": "List of subject digests to fetch attestations for.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "OrgsListAttestationsBulkResultObject": {
+      "fields": {
+        "attestations_subject_digests": {
+          "description": "Mapping of subject digest to bundles.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "page_info": {
+          "description": "Information about the current page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "OrgsListAttestationsBulkResultPageInfoObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "OrgsListAttestationsBulkResultPageInfoObject": {
+      "description": "Information about the current page.",
+      "fields": {
+        "has_next": {
+          "description": "Indicates whether there is a next page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_previous": {
+          "description": "Indicates whether there is a previous page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "next": {
+          "description": "The cursor to the next page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "previous": {
+          "description": "The cursor to the previous page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
             ]
           }
         }
@@ -97344,6 +99302,19 @@
             }
           }
         },
+        "url": {
+          "description": "The URL of the private registry.",
+          "type": {
+            "name": "URIString",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
         "username": {
           "description": "The username to use when authenticating with the private registry. This field should be omitted if the private registry does not require a username for authentication.",
           "type": {
@@ -97504,6 +99475,22 @@
                 "integer"
               ]
             }
+          }
+        },
+        "url": {
+          "description": "The URL of the private registry.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
           }
         },
         "username": {
@@ -98848,14 +100835,14 @@
       },
       "alias": "project-column"
     },
-    "ProjectsAddCollaboratorBodyObjectInput": {
+    "ProjectsClassicAddCollaboratorBodyObjectInput": {
       "fields": {
         "permission": {
           "description": "The permission to grant the collaborator.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsAddCollaboratorBodyPermissionEnum",
+              "name": "ProjectsClassicAddCollaboratorBodyPermissionEnum",
               "type": "named"
             }
           },
@@ -98867,7 +100854,7 @@
         }
       }
     },
-    "ProjectsCreateCardBodyOneOf0ObjectInput": {
+    "ProjectsClassicCreateCardBodyOneOf0ObjectInput": {
       "fields": {
         "note": {
           "description": "The project card's note",
@@ -98886,7 +100873,7 @@
         }
       }
     },
-    "ProjectsCreateCardBodyOneOf1ObjectInput": {
+    "ProjectsClassicCreateCardBodyOneOf1ObjectInput": {
       "fields": {
         "content_id": {
           "description": "The unique identifier of the content associated with the card",
@@ -98914,7 +100901,7 @@
         }
       }
     },
-    "ProjectsCreateColumnBodyObjectInput": {
+    "ProjectsClassicCreateColumnBodyObjectInput": {
       "fields": {
         "name": {
           "description": "Name of the project column",
@@ -98930,7 +100917,7 @@
         }
       }
     },
-    "ProjectsCreateForAuthenticatedUserBodyObjectInput": {
+    "ProjectsClassicCreateForAuthenticatedUserBodyObjectInput": {
       "fields": {
         "body": {
           "description": "Body of the project",
@@ -98961,7 +100948,7 @@
         }
       }
     },
-    "ProjectsCreateForOrgBodyObjectInput": {
+    "ProjectsClassicCreateForOrgBodyObjectInput": {
       "fields": {
         "body": {
           "description": "The description of the project.",
@@ -98992,7 +100979,7 @@
         }
       }
     },
-    "ProjectsCreateForRepoBodyObjectInput": {
+    "ProjectsClassicCreateForRepoBodyObjectInput": {
       "fields": {
         "body": {
           "description": "The description of the project.",
@@ -99023,7 +101010,7 @@
         }
       }
     },
-    "ProjectsMoveCardBodyObjectInput": {
+    "ProjectsClassicMoveCardBodyObjectInput": {
       "fields": {
         "column_id": {
           "description": "The unique identifier of the column the card should be moved to",
@@ -99055,7 +101042,7 @@
         }
       }
     },
-    "ProjectsMoveColumnBodyObjectInput": {
+    "ProjectsClassicMoveColumnBodyObjectInput": {
       "fields": {
         "position": {
           "description": "The position of the column in a project. Can be one of: `first`, `last`, or `after:` to place after the specified column.",
@@ -99072,7 +101059,7 @@
         }
       }
     },
-    "ProjectsUpdateBodyObjectInput": {
+    "ProjectsClassicUpdateBodyObjectInput": {
       "fields": {
         "body": {
           "description": "Body of the project",
@@ -99109,7 +101096,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsUpdateBodyOrganizationPermissionEnum",
+              "name": "ProjectsClassicUpdateBodyOrganizationPermissionEnum",
               "type": "named"
             }
           },
@@ -99151,7 +101138,7 @@
         }
       }
     },
-    "ProjectsUpdateCardBodyObjectInput": {
+    "ProjectsClassicUpdateCardBodyObjectInput": {
       "fields": {
         "archived": {
           "description": "Whether or not the card is archived",
@@ -99185,7 +101172,7 @@
         }
       }
     },
-    "ProjectsUpdateColumnBodyObjectInput": {
+    "ProjectsClassicUpdateColumnBodyObjectInput": {
       "fields": {
         "name": {
           "description": "Name of the project column",
@@ -104629,6 +106616,20 @@
             ]
           }
         },
+        "dependency_sbom": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RateLimit",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
         "dependency_snapshots": {
           "type": {
             "type": "nullable",
@@ -105271,6 +107272,21 @@
             ]
           }
         },
+        "immutable": {
+          "description": "Whether or not the release is immutable.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
         "mentions_count": {
           "type": {
             "type": "nullable",
@@ -105467,6 +107483,20 @@
               "string"
             ],
             "format": "date-time"
+          }
+        },
+        "digest": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
           }
         },
         "download_count": {
@@ -108732,7 +110762,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "RepositoryRuleInput",
+                "name": "OrgRulesInput",
                 "type": "named"
               },
               "type": "array"
@@ -110512,7 +112542,27 @@
       }
     },
     "ReposUpdateBodySecurityAndAnalysisAdvancedSecurityObjectInput": {
-      "description": "Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see \"[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).\"",
+      "description": "Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see \"[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).\"  For standalone Code Scanning or Secret Protection products, this parameter cannot be used.",
+      "fields": {
+        "status": {
+          "description": "Can be `enabled` or `disabled`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "ReposUpdateBodySecurityAndAnalysisCodeSecurityObjectInput": {
+      "description": "Use the `status` property to enable or disable GitHub Code Security for this repository.",
       "fields": {
         "status": {
           "description": "Can be `enabled` or `disabled`.",
@@ -110535,11 +112585,26 @@
       "description": "Specify which security and analysis features to enable or disable for the repository.  To use this parameter, you must have admin permissions for the repository or be an owner or security manager for the organization that owns the repository. For more information, see \"[Managing security managers in your organization](https://docs.github.com/organizations/managing-peoples-access-to-your-organization-with-roles/managing-security-managers-in-your-organization).\"  For example, to enable GitHub Advanced Security, use this data in the body of the `PATCH` request: `{ \"security_and_analysis\": {\"advanced_security\": { \"status\": \"enabled\" } } }`.  You can check which security and analysis features are currently enabled by using a `GET /repos/{owner}/{repo}` request.",
       "fields": {
         "advanced_security": {
-          "description": "Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see \"[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).\"",
+          "description": "Use the `status` property to enable or disable GitHub Advanced Security for this repository. For more information, see \"[About GitHub Advanced Security](/github/getting-started-with-github/learning-about-github/about-github-advanced-security).\"  For standalone Code Scanning or Secret Protection products, this parameter cannot be used.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "ReposUpdateBodySecurityAndAnalysisAdvancedSecurityObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "code_security": {
+          "description": "Use the `status` property to enable or disable GitHub Code Security for this repository.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ReposUpdateBodySecurityAndAnalysisCodeSecurityObjectInput",
               "type": "named"
             }
           },
@@ -111427,7 +113492,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "RepositoryRuleInput",
+                "name": "OrgRulesInput",
                 "type": "named"
               },
               "type": "array"
@@ -112416,6 +114481,21 @@
           "http": {
             "type": [
               "string"
+            ]
+          }
+        },
+        "code_search_index_status": {
+          "description": "The status of the code search index for this repository",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "RepositoryCodeSearchIndexStatusObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
             ]
           }
         },
@@ -114811,6 +116891,39 @@
         }
       }
     },
+    "RepositoryCodeSearchIndexStatusObject1": {
+      "description": "The status of the code search index for this repository",
+      "fields": {
+        "lexical_commit_sha": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "lexical_search_ok": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      }
+    },
     "RepositoryCollaboratorPermission": {
       "description": "Repository Collaborator Permission",
       "fields": {
@@ -116107,6 +118220,21 @@
             "type": "nullable",
             "underlying_type": {
               "name": "ReviewCommentStartSideEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subject_type": {
+          "description": "The level at which the comment is targeted, can be a diff line or a file.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ReviewCommentSubjectTypeEnum",
               "type": "named"
             }
           },
@@ -118323,6 +120451,35 @@
             "format": "date-time"
           }
         },
+        "first_location_detected": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SecretScanningFirstDetectedLocation",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "has_more_locations": {
+          "description": "A boolean value representing whether or not the token in the alert was detected in more than one location.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
         "html_url": {
           "description": "The GitHub URL of the alert resource.",
           "type": {
@@ -118716,6 +120873,337 @@
           "http": {
             "type": [
               "string"
+            ]
+          }
+        }
+      }
+    },
+    "SecretScanningFirstDetectedLocation": {
+      "description": "Details on the location where the token was initially detected. This can be a commit, wiki commit, issue, discussion, pull request.",
+      "fields": {
+        "blob_sha": {
+          "description": "SHA-1 hash ID of the associated blob",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "blob_url": {
+          "description": "The API URL to get the associated blob resource",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "commit_sha": {
+          "description": "SHA-1 hash ID of the associated commit",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "commit_url": {
+          "description": "The API URL to get the associated commit resource",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "discussion_body_url": {
+          "description": "The URL to the discussion where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "discussion_comment_url": {
+          "description": "The API URL to get the discussion comment where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "discussion_title_url": {
+          "description": "The URL to the discussion where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "end_column": {
+          "description": "The column at which the secret ends within the end line when the file is interpreted as 8BIT ASCII",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "end_line": {
+          "description": "Line number at which the secret ends in the file",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "issue_body_url": {
+          "description": "The API URL to get the issue where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "issue_comment_url": {
+          "description": "The API URL to get the issue comment where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "issue_title_url": {
+          "description": "The API URL to get the issue where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "page_url": {
+          "description": "The GitHub URL to get the associated wiki page",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "path": {
+          "description": "The file path in the repository",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "pull_request_body_url": {
+          "description": "The API URL to get the pull request where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "pull_request_comment_url": {
+          "description": "The API URL to get the pull request comment where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "pull_request_review_comment_url": {
+          "description": "The API URL to get the pull request review comment where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "pull_request_review_url": {
+          "description": "The API URL to get the pull request review where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "pull_request_title_url": {
+          "description": "The API URL to get the pull request where the secret was detected.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri"
+          }
+        },
+        "start_column": {
+          "description": "The column at which the secret starts within the start line when the file is interpreted as 8BIT ASCII",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ]
+          }
+        },
+        "start_line": {
+          "description": "Line number at which the secret starts in the file",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
             ]
           }
         }
@@ -119411,7 +121899,7 @@
           }
         },
         "resolution_comment": {
-          "description": "An optional comment when closing an alert. Cannot be updated or deleted. Must be `null` when changing `state` to `open`.",
+          "description": "An optional comment when closing or reopening an alert. Cannot be updated or deleted.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -119480,10 +121968,25 @@
     "SecurityAndAnalysis": {
       "fields": {
         "advanced_security": {
+          "description": "Enable or disable GitHub Advanced Security for the repository.  For standalone Code Scanning or Secret Protection products, this parameter cannot be used.",
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "SecurityAndAnalysisAdvancedSecurityObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "code_security": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SecurityAndAnalysisCodeSecurityObject1",
               "type": "named"
             }
           },
@@ -119568,12 +122071,31 @@
       "alias": "security-and-analysis"
     },
     "SecurityAndAnalysisAdvancedSecurityObject1": {
+      "description": "Enable or disable GitHub Advanced Security for the repository.  For standalone Code Scanning or Secret Protection products, this parameter cannot be used.",
       "fields": {
         "status": {
           "type": {
             "type": "nullable",
             "underlying_type": {
               "name": "SecurityAndAnalysisAdvancedSecurityStatusEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "SecurityAndAnalysisCodeSecurityObject1": {
+      "fields": {
+        "status": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SecurityAndAnalysisCodeSecurityStatusEnum",
               "type": "named"
             }
           },
@@ -125915,7 +128437,7 @@
           }
         },
         "maintainers": {
-          "description": "List GitHub IDs for organization members who will become team maintainers.",
+          "description": "List GitHub usernames for organization members who will become team maintainers.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -129116,6 +131638,54 @@
         }
       }
     },
+    "UsersDeleteAttestationsBulkBodyOneOf0ObjectInput": {
+      "fields": {
+        "subject_digests": {
+          "description": "List of subject digests associated with the artifact attestations to delete.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "UsersDeleteAttestationsBulkBodyOneOf1ObjectInput": {
+      "fields": {
+        "attestation_ids": {
+          "description": "List of unique IDs associated with the artifact attestations to delete.",
+          "type": {
+            "element_type": {
+              "name": "Int32",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      }
+    },
     "UsersDeleteEmailForAuthenticatedUserBodyOneOf0ObjectInput": {
       "description": "Deletes one or more email addresses from your GitHub account. Must contain at least one email address. **Note:** Alternatively, you can pass a single email address or an `array` of emails addresses directly, but we recommend that you pass an object using the `emails` key.",
       "fields": {
@@ -131007,6 +133577,144 @@
           }
         },
         "user_view_type": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
+    "UsersListAttestationsBulkBodyObjectInput": {
+      "fields": {
+        "predicate_type": {
+          "description": "Optional filter for fetching attestations with a given predicate type. This option accepts `provenance`, `sbom`, or freeform text for custom predicate types.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "subject_digests": {
+          "description": "List of subject digests to fetch attestations for.",
+          "type": {
+            "element_type": {
+              "name": "String",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "UsersListAttestationsBulkResultObject": {
+      "fields": {
+        "attestations_subject_digests": {
+          "description": "Mapping of subject digest to bundles.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "page_info": {
+          "description": "Information about the current page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "UsersListAttestationsBulkResultPageInfoObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "UsersListAttestationsBulkResultPageInfoObject": {
+      "description": "Information about the current page.",
+      "fields": {
+        "has_next": {
+          "description": "Indicates whether there is a next page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_previous": {
+          "description": "Indicates whether there is a previous page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "next": {
+          "description": "The cursor to the next page.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "previous": {
+          "description": "The cursor to the previous page.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -138813,6 +141521,173 @@
         "type": "named"
       }
     },
+    "campaigns_create_campaign": {
+      "request": {
+        "url": "/orgs/{org}/campaigns",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /orgs/{org}/campaigns",
+          "type": {
+            "name": "CampaignsCreateCampaignBodyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Create a campaign for an organization",
+      "result_type": {
+        "name": "CampaignSummary",
+        "type": "named"
+      }
+    },
+    "campaigns_delete_campaign": {
+      "request": {
+        "url": "/orgs/{org}/campaigns/{campaign_number}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "campaign_number": {
+          "description": "The campaign number.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "campaign_number",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete a campaign for an organization",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
+    "campaigns_update_campaign": {
+      "request": {
+        "url": "/orgs/{org}/campaigns/{campaign_number}",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /orgs/{org}/campaigns/{campaign_number}",
+          "type": {
+            "name": "CampaignsUpdateCampaignBodyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "campaign_number": {
+          "description": "The campaign number.",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "campaign_number",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Update a campaign",
+      "result_type": {
+        "name": "CampaignSummary",
+        "type": "named"
+      }
+    },
     "checks_create_JSON": {
       "request": {
         "url": "/repos/{owner}/{repo}/check-runs",
@@ -142153,6 +145028,40 @@
         "type": "named"
       }
     },
+    "credentials_revoke": {
+      "request": {
+        "url": "/credentials/revoke",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /credentials/revoke",
+          "type": {
+            "name": "CredentialsRevokeBodyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Revoke a list of credentials",
+      "result_type": {
+        "name": "JSON",
+        "type": "named"
+      }
+    },
     "dependabot_add_selected_repo_to_org_secret": {
       "request": {
         "url": "/orgs/{org}/dependabot/secrets/{secret_name}/repositories/{repository_id}",
@@ -142551,6 +145460,59 @@
         }
       }
     },
+    "dependabot_set_repository_access_default_level": {
+      "request": {
+        "url": "/organizations/{org}/dependabot/repository-access/default-level",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PUT /organizations/{org}/dependabot/repository-access/default-level",
+          "type": {
+            "name": "DependabotSetRepositoryAccessDefaultLevelBodyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Set the default repository access level for Dependabot",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
+      }
+    },
     "dependabot_set_selected_repos_for_org_secret": {
       "request": {
         "url": "/orgs/{org}/dependabot/secrets/{secret_name}/repositories",
@@ -142700,6 +145662,59 @@
       "result_type": {
         "name": "DependabotAlert",
         "type": "named"
+      }
+    },
+    "dependabot_update_repository_access_for_org": {
+      "request": {
+        "url": "/organizations/{org}/dependabot/repository-access",
+        "method": "patch",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of PATCH /organizations/{org}/dependabot/repository-access",
+          "type": {
+            "name": "DependabotUpdateRepositoryAccessForOrgBodyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Updates Dependabot's repository access list for an organization",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "Boolean",
+          "type": "named"
+        }
       }
     },
     "dependency_graph_create_repository_snapshot": {
@@ -147942,6 +150957,206 @@
         "type": "named"
       }
     },
+    "orgs_delete_attestations_bulk0": {
+      "request": {
+        "url": "/orgs/{org}/attestations/delete-request",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /orgs/{org}/attestations/delete-request",
+          "type": {
+            "name": "OrgsDeleteAttestationsBulkBodyOneOf0ObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {}
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete attestations in bulk",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "orgs_delete_attestations_bulk1": {
+      "request": {
+        "url": "/orgs/{org}/attestations/delete-request",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /orgs/{org}/attestations/delete-request",
+          "type": {
+            "name": "OrgsDeleteAttestationsBulkBodyOneOf1ObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {}
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete attestations in bulk",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "orgs_delete_attestations_by_id": {
+      "request": {
+        "url": "/orgs/{org}/attestations/{attestation_id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "attestation_id": {
+          "description": "Attestation ID",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "attestation_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete attestations by ID",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "orgs_delete_attestations_by_subject_digest": {
+      "request": {
+        "url": "/orgs/{org}/attestations/digest/{subject_digest}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "subject_digest": {
+          "description": "Subject Digest",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subject_digest",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete attestations by subject digest",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
     "orgs_delete_issue_type": {
       "request": {
         "url": "/orgs/{org}/issue-types/{issue_type_id}",
@@ -148126,6 +151341,113 @@
           "name": "Boolean",
           "type": "named"
         }
+      }
+    },
+    "orgs_list_attestations_bulk": {
+      "request": {
+        "url": "/orgs/{org}/attestations/bulk-list",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "after": {
+          "description": "A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "before": {
+          "description": "A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "before",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /orgs/{org}/attestations/bulk-list",
+          "type": {
+            "name": "OrgsListAttestationsBulkBodyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "org": {
+          "description": "The organization name. The name is not case sensitive.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "org",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "per_page": {
+          "description": "The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "per_page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List attestations by bulk subject digests",
+      "result_type": {
+        "name": "OrgsListAttestationsBulkResultObject",
+        "type": "named"
       }
     },
     "orgs_ping_webhook": {
@@ -150566,7 +153888,7 @@
         }
       }
     },
-    "projects_add_collaborator": {
+    "projects_classic_add_collaborator": {
       "request": {
         "url": "/projects/{project_id}/collaborators/{username}",
         "method": "put",
@@ -150583,7 +153905,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsAddCollaboratorBodyObjectInput",
+              "name": "ProjectsClassicAddCollaboratorBodyObjectInput",
               "type": "named"
             }
           },
@@ -150638,7 +153960,7 @@
         }
       }
     },
-    "projects_create_card0": {
+    "projects_classic_create_card0": {
       "request": {
         "url": "/projects/columns/{column_id}/cards",
         "method": "post",
@@ -150653,7 +153975,7 @@
         "body": {
           "description": "Request body of POST /projects/columns/{column_id}/cards",
           "type": {
-            "name": "ProjectsCreateCardBodyOneOf0ObjectInput",
+            "name": "ProjectsClassicCreateCardBodyOneOf0ObjectInput",
             "type": "named"
           },
           "http": {
@@ -150688,7 +154010,7 @@
         "type": "named"
       }
     },
-    "projects_create_card1": {
+    "projects_classic_create_card1": {
       "request": {
         "url": "/projects/columns/{column_id}/cards",
         "method": "post",
@@ -150703,7 +154025,7 @@
         "body": {
           "description": "Request body of POST /projects/columns/{column_id}/cards",
           "type": {
-            "name": "ProjectsCreateCardBodyOneOf1ObjectInput",
+            "name": "ProjectsClassicCreateCardBodyOneOf1ObjectInput",
             "type": "named"
           },
           "http": {
@@ -150738,7 +154060,7 @@
         "type": "named"
       }
     },
-    "projects_create_column": {
+    "projects_classic_create_column": {
       "request": {
         "url": "/projects/{project_id}/columns",
         "method": "post",
@@ -150753,7 +154075,7 @@
         "body": {
           "description": "Request body of POST /projects/{project_id}/columns",
           "type": {
-            "name": "ProjectsCreateColumnBodyObjectInput",
+            "name": "ProjectsClassicCreateColumnBodyObjectInput",
             "type": "named"
           },
           "http": {
@@ -150788,7 +154110,7 @@
         "type": "named"
       }
     },
-    "projects_create_for_authenticated_user": {
+    "projects_classic_create_for_authenticated_user": {
       "request": {
         "url": "/user/projects",
         "method": "post",
@@ -150803,7 +154125,7 @@
         "body": {
           "description": "Request body of POST /user/projects",
           "type": {
-            "name": "ProjectsCreateForAuthenticatedUserBodyObjectInput",
+            "name": "ProjectsClassicCreateForAuthenticatedUserBodyObjectInput",
             "type": "named"
           },
           "http": {
@@ -150822,7 +154144,7 @@
         "type": "named"
       }
     },
-    "projects_create_for_org": {
+    "projects_classic_create_for_org": {
       "request": {
         "url": "/orgs/{org}/projects",
         "method": "post",
@@ -150837,7 +154159,7 @@
         "body": {
           "description": "Request body of POST /orgs/{org}/projects",
           "type": {
-            "name": "ProjectsCreateForOrgBodyObjectInput",
+            "name": "ProjectsClassicCreateForOrgBodyObjectInput",
             "type": "named"
           },
           "http": {
@@ -150872,7 +154194,7 @@
         "type": "named"
       }
     },
-    "projects_create_for_repo": {
+    "projects_classic_create_for_repo": {
       "request": {
         "url": "/repos/{owner}/{repo}/projects",
         "method": "post",
@@ -150887,7 +154209,7 @@
         "body": {
           "description": "Request body of POST /repos/{owner}/{repo}/projects",
           "type": {
-            "name": "ProjectsCreateForRepoBodyObjectInput",
+            "name": "ProjectsClassicCreateForRepoBodyObjectInput",
             "type": "named"
           },
           "http": {
@@ -150938,7 +154260,7 @@
         "type": "named"
       }
     },
-    "projects_delete": {
+    "projects_classic_delete": {
       "request": {
         "url": "/projects/{project_id}",
         "method": "delete",
@@ -150973,7 +154295,7 @@
         }
       }
     },
-    "projects_delete_card": {
+    "projects_classic_delete_card": {
       "request": {
         "url": "/projects/columns/cards/{card_id}",
         "method": "delete",
@@ -151008,7 +154330,7 @@
         }
       }
     },
-    "projects_delete_column": {
+    "projects_classic_delete_column": {
       "request": {
         "url": "/projects/columns/{column_id}",
         "method": "delete",
@@ -151043,7 +154365,7 @@
         }
       }
     },
-    "projects_move_card": {
+    "projects_classic_move_card": {
       "request": {
         "url": "/projects/columns/cards/{card_id}/moves",
         "method": "post",
@@ -151058,7 +154380,7 @@
         "body": {
           "description": "Request body of POST /projects/columns/cards/{card_id}/moves",
           "type": {
-            "name": "ProjectsMoveCardBodyObjectInput",
+            "name": "ProjectsClassicMoveCardBodyObjectInput",
             "type": "named"
           },
           "http": {
@@ -151093,7 +154415,7 @@
         "type": "named"
       }
     },
-    "projects_move_column": {
+    "projects_classic_move_column": {
       "request": {
         "url": "/projects/columns/{column_id}/moves",
         "method": "post",
@@ -151108,7 +154430,7 @@
         "body": {
           "description": "Request body of POST /projects/columns/{column_id}/moves",
           "type": {
-            "name": "ProjectsMoveColumnBodyObjectInput",
+            "name": "ProjectsClassicMoveColumnBodyObjectInput",
             "type": "named"
           },
           "http": {
@@ -151143,7 +154465,7 @@
         "type": "named"
       }
     },
-    "projects_remove_collaborator": {
+    "projects_classic_remove_collaborator": {
       "request": {
         "url": "/projects/{project_id}/collaborators/{username}",
         "method": "delete",
@@ -151194,7 +154516,7 @@
         }
       }
     },
-    "projects_update": {
+    "projects_classic_update": {
       "request": {
         "url": "/projects/{project_id}",
         "method": "patch",
@@ -151211,7 +154533,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsUpdateBodyObjectInput",
+              "name": "ProjectsClassicUpdateBodyObjectInput",
               "type": "named"
             }
           },
@@ -151247,7 +154569,7 @@
         "type": "named"
       }
     },
-    "projects_update_card": {
+    "projects_classic_update_card": {
       "request": {
         "url": "/projects/columns/cards/{card_id}",
         "method": "patch",
@@ -151264,7 +154586,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProjectsUpdateCardBodyObjectInput",
+              "name": "ProjectsClassicUpdateCardBodyObjectInput",
               "type": "named"
             }
           },
@@ -151300,7 +154622,7 @@
         "type": "named"
       }
     },
-    "projects_update_column": {
+    "projects_classic_update_column": {
       "request": {
         "url": "/projects/columns/{column_id}",
         "method": "patch",
@@ -151315,7 +154637,7 @@
         "body": {
           "description": "Request body of PATCH /projects/columns/{column_id}",
           "type": {
-            "name": "ProjectsUpdateColumnBodyObjectInput",
+            "name": "ProjectsClassicUpdateColumnBodyObjectInput",
             "type": "named"
           },
           "http": {
@@ -164311,6 +167633,206 @@
         "type": "named"
       }
     },
+    "users_delete_attestations_bulk0": {
+      "request": {
+        "url": "/users/{username}/attestations/delete-request",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /users/{username}/attestations/delete-request",
+          "type": {
+            "name": "UsersDeleteAttestationsBulkBodyOneOf0ObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {}
+          }
+        },
+        "username": {
+          "description": "The handle for the GitHub user account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete attestations in bulk",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "users_delete_attestations_bulk1": {
+      "request": {
+        "url": "/users/{username}/attestations/delete-request",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Request body of POST /users/{username}/attestations/delete-request",
+          "type": {
+            "name": "UsersDeleteAttestationsBulkBodyOneOf1ObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {}
+          }
+        },
+        "username": {
+          "description": "The handle for the GitHub user account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete attestations in bulk",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "users_delete_attestations_by_id": {
+      "request": {
+        "url": "/users/{username}/attestations/{attestation_id}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "attestation_id": {
+          "description": "Attestation ID",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "attestation_id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "username": {
+          "description": "The handle for the GitHub user account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete attestations by ID",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
+    "users_delete_attestations_by_subject_digest": {
+      "request": {
+        "url": "/users/{username}/attestations/digest/{subject_digest}",
+        "method": "delete",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "subject_digest": {
+          "description": "Subject Digest",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "subject_digest",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "username": {
+          "description": "The handle for the GitHub user account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Delete attestations by subject digest",
+      "result_type": {
+        "type": "nullable",
+        "underlying_type": {
+          "name": "JSON",
+          "type": "named"
+        }
+      }
+    },
     "users_delete_email_for_authenticated_user0": {
       "request": {
         "url": "/user/emails",
@@ -164605,6 +168127,113 @@
           "name": "Boolean",
           "type": "named"
         }
+      }
+    },
+    "users_list_attestations_bulk": {
+      "request": {
+        "url": "/users/{username}/attestations/bulk-list",
+        "method": "post",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "after": {
+          "description": "A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "after",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "before": {
+          "description": "A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "before",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "body": {
+          "description": "Request body of POST /users/{username}/attestations/bulk-list",
+          "type": {
+            "name": "UsersListAttestationsBulkBodyObjectInput",
+            "type": "named"
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "per_page": {
+          "description": "The number of results per page (max 100). For more information, see \"[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api).\"",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "per_page",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ]
+            }
+          }
+        },
+        "username": {
+          "description": "The handle for the GitHub user account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "username",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "List attestations by bulk subject digests",
+      "result_type": {
+        "name": "UsersListAttestationsBulkResultObject",
+        "type": "named"
       }
     },
     "users_set_primary_email_visibility_for_authenticated_user": {
@@ -165790,6 +169419,41 @@
         "type": "boolean"
       }
     },
+    "CampaignState": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "open",
+          "closed"
+        ],
+        "type": "enum"
+      }
+    },
+    "CampaignsListOrgCampaignsDirectionEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "asc",
+          "desc"
+        ],
+        "type": "enum"
+      }
+    },
+    "CampaignsListOrgCampaignsSortEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "created",
+          "updated",
+          "ends_at",
+          "published"
+        ],
+        "type": "enum"
+      }
+    },
     "CheckRunConclusionEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -166140,6 +169804,17 @@
         "type": "enum"
       }
     },
+    "CodeScanningDefaultSetupThreatModelEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "remote",
+          "remote_and_local"
+        ],
+        "type": "enum"
+      }
+    },
     "CodeScanningDefaultSetupUpdateLanguagesEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -166187,6 +169862,17 @@
         "one_of": [
           "configured",
           "not-configured"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeScanningDefaultSetupUpdateThreatModelEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "remote",
+          "remote_and_local"
         ],
         "type": "enum"
       }
@@ -166357,7 +170043,9 @@
       "representation": {
         "one_of": [
           "enabled",
-          "disabled"
+          "disabled",
+          "code_security",
+          "secret_protection"
         ],
         "type": "enum"
       }
@@ -166617,7 +170305,9 @@
       "representation": {
         "one_of": [
           "enabled",
-          "disabled"
+          "disabled",
+          "code_security",
+          "secret_protection"
         ],
         "type": "enum"
       }
@@ -166635,6 +170325,18 @@
       }
     },
     "CodeSecurityCreateConfigurationBodyCodeScanningDelegatedAlertDismissalEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled",
+          "not_set"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeSecurityCreateConfigurationBodyCodeSecurityEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -166706,6 +170408,18 @@
       }
     },
     "CodeSecurityCreateConfigurationBodyPrivateVulnerabilityReportingEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled",
+          "not_set"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeSecurityCreateConfigurationBodySecretProtectionEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -166818,7 +170532,9 @@
       "representation": {
         "one_of": [
           "enabled",
-          "disabled"
+          "disabled",
+          "code_security",
+          "secret_protection"
         ],
         "type": "enum"
       }
@@ -166836,6 +170552,18 @@
       }
     },
     "CodeSecurityCreateConfigurationForEnterpriseBodyCodeScanningDelegatedAlertDismissalEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled",
+          "not_set"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeSecurityCreateConfigurationForEnterpriseBodyCodeSecurityEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -166907,6 +170635,18 @@
       }
     },
     "CodeSecurityCreateConfigurationForEnterpriseBodyPrivateVulnerabilityReportingEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled",
+          "not_set"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeSecurityCreateConfigurationForEnterpriseBodySecretProtectionEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -167071,7 +170811,9 @@
       "representation": {
         "one_of": [
           "enabled",
-          "disabled"
+          "disabled",
+          "code_security",
+          "secret_protection"
         ],
         "type": "enum"
       }
@@ -167089,6 +170831,18 @@
       }
     },
     "CodeSecurityUpdateConfigurationBodyCodeScanningDelegatedAlertDismissalEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled",
+          "not_set"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeSecurityUpdateConfigurationBodyCodeSecurityEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -167160,6 +170914,18 @@
       }
     },
     "CodeSecurityUpdateConfigurationBodyPrivateVulnerabilityReportingEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled",
+          "not_set"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeSecurityUpdateConfigurationBodySecretProtectionEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -167272,7 +171038,9 @@
       "representation": {
         "one_of": [
           "enabled",
-          "disabled"
+          "disabled",
+          "code_security",
+          "secret_protection"
         ],
         "type": "enum"
       }
@@ -167290,6 +171058,18 @@
       }
     },
     "CodeSecurityUpdateEnterpriseConfigurationBodyCodeScanningDelegatedAlertDismissalEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled",
+          "not_set"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeSecurityUpdateEnterpriseConfigurationBodyCodeSecurityEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -167361,6 +171141,18 @@
       }
     },
     "CodeSecurityUpdateEnterpriseConfigurationBodyPrivateVulnerabilityReportingEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled",
+          "not_set"
+        ],
+        "type": "enum"
+      }
+    },
+    "CodeSecurityUpdateEnterpriseConfigurationBodySecretProtectionEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -168010,6 +171802,29 @@
         "type": "enum"
       }
     },
+    "DependabotRepositoryAccessDetailsDefaultLevelEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "public",
+          "internal",
+          ""
+        ],
+        "type": "enum"
+      }
+    },
+    "DependabotSetRepositoryAccessDefaultLevelBodyDefaultLevelEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "public",
+          "internal"
+        ],
+        "type": "enum"
+      }
+    },
     "DependabotUpdateAlertBodyDismissedReasonEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -168399,6 +172214,7 @@
           "completed",
           "reopened",
           "not_planned",
+          "duplicate",
           ""
         ],
         "type": "enum"
@@ -168705,6 +172521,7 @@
         "one_of": [
           "completed",
           "not_planned",
+          "duplicate",
           "reopened",
           ""
         ],
@@ -168950,7 +172767,21 @@
       "comparison_operators": {},
       "representation": {
         "one_of": [
-          "maven_repository"
+          "maven_repository",
+          "nuget_feed",
+          "goproxy_server",
+          "npm_registry",
+          "rubygems_server",
+          "cargo_registry",
+          "composer_repository",
+          "docker_registry",
+          "git_source",
+          "helm_registry",
+          "hex_organization",
+          "hex_repository",
+          "pub_repository",
+          "python_index",
+          "terraform_registry"
         ],
         "type": "enum"
       }
@@ -168972,7 +172803,21 @@
       "comparison_operators": {},
       "representation": {
         "one_of": [
-          "maven_repository"
+          "maven_repository",
+          "nuget_feed",
+          "goproxy_server",
+          "npm_registry",
+          "rubygems_server",
+          "cargo_registry",
+          "composer_repository",
+          "docker_registry",
+          "git_source",
+          "helm_registry",
+          "hex_organization",
+          "hex_repository",
+          "pub_repository",
+          "python_index",
+          "terraform_registry"
         ],
         "type": "enum"
       }
@@ -168985,6 +172830,35 @@
           "all",
           "private",
           "selected"
+        ],
+        "type": "enum"
+      }
+    },
+    "OrgRulesTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "branch_name_pattern",
+          "code_scanning",
+          "commit_author_email_pattern",
+          "commit_message_pattern",
+          "committer_email_pattern",
+          "creation",
+          "deletion",
+          "file_extension_restriction",
+          "file_path_restriction",
+          "max_file_path_length",
+          "max_file_size",
+          "non_fast_forward",
+          "pull_request",
+          "required_deployments",
+          "required_linear_history",
+          "required_signatures",
+          "required_status_checks",
+          "tag_name_pattern",
+          "update",
+          "workflows"
         ],
         "type": "enum"
       }
@@ -169189,6 +173063,7 @@
       "representation": {
         "one_of": [
           "2fa_disabled",
+          "2fa_insecure",
           "all"
         ],
         "type": "enum"
@@ -169223,6 +173098,7 @@
       "representation": {
         "one_of": [
           "2fa_disabled",
+          "2fa_insecure",
           "all"
         ],
         "type": "enum"
@@ -169927,7 +173803,21 @@
       "comparison_operators": {},
       "representation": {
         "one_of": [
-          "maven_repository"
+          "maven_repository",
+          "nuget_feed",
+          "goproxy_server",
+          "npm_registry",
+          "rubygems_server",
+          "cargo_registry",
+          "composer_repository",
+          "docker_registry",
+          "git_source",
+          "helm_registry",
+          "hex_organization",
+          "hex_repository",
+          "pub_repository",
+          "python_index",
+          "terraform_registry"
         ],
         "type": "enum"
       }
@@ -169949,7 +173839,21 @@
       "comparison_operators": {},
       "representation": {
         "one_of": [
-          "maven_repository"
+          "maven_repository",
+          "nuget_feed",
+          "goproxy_server",
+          "npm_registry",
+          "rubygems_server",
+          "cargo_registry",
+          "composer_repository",
+          "docker_registry",
+          "git_source",
+          "helm_registry",
+          "hex_organization",
+          "hex_repository",
+          "pub_repository",
+          "python_index",
+          "terraform_registry"
         ],
         "type": "enum"
       }
@@ -169993,7 +173897,7 @@
         "type": "enum"
       }
     },
-    "ProjectsAddCollaboratorBodyPermissionEnum": {
+    "ProjectsClassicAddCollaboratorBodyPermissionEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -170005,7 +173909,7 @@
         "type": "enum"
       }
     },
-    "ProjectsListCardsArchivedStateEnum": {
+    "ProjectsClassicListCardsArchivedStateEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -170017,7 +173921,7 @@
         "type": "enum"
       }
     },
-    "ProjectsListCollaboratorsAffiliationEnum": {
+    "ProjectsClassicListCollaboratorsAffiliationEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -170029,7 +173933,7 @@
         "type": "enum"
       }
     },
-    "ProjectsListForOrgStateEnum": {
+    "ProjectsClassicListForOrgStateEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -170041,7 +173945,7 @@
         "type": "enum"
       }
     },
-    "ProjectsListForRepoStateEnum": {
+    "ProjectsClassicListForRepoStateEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -170053,7 +173957,7 @@
         "type": "enum"
       }
     },
-    "ProjectsListForUserStateEnum": {
+    "ProjectsClassicListForUserStateEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -170065,7 +173969,7 @@
         "type": "enum"
       }
     },
-    "ProjectsUpdateBodyOrganizationPermissionEnum": {
+    "ProjectsClassicUpdateBodyOrganizationPermissionEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -171510,6 +175414,17 @@
         "type": "enum"
       }
     },
+    "ReviewCommentSubjectTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "line",
+          "file"
+        ],
+        "type": "enum"
+      }
+    },
     "ReviewCustomGatesStateRequiredStateEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -172092,6 +176007,17 @@
       }
     },
     "SecurityAndAnalysisAdvancedSecurityStatusEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "enabled",
+          "disabled"
+        ],
+        "type": "enum"
+      }
+    },
+    "SecurityAndAnalysisCodeSecurityStatusEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
