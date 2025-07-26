@@ -19,8 +19,11 @@
               "env": "PAYPAL_OAUTH2_TOKEN_URL"
             },
             "scopes": {
+              "Braintree:PaymentsReady": "Permission to call PaymentsReady via BrainTree SDK.",
+              "https://uri.paypal.com/services/payments/client-payments-eligibility": "Permission to get information about merchant's eligible payment methods.",
               "https://uri.paypal.com/services/payments/non-referenced-credit": "Permission to initiate non referenced credit",
               "https://uri.paypal.com/services/payments/payment/authcapture": "Permission to do non-real time payments like capture on authorization",
+              "https://uri.paypal.com/services/payments/payments-ready": "Permission to get information about payment readiness.",
               "https://uri.paypal.com/services/payments/realtimepayment": "Permission to do any real time payment, with support for sale/authorize/order intents",
               "https://uri.paypal.com/services/payments/refund": "Permission to initiate a refund on a capture transaction",
               "https://uri.paypal.com/services/payments/reversepayment": "Permission to do any reverse payment"
@@ -35,7 +38,7 @@
         }
       }
     },
-    "version": "2.5"
+    "version": "2.8"
   },
   "functions": {
     "authorizations_get": {
@@ -54,6 +57,25 @@
         }
       },
       "arguments": {
+        "PayPal-Auth-Assertion": {
+          "description": "An API-caller-provided JSON Web Token (JWT) assertion that identifies the merchant. For details, see [PayPal-Auth-Assertion](/docs/api/reference/api-requests/#paypal-auth-assertion).Note:For three party transactions in which a partner is managing the API calls on behalf of a merchant, the partner must identify the merchant using either a PayPal-Auth-Assertion header or an access token with target_subject.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Auth-Assertion",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
         "authorization_id": {
           "description": "The PayPal-generated ID for the authorized payment to void.",
           "type": {
@@ -132,6 +154,25 @@
         }
       },
       "arguments": {
+        "PayPal-Auth-Assertion": {
+          "description": "An API-caller-provided JSON Web Token (JWT) assertion that identifies the merchant. For details, see [PayPal-Auth-Assertion](/docs/api/reference/api-requests/#paypal-auth-assertion).Note:For three party transactions in which a partner is managing the API calls on behalf of a merchant, the partner must identify the merchant using either a PayPal-Auth-Assertion header or an access token with target_subject.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Auth-Assertion",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
         "refund_id": {
           "description": "The PayPal-generated ID for the refund for which to show details.",
           "type": {
@@ -226,7 +267,6 @@
       }
     },
     "CaptureRequestInput": {
-      "description": "Captures either a portion or the full authorized amount of an authorized payment.",
       "fields": {
         "amount": {
           "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
@@ -327,6 +367,24 @@
         }
       }
     },
+    "DefinitionsPlatformFeeInput": {
+      "description": "The platform or partner fee, commission, or brokerage fee that is associated with the transaction. Not a separate or isolated transaction leg from the external perspective. The platform fee is limited in scope and is always associated with the original payment for the purchase unit.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "MoneyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      },
+      "alias": "definitions-platform_fee"
+    },
     "ExchangeRate": {
       "description": "The exchange rate that determines the amount to convert from one currency to another currency.",
       "fields": {
@@ -343,7 +401,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -361,7 +418,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -442,7 +498,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -477,7 +532,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -647,7 +701,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "PlatformFeeInput",
+                "name": "DefinitionsPlatformFeeInput",
                 "type": "named"
               },
               "type": "array"
@@ -688,24 +742,6 @@
             "minLength": 1
           }
         },
-        "payee_pricing_tier_id": {
-          "description": "This field is only enabled for selected merchants/partners to use and provides the ability to trigger a specific pricing rate/plan for a payment transaction. The list of eligible 'payee_pricing_tier_id' would be provided to you by your Account Manager. Specifying values other than the one provided to you by your account manager would result in an error.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^.*$",
-            "maxLength": 20,
-            "minLength": 1
-          }
-        },
         "payee_receivable_fx_rate_id": {
           "description": "FX identifier generated returned by PayPal to be used for payment processing in order to honor FX rate (for eligible integrations) to be used when amount is settled/received into the payee account.",
           "type": {
@@ -725,7 +761,7 @@
           }
         },
         "platform_fees": {
-          "description": "An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Commerce Platform for Marketplaces and Platforms capability.",
+          "description": "An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Complete Payments Platform for Marketplaces and Platforms capability.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -817,7 +853,7 @@
       "alias": "platform_fee"
     },
     "ReauthorizeRequestInput": {
-      "description": "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.A reauthorized payment itself has a new honor period of three days.You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.Supports only the `amount` request parameter.Note: This request is currently not supported for Partner use cases.",
+      "description": "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.A reauthorized payment itself has a new honor period of three days.You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.Supports only the `amount` request parameter.",
       "fields": {
         "amount": {
           "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
@@ -906,7 +942,7 @@
               "string"
             ],
             "pattern": "^[A-Za-z0-9-_.,]*$",
-            "maxLength": 127,
+            "maxLength": 255,
             "minLength": 1
           }
         },
@@ -998,7 +1034,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Refund1SellerPayableBreakdownObject",
+              "name": "SellerPayableBreakdown",
               "type": "named"
             }
           },
@@ -1055,147 +1091,6 @@
             "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
             "maxLength": 64,
             "minLength": 20
-          }
-        }
-      }
-    },
-    "Refund1SellerPayableBreakdownObject": {
-      "description": "The breakdown of the refund.",
-      "fields": {
-        "gross_amount": {
-          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Money",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "net_amount": {
-          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Money",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "net_amount_breakdown": {
-          "description": "An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "NetAmountBreakdownItem",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ]
-            }
-          }
-        },
-        "net_amount_in_receivable_currency": {
-          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Money",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "paypal_fee": {
-          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Money",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "paypal_fee_in_receivable_currency": {
-          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Money",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "platform_fees": {
-          "description": "An array of platform or partner fees, commissions, or brokerage fees for the refund.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "element_type": {
-                "name": "PlatformFee",
-                "type": "named"
-              },
-              "type": "array"
-            }
-          },
-          "http": {
-            "type": [
-              "array"
-            ],
-            "items": {
-              "type": [
-                "object"
-              ]
-            }
-          }
-        },
-        "total_refunded_amount": {
-          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Money",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
           }
         }
       }
@@ -1371,6 +1266,148 @@
       },
       "alias": "related_ids"
     },
+    "SellerPayableBreakdown": {
+      "description": "The breakdown of the refund.",
+      "fields": {
+        "gross_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "net_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "net_amount_breakdown": {
+          "description": "An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "NetAmountBreakdownItem",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "net_amount_in_receivable_currency": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "paypal_fee": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "paypal_fee_in_receivable_currency": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "platform_fees": {
+          "description": "An array of platform or partner fees, commissions, or brokerage fees for the refund.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "PlatformFee",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "total_refunded_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      },
+      "alias": "seller_payable_breakdown"
+    },
     "SupplementaryData": {
       "description": "The supplementary data.",
       "fields": {
@@ -1413,6 +1450,25 @@
         }
       },
       "arguments": {
+        "PayPal-Auth-Assertion": {
+          "description": "An API-caller-provided JSON Web Token (JWT) assertion that identifies the merchant. For details, see [PayPal-Auth-Assertion](/docs/api/reference/api-requests/#paypal-auth-assertion).Note:For three party transactions in which a partner is managing the API calls on behalf of a merchant, the partner must identify the merchant using either a PayPal-Auth-Assertion header or an access token with target_subject.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Auth-Assertion",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
         "PayPal-Request-Id": {
           "description": "The server stores keys for 45 days.",
           "type": {
@@ -1511,6 +1567,25 @@
         }
       },
       "arguments": {
+        "PayPal-Auth-Assertion": {
+          "description": "An API-caller-provided JSON Web Token (JWT) assertion that identifies the merchant. For details, see [PayPal-Auth-Assertion](/docs/api/reference/api-requests/#paypal-auth-assertion).Note:For three party transactions in which a partner is managing the API calls on behalf of a merchant, the partner must identify the merchant using either a PayPal-Auth-Assertion header or an access token with target_subject.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Auth-Assertion",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
         "PayPal-Request-Id": {
           "description": "The server stores keys for 45 days.",
           "type": {
@@ -1566,7 +1641,7 @@
           }
         },
         "body": {
-          "description": "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.A reauthorized payment itself has a new honor period of three days.You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.Supports only the `amount` request parameter.Note: This request is currently not supported for Partner use cases.",
+          "description": "Reauthorizes an authorized PayPal account payment, by ID. To ensure that funds are still available, reauthorize a payment after its initial three-day honor period expires. You can reauthorize a payment only once from days four to 29.If 30 days have transpired since the date of the original authorization, you must create an authorized payment instead of reauthorizing the original authorized payment.A reauthorized payment itself has a new honor period of three days.You can reauthorize an authorized payment once. The allowed amount depends on context and geography, for example in US it is up to 115% of the original authorized amount, not to exceed an increase of $75 USD.Supports only the `amount` request parameter.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1617,6 +1692,25 @@
           },
           "http": {
             "name": "PayPal-Auth-Assertion",
+            "in": "header",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "PayPal-Request-Id": {
+          "description": "The server stores keys for 45 days.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "PayPal-Request-Id",
             "in": "header",
             "schema": {
               "type": [

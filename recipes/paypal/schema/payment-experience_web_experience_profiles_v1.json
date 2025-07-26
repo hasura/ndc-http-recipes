@@ -111,6 +111,236 @@
     }
   },
   "object_types": {
+    "FlowConfig": {
+      "description": "The flow configuration parameters.",
+      "fields": {
+        "bank_txn_pending_url": {
+          "description": "The merchant site URL to display after a bank transfer payment. In Germany, valid only for the Giropay payment method or bank transfer payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "landing_page_type": {
+          "description": "The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FlowConfigLandingPageTypeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "return_uri_http_method": {
+          "description": "The HTTP method to use to redirect the customer to a return URL. Value is `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FlowConfigReturnUriHttpMethodEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "user_action": {
+          "description": "Presents either the **Continue** or **Pay Now** checkout flow to the customer.Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount. When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FlowConfigUserActionEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      },
+      "alias": "flow_config"
+    },
+    "FlowConfigInput": {
+      "description": "The flow configuration parameters.",
+      "fields": {
+        "bank_txn_pending_url": {
+          "description": "The merchant site URL to display after a bank transfer payment. In Germany, valid only for the Giropay payment method or bank transfer payment method.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "landing_page_type": {
+          "description": "The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FlowConfigLandingPageTypeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "return_uri_http_method": {
+          "description": "The HTTP method to use to redirect the customer to a return URL. Value is `GET` or `POST`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FlowConfigReturnUriHttpMethodEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "user_action": {
+          "description": "Presents either the **Continue** or **Pay Now** checkout flow to the customer.Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount. When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FlowConfigUserActionEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      },
+      "alias": "flow_config"
+    },
+    "InputFields": {
+      "description": "The input field customization parameters.",
+      "fields": {
+        "address_override": {
+          "description": "Indicates whether to display the shipping address that is passed to this call rather than the one on file for this buyer on the PayPal experience pages. Value is:0. Displays the shipping address on file.1. Displays the shipping address specified in this call. the customer cannot edit this shipping address.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 1,
+            "minimum": 0
+          }
+        },
+        "no_shipping": {
+          "description": "Indicates whether PayPal displays shipping address fields on the experience pages. Value is:0. Displays the shipping address on the PayPal pages.1. Redacts shipping address fields from the PayPal pages. For digital goods, this field is required and must be 1.2. Gets the shipping address from the customer's account profile.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 2,
+            "minimum": 0
+          }
+        }
+      },
+      "alias": "input_fields"
+    },
+    "InputFieldsInput": {
+      "description": "The input field customization parameters.",
+      "fields": {
+        "address_override": {
+          "description": "Indicates whether to display the shipping address that is passed to this call rather than the one on file for this buyer on the PayPal experience pages. Value is:0. Displays the shipping address on file.1. Displays the shipping address specified in this call. the customer cannot edit this shipping address.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 1,
+            "minimum": 0
+          }
+        },
+        "no_shipping": {
+          "description": "Indicates whether PayPal displays shipping address fields on the experience pages. Value is:0. Displays the shipping address on the PayPal pages.1. Redacts shipping address fields from the PayPal pages. For digital goods, this field is required and must be 1.2. Gets the shipping address from the customer's account profile.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 2,
+            "minimum": 0
+          }
+        }
+      },
+      "alias": "input_fields"
+    },
     "PatchInput": {
       "description": "The JSON patch object to apply partial updates to resources.",
       "fields": {
@@ -165,10 +395,133 @@
               "type": "named"
             }
           },
-          "http": {}
+          "http": {
+            "type": [
+              "number",
+              "integer",
+              "string",
+              "boolean",
+              "array",
+              "object"
+            ]
+          }
         }
       },
       "alias": "patch"
+    },
+    "Presentation": {
+      "description": "The style and presentation parameters.",
+      "fields": {
+        "brand_name": {
+          "description": "A label that overrides the business name in the PayPal account on the PayPal pages. Character length and limitations: 127 single-byte alphanumeric characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "locale_code": {
+          "description": "The locale of pages that the PayPal payment experience displays. A valid value is `AU`, `AT`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `ES`, `GB`, `FR`, `IT`, `NL`, `PL`, `PT`, `RU`, or `US`. A 5-character code is also valid for languages in these countries: `da_DK`, `he_IL`, `id_ID`, `ja_JP`, `no_NO`, `pt_BR`, `ru_RU`, `sv_SE`, `th_TH`, `zh_CN`, `zh_HK`, or `zh_TW`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 5,
+            "minLength": 2
+          }
+        },
+        "logo_image": {
+          "description": "A URL to the logo image. A valid media type is `.gif`, `.jpg`, or `.png`. The image's maximum width is 190 pixels and maximum height is 60 pixels. PayPal crops images that are larger. PayPal places your logo image at the top of the cart review area. PayPal recommends that you store the image on a secure (HTTPS) server. Otherwise, web browsers display a message that checkout pages contain non-secure items. Character length and limitations: 127 single-byte alphanumeric characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        }
+      },
+      "alias": "presentation"
+    },
+    "PresentationInput": {
+      "description": "The style and presentation parameters.",
+      "fields": {
+        "brand_name": {
+          "description": "A label that overrides the business name in the PayPal account on the PayPal pages. Character length and limitations: 127 single-byte alphanumeric characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "locale_code": {
+          "description": "The locale of pages that the PayPal payment experience displays. A valid value is `AU`, `AT`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `ES`, `GB`, `FR`, `IT`, `NL`, `PL`, `PT`, `RU`, or `US`. A 5-character code is also valid for languages in these countries: `da_DK`, `he_IL`, `id_ID`, `ja_JP`, `no_NO`, `pt_BR`, `ru_RU`, `sv_SE`, `th_TH`, `zh_CN`, `zh_HK`, or `zh_TW`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 5,
+            "minLength": 2
+          }
+        },
+        "logo_image": {
+          "description": "A URL to the logo image. A valid media type is `.gif`, `.jpg`, or `.png`. The image's maximum width is 190 pixels and maximum height is 60 pixels. PayPal crops images that are larger. PayPal places your logo image at the top of the cart review area. PayPal recommends that you store the image on a secure (HTTPS) server. Otherwise, web browsers display a message that checkout pages contain non-secure items. Character length and limitations: 127 single-byte alphanumeric characters.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 127,
+            "minLength": 1
+          }
+        }
+      },
+      "alias": "presentation"
     },
     "WebProfile": {
       "description": "A payment web experience profile.",
@@ -178,7 +531,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WebProfileFlowConfigObject",
+              "name": "FlowConfig",
               "type": "named"
             }
           },
@@ -210,7 +563,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WebProfileInputFieldsObject",
+              "name": "InputFields",
               "type": "named"
             }
           },
@@ -239,7 +592,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WebProfilePresentationObject",
+              "name": "Presentation",
               "type": "named"
             }
           },
@@ -267,154 +620,6 @@
       },
       "alias": "web_profile"
     },
-    "WebProfileFlowConfigObject": {
-      "description": "The flow configuration parameters.",
-      "fields": {
-        "bank_txn_pending_url": {
-          "description": "The merchant site URL to display after a bank transfer payment. In Germany, valid only for the Giropay payment method or bank transfer payment method.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri",
-            "maxLength": 127,
-            "minLength": 1
-          }
-        },
-        "landing_page_type": {
-          "description": "The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "WebProfileFlowConfigLandingPageTypeEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "return_uri_http_method": {
-          "description": "The HTTP method to use to redirect the customer to a return URL. Value is `GET` or `POST`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "WebProfileFlowConfigReturnUriHttpMethodEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "user_action": {
-          "description": "Presents either the **Continue** or **Pay Now** checkout flow to the customer.Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount. When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "WebProfileFlowConfigUserActionEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 255,
-            "minLength": 1
-          }
-        }
-      }
-    },
-    "WebProfileFlowConfigObjectInput": {
-      "description": "The flow configuration parameters.",
-      "fields": {
-        "bank_txn_pending_url": {
-          "description": "The merchant site URL to display after a bank transfer payment. In Germany, valid only for the Giropay payment method or bank transfer payment method.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "URIString",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "uri",
-            "maxLength": 127,
-            "minLength": 1
-          }
-        },
-        "landing_page_type": {
-          "description": "The type of landing page to display on the PayPal site for user checkout. To use the non-PayPal account landing page, set to `Billing`. To use the PayPal account login landing page, set to `Login`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "WebProfileFlowConfigLandingPageTypeEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "return_uri_http_method": {
-          "description": "The HTTP method to use to redirect the customer to a return URL. Value is `GET` or `POST`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "WebProfileFlowConfigReturnUriHttpMethodEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "user_action": {
-          "description": "Presents either the **Continue** or **Pay Now** checkout flow to the customer.Default is **Continue**, or `user_action=continue`. When you do not know the final payment amount, accept this default flow, which redirects the customer to the PayPal payment page with the **Continue** button. When the customer clicks **Continue**, the customer can change the payment amount. When you know the final payment amount, set `user_action=commit` to choose the **Pay Now** flow, which redirects the customer to the PayPal payment page with the **Pay Now** button. When the customer clicks **Pay Now**, the payment is processed immediately.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "WebProfileFlowConfigUserActionEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 255,
-            "minLength": 1
-          }
-        }
-      }
-    },
     "WebProfileInput": {
       "description": "A payment web experience profile.",
       "fields": {
@@ -423,7 +628,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WebProfileFlowConfigObjectInput",
+              "name": "FlowConfigInput",
               "type": "named"
             }
           },
@@ -438,7 +643,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WebProfileInputFieldsObjectInput",
+              "name": "InputFieldsInput",
               "type": "named"
             }
           },
@@ -467,7 +672,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "WebProfilePresentationObjectInput",
+              "name": "PresentationInput",
               "type": "named"
             }
           },
@@ -494,196 +699,6 @@
         }
       },
       "alias": "web_profile"
-    },
-    "WebProfileInputFieldsObject": {
-      "description": "The input field customization parameters.",
-      "fields": {
-        "address_override": {
-          "description": "Indicates whether to display the shipping address that is passed to this call rather than the one on file for this buyer on the PayPal experience pages. Value is:0. Displays the shipping address on file.1. Displays the shipping address specified in this call. the customer cannot edit this shipping address.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ],
-            "maximum": 1,
-            "minimum": 0
-          }
-        },
-        "no_shipping": {
-          "description": "Indicates whether PayPal displays shipping address fields on the experience pages. Value is:0. Displays the shipping address on the PayPal pages.1. Redacts shipping address fields from the PayPal pages. For digital goods, this field is required and must be 1.2. Gets the shipping address from the customer's account profile.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ],
-            "maximum": 2,
-            "minimum": 0
-          }
-        }
-      }
-    },
-    "WebProfileInputFieldsObjectInput": {
-      "description": "The input field customization parameters.",
-      "fields": {
-        "address_override": {
-          "description": "Indicates whether to display the shipping address that is passed to this call rather than the one on file for this buyer on the PayPal experience pages. Value is:0. Displays the shipping address on file.1. Displays the shipping address specified in this call. the customer cannot edit this shipping address.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ],
-            "maximum": 1,
-            "minimum": 0
-          }
-        },
-        "no_shipping": {
-          "description": "Indicates whether PayPal displays shipping address fields on the experience pages. Value is:0. Displays the shipping address on the PayPal pages.1. Redacts shipping address fields from the PayPal pages. For digital goods, this field is required and must be 1.2. Gets the shipping address from the customer's account profile.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ],
-            "maximum": 2,
-            "minimum": 0
-          }
-        }
-      }
-    },
-    "WebProfilePresentationObject": {
-      "description": "The style and presentation parameters.",
-      "fields": {
-        "brand_name": {
-          "description": "A label that overrides the business name in the PayPal account on the PayPal pages. Character length and limitations: 127 single-byte alphanumeric characters.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 127,
-            "minLength": 1
-          }
-        },
-        "locale_code": {
-          "description": "The locale of pages that the PayPal payment experience displays. A valid value is `AU`, `AT`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `ES`, `GB`, `FR`, `IT`, `NL`, `PL`, `PT`, `RU`, or `US`. A 5-character code is also valid for languages in these countries: `da_DK`, `he_IL`, `id_ID`, `ja_JP`, `no_NO`, `pt_BR`, `ru_RU`, `sv_SE`, `th_TH`, `zh_CN`, `zh_HK`, or `zh_TW`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 5,
-            "minLength": 2
-          }
-        },
-        "logo_image": {
-          "description": "A URL to the logo image. A valid media type is `.gif`, `.jpg`, or `.png`. The image's maximum width is 190 pixels and maximum height is 60 pixels. PayPal crops images that are larger. PayPal places your logo image at the top of the cart review area. PayPal recommends that you store the image on a secure (HTTPS) server. Otherwise, web browsers display a message that checkout pages contain non-secure items. Character length and limitations: 127 single-byte alphanumeric characters.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 127,
-            "minLength": 1
-          }
-        }
-      }
-    },
-    "WebProfilePresentationObjectInput": {
-      "description": "The style and presentation parameters.",
-      "fields": {
-        "brand_name": {
-          "description": "A label that overrides the business name in the PayPal account on the PayPal pages. Character length and limitations: 127 single-byte alphanumeric characters.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 127,
-            "minLength": 1
-          }
-        },
-        "locale_code": {
-          "description": "The locale of pages that the PayPal payment experience displays. A valid value is `AU`, `AT`, `BE`, `BR`, `CA`, `CH`, `CN`, `DE`, `ES`, `GB`, `FR`, `IT`, `NL`, `PL`, `PT`, `RU`, or `US`. A 5-character code is also valid for languages in these countries: `da_DK`, `he_IL`, `id_ID`, `ja_JP`, `no_NO`, `pt_BR`, `ru_RU`, `sv_SE`, `th_TH`, `zh_CN`, `zh_HK`, or `zh_TW`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 5,
-            "minLength": 2
-          }
-        },
-        "logo_image": {
-          "description": "A URL to the logo image. A valid media type is `.gif`, `.jpg`, or `.png`. The image's maximum width is 190 pixels and maximum height is 60 pixels. PayPal crops images that are larger. PayPal places your logo image at the top of the cart review area. PayPal recommends that you store the image on a secure (HTTPS) server. Otherwise, web browsers display a message that checkout pages contain non-secure items. Character length and limitations: 127 single-byte alphanumeric characters.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 127,
-            "minLength": 1
-          }
-        }
-      }
     }
   },
   "procedures": {
@@ -952,6 +967,38 @@
         "type": "boolean"
       }
     },
+    "FlowConfigLandingPageTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "login",
+          "billing"
+        ],
+        "type": "enum"
+      }
+    },
+    "FlowConfigReturnUriHttpMethodEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST"
+        ],
+        "type": "enum"
+      }
+    },
+    "FlowConfigUserActionEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "COMMIT"
+        ],
+        "type": "enum"
+      }
+    },
     "Int32": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -993,38 +1040,6 @@
       "comparison_operators": {},
       "representation": {
         "type": "string"
-      }
-    },
-    "WebProfileFlowConfigLandingPageTypeEnum": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "login",
-          "billing"
-        ],
-        "type": "enum"
-      }
-    },
-    "WebProfileFlowConfigReturnUriHttpMethodEnum": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "GET",
-          "POST"
-        ],
-        "type": "enum"
-      }
-    },
-    "WebProfileFlowConfigUserActionEnum": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "COMMIT"
-        ],
-        "type": "enum"
       }
     }
   }

@@ -41,7 +41,7 @@
         }
       }
     },
-    "version": "1.10"
+    "version": "1.11"
   },
   "functions": {
     "disputes_get": {
@@ -267,7 +267,6 @@
               "type": [
                 "string"
               ],
-              "format": "ppaas_date_time_v3",
               "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
               "maxLength": 64,
               "minLength": 20
@@ -290,7 +289,6 @@
               "type": [
                 "string"
               ],
-              "format": "ppaas_date_time_v3",
               "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
               "maxLength": 64,
               "minLength": 20
@@ -354,6 +352,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -450,6 +449,210 @@
       },
       "alias": "action_info"
     },
+    "AddressDetails": {
+      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+      "fields": {
+        "building_name": {
+          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "delivery_service": {
+          "description": "The delivery service. Post office box, bag number, or post office name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_name": {
+          "description": "The street name. Just `Drury` in `Drury Lane`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_number": {
+          "description": "The street number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_type": {
+          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "sub_building": {
+          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        }
+      },
+      "alias": "address_details"
+    },
+    "AddressDetailsInput": {
+      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+      "fields": {
+        "building_name": {
+          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "delivery_service": {
+          "description": "The delivery service. Post office box, bag number, or post office name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_name": {
+          "description": "The street name. Just `Drury` in `Drury Lane`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_number": {
+          "description": "The street number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_type": {
+          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "sub_building": {
+          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        }
+      },
+      "alias": "address_details"
+    },
     "AddressPortable": {
       "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
       "fields": {
@@ -458,7 +661,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddressPortableAddressDetailsObject",
+              "name": "AddressDetails",
               "type": "named"
             }
           },
@@ -581,7 +784,7 @@
           }
         },
         "country_code": {
-          "description": "The [two-character ISO 3166-1 code](/docs/api/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "description": "The [two-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
           "type": {
             "name": "String",
             "type": "named"
@@ -615,208 +818,6 @@
       },
       "alias": "address_portable"
     },
-    "AddressPortableAddressDetailsObject": {
-      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-      "fields": {
-        "building_name": {
-          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "delivery_service": {
-          "description": "The delivery service. Post office box, bag number, or post office name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_name": {
-          "description": "The street name. Just `Drury` in `Drury Lane`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_number": {
-          "description": "The street number.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_type": {
-          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "sub_building": {
-          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        }
-      }
-    },
-    "AddressPortableAddressDetailsObjectInput": {
-      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-      "fields": {
-        "building_name": {
-          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "delivery_service": {
-          "description": "The delivery service. Post office box, bag number, or post office name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_name": {
-          "description": "The street name. Just `Drury` in `Drury Lane`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_number": {
-          "description": "The street number.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_type": {
-          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "sub_building": {
-          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        }
-      }
-    },
     "AddressPortableInput": {
       "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
       "fields": {
@@ -825,7 +826,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddressPortableAddressDetailsObjectInput",
+              "name": "AddressDetailsInput",
               "type": "named"
             }
           },
@@ -948,7 +949,7 @@
           }
         },
         "country_code": {
-          "description": "The [two-character ISO 3166-1 code](/docs/api/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "description": "The [two-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
           "type": {
             "name": "String",
             "type": "named"
@@ -1361,7 +1362,7 @@
             "type": [
               "string"
             ],
-            "pattern": "^[A-Za-z0-9]+$",
+            "pattern": "^.*$",
             "maxLength": 127,
             "minLength": 1
           }
@@ -1401,7 +1402,7 @@
               "string"
             ],
             "format": "ppaas_common_email_address_v2",
-            "pattern": "^.+@[^\"\\-].+$",
+            "pattern": "^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
             "maxLength": 254,
             "minLength": 3
           }
@@ -1419,6 +1420,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -1545,10 +1547,10 @@
       "alias": "credit_not_processed"
     },
     "Cryptocurrency": {
-      "description": "Representation of a specific amount of Cryptocurrency, denoted by its symbol and quantity.",
+      "description": "The details needed to represent a specific cryptocurrency balance, such as its symbol and quantity.",
       "fields": {
         "asset_symbol": {
-          "description": "The Cryptocurrency ticker symbol / code as assigned by liquidity providers (exchanges).",
+          "description": "The cryptocurrency symbol or code ticker options. Assigned by liquidity providers and exchanges.",
           "type": {
             "name": "CryptocurrencySymbol",
             "type": "named"
@@ -1562,8 +1564,25 @@
             "minLength": 1
           }
         },
+        "decimals": {
+          "description": "The number of decimal digits supported by this cryptocurrency. For example, for Bitcoin this value is 8 because there are 10^8 satoshis in one Bitcoin and for Ethereum it's 18 since there are 10^18 wei in one Ether.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "maximum": 40,
+            "minimum": 0
+          }
+        },
         "quantity": {
-          "description": "Quantity of a cryptocurrency asset.This is a decimal number with scale defined for each Cryptocurrency by the founders. For example, Bitcoin(BTC) has 8 as scale,Ethereum (ETH) has 18 as scale.PayPal Cryptocurrency platform handles the scale to 8 digits for Bitcoin and its forks or offshoots and Ehereum.",
+          "description": "The quantity of a cryptocurrency asset. This is a decimal number with a scale defined for each cryptocurrency by its founders. For example, Bitcoin (BTC) has 8 as its scale, Ethereum (ETH) has 18 as its scale. The PayPal Cryptocurrency platform handles the scale to 8 digits for Bitcoin. including its forks or offshoots, as well as Ethereum.",
           "type": {
             "name": "String",
             "type": "named"
@@ -1574,6 +1593,24 @@
             ],
             "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
             "maxLength": 40,
+            "minLength": 1
+          }
+        },
+        "quantity_in_subunits": {
+          "description": "The quantity of a cryptocurrency asset in the currency's sub units.Amount is an integer in a string format.Floating point should be avoided to avoid precision errors. For example: Bitcoin(BTC) has 8 decimals, so 1 BTC will be represented as 100000000 (1 followed by 8 zeroes). Ethereum(ETH) has 18 decimals, so 1 ETH will be represented as 1000000000000000000 (1 followed by 18 zeroes).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^-?[0-9]+$",
+            "maxLength": 81,
             "minLength": 1
           }
         }
@@ -1593,6 +1630,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -1710,7 +1748,7 @@
           }
         },
         "dispute_asset": {
-          "description": "Representation of a specific amount of Cryptocurrency, denoted by its symbol and quantity.",
+          "description": "The details needed to represent a specific cryptocurrency balance, such as its symbol and quantity.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1737,6 +1775,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[A-Z0-9_]+$",
             "maxLength": 255,
             "minLength": 1
           }
@@ -1866,6 +1905,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[A-Za-z0-9._-]+$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -1875,7 +1915,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "FeePolicy",
+              "name": "JSON",
               "type": "named"
             }
           },
@@ -1883,6 +1923,29 @@
             "type": [
               "object"
             ]
+          }
+        },
+        "fund_movements": {
+          "description": "The movements of fund due to the dispute.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "FundMovement",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
           }
         },
         "links": {
@@ -1932,7 +1995,7 @@
           }
         },
         "money_movements": {
-          "description": "The Money movement details for the dispute.",
+          "description": "DEPRECATED The Money movement details for the dispute.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2141,7 +2204,7 @@
           }
         },
         "dispute_asset": {
-          "description": "Representation of a specific amount of Cryptocurrency, denoted by its symbol and quantity.",
+          "description": "The details needed to represent a specific cryptocurrency balance, such as its symbol and quantity.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2168,6 +2231,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[A-Z0-9_]+$",
             "maxLength": 255,
             "minLength": 1
           }
@@ -2345,7 +2409,7 @@
           }
         },
         "asset_refunded": {
-          "description": "Representation of a specific amount of Cryptocurrency, denoted by its symbol and quantity.",
+          "description": "The details needed to represent a specific cryptocurrency balance, such as its symbol and quantity.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2365,6 +2429,24 @@
             "type": "nullable",
             "underlying_type": {
               "name": "DisputeOutcomeOutcomeCodeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "outcome_reason": {
+          "description": "The reason for the adjudication type.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "AdjudicationReason",
               "type": "named"
             }
           },
@@ -2644,19 +2726,52 @@
         "note": {
           "description": "The notes about the escalation of the dispute to a claim.",
           "type": {
-            "name": "String",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
         }
       },
       "alias": "escalate"
+    },
+    "EscalateResponse": {
+      "description": "The response for escalate action.",
+      "fields": {
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      },
+      "alias": "escalate_response"
     },
     "Evidence": {
       "description": "A merchant- or customer-submitted evidence document. evidence_info is expected for PROOF_OF_FULFILLMENT,PROOF_OF_REFUND and PROOF_OF_RETURN evidence types. documents and notes can be given for rest of the evidence types.",
@@ -2818,6 +2933,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -2928,6 +3044,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 255,
             "minLength": 1
           }
@@ -3035,9 +3152,136 @@
             "maxLength": 64,
             "minLength": 20
           }
+        },
+        "reported_source": {
+          "description": "The dispute source through which customer initiated the dispute.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DisputeSource",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z0-9_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
         }
       },
       "alias": "extensions"
+    },
+    "FundMovement": {
+      "description": "This section contains the details about the fund movement of the parties ,time , direction and the reason for it.",
+      "fields": {
+        "amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Money",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "asset": {
+          "description": "The details needed to represent a specific cryptocurrency balance, such as its symbol and quantity.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Cryptocurrency",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "initiated_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20
+          }
+        },
+        "party": {
+          "description": "The affected party in the money movement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FundMovementPartyEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "reason": {
+          "description": "The reason for the fund movement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FundMovementReason",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "type": {
+          "description": "The type of the money movement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FundMovementTypeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      },
+      "alias": "fund_movement"
     },
     "IncorrectTransactionAmount": {
       "description": "The incorrect transaction amount details.",
@@ -3058,7 +3302,7 @@
           }
         },
         "correct_transaction_asset": {
-          "description": "Representation of a specific amount of Cryptocurrency, denoted by its symbol and quantity.",
+          "description": "The details needed to represent a specific cryptocurrency balance, such as its symbol and quantity.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -3165,6 +3409,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -3182,7 +3427,7 @@
             "type": [
               "string"
             ],
-            "pattern": "^[A-Za-z0-9]+$",
+            "pattern": "^.*$",
             "maxLength": 255,
             "minLength": 1
           }
@@ -3200,6 +3445,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -3253,6 +3499,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -3279,7 +3526,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ItemProductDetails",
+              "name": "JSON",
               "type": "named"
             }
           },
@@ -3307,7 +3554,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ItemServiceDetails",
+              "name": "JSON",
               "type": "named"
             }
           },
@@ -3317,7 +3564,7 @@
       "alias": "item_info"
     },
     "LinkDescription": {
-      "description": "The request-related [HATEOAS link](/docs/api/reference/api-responses/#hateoas-links) information.",
+      "description": "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information.",
       "fields": {
         "href": {
           "description": "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
@@ -3377,7 +3624,7 @@
             "type": [
               "string"
             ],
-            "pattern": "^[A-Za-z0-9:\\-|]+$",
+            "pattern": "^.*$",
             "maxLength": 127,
             "minLength": 1
           }
@@ -3392,6 +3639,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -3576,6 +3824,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 0
           }
@@ -3647,7 +3896,7 @@
       "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
       "fields": {
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/api/reference/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "name": "String",
             "type": "named"
@@ -3662,7 +3911,7 @@
           }
         },
         "value": {
-          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/api/reference/currency-codes/).",
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).",
           "type": {
             "name": "String",
             "type": "named"
@@ -3682,7 +3931,7 @@
       "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
       "fields": {
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/api/reference/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "name": "String",
             "type": "named"
@@ -3697,7 +3946,7 @@
           }
         },
         "value": {
-          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/api/reference/currency-codes/).",
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).",
           "type": {
             "name": "String",
             "type": "named"
@@ -3750,7 +3999,7 @@
           }
         },
         "asset": {
-          "description": "Representation of a specific amount of Cryptocurrency, denoted by its symbol and quantity.",
+          "description": "The details needed to represent a specific cryptocurrency balance, such as its symbol and quantity.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -3969,6 +4218,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -4074,7 +4324,7 @@
           }
         },
         "value": {
-          "description": "The value to apply. The remove operation does not require a value.",
+          "description": "The value to apply. The remove, copy, and move operations do not require a value. Since JSON Patch allows any type for value, the type property is not specified.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -4118,6 +4368,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 4,
             "minLength": 2
           }
@@ -4174,6 +4425,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -4271,7 +4523,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "ProductDetailsSubReasonsEnum",
+                "name": "SubReasons",
                 "type": "named"
               },
               "type": "array"
@@ -4444,7 +4696,7 @@
               "string"
             ],
             "format": "ppaas_common_email_address_v2",
-            "pattern": "^.+@[^\"\\-].+$",
+            "pattern": "^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
             "maxLength": 254,
             "minLength": 3
           }
@@ -4504,6 +4756,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -4521,6 +4774,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -4565,7 +4819,7 @@
             "type": "nullable",
             "underlying_type": {
               "element_type": {
-                "name": "ServiceDetailsSubReasonsEnum",
+                "name": "DefinitionsSubReasons",
                 "type": "named"
               },
               "type": "array"
@@ -4674,6 +4928,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -4749,6 +5004,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -4763,6 +5019,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 255,
             "minLength": 1
           }
@@ -4854,6 +5111,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^(.| ? )*$",
             "maxLength": 2000,
             "minLength": 1
           }
@@ -4874,7 +5132,7 @@
           }
         },
         "gross_asset": {
-          "description": "Representation of a specific amount of Cryptocurrency, denoted by its symbol and quantity.",
+          "description": "The details needed to represent a specific cryptocurrency balance, such as its symbol and quantity.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -4952,7 +5210,7 @@
             "type": [
               "string"
             ],
-            "pattern": "^[A-Za-z0-9-]+$",
+            "pattern": "^.*$",
             "maxLength": 255,
             "minLength": 1
           }
@@ -5465,7 +5723,7 @@
       },
       "description": "Escalate dispute to claim",
       "result_type": {
-        "name": "SubsequentAction",
+        "name": "EscalateResponse",
         "type": "named"
       }
     },
@@ -6055,7 +6313,9 @@
           "VALID_RETURN_DELIVERY_PROOF_WITH_SIGNATURE",
           "VALID_SHIPMENT_PROOF",
           "VALUE_AFFECTED_SIGNIFICANTLY",
-          "PROTECTION_POLICY_APPLIES"
+          "PROTECTION_POLICY_APPLIES",
+          "SNAD_DELAYED_FILING",
+          "FUNDS_TRANSFERRED_TO_INCORRECT_RECIPIENT"
         ],
         "type": "enum"
       }
@@ -6128,7 +6388,24 @@
           "BTC",
           "ETH",
           "BCH",
-          "LTC"
+          "LTC",
+          "PYUSD",
+          "LINK",
+          "SOL",
+          "MATIC"
+        ],
+        "type": "enum"
+      }
+    },
+    "DefinitionsSubReasons": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DAMAGED",
+          "DIFFERENT",
+          "INCOMPLETE",
+          "OTHER"
         ],
         "type": "enum"
       }
@@ -6189,6 +6466,23 @@
           "CANCELED_RECURRING_BILLING",
           "PROBLEM_WITH_REMITTANCE",
           "OTHER"
+        ],
+        "type": "enum"
+      }
+    },
+    "DisputeSource": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "EMAIL",
+          "WEB",
+          "CHAT",
+          "IVR",
+          "PHONE",
+          "MOBILE_APP",
+          "MOBILE_WEB",
+          "API"
         ],
         "type": "enum"
       }
@@ -6283,7 +6577,12 @@
           "SHIPPING_INSURANCE",
           "BUYER_RESPONSE",
           "PHOTOS_OF_SHIPPED_ITEM",
-          "OTHER"
+          "OTHER",
+          "CANCELLATION_DETAILS",
+          "MERCHANT_CONTACT_DETAILS",
+          "ITEM_DETAILS",
+          "CORRECT_RECIPIENT_INFORMATION",
+          "EXPLANATION_OF_FUNDS_NOT_DELIVERED"
         ],
         "type": "enum"
       }
@@ -6302,11 +6601,40 @@
         "type": "enum"
       }
     },
-    "FeePolicy": {
+    "FundMovementPartyEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
-        "type": "json"
+        "one_of": [
+          "SELLER",
+          "BUYER",
+          "PAYMENT_PROCESSOR"
+        ],
+        "type": "enum"
+      }
+    },
+    "FundMovementReason": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "REVERSED_TRANSACTION_FEE",
+          "DISPUTE_SETTLEMENT",
+          "DISPUTE_FEE",
+          "CHARGEBACK_FEE"
+        ],
+        "type": "enum"
+      }
+    },
+    "FundMovementTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DEBIT",
+          "CREDIT"
+        ],
+        "type": "enum"
       }
     },
     "Int32": {
@@ -6338,20 +6666,6 @@
       }
     },
     "ItemDigitalDownloadDetails": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
-      }
-    },
-    "ItemProductDetails": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
-      }
-    },
-    "ItemServiceDetails": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -6566,19 +6880,6 @@
         "type": "enum"
       }
     },
-    "ProductDetailsSubReasonsEnum": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "DAMAGED",
-          "DIFFERENT",
-          "MISSING_PARTS",
-          "OTHER"
-        ],
-        "type": "enum"
-      }
-    },
     "RequireEvidenceActionEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -6613,19 +6914,6 @@
         "type": "enum"
       }
     },
-    "ServiceDetailsSubReasonsEnum": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "DAMAGED",
-          "DIFFERENT",
-          "INCOMPLETE",
-          "OTHER"
-        ],
-        "type": "enum"
-      }
-    },
     "Status": {
       "aggregate_functions": {},
       "comparison_operators": {},
@@ -6646,6 +6934,19 @@
       "comparison_operators": {},
       "representation": {
         "type": "string"
+      }
+    },
+    "SubReasons": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "DAMAGED",
+          "DIFFERENT",
+          "MISSING_PARTS",
+          "OTHER"
+        ],
+        "type": "enum"
       }
     },
     "SupportingInfoSourceEnum": {
@@ -6700,7 +7001,7 @@
           "DE_DHL_DP_INTL_SHIPMENTS",
           "CA_CANNOT_PROVIDE_TRACKING",
           "DE_GLS",
-          " DE_DPD_DELISTACK",
+          "DE_DPD_DELISTACK",
           "DE_HERMES",
           "DE_UPS",
           "DE_FEDEX",

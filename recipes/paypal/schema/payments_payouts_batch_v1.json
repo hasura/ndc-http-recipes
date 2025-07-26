@@ -20,6 +20,8 @@
             },
             "scopes": {
               "https://uri.paypal.com/payments/payouts": "Payout to a list of recipients.",
+              "https://uri.paypal.com/services/payments/payout-applications/status": "For retrieving payouts application status",
+              "https://uri.paypal.com/services/payments/payout-applications/update-status": "For updating payouts application status",
               "https://uri.paypal.com/services/payments/payouts-item/reverse": "For reversing a completed payout item."
             },
             "clientId": {
@@ -198,7 +200,7 @@
       },
       "description": "Show payout item details",
       "result_type": {
-        "name": "PayoutItem2",
+        "name": "PayoutItem",
         "type": "named"
       }
     }
@@ -292,7 +294,7 @@
           "description": "An array of individual payout items.",
           "type": {
             "element_type": {
-              "name": "PayoutItemInput",
+              "name": "PayoutItemRequestInput",
               "type": "named"
             },
             "type": "array"
@@ -1330,7 +1332,7 @@
       },
       "alias": "payout_header"
     },
-    "PayoutItem2": {
+    "PayoutItem": {
       "description": "The payout item status and other details. A payout_item_id helps you identify denied payments. If a payment is denied, you can use the payout_item_id to identify the payment even if it lacks a transaction_id.",
       "fields": {
         "activity_id": {
@@ -1534,7 +1536,7 @@
           }
         }
       },
-      "alias": "payout_item-2"
+      "alias": "payout_item"
     },
     "PayoutItemDetail": {
       "description": "The details for a sender-created payout to a single recipient.",
@@ -1674,7 +1676,7 @@
       },
       "alias": "payout_item_detail"
     },
-    "PayoutItemInput": {
+    "PayoutItemRequestInput": {
       "description": "The sender-created payout to a recipient.",
       "fields": {
         "alternate_notification_method": {
@@ -1844,7 +1846,7 @@
           }
         }
       },
-      "alias": "payout_item"
+      "alias": "payout_item_request"
     },
     "PayoutSenderBatchHeader": {
       "description": "The sender-provided header for a payout request.",
@@ -2114,7 +2116,7 @@
       },
       "description": "Cancel unclaimed payout item",
       "result_type": {
-        "name": "PayoutItem2",
+        "name": "PayoutItem",
         "type": "named"
       }
     },
@@ -2277,8 +2279,7 @@
       "representation": {
         "one_of": [
           "PAYPAL",
-          "VENMO",
-          "RECIPIENT_SELECTED"
+          "VENMO"
         ],
         "type": "enum"
       }
