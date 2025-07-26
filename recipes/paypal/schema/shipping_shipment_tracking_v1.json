@@ -32,7 +32,7 @@
         }
       }
     },
-    "version": "1.6"
+    "version": "1.9"
   },
   "functions": {
     "trackers_batch_get": {
@@ -42,7 +42,8 @@
         "security": [
           {
             "Oauth2": [
-              "https://uri.paypal.com/services/shipping/trackers/read"
+              "https://uri.paypal.com/services/shipping/trackers/read",
+              "https://uri.paypal.com/services/shipping/trackers/readwrite"
             ]
           }
         ],
@@ -122,7 +123,8 @@
         "security": [
           {
             "Oauth2": [
-              "https://uri.paypal.com/services/shipping/trackers/read"
+              "https://uri.paypal.com/services/shipping/trackers/read",
+              "https://uri.paypal.com/services/shipping/trackers/readwrite"
             ]
           }
         ],
@@ -310,7 +312,7 @@
           }
         },
         "links": {
-          "description": "An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links).",
+          "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links).",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -404,6 +406,29 @@
             ]
           }
         },
+        "links": {
+          "description": "An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links) that are either relevant to the issue by providing additional information or offering potential resolutions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "LinkDescription2",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
         "location": {
           "description": "The location of the field that caused the error. Value is `body`, `path`, or `query`.",
           "type": {
@@ -438,7 +463,7 @@
       "alias": "error_details-2"
     },
     "LinkDescription": {
-      "description": "A request-related [HATEOAS link](/docs/api/reference/api-responses/#hateoas-links).",
+      "description": "A request-related [HATEOAS link](/api/rest/responses/#hateoas-links).",
       "fields": {
         "href": {
           "description": "The complete target URL. To make the related call, combine the method with this link, in [URI template format](https://tools.ietf.org/html/rfc6570). Include the `$`, `(`, and `)` characters for pre-processing. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
@@ -483,7 +508,7 @@
       "alias": "link_description"
     },
     "LinkDescription2": {
-      "description": "The request-related [HATEOAS link](/docs/api/reference/api-responses/#hateoas-links) information.",
+      "description": "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information.",
       "fields": {
         "href": {
           "description": "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
@@ -549,7 +574,7 @@
           }
         },
         "carrier": {
-          "description": "The carrier for the shipment. Some carriers have a global version as well as local subsidiaries. The subsidiaries are repeated over many countries and might also have an entry in the global list. Choose the carrier for your country. If the carrier is not available for your country, choose the global version of the carrier. If your carrier name is not in the list, set `carrier` to `OTHER` and set carrier name in `carrier_name_other`. For allowed values, see Carriers.",
+          "description": "The carrier for the shipment. Carrier information is required when tracking_number is provided. Some carriers have a global version as well as local subsidiaries. The subsidiaries are repeated over many countries and might also have an entry in the global list. Choose the carrier for your country. If the carrier is not available for your country, choose the global version of the carrier. If your carrier name is not in the list, set `carrier` to `OTHER` and set carrier name in `carrier_name_other`. For allowed values, see Carriers.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -561,6 +586,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -578,6 +604,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -652,6 +679,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -705,6 +733,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[A-Z]*$",
             "maxLength": 50,
             "minLength": 1
           }
@@ -722,6 +751,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[A-Z]*$",
             "maxLength": 50,
             "minLength": 1
           }
@@ -736,12 +766,13 @@
             "type": [
               "string"
             ],
+            "pattern": "^[A-Z_]+$",
             "maxLength": 64,
             "minLength": 1
           }
         },
         "tracking_number": {
-          "description": "The tracking number for the shipment.",
+          "description": "The tracking number for the shipment. Carrier information, `carrier` is required if tracking_number is provided.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -753,6 +784,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -770,6 +802,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[0-9A-Z_]+$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -803,6 +836,7 @@
               "string"
             ],
             "format": "uri",
+            "pattern": "^.*$",
             "maxLength": 250,
             "minLength": 1
           }
@@ -893,6 +927,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -971,7 +1006,7 @@
       "description": "The tracking information for a shipment.",
       "fields": {
         "carrier": {
-          "description": "The carrier for the shipment. Some carriers have a global version as well as local subsidiaries. The subsidiaries are repeated over many countries and might also have an entry in the global list. Choose the carrier for your country. If the carrier is not available for your country, choose the global version of the carrier. If your carrier name is not in the list, set `carrier` to `OTHER` and set carrier name in `carrier_name_other`. For allowed values, see Carriers.",
+          "description": "The carrier for the shipment. Carrier information is required when tracking_number is provided. Some carriers have a global version as well as local subsidiaries. The subsidiaries are repeated over many countries and might also have an entry in the global list. Choose the carrier for your country. If the carrier is not available for your country, choose the global version of the carrier. If your carrier name is not in the list, set `carrier` to `OTHER` and set carrier name in `carrier_name_other`. For allowed values, see Carriers.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -983,6 +1018,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -1000,6 +1036,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -1070,6 +1107,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[A-Z]*$",
             "maxLength": 50,
             "minLength": 1
           }
@@ -1084,12 +1122,13 @@
             "type": [
               "string"
             ],
+            "pattern": "^[A-Z_]+$",
             "maxLength": 64,
             "minLength": 1
           }
         },
         "tracking_number": {
-          "description": "The tracking number for the shipment.",
+          "description": "The tracking number for the shipment. Carrier information, `carrier` is required if tracking_number is provided.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1101,6 +1140,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^.*$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -1118,6 +1158,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[0-9A-Z_]+$",
             "maxLength": 64,
             "minLength": 1
           }
@@ -1136,6 +1177,7 @@
               "string"
             ],
             "format": "uri",
+            "pattern": "^.*$",
             "maxLength": 250,
             "minLength": 1
           }
@@ -1469,7 +1511,6 @@
           "CN_DPEX",
           "CN_EMS",
           "CN_EQUICK",
-          "CN_GOFLY",
           "CN_JCEX",
           "CN_PAYPAL_PACKAGE",
           "CN_POST56",
@@ -1609,7 +1650,6 @@
           "EU_FLEET_SOLUTIONS",
           "EU_IMX",
           "EXPRESSSALE",
-          "EZSHIP",
           "FARGOOD",
           "FAR_INTERNATIONAL",
           "FASTRACK",
@@ -1722,7 +1762,6 @@
           "IND_FIRSTFLIGHT",
           "IND_GATI",
           "IND_GOJAVAS",
-          "IND_JAYONEXPRESS",
           "IND_PROFESSIONAL_COURIERS",
           "IND_SAFEEXPRESS",
           "IND_XPRESSBEES",
@@ -1780,7 +1819,6 @@
           "LALAMOVE",
           "LANDMARK_GLOBAL",
           "LANDMARK_GLOBAL_REFERENCE",
-          "LAO_POST",
           "LATVIJAS_PASTS",
           "LA_POSTE_SUIVI",
           "LBCEXPRESS_FTP",
@@ -1809,7 +1847,6 @@
           "MAIL_PLUS",
           "MAINFREIGHT",
           "MAINWAY",
-          "MARA_XPRESS",
           "MATDESPATCH",
           "MATKAHUOLTO",
           "MBW",
@@ -1847,7 +1884,6 @@
           "NG_COURIERPLUS",
           "NHANS_SOLUTIONS",
           "NIM_EXPRESS",
-          "NINJAVAN_ID",
           "NINJAVAN_MY",
           "NINJAVAN_SG",
           "NINJAVAN_THAI",
@@ -2086,7 +2122,6 @@
           "USF_REDDAWAY",
           "USHIP",
           "USPS",
-          "US_ENSENDA",
           "US_GLOBEGISTICS",
           "US_LASERSHIP",
           "US_OLD_DOMINION",

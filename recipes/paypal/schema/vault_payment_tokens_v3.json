@@ -34,7 +34,7 @@
         }
       }
     },
-    "version": "3.1"
+    "version": "3.4"
   },
   "functions": {
     "customer_payment_tokens_get": {
@@ -88,6 +88,7 @@
               "type": [
                 "integer"
               ],
+              "maximum": 10,
               "minimum": 1
             }
           }
@@ -108,6 +109,7 @@
               "type": [
                 "integer"
               ],
+              "maximum": 5,
               "minimum": 1
             }
           }
@@ -224,569 +226,15 @@
     }
   },
   "object_types": {
-    "AchDebitResponse2": {
-      "fields": {
-        "verification_status": {
-          "description": "The ach debit verification status.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 255,
-            "minLength": 1
-          }
-        }
-      },
-      "alias": "ach_debit_response-2"
-    },
-    "AddressPortable": {
-      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
-      "fields": {
-        "address_details": {
-          "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "AddressPortableAddressDetailsObject",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "address_line_1": {
-          "description": "The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 300
-          }
-        },
-        "address_line_2": {
-          "description": "The second line of the address. For example, suite or apartment number.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 300
-          }
-        },
-        "address_line_3": {
-          "description": "The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "admin_area_1": {
-          "description": "The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A kanton.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 300
-          }
-        },
-        "admin_area_2": {
-          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 120
-          }
-        },
-        "admin_area_3": {
-          "description": "A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:Brazil. Suburb, bairro, or neighborhood.India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "admin_area_4": {
-          "description": "The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:The postal sorting code for Guernsey and many French territories, such as French Guiana.The fine-grained administrative levels in China.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "country_code": {
-          "description": "The [two-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "ppaas_common_country_code_v2",
-            "pattern": "^([A-Z]{2}|C2)$",
-            "maxLength": 2,
-            "minLength": 2
-          }
-        },
-        "postal_code": {
-          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 60
-          }
-        }
-      },
-      "alias": "address_portable"
-    },
-    "AddressPortableAddressDetailsObject": {
-      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-      "fields": {
-        "building_name": {
-          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "delivery_service": {
-          "description": "The delivery service. Post office box, bag number, or post office name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_name": {
-          "description": "The street name. Just `Drury` in `Drury Lane`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_number": {
-          "description": "The street number.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_type": {
-          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "sub_building": {
-          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        }
-      }
-    },
-    "AddressPortableAddressDetailsObjectInput": {
-      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-      "fields": {
-        "building_name": {
-          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "delivery_service": {
-          "description": "The delivery service. Post office box, bag number, or post office name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_name": {
-          "description": "The street name. Just `Drury` in `Drury Lane`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_number": {
-          "description": "The street number.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_type": {
-          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "sub_building": {
-          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        }
-      }
-    },
-    "AddressPortableInput": {
-      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
-      "fields": {
-        "address_details": {
-          "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "AddressPortableAddressDetailsObjectInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "address_line_1": {
-          "description": "The first line of the address. For example, number or street. For example, `173 Drury Lane`. Required for data entry and compliance and risk checks. Must contain the full address.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 300
-          }
-        },
-        "address_line_2": {
-          "description": "The second line of the address. For example, suite or apartment number.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 300
-          }
-        },
-        "address_line_3": {
-          "description": "The third line of the address, if needed. For example, a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "admin_area_1": {
-          "description": "The highest level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. Format for postal delivery. For example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A kanton.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 300
-          }
-        },
-        "admin_area_2": {
-          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 120
-          }
-        },
-        "admin_area_3": {
-          "description": "A sub-locality, suburb, neighborhood, or district. Smaller than `admin_area_level_2`. Value is:Brazil. Suburb, bairro, or neighborhood.India. Sub-locality or district. Street name information is not always available but a sub-locality or district can be a very small area.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "admin_area_4": {
-          "description": "The neighborhood, ward, or district. Smaller than `admin_area_level_3` or `sub_locality`. Value is:The postal sorting code for Guernsey and many French territories, such as French Guiana.The fine-grained administrative levels in China.</ul>",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "country_code": {
-          "description": "The [two-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
-          "type": {
-            "name": "String",
-            "type": "named"
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "ppaas_common_country_code_v2",
-            "pattern": "^([A-Z]{2}|C2)$",
-            "maxLength": 2,
-            "minLength": 2
-          }
-        },
-        "postal_code": {
-          "description": "The postal code, which is the zip code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 60
-          }
-        }
-      },
-      "alias": "address_portable"
-    },
     "ApplePayPaymentTokenResponse": {
       "description": "A resource representing a response for Apple Pay.",
       "fields": {
         "card": {
-          "description": "The payment card to use to fund a payment. Can be a credit or debit card.",
+          "description": "The payment card to be used to fund a payment. Can be a credit or debit card.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Card",
+              "name": "ApplePayPaymentTokenResponseCardObject",
               "type": "named"
             }
           },
@@ -799,32 +247,116 @@
       },
       "alias": "apple_pay_payment_token_response"
     },
-    "BankResponse": {
-      "description": "Full representation of a Bank Payment Token.",
+    "ApplePayPaymentTokenResponseCardBillingAddressObject": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
       "fields": {
-        "ach_debit": {
-          "description": "A Resource representing a response of vaulted a ACH Debit Account.",
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AchDebitResponse2",
+              "name": "String",
               "type": "named"
             }
           },
-          "http": {}
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
         }
-      },
-      "alias": "bank_response"
+      }
     },
-    "Card": {
-      "description": "The payment card to use to fund a payment. Can be a credit or debit card.",
+    "ApplePayPaymentTokenResponseCardObject": {
+      "description": "The payment card to be used to fund a payment. Can be a credit or debit card.",
       "fields": {
         "billing_address": {
           "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddressPortable",
+              "name": "ApplePayPaymentTokenResponseCardBillingAddressObject",
               "type": "named"
             }
           },
@@ -849,60 +381,6 @@
             ],
             "pattern": "^[A-Z_]+$",
             "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "card_type": {
-          "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CardBrand",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[A-Z_]+$",
-            "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "expiry": {
-          "description": "The year and month, in ISO-8601 `YYYY-MM` date format. See [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
-            "maxLength": 7,
-            "minLength": 7
-          }
-        },
-        "id": {
-          "description": "The identifier of the instrument.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[A-Za-z0-9-_.+=]+$",
-            "maxLength": 256,
             "minLength": 1
           }
         },
@@ -942,42 +420,6 @@
             "minLength": 1
           }
         },
-        "number": {
-          "description": "The primary account number (PAN) for the payment card.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9]{13,19}$",
-            "maxLength": 19,
-            "minLength": 13
-          }
-        },
-        "security_code": {
-          "description": "The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9]{3,4}$",
-            "maxLength": 4,
-            "minLength": 3
-          }
-        },
         "type": {
           "description": "Type of card. i.e Credit, Debit and so on.",
           "type": {
@@ -992,222 +434,245 @@
               "string"
             ],
             "pattern": "^[A-Z_]+$",
-            "maxLength": 255,
-            "minLength": 1
-          }
-        }
-      },
-      "alias": "card"
-    },
-    "CardRequestInput": {
-      "description": "A Resource representing a request to vault a Card.",
-      "fields": {
-        "billing_address": {
-          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "AddressPortableInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "brand": {
-          "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CardBrand",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[A-Z_]+$",
-            "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "card_type": {
-          "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CardBrand",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[A-Z_]+$",
-            "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "experience_context": {
-          "description": "Customizes the Vault creation flow experience for your customers.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ExperienceContextInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "expiry": {
-          "description": "The year and month, in ISO-8601 `YYYY-MM` date format. See [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
-            "maxLength": 7,
-            "minLength": 7
-          }
-        },
-        "id": {
-          "description": "The identifier of the instrument.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[A-Za-z0-9-_.+=]+$",
-            "maxLength": 256,
-            "minLength": 1
-          }
-        },
-        "name": {
-          "description": "The card holder's name as it appears on the card.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^.{1,300}$",
-            "maxLength": 300,
-            "minLength": 1
-          }
-        },
-        "number": {
-          "description": "The primary account number (PAN) for the payment card.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9]{13,19}$",
-            "maxLength": 19,
-            "minLength": 13
-          }
-        },
-        "security_code": {
-          "description": "The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9]{3,4}$",
-            "maxLength": 4,
-            "minLength": 3
-          }
-        },
-        "type": {
-          "description": "Type of card. i.e Credit, Debit and so on.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CardType",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[A-Z_]+$",
-            "maxLength": 255,
-            "minLength": 1
-          }
-        },
-        "verification_method": {
-          "description": "The verification method of the card.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9A-Z_]+$",
             "maxLength": 255,
             "minLength": 1
           }
         }
       }
     },
-    "CardResponse": {
-      "description": "Full representation of a Card Payment Token.",
+    "BillingCycleInput": {
+      "description": "The billing cycle providing details of the billing frequency, amount, duration and if the billing cycle is a free, discounted or regular billing cycle. The sequence of the billing cycle will be in the following order - free trial billing cycle(s), discounted trial billing cycle(s), regular billing cycle(s).",
       "fields": {
-        "billing_address": {
+        "frequency": {
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddressEntity",
+              "name": "JSON",
               "type": "named"
             }
           },
           "http": {}
+        },
+        "pricing_scheme": {
+          "description": "The pricing scheme details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PricingSchemeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "sequence": {
+          "description": "The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32",
+            "maximum": 3,
+            "minimum": 1
+          }
+        },
+        "start_date": {
+          "description": "The stand-alone date, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). To represent special legal values, such as a date of birth, you should use dates with no associated time or time-zone data. Whenever possible, use the standard `date_time` type. This regular expression does not validate all dates. For example, February 31 is valid and nothing is known about leap years.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_notime_v2",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$",
+            "maxLength": 10,
+            "minLength": 10
+          }
+        },
+        "tenure_type": {
+          "description": "The tenure type of the billing cycle identifies if the billing cycle is a trial(free or discounted) or regular billing cycle.",
+          "type": {
+            "name": "BillingCycleTenureTypeEnum",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "total_cycles": {
+          "description": "The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between 1 and 999 for total_cycles). Regular billing cycles can be executed infinite times (value of 0 for total_cycles) or a finite number of times (value between 1 and 999 for total_cycles).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32",
+            "maximum": 999,
+            "minimum": 0
+          }
+        }
+      },
+      "alias": "billing_cycle"
+    },
+    "BinDetails": {
+      "description": "Bank Identification Number (BIN) details used to fund a payment.",
+      "fields": {
+        "bin": {
+          "description": "The Bank Identification Number (BIN) signifies the number that is being used to identify the granular level details (except the PII information) of the card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]+$",
+            "maxLength": 25,
+            "minLength": 1
+          }
+        },
+        "bin_country_code": {
+          "description": "The [two-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "issuing_bank": {
+          "description": "The issuer of the card instrument.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 64,
+            "minLength": 1
+          }
+        },
+        "products": {
+          "description": "The type of card product assigned to the BIN by the issuer. These values are defined by the issuer and may change over time. Some examples include: PREPAID_GIFT, CONSUMER, CORPORATE.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "String",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "string"
+              ],
+              "maxLength": 255,
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "alias": "bin_details"
+    },
+    "CardResponse": {
+      "description": "Full representation of a Card Payment Token including network token.",
+      "fields": {
+        "authentication_result": {
+          "description": "Results of Authentication such as 3D Secure.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardResponseEntityAuthenticationResultObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "billing_address": {
+          "description": "Address request details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardResponseEntityBillingAddressObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "bin_details": {
+          "description": "Bank Identification Number (BIN) details used to fund a payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BinDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
         },
         "brand": {
           "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
@@ -1281,6 +746,49 @@
             "minLength": 2
           }
         },
+        "network_token": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {}
+        },
+        "network_transaction_reference": {
+          "description": "Previous network transaction reference including id and network.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NetworkTransactionReferenceEntity",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "type": {
+          "description": "Type of card. i.e Credit, Debit and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
         "verification": {
           "description": "Card Verification details including the authorization details and 3D SECURE details.",
           "type": {
@@ -1301,7 +809,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "CardVerificationStatus",
               "type": "named"
             }
           },
@@ -1314,8 +822,283 @@
             "minLength": 1
           }
         }
-      },
-      "alias": "card_response"
+      }
+    },
+    "CardResponseEntityAuthenticationResultObject": {
+      "description": "Results of Authentication such as 3D Secure.",
+      "fields": {
+        "three_d_secure": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ThreeDSecureAuthenticationResponse2",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "CardResponseEntityAuthenticationResultObject1": {
+      "description": "Results of Authentication such as 3D Secure.",
+      "fields": {
+        "three_d_secure": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ThreeDSecureAuthenticationResponse2",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      }
+    },
+    "CardResponseEntityBillingAddressObject": {
+      "description": "Address request details.",
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "id": {
+          "description": "The resource ID of the address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Za-z-_]+$",
+            "maxLength": 36,
+            "minLength": 1
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "CardResponseEntityBillingAddressObject1": {
+      "description": "Address request details.",
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "id": {
+          "description": "The resource ID of the address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Za-z-_]+$",
+            "maxLength": 36,
+            "minLength": 1
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
     },
     "CardVerificationDetails": {
       "description": "Card Verification details including the authorization details and 3D SECURE details.",
@@ -1335,8 +1118,44 @@
             ]
           }
         },
+        "date": {
+          "description": "DEPRECATED. This field is DEPRECATED. Please find the date data in the 'date' field under the 'network_transaction_reference' object instead of the 'verification' object.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]+$",
+            "maxLength": 4,
+            "minLength": 4
+          }
+        },
+        "network": {
+          "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardBrand",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
         "network_transaction_id": {
-          "description": "Transaction Identifier as given by the network to indicate a previously executed CIT authorization. Only present when authorization is successful for a verification.",
+          "description": "DEPRECATED. This field is DEPRECATED. Please find the network transaction id data in the 'id' field under the 'network_transaction_reference' object instead of the 'verification' object.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1354,11 +1173,11 @@
           }
         },
         "processor_response": {
-          "description": "The processor information. Might be required for payment requests, such as direct credit card transactions.",
+          "description": "The processor response information for payment requests, such as direct credit card transactions.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProcessorResponse",
+              "name": "CardVerificationDetailsProcessorResponseObject1",
               "type": "named"
             }
           },
@@ -1369,10 +1188,11 @@
           }
         },
         "three_d_secure": {
+          "description": "DEPRECATED. This field is DEPRECATED. Please find the 3D secure authentication data in the 'three_d_secure' object under the 'authentication_result' object instead of the 'verification' object.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "3dsResult",
+              "name": "JSON",
               "type": "named"
             }
           },
@@ -1400,8 +1220,43 @@
       },
       "alias": "card_verification_details"
     },
+    "CardVerificationDetailsProcessorResponseObject1": {
+      "description": "The processor response information for payment requests, such as direct credit card transactions.",
+      "fields": {
+        "avs_code": {
+          "description": "The address verification code for Visa, Discover, Mastercard, or American Express transactions.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardVerificationDetailsProcessorResponseAvsCodeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "cvv_code": {
+          "description": "The card verification value code for for Visa, Discover, Mastercard, or American Express.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardVerificationDetailsProcessorResponseCvvCodeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      }
+    },
     "Customer": {
-      "description": "Customer in merchant's or partner's system of records.",
+      "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
       "fields": {
         "id": {
           "description": "The unique ID for a customer generated by PayPal.",
@@ -1420,15 +1275,9 @@
             "maxLength": 22,
             "minLength": 1
           }
-        }
-      },
-      "alias": "customer"
-    },
-    "CustomerInput": {
-      "description": "Customer in merchant's or partner's system of records.",
-      "fields": {
-        "id": {
-          "description": "The unique ID for a customer generated by PayPal.",
+        },
+        "merchant_customer_id": {
+          "description": "Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1440,8 +1289,8 @@
             "type": [
               "string"
             ],
-            "pattern": "^[0-9a-zA-Z_-]+$",
-            "maxLength": 22,
+            "pattern": "^[0-9a-zA-Z-_.^*$@#]+$",
+            "maxLength": 64,
             "minLength": 1
           }
         }
@@ -1452,11 +1301,11 @@
       "description": "Collection of payment tokens saved for a given customer.",
       "fields": {
         "customer": {
-          "description": "Customer in merchant's or partner's system of records.",
+          "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Customer",
+              "name": "CustomerVaultPaymentTokensResponseCustomerObject",
               "type": "named"
             }
           },
@@ -1548,6 +1397,304 @@
       },
       "alias": "customer_vault_payment_tokens_response"
     },
+    "CustomerVaultPaymentTokensResponseCustomerObject": {
+      "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
+      "fields": {
+        "id": {
+          "description": "The unique ID for a customer generated by PayPal.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z_-]+$",
+            "maxLength": 22,
+            "minLength": 1
+          }
+        },
+        "merchant_customer_id": {
+          "description": "Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z-_.^*$@#]+$",
+            "maxLength": 64,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "DefinitionsPaymentSourceCardBillingAddressObjectInput": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "DefinitionsPaymentSourceCardObjectInput": {
+      "description": "A Resource representing a request to vault a Card.",
+      "fields": {
+        "billing_address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DefinitionsPaymentSourceCardBillingAddressObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "brand": {
+          "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardBrand",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "expiry": {
+          "description": "The year and month, in ISO-8601 `YYYY-MM` date format. See [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+            "maxLength": 7,
+            "minLength": 7
+          }
+        },
+        "name": {
+          "description": "The card holder's name as it appears on the card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.{1,300}$",
+            "maxLength": 300,
+            "minLength": 1
+          }
+        },
+        "network_transaction_reference": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {}
+        },
+        "number": {
+          "description": "The primary account number (PAN) for the payment card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{13,19}$",
+            "maxLength": 19,
+            "minLength": 13
+          }
+        },
+        "security_code": {
+          "description": "The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{3,4}$",
+            "maxLength": 4,
+            "minLength": 3
+          }
+        }
+      }
+    },
+    "DefinitionsPaymentSourceInput": {
+      "description": "The payment method to vault with the instrument details.",
+      "fields": {
+        "card": {
+          "description": "A Resource representing a request to vault a Card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DefinitionsPaymentSourceCardObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "token": {
+          "description": "The Tokenized Payment Source representing a Request to Vault a Token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "TokenIdRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      },
+      "alias": "definitions-payment_source"
+    },
     "ExperienceContextInput": {
       "description": "Customizes the Vault creation flow experience for your customers.",
       "fields": {
@@ -1629,7 +1776,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "ExperienceContextShippingPreferenceEnum",
               "type": "named"
             }
           },
@@ -1647,7 +1794,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "VaultInstruction",
               "type": "named"
             }
           },
@@ -1721,7 +1868,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -1743,129 +1889,45 @@
       },
       "alias": "money"
     },
-    "Name": {
-      "description": "The name of the party.",
+    "MoneyInput": {
+      "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
       "fields": {
-        "alternate_full_name": {
-          "description": "DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business.",
+        "currency_code": {
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
               "string"
             ],
-            "maxLength": 300
+            "maxLength": 3,
+            "minLength": 3
           }
         },
-        "full_name": {
-          "description": "When the party is a person, the party's full name.",
+        "value": {
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
               "string"
             ],
-            "maxLength": 300
-          }
-        },
-        "given_name": {
-          "description": "When the party is a person, the party's given, or first, name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 140
-          }
-        },
-        "middle_name": {
-          "description": "When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 140
-          }
-        },
-        "prefix": {
-          "description": "The prefix, or title, to the party's name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 140
-          }
-        },
-        "suffix": {
-          "description": "The suffix for the party's name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 140
-          }
-        },
-        "surname": {
-          "description": "When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 140
+            "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
+            "maxLength": 32
           }
         }
       },
-      "alias": "name"
+      "alias": "money"
     },
-    "NameInput": {
-      "description": "The name of the party.",
+    "NetworkTransactionReferenceEntity": {
+      "description": "Previous network transaction reference including id and network.",
       "fields": {
-        "alternate_full_name": {
-          "description": "DEPRECATED. The party's alternate name. Can be a business name, nickname, or any other name that cannot be split into first, last name. Required when the party is a business.",
+        "date": {
+          "description": "The date that the transaction was authorized by the scheme. This field may not be returned for all networks. MasterCard refers to this field as \"BankNet reference date.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1877,31 +1939,32 @@
             "type": [
               "string"
             ],
-            "maxLength": 300
+            "pattern": "^[0-9]+$",
+            "maxLength": 4,
+            "minLength": 4
           }
         },
-        "full_name": {
-          "description": "When the party is a person, the party's full name.",
+        "id": {
+          "description": "Transaction reference id returned by the scheme. For Visa and Amex, this is the \"Tran id\" field in response. For MasterCard, this is the \"BankNet reference id\" field in response. For Discover, this is the \"NRID\" field in response. The pattern we expect for this field from Visa/Amex/CB/Discover is numeric, Mastercard/BNPP is alphanumeric and Paysecure is alphanumeric with special character -.",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
+            "name": "String",
+            "type": "named"
           },
           "http": {
             "type": [
               "string"
             ],
-            "maxLength": 300
+            "pattern": "^[a-zA-Z0-9-_@.:&+=*^'~#!$%()]+$",
+            "maxLength": 36,
+            "minLength": 9
           }
         },
-        "given_name": {
-          "description": "When the party is a person, the party's given, or first, name.",
+        "network": {
+          "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "CardBrand",
               "type": "named"
             }
           },
@@ -1909,11 +1972,13 @@
             "type": [
               "string"
             ],
-            "maxLength": 140
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
           }
         },
-        "middle_name": {
-          "description": "When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name.",
+        "time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1925,69 +1990,24 @@
             "type": [
               "string"
             ],
-            "maxLength": 140
-          }
-        },
-        "prefix": {
-          "description": "The prefix, or title, to the party's name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 140
-          }
-        },
-        "suffix": {
-          "description": "The suffix for the party's name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 140
-          }
-        },
-        "surname": {
-          "description": "When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 140
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20
           }
         }
       },
-      "alias": "name"
+      "alias": "network_transaction_reference_entity"
     },
-    "PaymentTokenRequestInput": {
-      "description": "Payment Token Request where the `source` defines the type of instrument to be stored.",
+    "OneTimeChargesInput": {
+      "description": "The one-time charge info at the time of checkout.",
       "fields": {
-        "customer": {
-          "description": "Customer in merchant's or partner's system of records.",
+        "product_price": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CustomerInput",
+              "name": "MoneyInput",
               "type": "named"
             }
           },
@@ -1997,20 +2017,207 @@
             ]
           }
         },
-        "metadata": {
+        "setup_fee": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Metadata",
+              "name": "MoneyInput",
               "type": "named"
             }
           },
-          "http": {}
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "shipping_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "subtotal": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "taxes": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "total_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "name": "MoneyInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      },
+      "alias": "one_time_charges"
+    },
+    "PaymentSource": {
+      "description": "The vaulted payment method details.",
+      "fields": {
+        "apple_pay": {
+          "description": "A resource representing a response for Apple Pay.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ApplePayPaymentTokenResponse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "card": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardResponse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "paypal": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaypalWalletResponse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "venmo": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VenmoResponse",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      },
+      "alias": "payment_source"
+    },
+    "PaymentTokenRequestCustomerObjectInput": {
+      "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
+      "fields": {
+        "id": {
+          "description": "The unique ID for a customer generated by PayPal.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z_-]+$",
+            "maxLength": 22,
+            "minLength": 1
+          }
+        },
+        "merchant_customer_id": {
+          "description": "Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z-_.^*$@#]+$",
+            "maxLength": 64,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PaymentTokenRequestInput": {
+      "description": "Payment Token Request where the `source` defines the type of instrument to be stored.",
+      "fields": {
+        "customer": {
+          "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaymentTokenRequestCustomerObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
         },
         "payment_source": {
           "description": "The payment method to vault with the instrument details.",
           "type": {
-            "name": "PaymentTokenRequestPaymentSourceObjectInput",
+            "name": "DefinitionsPaymentSourceInput",
             "type": "named"
           },
           "http": {
@@ -2022,45 +2229,11 @@
       },
       "alias": "payment_token_request"
     },
-    "PaymentTokenRequestPaymentSourceObjectInput": {
-      "description": "The payment method to vault with the instrument details.",
-      "fields": {
-        "card": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CardRequestInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "token": {
-          "description": "The Tokenized Payment Source representing a Request to Vault a Token.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TokenIdRequestInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
     "PaymentTokenResponse": {
       "description": "Full representation of a saved payment token.",
       "fields": {
         "customer": {
-          "description": "Customer in merchant's or partner's system of records.",
+          "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2120,7 +2293,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "PaymentTokenResponsePaymentSourceObject",
+              "name": "PaymentSource",
               "type": "named"
             }
           },
@@ -2133,93 +2306,30 @@
       },
       "alias": "payment_token_response"
     },
-    "PaymentTokenResponsePaymentSourceObject": {
-      "description": "The vaulted payment method details.",
-      "fields": {
-        "apple_pay": {
-          "description": "A resource representing a response for Apple Pay.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ApplePayPaymentTokenResponse",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "bank": {
-          "description": "Full representation of a Bank Payment Token.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "BankResponse",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "card": {
-          "description": "Full representation of a Card Payment Token.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "CardResponse",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "paypal": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "PaypalWalletResponse",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "venmo": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "VenmoResponse",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        }
-      }
-    },
     "PaypalWalletRequestInput": {
       "description": "A resource representing a request to vault PayPal Wallet.",
       "fields": {
+        "billing_plan": {
+          "description": "The merchant level Recurring Billing plan metadata for the Billing Agreement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PlanInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
         "customer_type": {
           "description": "The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "WalletBaseCustomerTypeEnum",
               "type": "named"
             }
           },
@@ -2245,7 +2355,7 @@
             "type": [
               "string"
             ],
-            "pattern": "^[a-zA-Z0-9_'\\-., :;\\!?\"]*$",
+            "pattern": "^.*$",
             "maxLength": 128,
             "minLength": 1
           }
@@ -2285,7 +2395,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ShippingDetailInput",
+              "name": "WalletBaseShippingObjectInput",
               "type": "named"
             }
           },
@@ -2295,12 +2405,30 @@
             ]
           }
         },
+        "usage_pattern": {
+          "description": "Expected business/charge model for the billing agreement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseUsagePatternEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 30,
+            "minLength": 1
+          }
+        },
         "usage_type": {
           "description": "The usage type associated with a digital wallet payment token.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "WalletBaseUsageTypeEnum",
               "type": "named"
             }
           },
@@ -2316,7 +2444,6 @@
       }
     },
     "PaypalWalletResponse": {
-      "description": "Full representation of a PayPal Payment Token.",
       "fields": {
         "account_id": {
           "description": "The account identifier for a PayPal account.",
@@ -2337,12 +2464,27 @@
             "minLength": 13
           }
         },
+        "address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaypalWalletResponse2AddressObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
         "customer_type": {
           "description": "The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "WalletBaseCustomerTypeEnum",
               "type": "named"
             }
           },
@@ -2368,9 +2510,62 @@
             "type": [
               "string"
             ],
-            "pattern": "^[a-zA-Z0-9_'\\-., :;\\!?\"]*$",
+            "pattern": "^.*$",
             "maxLength": 128,
             "minLength": 1
+          }
+        },
+        "email_address": {
+          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "merchant_common_email_address_v2",
+            "pattern": "(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+            "maxLength": 254,
+            "minLength": 3
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PaypalWalletResponse2NameObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "payer_id": {
+          "description": "The account identifier for a PayPal account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_payer_id_v3",
+            "pattern": "^[2-9A-HJ-NP-Z]{13}$",
+            "maxLength": 13,
+            "minLength": 13
           }
         },
         "permit_multiple_payment_tokens": {
@@ -2385,6 +2580,21 @@
           "http": {
             "type": [
               "boolean"
+            ]
+          }
+        },
+        "phone": {
+          "description": "The phone information.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "PhoneWithType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
             ]
           }
         },
@@ -2408,7 +2618,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ShippingDetail",
+              "name": "WalletBaseShippingObject",
               "type": "named"
             }
           },
@@ -2418,8 +2628,49 @@
             ]
           }
         },
+        "usage_pattern": {
+          "description": "Expected business/charge model for the billing agreement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseUsagePatternEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 30,
+            "minLength": 1
+          }
+        },
         "usage_type": {
           "description": "The usage type associated with a digital wallet payment token.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseUsageTypeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PaypalWalletResponse2AddressObject1": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2431,9 +2682,124 @@
             "type": [
               "string"
             ],
-            "pattern": "^[0-9A-Z_]+$",
-            "maxLength": 255,
-            "minLength": 1
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "PaypalWalletResponse2NameObject1": {
+      "description": "The name of the party.",
+      "fields": {
+        "given_name": {
+          "description": "When the party is a person, the party's given, or first, name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "surname": {
+          "description": "When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
           }
         }
       }
@@ -2492,60 +2858,27 @@
       },
       "alias": "phone"
     },
-    "ProcessorResponse": {
-      "description": "The processor information. Might be required for payment requests, such as direct credit card transactions.",
+    "PhoneWithType": {
+      "description": "The phone information.",
       "fields": {
-        "avs_code": {
-          "description": "The address verification code for Visa, Discover, Mastercard, or American Express transactions.",
+        "phone_number": {
+          "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
           "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ProcessorResponseAvsCodeEnum",
-              "type": "named"
-            }
+            "name": "PhoneWithTypePhoneNumberObject1",
+            "type": "named"
           },
           "http": {
             "type": [
-              "string"
+              "object"
             ]
           }
         },
-        "cvv_code": {
-          "description": "The card verification value code for for Visa, Discover, Mastercard, or American Express.",
+        "phone_type": {
+          "description": "The phone type.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ProcessorResponseCvvCodeEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "payment_advice_code": {
-          "description": "The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ProcessorResponsePaymentAdviceCodeEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ]
-          }
-        },
-        "response_code": {
-          "description": "Processor response code for the non-PayPal payment processor errors.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ProcessorResponseResponseCodeEnum",
+              "name": "PhoneType",
               "type": "named"
             }
           },
@@ -2556,17 +2889,103 @@
           }
         }
       },
-      "alias": "processor_response"
+      "alias": "phone_with_type"
     },
-    "SetupTokenRequestInput": {
-      "description": "Setup Token Request where the `source` defines the type of instrument to be stored.",
+    "PhoneWithTypePhoneNumberObject1": {
+      "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
       "fields": {
-        "customer": {
-          "description": "Customer in merchant's or partner's system of records.",
+        "national_number": {
+          "description": "The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,14}?$",
+            "maxLength": 14,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "PlanInput": {
+      "description": "The merchant level Recurring Billing plan metadata for the Billing Agreement.",
+      "fields": {
+        "billing_cycles": {
+          "description": "An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle.",
+          "type": {
+            "element_type": {
+              "name": "BillingCycleInput",
+              "type": "named"
+            },
+            "type": "array"
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "name": {
+          "description": "Name of the recurring plan.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CustomerInput",
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Za-z0-9() +',.:-]+$",
+            "maxLength": 127,
+            "minLength": 1
+          }
+        },
+        "one_time_charges": {
+          "description": "The one-time charge info at the time of checkout.",
+          "type": {
+            "name": "OneTimeChargesInput",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "product": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "JSON",
+              "type": "named"
+            }
+          },
+          "http": {}
+        }
+      },
+      "alias": "plan"
+    },
+    "PricingSchemeInput": {
+      "description": "The pricing scheme details.",
+      "fields": {
+        "price": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "MoneyInput",
               "type": "named"
             }
           },
@@ -2576,15 +2995,97 @@
             ]
           }
         },
-        "metadata": {
+        "pricing_model": {
+          "description": "The pricing model for the billing cycle.",
+          "type": {
+            "name": "PricingSchemePricingModelEnum",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
+        "reload_threshold_amount": {
+          "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Metadata",
+              "name": "MoneyInput",
               "type": "named"
             }
           },
-          "http": {}
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        }
+      },
+      "alias": "pricing_scheme"
+    },
+    "SetupTokenRequestCustomerObjectInput": {
+      "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
+      "fields": {
+        "id": {
+          "description": "The unique ID for a customer generated by PayPal.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z_-]+$",
+            "maxLength": 22,
+            "minLength": 1
+          }
+        },
+        "merchant_customer_id": {
+          "description": "Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z-_.^*$@#]+$",
+            "maxLength": 64,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SetupTokenRequestInput": {
+      "description": "Setup Token Request where the `source` defines the type of instrument to be stored.",
+      "fields": {
+        "customer": {
+          "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SetupTokenRequestCustomerObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
         },
         "payment_source": {
           "description": "The payment method to vault with the instrument details.",
@@ -2597,14 +3098,365 @@
       },
       "alias": "setup_token_request"
     },
+    "SetupTokenRequestPaymentSourceCardBillingAddressObjectInput": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "SetupTokenRequestPaymentSourceCardExperienceContextObjectInput": {
+      "description": "Customizes the Vault creation flow experience for your customers.",
+      "fields": {
+        "brand_name": {
+          "description": "The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 300,
+            "minLength": 1
+          }
+        },
+        "cancel_url": {
+          "description": "The URL where the customer is redirected after customer cancels or leaves the flow. It is a required field for contingency flows like PayPal wallet, 3DS.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 4000,
+            "minLength": 1
+          }
+        },
+        "locale": {
+          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/api/rest/reference/country-codes/) or [M49 region code](https://unstats.un.org/unsd/methodology/m49/).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_language_v3",
+            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|[0-9]{3}))?$",
+            "maxLength": 10,
+            "minLength": 2
+          }
+        },
+        "return_url": {
+          "description": "The URL where the customer is redirected after customer approves leaves the flow. It is a required field for contingency flows like PayPal wallet, 3DS.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "URIString",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "uri",
+            "maxLength": 4000,
+            "minLength": 1
+          }
+        },
+        "vault_instruction": {
+          "description": "Vault Instruction on action to be performed after a successful payer approval.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VaultInstruction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SetupTokenRequestPaymentSourceCardObjectInput": {
+      "description": "A Resource representing a request to vault a Card.",
+      "fields": {
+        "billing_address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SetupTokenRequestPaymentSourceCardBillingAddressObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "brand": {
+          "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardBrand",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "experience_context": {
+          "description": "Customizes the Vault creation flow experience for your customers.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SetupTokenRequestPaymentSourceCardExperienceContextObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "expiry": {
+          "description": "The year and month, in ISO-8601 `YYYY-MM` date format. See [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+            "maxLength": 7,
+            "minLength": 7
+          }
+        },
+        "name": {
+          "description": "The card holder's name as it appears on the card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.{1,300}$",
+            "maxLength": 300,
+            "minLength": 1
+          }
+        },
+        "network_transaction_reference": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NetworkTransactionReferenceRequest",
+              "type": "named"
+            }
+          },
+          "http": {}
+        },
+        "number": {
+          "description": "The primary account number (PAN) for the payment card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{13,19}$",
+            "maxLength": 19,
+            "minLength": 13
+          }
+        },
+        "security_code": {
+          "description": "The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{3,4}$",
+            "maxLength": 4,
+            "minLength": 3
+          }
+        },
+        "verification_method": {
+          "description": "The verification method of the card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardVerificationMethod",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
     "SetupTokenRequestPaymentSourceObjectInput": {
       "description": "The payment method to vault with the instrument details.",
       "fields": {
         "card": {
+          "description": "A Resource representing a request to vault a Card.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CardRequestInput",
+              "name": "SetupTokenRequestPaymentSourceCardObjectInput",
               "type": "named"
             }
           },
@@ -2663,11 +3515,11 @@
       "description": "Minimal representation of a cached setup token.",
       "fields": {
         "customer": {
-          "description": "Customer in merchant's or partner's system of records.",
+          "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Customer",
+              "name": "SetupTokenResponseCustomerObject",
               "type": "named"
             }
           },
@@ -2718,23 +3570,6 @@
             }
           }
         },
-        "ordinal": {
-          "description": "Ordinal number for sorting.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int32",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "integer"
-            ],
-            "maximum": 99,
-            "minimum": 1
-          }
-        },
         "payment_source": {
           "description": "The setup payment method details.",
           "type": {
@@ -2751,7 +3586,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "PaymentTokenStatus",
               "type": "named"
             }
           },
@@ -2767,6 +3602,235 @@
       },
       "alias": "setup_token_response"
     },
+    "SetupTokenResponseCustomerObject": {
+      "description": "This object defines a customer in your system. Use it to manage customer profiles, save payment methods and contact details.",
+      "fields": {
+        "id": {
+          "description": "The unique ID for a customer generated by PayPal.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z_-]+$",
+            "maxLength": 22,
+            "minLength": 1
+          }
+        },
+        "merchant_customer_id": {
+          "description": "Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z-_.^*$@#]+$",
+            "maxLength": 64,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "SetupTokenResponsePaymentSourceCardAllOf": {
+      "description": "Full representation of a Card Payment Token.",
+      "fields": {
+        "authentication_result": {
+          "description": "Results of Authentication such as 3D Secure.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardResponseEntityAuthenticationResultObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "billing_address": {
+          "description": "Address request details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardResponseEntityBillingAddressObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "bin_details": {
+          "description": "Bank Identification Number (BIN) details used to fund a payment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "BinDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "brand": {
+          "description": "The card network or brand. Applies to credit, debit, gift, and payment cards.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardBrand",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "expiry": {
+          "description": "The year and month, in ISO-8601 `YYYY-MM` date format. See [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])$",
+            "maxLength": 7,
+            "minLength": 7
+          }
+        },
+        "last_digits": {
+          "description": "The last digits of the payment card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "[0-9]{2,}",
+            "maxLength": 4,
+            "minLength": 2
+          }
+        },
+        "name": {
+          "description": "The card holder's name as it appears on the card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Za-z ]+$",
+            "maxLength": 300,
+            "minLength": 2
+          }
+        },
+        "network_transaction_reference": {
+          "description": "Previous network transaction reference including id and network.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "NetworkTransactionReferenceEntity",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "type": {
+          "description": "Type of card. i.e Credit, Debit and so on.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "verification": {
+          "description": "Card Verification details including the authorization details and 3D SECURE details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardVerificationDetails",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "verification_status": {
+          "description": "Verification status of Card.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "CardVerificationStatus",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
     "SetupTokenResponsePaymentSourceObject": {
       "description": "The setup payment method details.",
       "fields": {
@@ -2775,7 +3839,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "CardResponse",
+              "name": "SetupTokenResponsePaymentSourceCardAllOf",
               "type": "named"
             }
           },
@@ -2815,45 +3879,51 @@
         }
       }
     },
-    "ShippingDetail": {
-      "description": "The shipping details.",
+    "ThreeDSecureAuthenticationResponse2": {
+      "description": "Results of 3D Secure Authentication.",
       "fields": {
-        "address": {
-          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+        "authentication_id": {
+          "description": "The externally received 3ds authentication id, to be returned in card detokenization response.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddressPortable",
+              "name": "String",
               "type": "named"
             }
           },
           "http": {
             "type": [
-              "object"
-            ]
+              "string"
+            ],
+            "pattern": "^[0-9a-zA-Z_-]+$",
+            "maxLength": 255,
+            "minLength": 1
           }
         },
-        "name": {
-          "description": "The name of the party.",
+        "authentication_status": {
+          "description": "Transactions status result identifier. The outcome of the issuer's authentication.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Name",
+              "name": "ParesStatus",
               "type": "named"
             }
           },
           "http": {
             "type": [
-              "object"
-            ]
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
           }
         },
-        "type": {
-          "description": "The method by which the payer wants to get their items from the payee e.g shipping, in-person pickup. Either type or options but not both may be present.",
+        "enrollment_status": {
+          "description": "Status of Authentication eligibility.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ShippingDetailTypeEnum",
+              "name": "Enrolled",
               "type": "named"
             }
           },
@@ -2866,76 +3936,11 @@
             "minLength": 1
           }
         }
-      },
-      "alias": "shipping_detail"
-    },
-    "ShippingDetailInput": {
-      "description": "The shipping details.",
-      "fields": {
-        "address": {
-          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "AddressPortableInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "name": {
-          "description": "The name of the party.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "NameInput",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
-        },
-        "type": {
-          "description": "The method by which the payer wants to get their items from the payee e.g shipping, in-person pickup. Either type or options but not both may be present.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "ShippingDetailTypeEnum",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "pattern": "^[0-9A-Z_]+$",
-            "maxLength": 255,
-            "minLength": 1
-          }
-        }
-      },
-      "alias": "shipping_detail"
+      }
     },
     "TokenIdRequestInput": {
       "description": "The Tokenized Payment Source representing a Request to Vault a Token.",
       "fields": {
-        "attributes": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TokenAttributes",
-              "type": "named"
-            }
-          },
-          "http": {}
-        },
         "id": {
           "description": "The PayPal-generated ID for the token.",
           "type": {
@@ -2946,7 +3951,7 @@
             "type": [
               "string"
             ],
-            "pattern": "^[0-9A-Z_-]+$",
+            "pattern": "^[0-9A-Za-z_-]+$",
             "maxLength": 255,
             "minLength": 1
           }
@@ -2969,15 +3974,73 @@
       },
       "alias": "token_id_request"
     },
+    "VenmoRequest1ExperienceContextObject1Input": {
+      "description": "Customizes the Vault creation flow experience for your customers.",
+      "fields": {
+        "brand_name": {
+          "description": "The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 300,
+            "minLength": 1
+          }
+        },
+        "shipping_preference": {
+          "description": "The shipping preference. This only applies to PayPal payment source.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VenmoRequest1ExperienceContextShippingPreferenceEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "vault_instruction": {
+          "description": "Vault Instruction on action to be performed after a successful payer approval.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VaultInstruction",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
     "VenmoRequestInput": {
-      "description": "A resource representing a request to vault Venmo.",
       "fields": {
         "customer_type": {
           "description": "The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "WalletBaseCustomerTypeEnum",
               "type": "named"
             }
           },
@@ -3003,7 +4066,7 @@
             "type": [
               "string"
             ],
-            "pattern": "^[a-zA-Z0-9_'\\-., :;\\!?\"]*$",
+            "pattern": "^.*$",
             "maxLength": 128,
             "minLength": 1
           }
@@ -3013,7 +4076,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ExperienceContextInput",
+              "name": "VenmoRequest1ExperienceContextObject1Input",
               "type": "named"
             }
           },
@@ -3043,7 +4106,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ShippingDetailInput",
+              "name": "WalletBaseShippingObjectInput",
               "type": "named"
             }
           },
@@ -3053,12 +4116,30 @@
             ]
           }
         },
+        "usage_pattern": {
+          "description": "Expected business/charge model for the billing agreement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseUsagePatternEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 30,
+            "minLength": 1
+          }
+        },
         "usage_type": {
           "description": "The usage type associated with a digital wallet payment token.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "WalletBaseUsageTypeEnum",
               "type": "named"
             }
           },
@@ -3074,14 +4155,28 @@
       }
     },
     "VenmoResponse": {
-      "description": "Full representation of a Venmo Payment Token.",
       "fields": {
+        "address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VenmoResponse2AddressObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
         "customer_type": {
           "description": "The customer type associated with a digital wallet payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "WalletBaseCustomerTypeEnum",
               "type": "named"
             }
           },
@@ -3107,9 +4202,62 @@
             "type": [
               "string"
             ],
-            "pattern": "^[a-zA-Z0-9_'\\-., :;\\!?\"]*$",
+            "pattern": "^.*$",
             "maxLength": 128,
             "minLength": 1
+          }
+        },
+        "email_address": {
+          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "merchant_common_email_address_v2",
+            "pattern": "(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])",
+            "maxLength": 254,
+            "minLength": 3
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "VenmoResponse2NameObject1",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "payer_id": {
+          "description": "The account identifier for a PayPal account.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_payer_id_v3",
+            "pattern": "^[2-9A-HJ-NP-Z]{13}$",
+            "maxLength": 13,
+            "minLength": 13
           }
         },
         "permit_multiple_payment_tokens": {
@@ -3127,12 +4275,12 @@
             ]
           }
         },
-        "shipping": {
-          "description": "The shipping details.",
+        "phone": {
+          "description": "The phone information.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "ShippingDetail",
+              "name": "PhoneWithType",
               "type": "named"
             }
           },
@@ -3142,12 +4290,45 @@
             ]
           }
         },
+        "shipping": {
+          "description": "The shipping details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "usage_pattern": {
+          "description": "Expected business/charge model for the billing agreement.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseUsagePatternEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 30,
+            "minLength": 1
+          }
+        },
         "usage_type": {
           "description": "The usage type associated with a digital wallet payment token.",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "String",
+              "name": "WalletBaseUsageTypeEnum",
               "type": "named"
             }
           },
@@ -3179,6 +4360,594 @@
           }
         }
       }
+    },
+    "VenmoResponse2AddressObject1": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "VenmoResponse2NameObject1": {
+      "description": "The name of the party.",
+      "fields": {
+        "given_name": {
+          "description": "When the party is a person, the party's given, or first, name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        },
+        "surname": {
+          "description": "When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 140
+          }
+        }
+      }
+    },
+    "WalletBaseShippingAddressObject": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "WalletBaseShippingAddressObjectInput": {
+      "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+      "fields": {
+        "address_line_1": {
+          "description": "The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "address_line_2": {
+          "description": "The second line of the address, for example, a suite or apartment number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_1": {
+          "description": "The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:UK. A county.US. A state.Canada. A province.Japan. A prefecture.Switzerland. A *kanton*.</ul>",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        },
+        "admin_area_2": {
+          "description": "A city, town, or village. Smaller than `admin_area_level_1`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 120
+          }
+        },
+        "country_code": {
+          "description": "The [2-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_common_country_code_v2",
+            "pattern": "^([A-Z]{2}|C2)$",
+            "maxLength": 2,
+            "minLength": 2
+          }
+        },
+        "postal_code": {
+          "description": "The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 60
+          }
+        }
+      }
+    },
+    "WalletBaseShippingNameObject": {
+      "description": "The name of the party.",
+      "fields": {
+        "full_name": {
+          "description": "When the party is a person, the party's full name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        }
+      }
+    },
+    "WalletBaseShippingNameObjectInput": {
+      "description": "The name of the party.",
+      "fields": {
+        "full_name": {
+          "description": "When the party is a person, the party's full name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 300
+          }
+        }
+      }
+    },
+    "WalletBaseShippingObject": {
+      "description": "The shipping details.",
+      "fields": {
+        "address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingAddressObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingNameObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "phone_number": {
+          "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingPhoneNumberObject",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "type": {
+          "description": "A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingTypeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "WalletBaseShippingObjectInput": {
+      "description": "The shipping details.",
+      "fields": {
+        "address": {
+          "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingAddressObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "name": {
+          "description": "The name of the party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingNameObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "phone_number": {
+          "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingPhoneNumberObjectInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "type": {
+          "description": "A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "WalletBaseShippingTypeEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9A-Z_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "WalletBaseShippingPhoneNumberObject": {
+      "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
+      "fields": {
+        "country_code": {
+          "description": "The country calling code (CC), in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the CC and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,3}?$",
+            "maxLength": 3,
+            "minLength": 1
+          }
+        },
+        "national_number": {
+          "description": "The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,14}?$",
+            "maxLength": 14,
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "WalletBaseShippingPhoneNumberObjectInput": {
+      "description": "The phone number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en).",
+      "fields": {
+        "country_code": {
+          "description": "The country calling code (CC), in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the CC and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,3}?$",
+            "maxLength": 3,
+            "minLength": 1
+          }
+        },
+        "national_number": {
+          "description": "The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN).",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[0-9]{1,14}?$",
+            "maxLength": 14,
+            "minLength": 1
+          }
+        }
+      }
     }
   },
   "procedures": {
@@ -3204,8 +4973,11 @@
         "PayPal-Request-Id": {
           "description": "The server stores keys for 3 hours.",
           "type": {
-            "name": "String",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
           },
           "http": {
             "name": "PayPal-Request-Id",
@@ -3213,7 +4985,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 10000,
+              "minLength": 1
             }
           }
         },
@@ -3306,8 +5081,11 @@
         "PayPal-Request-Id": {
           "description": "The server stores keys for 3 hours.",
           "type": {
-            "name": "String",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
           },
           "http": {
             "name": "PayPal-Request-Id",
@@ -3315,7 +5093,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 10000,
+              "minLength": 1
             }
           }
         },
@@ -3343,18 +5124,15 @@
     }
   },
   "scalar_types": {
-    "3dsResult": {
+    "BillingCycleTenureTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
-        "type": "json"
-      }
-    },
-    "AddressEntity": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
+        "one_of": [
+          "REGULAR",
+          "TRIAL"
+        ],
+        "type": "enum"
       }
     },
     "Boolean": {
@@ -3384,7 +5162,16 @@
           "CONFIDIS",
           "ELECTRON",
           "CETELEM",
-          "CHINA_UNION_PAY"
+          "CHINA_UNION_PAY",
+          "DINERS",
+          "ELO",
+          "HIPER",
+          "HIPERCARD",
+          "RUPAY",
+          "GE",
+          "SYNCHRONY",
+          "EFTPOS",
+          "UNKNOWN"
         ],
         "type": "enum"
       }
@@ -3403,38 +5190,7 @@
         "type": "enum"
       }
     },
-    "Int32": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "int32"
-      }
-    },
-    "LinkDescriptionMethodEnum": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "one_of": [
-          "GET",
-          "POST",
-          "PUT",
-          "DELETE",
-          "HEAD",
-          "CONNECT",
-          "OPTIONS",
-          "PATCH"
-        ],
-        "type": "enum"
-      }
-    },
-    "Metadata": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
-      }
-    },
-    "ProcessorResponseAvsCodeEnum": {
+    "CardVerificationDetailsProcessorResponseAvsCodeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -3467,7 +5223,7 @@
         "type": "enum"
       }
     },
-    "ProcessorResponseCvvCodeEnum": {
+    "CardVerificationDetailsProcessorResponseCvvCodeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -3490,180 +5246,144 @@
         "type": "enum"
       }
     },
-    "ProcessorResponsePaymentAdviceCodeEnum": {
+    "CardVerificationMethod": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
         "one_of": [
-          "01",
-          "02",
-          "03",
-          "21"
+          "SCA_WHEN_REQUIRED",
+          "SCA_ALWAYS"
         ],
         "type": "enum"
       }
     },
-    "ProcessorResponseResponseCodeEnum": {
+    "CardVerificationStatus": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
         "one_of": [
-          "0000",
-          "00N7",
-          "0100",
-          "0390",
-          "0500",
-          "0580",
-          "0800",
-          "0880",
-          "0R00",
-          "1000",
-          "10BR",
-          "1300",
-          "1310",
-          "1312",
-          "1317",
-          "1320",
-          "1330",
-          "1335",
-          "1340",
-          "1350",
-          "1360",
-          "1370",
-          "1380",
-          "1382",
-          "1384",
-          "1390",
-          "1393",
-          "5100",
-          "5110",
-          "5120",
-          "5130",
-          "5135",
-          "5140",
-          "5150",
-          "5160",
-          "5170",
-          "5180",
-          "5190",
-          "5200",
-          "5210",
-          "5400",
-          "5500",
-          "5650",
-          "5700",
-          "5710",
-          "5800",
-          "5900",
-          "5910",
-          "5920",
-          "5930",
-          "6300",
-          "7600",
-          "7700",
-          "7710",
-          "7800",
-          "7900",
-          "8000",
-          "8010",
-          "8020",
-          "8030",
-          "8100",
-          "8110",
-          "8220",
-          "9100",
-          "9500",
-          "9510",
-          "9520",
-          "9530",
-          "9540",
-          "9600",
-          "PCNR",
-          "PCVV",
-          "PPAD",
-          "PPAE",
-          "PPAG",
-          "PPAI",
-          "PPAR",
-          "PPAU",
-          "PPAV",
-          "PPAX",
-          "PPBG",
-          "PPC2",
-          "PPCE",
-          "PPCO",
-          "PPCR",
-          "PPCT",
-          "PPCU",
-          "PPD3",
-          "PPDC",
-          "PPDI",
-          "PPDV",
-          "PPEF",
-          "PPEL",
-          "PPER",
-          "PPEX",
-          "PPFE",
-          "PPFI",
-          "PPFR",
-          "PPFV",
-          "PPGR",
-          "PPH1",
-          "PPIF",
-          "PPII",
-          "PPIM",
-          "PPIT",
-          "PPLR",
-          "PPLS",
-          "PPMB",
-          "PPMC",
-          "PPMD",
-          "PPNC",
-          "PPNL",
-          "PPNT",
-          "PPPH",
-          "PPPI",
-          "PPPM",
-          "PPQC",
-          "PPRE",
-          "PPRF",
-          "PPRR",
-          "PPS0",
-          "PPS1",
-          "PPS2",
-          "PPS3",
-          "PPS4",
-          "PPS5",
-          "PPS6",
-          "PPSC",
-          "PPSD",
-          "PPSE",
-          "PPTE",
-          "PPTF",
-          "PPTI",
-          "PPTR",
-          "PPTT",
-          "PPTV",
-          "PPUA",
-          "PPUC",
-          "PPUE",
-          "PPUI",
-          "PPUP",
-          "PPUR",
-          "PPVC",
-          "PPVE",
-          "PPVT"
+          "VERIFIED",
+          "FAILED"
         ],
         "type": "enum"
       }
     },
-    "ShippingDetailTypeEnum": {
+    "Enrolled": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
         "one_of": [
-          "SHIPPING",
-          "PICKUP_IN_PERSON"
+          "Y",
+          "N",
+          "U",
+          "B"
+        ],
+        "type": "enum"
+      }
+    },
+    "ExperienceContextShippingPreferenceEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET_FROM_FILE",
+          "NO_SHIPPING",
+          "SET_PROVIDED_ADDRESS"
+        ],
+        "type": "enum"
+      }
+    },
+    "Int32": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "int32"
+      }
+    },
+    "JSON": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "LinkDescriptionMethodEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET",
+          "POST",
+          "PUT",
+          "DELETE",
+          "HEAD",
+          "CONNECT",
+          "OPTIONS",
+          "PATCH"
+        ],
+        "type": "enum"
+      }
+    },
+    "NetworkTransactionReferenceRequest": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "type": "json"
+      }
+    },
+    "ParesStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "Y",
+          "N",
+          "U",
+          "A",
+          "C",
+          "R",
+          "D",
+          "I"
+        ],
+        "type": "enum"
+      }
+    },
+    "PaymentTokenStatus": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CREATED",
+          "PAYER_ACTION_REQUIRED",
+          "APPROVED",
+          "VAULTED",
+          "TOKENIZED"
+        ],
+        "type": "enum"
+      }
+    },
+    "PhoneType": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "FAX",
+          "HOME",
+          "MOBILE",
+          "OTHER",
+          "PAGER"
+        ],
+        "type": "enum"
+      }
+    },
+    "PricingSchemePricingModelEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "FIXED",
+          "VARIABLE",
+          "AUTO_RELOAD"
         ],
         "type": "enum"
       }
@@ -3675,19 +5395,12 @@
         "type": "string"
       }
     },
-    "TokenAttributes": {
-      "aggregate_functions": {},
-      "comparison_operators": {},
-      "representation": {
-        "type": "json"
-      }
-    },
     "TokenIdRequestTypeEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
         "one_of": [
-          "BILLING_AGREEMENT"
+          "SETUP_TOKEN"
         ],
         "type": "enum"
       }
@@ -3697,6 +5410,85 @@
       "comparison_operators": {},
       "representation": {
         "type": "string"
+      }
+    },
+    "VaultInstruction": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "ON_CREATE_PAYMENT_TOKENS",
+          "ON_PAYER_APPROVAL"
+        ],
+        "type": "enum"
+      }
+    },
+    "VenmoRequest1ExperienceContextShippingPreferenceEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "GET_FROM_FILE",
+          "NO_SHIPPING",
+          "SET_PROVIDED_ADDRESS"
+        ],
+        "type": "enum"
+      }
+    },
+    "WalletBaseCustomerTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "CONSUMER",
+          "BUSINESS"
+        ],
+        "type": "enum"
+      }
+    },
+    "WalletBaseShippingTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "SHIPPING",
+          "PICKUP_IN_PERSON",
+          "PICKUP_IN_STORE",
+          "PICKUP_FROM_PERSON"
+        ],
+        "type": "enum"
+      }
+    },
+    "WalletBaseUsagePatternEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "IMMEDIATE",
+          "DEFERRED",
+          "RECURRING_PREPAID",
+          "RECURRING_POSTPAID",
+          "THRESHOLD_PREPAID",
+          "THRESHOLD_POSTPAID",
+          "UNSCHEDULED_POSTPAID",
+          "UNSCHEDULED_PREPAID",
+          "SUBSCRIPTION_PREPAID",
+          "SUBSCRIPTION_POSTPAID",
+          "INSTALLMENT_POSTPAID",
+          "INSTALLMENT_PREPAID"
+        ],
+        "type": "enum"
+      }
+    },
+    "WalletBaseUsageTypeEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "MERCHANT",
+          "PLATFORM"
+        ],
+        "type": "enum"
       }
     }
   }

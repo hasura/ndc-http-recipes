@@ -33,9 +33,77 @@
         }
       }
     },
-    "version": "2.3"
+    "version": "2.6"
   },
   "functions": {
+    "connections_get": {
+      "request": {
+        "url": "/v2/invoicing/accounting-sync/merchant/connections",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/read",
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite",
+              "https://uri.paypal.com/services/invoicing/internal"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "List Connections.",
+      "result_type": {
+        "name": "Connections",
+        "type": "named"
+      }
+    },
+    "invoice_connection_details_get": {
+      "request": {
+        "url": "/v2/invoicing/accounting-sync/invoices/{id}/connections",
+        "method": "get",
+        "security": [
+          {
+            "Oauth2": [
+              "https://uri.paypal.com/services/invoicing/invoices/read",
+              "https://uri.paypal.com/services/invoicing/invoices/readwrite",
+              "https://uri.paypal.com/services/invoicing/internal"
+            ]
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "id": {
+          "description": "The invoice id of the account.",
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "name": "id",
+            "in": "path",
+            "schema": {
+              "type": [
+                "string"
+              ],
+              "pattern": "^[0-9]+$",
+              "maxLength": 24,
+              "minLength": 1
+            }
+          }
+        }
+      },
+      "description": "List Connection Status for an Invoice.",
+      "result_type": {
+        "name": "InvoiceConnectionDetails",
+        "type": "named"
+      }
+    },
     "invoices_get": {
       "request": {
         "url": "/v2/invoicing/invoices/{invoice_id}",
@@ -64,7 +132,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -107,7 +178,9 @@
               "type": [
                 "string"
               ],
-              "pattern": "(?i)^(all|none)$"
+              "pattern": "(?i)^(all|none)$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         },
@@ -207,7 +280,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -250,7 +326,9 @@
               "type": [
                 "string"
               ],
-              "pattern": "(?i)^(all|none)$"
+              "pattern": "(?i)^(all|none)$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         },
@@ -305,6 +383,210 @@
     }
   },
   "object_types": {
+    "AddressDetails": {
+      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+      "fields": {
+        "building_name": {
+          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "delivery_service": {
+          "description": "The delivery service. Post office box, bag number, or post office name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_name": {
+          "description": "The street name. Just `Drury` in `Drury Lane`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_number": {
+          "description": "The street number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_type": {
+          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "sub_building": {
+          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        }
+      },
+      "alias": "address_details"
+    },
+    "AddressDetailsInput": {
+      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
+      "fields": {
+        "building_name": {
+          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "delivery_service": {
+          "description": "The delivery service. Post office box, bag number, or post office name.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_name": {
+          "description": "The street name. Just `Drury` in `Drury Lane`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_number": {
+          "description": "The street number.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "street_type": {
+          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        },
+        "sub_building": {
+          "description": "The first-order entity below a named building or location that represents the sub-premises. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "maxLength": 100
+          }
+        }
+      },
+      "alias": "address_details"
+    },
     "AddressPortable": {
       "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
       "fields": {
@@ -313,7 +595,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddressPortableAddressDetailsObject",
+              "name": "AddressDetails",
               "type": "named"
             }
           },
@@ -436,7 +718,7 @@
           }
         },
         "country_code": {
-          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "description": "The [two-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
           "type": {
             "name": "String",
             "type": "named"
@@ -470,208 +752,6 @@
       },
       "alias": "address_portable"
     },
-    "AddressPortableAddressDetailsObject": {
-      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-      "fields": {
-        "building_name": {
-          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "delivery_service": {
-          "description": "The delivery service. Post office box, bag number, or post office name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_name": {
-          "description": "The street name. Just `Drury` in `Drury Lane`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_number": {
-          "description": "The street number.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_type": {
-          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "sub_building": {
-          "description": "The first-order entity below a named building or location that represents the sub-premise. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        }
-      }
-    },
-    "AddressPortableAddressDetailsObjectInput": {
-      "description": "The non-portable additional address details that are sometimes needed for compliance, risk, or other scenarios where fine-grain address information might be needed. Not portable with common third party and open source. Redundant with core fields.For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`.",
-      "fields": {
-        "building_name": {
-          "description": "A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, Craven House.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "delivery_service": {
-          "description": "The delivery service. Post office box, bag number, or post office name.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_name": {
-          "description": "The street name. Just `Drury` in `Drury Lane`.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_number": {
-          "description": "The street number.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "street_type": {
-          "description": "The street type. For example, avenue, boulevard, road, or expressway.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        },
-        "sub_building": {
-          "description": "The first-order entity below a named building or location that represents the sub-premise. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment.",
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "String",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "maxLength": 100
-          }
-        }
-      }
-    },
     "AddressPortableInput": {
       "description": "The portable international postal address. Maps to [AddressValidationMetadata](https://github.com/googlei18n/libaddressinput/wiki/AddressValidationMetadata) and HTML 5.1 [Autofilling form controls: the autocomplete attribute](https://www.w3.org/TR/html51/sec-forms.html#autofilling-form-controls-the-autocomplete-attribute).",
       "fields": {
@@ -680,7 +760,7 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "AddressPortableAddressDetailsObjectInput",
+              "name": "AddressDetailsInput",
               "type": "named"
             }
           },
@@ -803,7 +883,7 @@
           }
         },
         "country_code": {
-          "description": "The [two-character ISO 3166-1 code](/docs/integration/direct/rest/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
+          "description": "The [two-character ISO 3166-1 code](/api/rest/reference/country-codes/) that identifies the country or region.Note: The country code for Great Britain is GB and not UK as used in the top-level domain names for that country. Use the `C2` country code for China worldwide for comparable uncontrolled price (CUP) method, bank card, and cross-border transactions.",
           "type": {
             "name": "String",
             "type": "named"
@@ -958,7 +1038,7 @@
           }
         },
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -970,7 +1050,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -989,7 +1068,8 @@
               "string"
             ],
             "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
-            "maxLength": 32
+            "maxLength": 32,
+            "minLength": 0
           }
         }
       },
@@ -1014,7 +1094,7 @@
           }
         },
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1026,7 +1106,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -1045,7 +1124,8 @@
               "string"
             ],
             "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$",
-            "maxLength": 32
+            "maxLength": 32,
+            "minLength": 0
           }
         }
       },
@@ -1232,7 +1312,7 @@
           }
         },
         "email_address": {
-          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "description": "The internationalized email address with more restrictive rules. This version restricts the local-part to a dot-atom as defined in https://www.ietf.org/rfc/rfc5322.txt. It does not allow for a quoted-string or an obs-local-part. Allows alphanumeric and RFC-allowed special characters, !#$%&'*+-/=?^_`{|}~Ensures that the local part does not start with dot (.), have consecutive dots, or end with dot. Ensures that the domain part does not have consecutive dots.Ensures that the local part does not exceed 64 characters.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1244,14 +1324,13 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_email_address_v2",
-            "pattern": "^.+@[^\"\\-].+$",
+            "pattern": "^(?!\\.)(?:[A-Za-z0-9!#$&'*\\/=?^`{|}~_%+-]|\\.(?!\\.)){1,64}(?<!\\.)@(?:[A-Za-z0-9-]|\\.(?!\\.))+\\.[a-zA-Z]{2,}$",
             "maxLength": 254,
             "minLength": 3
           }
         },
         "language": {
-          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/docs/integration/direct/rest/country-codes/).",
+          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/api/rest/reference/country-codes/) or [M49 region code](https://unstats.un.org/unsd/methodology/m49/).",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1264,7 +1343,7 @@
               "string"
             ],
             "format": "ppaas_common_language_v3",
-            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$",
+            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|[0-9]{3}))?$",
             "maxLength": 10,
             "minLength": 2
           }
@@ -1313,7 +1392,7 @@
           }
         },
         "email_address": {
-          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "description": "The internationalized email address with more restrictive rules. This version restricts the local-part to a dot-atom as defined in https://www.ietf.org/rfc/rfc5322.txt. It does not allow for a quoted-string or an obs-local-part. Allows alphanumeric and RFC-allowed special characters, !#$%&'*+-/=?^_`{|}~Ensures that the local part does not start with dot (.), have consecutive dots, or end with dot. Ensures that the domain part does not have consecutive dots.Ensures that the local part does not exceed 64 characters.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1325,14 +1404,13 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_email_address_v2",
-            "pattern": "^.+@[^\"\\-].+$",
+            "pattern": "^(?!\\.)(?:[A-Za-z0-9!#$&'*\\/=?^`{|}~_%+-]|\\.(?!\\.)){1,64}(?<!\\.)@(?:[A-Za-z0-9-]|\\.(?!\\.))+\\.[a-zA-Z]{2,}$",
             "maxLength": 254,
             "minLength": 3
           }
         },
         "language": {
-          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/docs/integration/direct/rest/country-codes/).",
+          "description": "The [language tag](https://tools.ietf.org/html/bcp47#section-2) for the language in which to localize the error-related strings, such as messages, issues, and suggested actions. The tag is made up of the [ISO 639-2 language code](https://www.loc.gov/standards/iso639-2/php/code_list.php), the optional [ISO-15924 script tag](https://www.unicode.org/iso15924/codelists.html), and the [ISO-3166 alpha-2 country code](/api/rest/reference/country-codes/) or [M49 region code](https://unstats.un.org/unsd/methodology/m49/).",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1345,7 +1423,7 @@
               "string"
             ],
             "format": "ppaas_common_language_v3",
-            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}))?$",
+            "pattern": "^[a-z]{2}(?:-[A-Z][a-z]{3})?(?:-(?:[A-Z]{2}|[0-9]{3}))?$",
             "maxLength": 10,
             "minLength": 2
           }
@@ -1380,6 +1458,21 @@
       "fields": {
         "allow_tip": {
           "description": "Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.Note: This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_conditional_rule": {
+          "description": "Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1439,7 +1532,7 @@
           }
         },
         "template_id": {
-          "description": "The template ID. The template determines the layout of the invoice. Includes which fields to show and hide.",
+          "description": "The template ID. The template determines the layout of the invoice. Includes which fields to show and hide.Note: This is an optional field. If you wish to customize the invoice layout using a specific template, provide a valid template ID here. You can either use an existing template ID or create a new template via the create template API and then use the newly created template's ID.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1461,6 +1554,21 @@
       "fields": {
         "allow_tip": {
           "description": "Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.Note: This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_conditional_rule": {
+          "description": "Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1520,7 +1628,7 @@
           }
         },
         "template_id": {
-          "description": "The template ID. The template determines the layout of the invoice. Includes which fields to show and hide.",
+          "description": "The template ID. The template determines the layout of the invoice. Includes which fields to show and hide.Note: This is an optional field. If you wish to customize the invoice layout using a specific template, provide a valid template ID here. You can either use an existing template ID or create a new template via the create template API and then use the newly created template's ID.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -1536,6 +1644,96 @@
           }
         }
       }
+    },
+    "Connection": {
+      "description": "This lists last sync status and connection platform name.",
+      "fields": {
+        "last_sync_status": {
+          "description": "The status of the last sync. This property supports Unicode.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "ConnectionLastSyncStatusEnum",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Z0-9_]+$",
+            "maxLength": 255,
+            "minLength": 1
+          }
+        },
+        "last_sync_time": {
+          "description": "The date and time, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). Seconds are required while fractional seconds are optional.Note: The regular expression provides guidance but does not reject all invalid dates.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "format": "ppaas_date_time_v3",
+            "pattern": "^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])[T,t]([0-1][0-9]|2[0-3]):[0-5][0-9]:([0-5][0-9]|60)([.][0-9]+)?([Zz]|[+-][0-9]{2}:[0-9]{2})$",
+            "maxLength": 64,
+            "minLength": 20
+          }
+        },
+        "platform_name": {
+          "description": "The name of the platform. This property supports Unicode. The pattern is not provided because the value is defined by an external party.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^.*$",
+            "maxLength": 64,
+            "minLength": 1
+          }
+        }
+      },
+      "alias": "connection"
+    },
+    "Connections": {
+      "description": "This object contains an array of connection details. It is used to load sync status for a user.",
+      "fields": {
+        "connections": {
+          "description": "An array of connection-level details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Connection",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      },
+      "alias": "connections"
     },
     "ContactNameAddress": {
       "description": "The contact information of the user. Includes name and address.",
@@ -1667,7 +1865,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 50
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 50,
+            "minLength": 0
           }
         }
       },
@@ -1701,7 +1901,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 50
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 50,
+            "minLength": 0
           }
         }
       },
@@ -1858,6 +2060,27 @@
         }
       },
       "alias": "discount"
+    },
+    "FetchtypeInput": {
+      "description": "Is the fetch type invoice number or id.",
+      "fields": {
+        "fetch_id": {
+          "description": "Optional to decide the number or ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        }
+      },
+      "alias": "fetchtype"
     },
     "FileReference": {
       "description": "The file reference. Can be a file in PayPal MediaServ, PayPal DMS, or other custom store.",
@@ -2065,7 +2288,7 @@
                 "string"
               ],
               "format": "ppaas_common_email_address_v2",
-              "pattern": "^.+@[^\"\\-].+$",
+              "pattern": "^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
               "maxLength": 254,
               "minLength": 3
             }
@@ -2154,7 +2377,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 30
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 30,
+            "minLength": 0
           }
         },
         "invoicer": {
@@ -2227,7 +2452,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 30
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 30,
+            "minLength": 0
           }
         },
         "payments": {
@@ -2295,11 +2522,61 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       },
       "alias": "invoice"
+    },
+    "InvoiceConnectionDetails": {
+      "description": "Returns invoice connection status with timestamp per invoice.",
+      "fields": {
+        "connection_status": {
+          "description": "An array of connection-level details.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "element_type": {
+                "name": "Connections",
+                "type": "named"
+              },
+              "type": "array"
+            }
+          },
+          "http": {
+            "type": [
+              "array"
+            ],
+            "items": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "id": {
+          "description": "The ID of the invoice. This property supports Unicode.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[A-Za-z0-9\\-]+$",
+            "maxLength": 64,
+            "minLength": 1
+          }
+        }
+      },
+      "alias": "invoice_connection_details"
     },
     "InvoiceDetail": {
       "description": "The details of the invoice. Includes invoice number, date, payment terms, and audit metadata.",
@@ -2320,7 +2597,6 @@
             "type": [
               "array"
             ],
-            "maximum": 5,
             "items": {
               "type": [
                 "object"
@@ -2329,7 +2605,7 @@
           }
         },
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "name": "String",
             "type": "named"
@@ -2338,7 +2614,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -2375,7 +2650,7 @@
             "type": [
               "string"
             ],
-            "maxLength": 127
+            "maxLength": 25
           }
         },
         "memo": {
@@ -2391,7 +2666,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 500
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 500,
+            "minLength": 0
           }
         },
         "metadata": {
@@ -2421,7 +2698,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         },
         "payment_term": {
@@ -2439,7 +2718,7 @@
           }
         },
         "reference": {
-          "description": "The reference data. Includes a post office (PO) number.",
+          "description": "The reference data. Includes a Purchase Order (PO) number.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2451,7 +2730,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 120
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 120,
+            "minLength": 0
           }
         },
         "terms_and_conditions": {
@@ -2467,7 +2748,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         }
       }
@@ -2491,7 +2774,6 @@
             "type": [
               "array"
             ],
-            "maximum": 5,
             "items": {
               "type": [
                 "object"
@@ -2500,7 +2782,7 @@
           }
         },
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "name": "String",
             "type": "named"
@@ -2509,7 +2791,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -2546,7 +2827,7 @@
             "type": [
               "string"
             ],
-            "maxLength": 127
+            "maxLength": 25
           }
         },
         "memo": {
@@ -2562,7 +2843,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 500
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 500,
+            "minLength": 0
           }
         },
         "metadata": {
@@ -2592,7 +2875,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         },
         "payment_term": {
@@ -2610,7 +2895,7 @@
           }
         },
         "reference": {
-          "description": "The reference data. Includes a post office (PO) number.",
+          "description": "The reference data. Includes a Purchase Order (PO) number.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2622,7 +2907,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 120
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 120,
+            "minLength": 0
           }
         },
         "terms_and_conditions": {
@@ -2638,7 +2925,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         }
       }
@@ -2667,7 +2956,7 @@
                 "string"
               ],
               "format": "ppaas_common_email_address_v2",
-              "pattern": "^.+@[^\"\\-].+$",
+              "pattern": "^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
               "maxLength": 254,
               "minLength": 3
             }
@@ -2842,7 +3131,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       },
@@ -2851,6 +3143,24 @@
     "InvoiceNumber": {
       "description": "The invoice number.",
       "fields": {
+        "invoice_id": {
+          "description": "Resource Id.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^(INV2-)[A-Z0-9\\-]{19}$",
+            "maxLength": 24,
+            "minLength": 1
+          }
+        },
         "invoice_number": {
           "description": "The invoice number. If you omit this value, the default is the auto-incremented number from the last number.",
           "type": {
@@ -2864,7 +3174,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 25
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 25,
+            "minLength": 1
           }
         }
       },
@@ -2904,7 +3216,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       }
@@ -2943,7 +3258,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       }
@@ -2967,7 +3285,7 @@
           }
         },
         "email_address": {
-          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "description": "The internationalized email address with more restrictive rules. This version restricts the local-part to a dot-atom as defined in https://www.ietf.org/rfc/rfc5322.txt. It does not allow for a quoted-string or an obs-local-part. Allows alphanumeric and RFC-allowed special characters, !#$%&'*+-/=?^_`{|}~Ensures that the local part does not start with dot (.), have consecutive dots, or end with dot. Ensures that the domain part does not have consecutive dots.Ensures that the local part does not exceed 64 characters.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2979,8 +3297,7 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_email_address_v2",
-            "pattern": "^.+@[^\"\\-].+$",
+            "pattern": "^(?!\\.)(?:[A-Za-z0-9!#$&'*\\/=?^`{|}~_%+-]|\\.(?!\\.)){1,64}(?<!\\.)@(?:[A-Za-z0-9-]|\\.(?!\\.))+\\.[a-zA-Z]{2,}$",
             "maxLength": 254,
             "minLength": 3
           }
@@ -3079,7 +3396,7 @@
           }
         },
         "email_address": {
-          "description": "The internationalized email address.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
+          "description": "The internationalized email address with more restrictive rules. This version restricts the local-part to a dot-atom as defined in https://www.ietf.org/rfc/rfc5322.txt. It does not allow for a quoted-string or an obs-local-part. Allows alphanumeric and RFC-allowed special characters, !#$%&'*+-/=?^_`{|}~Ensures that the local part does not start with dot (.), have consecutive dots, or end with dot. Ensures that the domain part does not have consecutive dots.Ensures that the local part does not exceed 64 characters.Note: Up to 64 characters are allowed before and 255 characters are allowed after the @ sign. However, the generally accepted maximum length for an email address is 254 characters. The pattern verifies that an unquoted @ sign exists.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -3091,8 +3408,7 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_email_address_v2",
-            "pattern": "^.+@[^\"\\-].+$",
+            "pattern": "^(?!\\.)(?:[A-Za-z0-9!#$&'*\\/=?^`{|}~_%+-]|\\.(?!\\.)){1,64}(?<!\\.)@(?:[A-Za-z0-9-]|\\.(?!\\.))+\\.[a-zA-Z]{2,}$",
             "maxLength": 254,
             "minLength": 3
           }
@@ -3233,7 +3549,9 @@
           "http": {
             "type": [
               "integer"
-            ]
+            ],
+            "maximum": 2147483647,
+            "minimum": 0
           }
         },
         "total_pages": {
@@ -3248,7 +3566,9 @@
           "http": {
             "type": [
               "integer"
-            ]
+            ],
+            "maximum": 2147483647,
+            "minimum": 0
           }
         }
       },
@@ -3270,7 +3590,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 1000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 1000,
+            "minLength": 0
           }
         },
         "discount": {
@@ -3301,7 +3623,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 22
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 22,
+            "minLength": 0
           }
         },
         "item_date": {
@@ -3333,7 +3657,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 200
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 200,
+            "minLength": 0
           }
         },
         "quantity": {
@@ -3346,6 +3672,7 @@
             "type": [
               "string"
             ],
+            "pattern": "\\d+(.\\d{1,5})?$",
             "maxLength": 14,
             "minLength": 0
           }
@@ -3389,7 +3716,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
@@ -3411,7 +3741,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 1000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 1000,
+            "minLength": 0
           }
         },
         "discount": {
@@ -3458,7 +3790,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 200
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 200,
+            "minLength": 0
           }
         },
         "quantity": {
@@ -3471,6 +3805,7 @@
             "type": [
               "string"
             ],
+            "pattern": "\\d+(.\\d{1,5})?$",
             "maxLength": 14,
             "minLength": 0
           }
@@ -3514,14 +3849,17 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
       "alias": "item"
     },
     "LinkDescription": {
-      "description": "The request-related [HATEOAS link](/docs/api/reference/api-responses/#hateoas-links) information.",
+      "description": "The request-related [HATEOAS link](/api/rest/responses/#hateoas-links) information.",
       "fields": {
         "href": {
           "description": "The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call.",
@@ -3633,7 +3971,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         },
         "created_by_flow": {
@@ -3648,7 +3989,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         },
         "first_sent_time": {
@@ -3751,7 +4095,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         },
         "recipient_view_url": {
@@ -3825,7 +4172,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         },
         "first_sent_time": {
@@ -3891,7 +4241,7 @@
       "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
       "fields": {
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "name": "String",
             "type": "named"
@@ -3900,13 +4250,12 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
         },
         "value": {
-          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).",
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).",
           "type": {
             "name": "String",
             "type": "named"
@@ -3926,7 +4275,7 @@
       "description": "The currency and amount for a financial transaction, such as a balance or payment due.",
       "fields": {
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "name": "String",
             "type": "named"
@@ -3935,13 +4284,12 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
         },
         "value": {
-          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/docs/integration/direct/rest/currency-codes/).",
+          "description": "The value, which might be:An integer for currencies like `JPY` that are not typically fractional.A decimal fraction for currencies like `TND` that are subdivided into thousandths.For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/).",
           "type": {
             "name": "String",
             "type": "named"
@@ -4217,14 +4565,14 @@
                 "string"
               ],
               "format": "ppaas_common_email_address_v2",
-              "pattern": "^.+@[^\"\\-].+$",
+              "pattern": "^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
               "maxLength": 254,
               "minLength": 3
             }
           }
         },
         "note": {
-          "description": "A note to the payer.",
+          "description": "A note to the payer.Note: User-provided values for this field will not be honored and the note will always be defaulted to a system-defined value.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -4236,7 +4584,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         },
         "send_to_invoicer": {
@@ -4270,7 +4620,7 @@
           }
         },
         "subject": {
-          "description": "The subject of the email that is sent as a notification to the recipient.",
+          "description": "The subject of the email that is sent as a notification to the recipient.Note: User-provided values for this field will not be honored and the subject will always be defaulted to a system-defined value.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -4282,7 +4632,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         }
       },
@@ -4387,7 +4739,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         },
         "note": {
@@ -4403,7 +4758,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 2000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2000,
+            "minLength": 0
           }
         },
         "payment_date": {
@@ -4438,7 +4795,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 22
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 22,
+            "minLength": 0
           }
         },
         "shipping_info": {
@@ -4467,7 +4826,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       },
@@ -4500,7 +4862,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         },
         "note": {
@@ -4516,7 +4881,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 2000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2000,
+            "minLength": 0
           }
         },
         "payment_date": {
@@ -4551,7 +4918,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 22
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 22,
+            "minLength": 0
           }
         },
         "shipping_info": {
@@ -4580,7 +4949,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       },
@@ -4601,7 +4973,8 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[0-9A-Za-z_-]+$"
           }
         }
       },
@@ -4622,7 +4995,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       },
@@ -4643,7 +5019,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       },
@@ -4867,7 +5246,8 @@
               "string"
             ],
             "pattern": "(?i)^(pay|details)$",
-            "maxLength": 7
+            "maxLength": 7,
+            "minLength": 0
           }
         },
         "height": {
@@ -4996,7 +5376,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         },
         "refund_date": {
@@ -5031,7 +5414,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 22
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 22,
+            "minLength": 0
           }
         },
         "type": {
@@ -5046,7 +5431,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       },
@@ -5079,7 +5467,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         },
         "refund_date": {
@@ -5113,7 +5504,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 255,
+            "minLength": 0
           }
         }
       },
@@ -5134,7 +5528,8 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[0-9A-Za-z_-]+$"
           }
         }
       },
@@ -5239,7 +5634,7 @@
           }
         },
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -5251,7 +5646,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -5290,7 +5684,10 @@
             "items": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^[\\S\\s]*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         },
@@ -5322,7 +5719,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 25
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 25,
+            "minLength": 0
           }
         },
         "memo": {
@@ -5338,7 +5737,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 500
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 500,
+            "minLength": 0
           }
         },
         "payment_date_range": {
@@ -5369,7 +5770,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 300
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 300,
+            "minLength": 0
           }
         },
         "recipient_email": {
@@ -5385,7 +5788,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 254
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 254,
+            "minLength": 0
           }
         },
         "recipient_first_name": {
@@ -5401,7 +5806,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 140
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 140,
+            "minLength": 0
           }
         },
         "recipient_last_name": {
@@ -5417,11 +5824,13 @@
             "type": [
               "string"
             ],
-            "maxLength": 140
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 140,
+            "minLength": 0
           }
         },
         "reference": {
-          "description": "The reference data, such as a PO number.",
+          "description": "The reference data. Includes a Purchase Order (PO) number.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -5433,7 +5842,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 120
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 120,
+            "minLength": 0
           }
         },
         "status": {
@@ -5455,7 +5866,10 @@
             "items": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^[\\s\\S]*$",
+              "maxLength": 255,
+              "minLength": 0
             }
           }
         },
@@ -5577,7 +5991,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 100
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 100,
+            "minLength": 0
           }
         },
         "percent": {
@@ -5592,6 +6008,24 @@
             ],
             "format": "ppaas_common_percentage_v2",
             "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$"
+          }
+        },
+        "tax_note": {
+          "description": "The tax note used to track the tax related data.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 40,
+            "minLength": 0
           }
         }
       },
@@ -5625,7 +6059,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 100
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 100,
+            "minLength": 0
           }
         },
         "percent": {
@@ -5640,6 +6076,24 @@
             ],
             "format": "ppaas_common_percentage_v2",
             "pattern": "^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$"
+          }
+        },
+        "tax_note": {
+          "description": "The tax note used to track the tax related data.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^[\\s\\S]*$",
+            "maxLength": 40,
+            "minLength": 0
           }
         }
       },
@@ -5676,7 +6130,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 30
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 30,
+            "minLength": 0
           }
         },
         "links": {
@@ -5715,6 +6171,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[\\S\\s]*$",
             "maxLength": 500,
             "minLength": 1
           }
@@ -5776,7 +6233,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
@@ -5787,6 +6247,21 @@
       "fields": {
         "allow_tip": {
           "description": "Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.Note: This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_conditional_rule": {
+          "description": "Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -5853,6 +6328,21 @@
       "fields": {
         "allow_tip": {
           "description": "Indicates whether the invoice enables the customer to enter a tip amount during payment. If `true`, the invoice shows a tip amount field so that the customer can enter a tip amount. If `false`, the invoice does not show a tip amount field.Note: This feature is not available for users in `Hong Kong`, `Taiwan`, `India`, or `Japan`.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Boolean",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "boolean"
+            ]
+          }
+        },
+        "has_conditional_rule": {
+          "description": "Indicates whether conditional pricing rules are applied to the invoice. If `true`, pricing rules (such as discounts or surcharges based on specific conditions) are applied. If `false`, no conditional pricing rules are applied.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -5933,7 +6423,6 @@
             "type": [
               "array"
             ],
-            "maximum": 5,
             "items": {
               "type": [
                 "object"
@@ -5942,7 +6431,7 @@
           }
         },
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "name": "String",
             "type": "named"
@@ -5951,7 +6440,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -5969,7 +6457,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 500
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 500,
+            "minLength": 0
           }
         },
         "metadata": {
@@ -6000,7 +6490,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         },
         "payment_term": {
@@ -6019,7 +6511,7 @@
           }
         },
         "reference": {
-          "description": "The reference data. Includes a post office (PO) number.",
+          "description": "The reference data. Includes a Purchase Order (PO) number.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -6031,7 +6523,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 120
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 120,
+            "minLength": 0
           }
         },
         "terms_and_conditions": {
@@ -6047,7 +6541,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         }
       }
@@ -6071,7 +6567,6 @@
             "type": [
               "array"
             ],
-            "maximum": 5,
             "items": {
               "type": [
                 "object"
@@ -6080,7 +6575,7 @@
           }
         },
         "currency_code": {
-          "description": "The [three-character ISO-4217 currency code](/docs/integration/direct/rest/currency-codes/) that identifies the currency.",
+          "description": "The [three-character ISO-4217 currency code](/api/rest/reference/currency-codes/) that identifies the currency.",
           "type": {
             "name": "String",
             "type": "named"
@@ -6089,7 +6584,6 @@
             "type": [
               "string"
             ],
-            "format": "ppaas_common_currency_code_v2",
             "maxLength": 3,
             "minLength": 3
           }
@@ -6107,7 +6601,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 500
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 500,
+            "minLength": 0
           }
         },
         "metadata": {
@@ -6138,7 +6634,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         },
         "payment_term": {
@@ -6157,7 +6655,7 @@
           }
         },
         "reference": {
-          "description": "The reference data. Includes a post office (PO) number.",
+          "description": "The reference data. Includes a Purchase Order (PO) number.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -6169,7 +6667,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 120
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 120,
+            "minLength": 0
           }
         },
         "terms_and_conditions": {
@@ -6185,7 +6685,9 @@
             "type": [
               "string"
             ],
-            "maxLength": 4000
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 4000,
+            "minLength": 0
           }
         }
       }
@@ -6256,7 +6758,7 @@
                 "string"
               ],
               "format": "ppaas_common_email_address_v2",
-              "pattern": "^.+@[^\"\\-].+$",
+              "pattern": "^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
               "maxLength": 254,
               "minLength": 3
             }
@@ -6405,7 +6907,7 @@
                 "string"
               ],
               "format": "ppaas_common_email_address_v2",
-              "pattern": "^.+@[^\"\\-].+$",
+              "pattern": "^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
               "maxLength": 254,
               "minLength": 3
             }
@@ -6561,6 +7063,7 @@
             "type": [
               "string"
             ],
+            "pattern": "^[\\S\\s]*$",
             "maxLength": 500,
             "minLength": 1
           }
@@ -6607,7 +7110,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
@@ -6643,7 +7149,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
@@ -6679,7 +7188,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
@@ -6719,7 +7231,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         },
         "last_update_time": {
@@ -6753,7 +7268,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
@@ -6937,7 +7455,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
@@ -6973,7 +7494,10 @@
           "http": {
             "type": [
               "string"
-            ]
+            ],
+            "pattern": "^[\\S\\s]*$",
+            "maxLength": 2147483647,
+            "minLength": 0
           }
         }
       },
@@ -7019,7 +7543,7 @@
               "string"
             ],
             "format": "ppaas_common_email_address_v2",
-            "pattern": "^.+@[^\"\\-].+$",
+            "pattern": "^(?:[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?\\.)+[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[A-Za-z0-9-]*[A-Za-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])$",
             "maxLength": 254,
             "minLength": 3
           }
@@ -7144,7 +7668,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7227,7 +7754,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7290,7 +7820,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7350,7 +7883,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7389,7 +7925,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         },
@@ -7405,7 +7944,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7465,7 +8007,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7504,7 +8049,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         },
@@ -7520,7 +8068,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7583,7 +8134,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7751,7 +8305,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -7808,7 +8365,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         },
@@ -7868,11 +8428,33 @@
             ]
           }
         ],
+        "requestBody": {
+          "contentType": "application/json"
+        },
         "response": {
           "contentType": "application/json"
         }
       },
-      "arguments": {},
+      "arguments": {
+        "body": {
+          "description": "Is the fetch type invoice number or id.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "FetchtypeInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        }
+      },
       "description": "Generate invoice number",
       "result_type": {
         "name": "InvoiceNumber",
@@ -7948,7 +8530,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -8008,7 +8593,10 @@
             "schema": {
               "type": [
                 "string"
-              ]
+              ],
+              "pattern": "^.*$",
+              "maxLength": 2147483647,
+              "minLength": 0
             }
           }
         }
@@ -8026,6 +8614,18 @@
       "comparison_operators": {},
       "representation": {
         "type": "boolean"
+      }
+    },
+    "ConnectionLastSyncStatusEnum": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "IN_PROGRESS",
+          "SUCCESS",
+          "FAILED"
+        ],
+        "type": "enum"
       }
     },
     "Int32": {
@@ -8063,7 +8663,11 @@
           "PARTIALLY_REFUNDED",
           "MARKED_AS_REFUNDED",
           "UNPAID",
-          "PAYMENT_PENDING"
+          "PAYMENT_PENDING",
+          "AUTO_CANCELLED",
+          "PAID_EXTERNAL",
+          "REFUNDED_EXTERNAL",
+          "SHARED"
         ],
         "type": "enum"
       }
