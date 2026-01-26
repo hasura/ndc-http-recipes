@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ROOT="$(pwd)"
-NDC_TEST_VERSION=v0.2.5
+NDC_TEST_VERSION=v0.2.12
 NDC_TEST_PATH="$ROOT/tmp/ndc-test"
 
 # helper functions
@@ -41,7 +41,13 @@ fi
 # download ndc-test
 mkdir -p $ROOT/tmp
 if [ ! -f "$NDC_TEST_PATH" ]; then 
-  curl -L "https://github.com/hasura/ndc-spec/releases/download/$NDC_TEST_VERSION/ndc-test-x86_64-unknown-linux-gnu" -o "$NDC_TEST_PATH"
+  if [ "$(uname -m)" == "arm64" ]; then
+    curl -L https://github.com/hasura/ndc-spec/releases/download/$NDC_TEST_VERSION/ndc-test-aarch64-apple-darwin -o "$NDC_TEST_PATH"
+  elif [ $(uname) == "Darwin" ]; then
+    curl -L https://github.com/hasura/ndc-spec/releases/download/$NDC_TEST_VERSION/ndc-test-x86_64-apple-darwin -o "$NDC_TEST_PATH"
+  else
+    curl -L https://github.com/hasura/ndc-spec/releases/download/$NDC_TEST_VERSION/ndc-test-x86_64-unknown-linux-gnu -o "$NDC_TEST_PATH"
+  fi
   chmod +x "$NDC_TEST_PATH"
 fi
 
