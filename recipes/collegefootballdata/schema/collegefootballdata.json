@@ -19,7 +19,7 @@
         }
       }
     },
-    "version": "5.7.0"
+    "version": "5.13.2"
   },
   "functions": {
     "GetAdjustedPlayerPassingStats": {
@@ -1662,6 +1662,127 @@
       "result_type": {
         "element_type": {
           "name": "FieldGoalEP",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "GetGameHavocStats": {
+      "request": {
+        "url": "/stats/game/havoc",
+        "method": "get",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "opponent": {
+          "description": "Optional opponent filter",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "opponent",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "seasonType": {
+          "description": "Optional season type filter",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "SeasonType",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "seasonType",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "team": {
+          "description": "Team filter, required if year not specified",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "team",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "week": {
+          "description": "Optional week filter",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "week",
+            "in": "query",
+            "schema": {
+              "type": [
+                "number"
+              ],
+              "format": "double"
+            }
+          }
+        },
+        "year": {
+          "description": "Year filter, required if team not specified",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "description": "Retrieves havoc statistics aggregated by game",
+      "result_type": {
+        "element_type": {
+          "name": "GameHavocStats",
           "type": "named"
         },
         "type": "array"
@@ -4632,6 +4753,25 @@
         }
       },
       "arguments": {
+        "classification": {
+          "description": "Optional filter to only include players from FBS or FCS teams",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "DivisionClassification",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "classification",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
         "team": {
           "description": "Optional team filter",
           "type": {
@@ -4652,7 +4792,7 @@
           }
         },
         "year": {
-          "description": "Optional year filter, defaults to 2023",
+          "description": "Optional year filter, defaults to 2025",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -5172,6 +5312,85 @@
       "result_type": {
         "element_type": {
           "name": "Team",
+          "type": "named"
+        },
+        "type": "array"
+      }
+    },
+    "GetTeamsATS": {
+      "request": {
+        "url": "/teams/ats",
+        "method": "get",
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "conference": {
+          "description": "Optional conference filter",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "conference",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "team": {
+          "description": "Optional team filter",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "name": "team",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
+        "year": {
+          "description": "Required year filter",
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "name": "year",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int32"
+            }
+          }
+        }
+      },
+      "description": "Retrieves against-the-spread (ATS) summary by team",
+      "result_type": {
+        "element_type": {
+          "name": "TeamATS",
           "type": "named"
         },
         "type": "array"
@@ -6358,6 +6577,17 @@
               "integer"
             ],
             "format": "int32"
+          }
+        },
+        "seasonType": {
+          "type": {
+            "name": "SeasonTypeDB",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
           }
         },
         "team": {
@@ -8630,6 +8860,18 @@
             ]
           }
         },
+        "awayTeamId": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
         "homeClassification": {
           "type": {
             "type": "nullable",
@@ -8682,6 +8924,18 @@
             "type": [
               "string"
             ]
+          }
+        },
+        "homeTeamId": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
           }
         },
         "id": {
@@ -9626,15 +9880,15 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Int32",
+              "name": "Float64",
               "type": "named"
             }
           },
           "http": {
             "type": [
-              "integer"
+              "number"
             ],
-            "format": "int32"
+            "format": "double"
           }
         },
         "hometownInfo": {
@@ -10039,6 +10293,17 @@
             ]
           }
         },
+        "elapsed": {
+          "type": {
+            "name": "DriveElapsedObject",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
         "endDefenseScore": {
           "type": {
             "name": "Int32",
@@ -10267,6 +10532,40 @@
           "type": {
             "name": "Int32",
             "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "DriveElapsedObject": {
+      "fields": {
+        "minutes": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
+        "seconds": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int32",
+              "type": "named"
+            }
           },
           "http": {
             "type": [
@@ -10843,6 +11142,305 @@
               "integer"
             ],
             "format": "int32"
+          }
+        }
+      }
+    },
+    "GameHavocStats": {
+      "fields": {
+        "conference": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "defense": {
+          "type": {
+            "name": "GameHavocStatsDefenseObject",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "gameId": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
+        "offense": {
+          "type": {
+            "name": "GameHavocStatsOffenseObject",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
+        },
+        "opponent": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "opponentConference": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "season": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
+        "seasonType": {
+          "type": {
+            "name": "SeasonTypeDB",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "team": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "week": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "GameHavocStatsDefenseObject": {
+      "fields": {
+        "dbHavocEvents": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "dbHavocRate": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "frontSevenHavocEvents": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "frontSevenHavocRate": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "havocRate": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "totalHavocEvents": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "totalPlays": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        }
+      }
+    },
+    "GameHavocStatsOffenseObject": {
+      "fields": {
+        "dbHavocEvents": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "dbHavocRate": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "frontSevenHavocEvents": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "frontSevenHavocRate": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "havocRate": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "totalHavocEvents": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "totalPlays": {
+          "type": {
+            "name": "Float64",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
           }
         }
       }
@@ -12386,9 +12984,9 @@
             "format": "int32"
           }
         },
-        "rushPash": {
+        "rushPass": {
           "type": {
-            "name": "LiveGamePlayRushPashEnum",
+            "name": "LiveGamePlayRushPassEnum",
             "type": "named"
           },
           "http": {
@@ -12471,6 +13069,37 @@
     },
     "LiveGameTeam": {
       "fields": {
+        "averageStartYardLine": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "deserveToWin": {
+          "description": "Deserve-to-win metric for this team",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
         "drives": {
           "type": {
             "name": "Int32",
@@ -14286,15 +14915,15 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Int32",
+              "name": "Float64",
               "type": "named"
             }
           },
           "http": {
             "type": [
-              "integer"
+              "number"
             ],
-            "format": "int32"
+            "format": "double"
           }
         },
         "hometown": {
@@ -15498,6 +16127,18 @@
               "string"
             ]
           }
+        },
+        "teamId": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
         }
       }
     },
@@ -15746,15 +16387,15 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Int32",
+              "name": "Float64",
               "type": "named"
             }
           },
           "http": {
             "type": [
-              "integer"
+              "number"
             ],
-            "format": "int32"
+            "format": "double"
           }
         },
         "hometownInfo": {
@@ -16158,15 +16799,15 @@
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "Int32",
+              "name": "Float64",
               "type": "named"
             }
           },
           "http": {
             "type": [
-              "integer"
+              "number"
             ],
-            "format": "int32"
+            "format": "double"
           }
         },
         "homeCity": {
@@ -16670,6 +17311,21 @@
             ],
             "format": "int32"
           }
+        },
+        "winProbability": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
         }
       }
     },
@@ -16826,6 +17482,21 @@
               "integer"
             ],
             "format": "int32"
+          }
+        },
+        "winProbability": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
           }
         }
       }
@@ -17208,6 +17879,122 @@
             "type": [
               "string"
             ]
+          }
+        }
+      }
+    },
+    "TeamATS": {
+      "fields": {
+        "atsLosses": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
+        "atsPushes": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
+        "atsWins": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
+        "avgCoverMargin": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Float64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "number"
+            ],
+            "format": "double"
+          }
+        },
+        "conference": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "games": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
+        "team": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "teamId": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
+          }
+        },
+        "year": {
+          "type": {
+            "name": "Int32",
+            "type": "named"
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int32"
           }
         }
       }
@@ -19710,7 +20497,7 @@
         "type": "enum"
       }
     },
-    "LiveGamePlayRushPashEnum": {
+    "LiveGamePlayRushPassEnum": {
       "aggregate_functions": {},
       "comparison_operators": {},
       "representation": {
@@ -19770,6 +20557,21 @@
           "allstar",
           "spring_regular",
           "spring_postseason"
+        ],
+        "type": "enum"
+      }
+    },
+    "SeasonTypeDB": {
+      "aggregate_functions": {},
+      "comparison_operators": {},
+      "representation": {
+        "one_of": [
+          "allstar",
+          "postseason",
+          "preseason",
+          "regular",
+          "spring_postseason",
+          "spring_regular"
         ],
         "type": "enum"
       }

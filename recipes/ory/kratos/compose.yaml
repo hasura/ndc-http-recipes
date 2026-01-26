@@ -1,6 +1,6 @@
 services:
   ndc-http:
-    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.12.0}
+    image: ghcr.io/hasura/ndc-http:${NDC_HTTP_VERSION:-v0.13.2}
     ports:
       - 8080:8080
     depends_on:
@@ -15,7 +15,7 @@ services:
       HASURA_LOG_LEVEL: debug
 
   kratos-migrate:
-    image: oryd/kratos:v1.3.1
+    image: oryd/kratos:v25.4.0
     environment:
       - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true&mode=rwc
     volumes:
@@ -34,7 +34,7 @@ services:
       kratos-migrate:
         required: true
         condition: service_completed_successfully
-    image: oryd/kratos:v1.3.1
+    image: oryd/kratos:v25.4.0
     ports:
       - "4433:4433" # public
       - "4434:4434" # admin

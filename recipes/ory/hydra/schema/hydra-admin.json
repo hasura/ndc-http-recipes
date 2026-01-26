@@ -365,7 +365,7 @@
                 "integer"
               ],
               "format": "int64",
-              "maximum": 500,
+              "maximum": 1000,
               "minimum": 1
             }
           }
@@ -387,8 +387,7 @@
             "schema": {
               "type": [
                 "string"
-              ],
-              "minimum": 1
+              ]
             }
           }
         }
@@ -515,48 +514,6 @@
         }
       },
       "arguments": {
-        "DefaultItems": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int64",
-              "type": "named"
-            }
-          },
-          "http": {
-            "style": "form",
-            "explode": true,
-            "name": "DefaultItems",
-            "in": "query",
-            "schema": {
-              "type": [
-                "integer"
-              ],
-              "format": "int64"
-            }
-          }
-        },
-        "MaxItems": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "Int64",
-              "type": "named"
-            }
-          },
-          "http": {
-            "style": "form",
-            "explode": true,
-            "name": "MaxItems",
-            "in": "query",
-            "schema": {
-              "type": [
-                "integer"
-              ],
-              "format": "int64"
-            }
-          }
-        },
         "issuer": {
           "description": "If optional \"issuer\" is supplied, only jwt-bearer grants with this issuer will be returned.",
           "type": {
@@ -577,6 +534,51 @@
               ]
             }
           }
+        },
+        "page_size": {
+          "description": "Items per Page  This is the number of items per page to return. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": true,
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": [
+                "integer"
+              ],
+              "format": "int64",
+              "maximum": 1000,
+              "minimum": 1
+            }
+          }
+        },
+        "page_token": {
+          "description": "Next Page Token  The next page token. For details on pagination please head over to the [pagination documentation](https://www.ory.sh/docs/ecosystem/api-design#pagination).",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": true,
+            "name": "page_token",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
         }
       },
       "description": "List Trusted OAuth2 JWT Bearer Grant Type Issuers",
@@ -590,6 +592,26 @@
     }
   },
   "object_types": {
+    "HydraAcceptDeviceUserCodeRequestInput": {
+      "description": "Contains information on an device verification",
+      "fields": {
+        "user_code": {
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "alias": "acceptDeviceUserCodeRequest"
+    },
     "HydraAcceptOAuth2ConsentRequestInput": {
       "fields": {
         "context": {
@@ -644,21 +666,6 @@
                 "string"
               ]
             }
-          }
-        },
-        "handled_at": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TimestampTZ",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "date-time"
           }
         },
         "remember": {
@@ -766,7 +773,7 @@
     "HydraAcceptOAuth2LoginRequestInput": {
       "fields": {
         "acr": {
-          "description": "ACR sets the Authentication AuthorizationContext Class Reference value for this authentication session. You can use it to express that, for example, a user authenticated using two factor authentication.",
+          "description": "ACR sets the Authentication AuthorizationContext Class Reference value for this authentication session. You can use it to express that, for example, a user authenticated using two-factor authentication.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -858,7 +865,7 @@
           }
         },
         "remember": {
-          "description": "Remember, if set to true, tells ORY Hydra to remember this user by telling the user agent (browser) to store a cookie with authentication data. If the same user performs another OAuth 2.0 Authorization Request, he/she will not be asked to log in again.",
+          "description": "Remember, if set to true, tells Ory Hydra to remember this user by telling the user agent (browser) to store a cookie with authentication data. If the same user performs another OAuth 2.0 Authorization Request, they will not be asked to log in again.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -944,6 +951,104 @@
         }
       },
       "alias": "createJsonWebKeySet"
+    },
+    "HydraDeviceAuthorization": {
+      "description": "# Ory's OAuth 2.0 Device Authorization API",
+      "fields": {
+        "device_code": {
+          "description": "The device verification code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "expires_in": {
+          "description": "The lifetime in seconds of the \"device_code\" and \"user_code\".",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "interval": {
+          "description": "The minimum amount of time in seconds that the client SHOULD wait between polling requests to the token endpoint.  If no value is provided, clients MUST use 5 as the default.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "Int64",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "integer"
+            ],
+            "format": "int64"
+          }
+        },
+        "user_code": {
+          "description": "The end-user verification code.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "verification_uri": {
+          "description": "The end-user verification URI on the authorization server.  The URI should be short and easy to remember as end users will be asked to manually type it into their user agent.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
+        "verification_uri_complete": {
+          "description": "A verification URI that includes the \"user_code\" (or other information with the same function as the \"user_code\"), which is designed for non-textual transmission.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        }
+      },
+      "alias": "deviceAuthorization"
     },
     "HydraGetVersion200Response": {
       "fields": {
@@ -1847,7 +1952,7 @@
       "description": "OAuth 2.0 Clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.",
       "fields": {
         "access_token_strategy": {
-          "description": "OAuth 2.0 Access Token Strategy  AccessTokenStrategy is the strategy used to generate access tokens. Valid options are `jwt` and `opaque`. `jwt` is a bad idea, see https://www.ory.sh/docs/hydra/advanced#json-web-tokens Setting the stragegy here overrides the global setting in `strategies.access_token`.",
+          "description": "OAuth 2.0 Access Token Strategy  AccessTokenStrategy is the strategy used to generate access tokens. Valid options are `jwt` and `opaque`. `jwt` is a bad idea, see https://www.ory.sh/docs/oauth2-oidc/jwt-access-token Setting the strategy here overrides the global setting in `strategies.access_token`.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2113,6 +2218,54 @@
             "format": "date-time"
           }
         },
+        "device_authorization_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "device_authorization_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "device_authorization_grant_refresh_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
         "frontchannel_logout_session_required": {
           "description": "OpenID Connect Front-Channel Logout Session Required  Boolean value specifying whether the RP requires that iss (issuer) and sid (session ID) query parameters be included to identify the RP session with the OP when the frontchannel_logout_uri is used. If omitted, the default value is false.",
           "type": {
@@ -2198,15 +2351,19 @@
           }
         },
         "jwks": {
-          "description": "OAuth 2.0 Client JSON Web Key Set  Client's JSON Web Key Set [JWK] document, passed by value. The semantics of the jwks parameter are the same as the jwks_uri parameter, other than that the JWK Set is passed by value, rather than by reference. This parameter is intended only to be used by Clients that, for some reason, are unable to use the jwks_uri parameter, for instance, by native applications that might not have a location to host the contents of the JWK Set. If a Client can use jwks_uri, it MUST NOT use jwks. One significant downside of jwks is that it does not enable key rotation (which jwks_uri does, as described in Section 10 of OpenID Connect Core 1.0 [OpenID.Core]). The jwks_uri and jwks parameters MUST NOT be used together.",
+          "description": "JSON Web Key Set",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
+              "name": "HydraJsonWebKeySet",
               "type": "named"
             }
           },
-          "http": {}
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
         },
         "jwks_uri": {
           "description": "OAuth 2.0 Client JSON Web Key Set URL  URL for the Client's JSON Web Key Set [JWK] document. If the Client signs requests to the Server, it contains the signing key(s) the Server uses to validate signatures from the Client. The JWK Set MAY also contain the Client's encryption keys(s), which are used by the Server to encrypt responses to the Client. When both signing and encryption keys are made available, a use (Key Use) parameter value is REQUIRED for all keys in the referenced JWK Set to indicate each key's intended usage. Although some algorithms allow the same key to be used for both signatures and encryption, doing so is NOT RECOMMENDED, as it is less secure. The JWK x5c parameter MAY be used to provide X.509 representations of keys provided. When used, the bare key values MUST still be present and MUST match those in the certificate.",
@@ -2633,7 +2790,7 @@
       "description": "OAuth 2.0 Clients are used to perform OAuth 2.0 and OpenID Connect flows. Usually, OAuth 2.0 clients are generated for applications which want to consume your OAuth 2.0 or OpenID Connect capabilities.",
       "fields": {
         "access_token_strategy": {
-          "description": "OAuth 2.0 Access Token Strategy  AccessTokenStrategy is the strategy used to generate access tokens. Valid options are `jwt` and `opaque`. `jwt` is a bad idea, see https://www.ory.sh/docs/hydra/advanced#json-web-tokens Setting the stragegy here overrides the global setting in `strategies.access_token`.",
+          "description": "OAuth 2.0 Access Token Strategy  AccessTokenStrategy is the strategy used to generate access tokens. Valid options are `jwt` and `opaque`. `jwt` is a bad idea, see https://www.ory.sh/docs/oauth2-oidc/jwt-access-token Setting the strategy here overrides the global setting in `strategies.access_token`.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -2899,6 +3056,54 @@
             "format": "date-time"
           }
         },
+        "device_authorization_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "device_authorization_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "device_authorization_grant_refresh_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
         "frontchannel_logout_session_required": {
           "description": "OpenID Connect Front-Channel Logout Session Required  Boolean value specifying whether the RP requires that iss (issuer) and sid (session ID) query parameters be included to identify the RP session with the OP when the frontchannel_logout_uri is used. If omitted, the default value is false.",
           "type": {
@@ -2984,15 +3189,19 @@
           }
         },
         "jwks": {
-          "description": "OAuth 2.0 Client JSON Web Key Set  Client's JSON Web Key Set [JWK] document, passed by value. The semantics of the jwks parameter are the same as the jwks_uri parameter, other than that the JWK Set is passed by value, rather than by reference. This parameter is intended only to be used by Clients that, for some reason, are unable to use the jwks_uri parameter, for instance, by native applications that might not have a location to host the contents of the JWK Set. If a Client can use jwks_uri, it MUST NOT use jwks. One significant downside of jwks is that it does not enable key rotation (which jwks_uri does, as described in Section 10 of OpenID Connect Core 1.0 [OpenID.Core]). The jwks_uri and jwks parameters MUST NOT be used together.",
+          "description": "JSON Web Key Set",
           "type": {
             "type": "nullable",
             "underlying_type": {
-              "name": "JSON",
+              "name": "HydraJsonWebKeySetInput",
               "type": "named"
             }
           },
-          "http": {}
+          "http": {
+            "type": [
+              "object"
+            ]
+          }
         },
         "jwks_uri": {
           "description": "OAuth 2.0 Client JSON Web Key Set URL  URL for the Client's JSON Web Key Set [JWK] document. If the Client signs requests to the Server, it contains the signing key(s) the Server uses to validate signatures from the Client. The JWK Set MAY also contain the Client's encryption keys(s), which are used by the Server to encrypt responses to the Client. When both signing and encryption keys are made available, a use (Key Use) parameter value is REQUIRED for all keys in the referenced JWK Set to indicate each key's intended usage. Although some algorithms allow the same key to be used for both signatures and encryption, doing so is NOT RECOMMENDED, as it is less secure. The JWK x5c parameter MAY be used to provide X.509 representations of keys provided. When used, the bare key values MUST still be present and MUST match those in the certificate.",
@@ -3482,6 +3691,54 @@
             "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
           }
         },
+        "device_authorization_grant_access_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "device_authorization_grant_id_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
+        "device_authorization_grant_refresh_token_lifespan": {
+          "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ],
+            "pattern": "^([0-9]+(ns|us|ms|s|m|h))*$"
+          }
+        },
         "implicit_grant_access_token_lifespan": {
           "description": "Specify a time duration in milliseconds, seconds, minutes, hours.",
           "type": {
@@ -3621,7 +3878,7 @@
           }
         },
         "challenge": {
-          "description": "ID is the identifier (\"authorization challenge\") of the consent authorization request. It is used to identify the session.",
+          "description": "Challenge is used to retrieve/accept/deny the consent request.",
           "type": {
             "name": "String",
             "type": "named"
@@ -3644,6 +3901,21 @@
           "http": {
             "type": [
               "object"
+            ]
+          }
+        },
+        "consent_request_id": {
+          "description": "ConsentRequestID is the ID of the consent request.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
             ]
           }
         },
@@ -3906,6 +4178,21 @@
             ]
           }
         },
+        "consent_request_id": {
+          "description": "ConsentRequestID is the identifier of the consent request that initiated this consent session.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "type": [
+              "string"
+            ]
+          }
+        },
         "context": {
           "type": {
             "type": "nullable",
@@ -3915,20 +4202,6 @@
             }
           },
           "http": {}
-        },
-        "expires_at": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "HydraOAuth2ConsentSessionExpiresAt",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "object"
-            ]
-          }
         },
         "grant_access_token_audience": {
           "type": {
@@ -4037,90 +4310,10 @@
       },
       "alias": "oAuth2ConsentSession"
     },
-    "HydraOAuth2ConsentSessionExpiresAt": {
-      "fields": {
-        "access_token": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TimestampTZ",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "date-time"
-          }
-        },
-        "authorize_code": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TimestampTZ",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "date-time"
-          }
-        },
-        "id_token": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TimestampTZ",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "date-time"
-          }
-        },
-        "par_context": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TimestampTZ",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "date-time"
-          }
-        },
-        "refresh_token": {
-          "type": {
-            "type": "nullable",
-            "underlying_type": {
-              "name": "TimestampTZ",
-              "type": "named"
-            }
-          },
-          "http": {
-            "type": [
-              "string"
-            ],
-            "format": "date-time"
-          }
-        }
-      },
-      "alias": "oAuth2ConsentSession_expires_at"
-    },
     "HydraOAuth2LoginRequest": {
       "fields": {
         "challenge": {
-          "description": "ID is the identifier (\"login challenge\") of the login request. It is used to identify the session.",
+          "description": "ID is the identifier of the login request.",
           "type": {
             "name": "String",
             "type": "named"
@@ -4258,7 +4451,7 @@
     "HydraOAuth2LogoutRequest": {
       "fields": {
         "challenge": {
-          "description": "Challenge is the identifier (\"logout challenge\") of the logout authentication request. It is used to identify the session.",
+          "description": "Challenge is the identifier of the logout authentication request.",
           "type": {
             "type": "nullable",
             "underlying_type": {
@@ -4888,6 +5081,60 @@
         "type": "named"
       }
     },
+    "hydraAcceptUserCodeRequest": {
+      "request": {
+        "url": "/admin/oauth2/auth/requests/device/accept",
+        "method": "put",
+        "requestBody": {
+          "contentType": "application/json"
+        },
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {
+        "body": {
+          "description": "Contains information on an device verification",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "HydraAcceptDeviceUserCodeRequestInput",
+              "type": "named"
+            }
+          },
+          "http": {
+            "in": "body",
+            "schema": {
+              "type": [
+                "object"
+              ]
+            }
+          }
+        },
+        "device_challenge": {
+          "type": {
+            "name": "String",
+            "type": "named"
+          },
+          "http": {
+            "style": "form",
+            "explode": true,
+            "name": "device_challenge",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        }
+      },
+      "description": "Accepts a device grant user_code request",
+      "result_type": {
+        "name": "HydraOAuth2RedirectTo",
+        "type": "named"
+      }
+    },
     "hydraCreateJsonWebKeySet": {
       "request": {
         "url": "/admin/keys/{set}",
@@ -5214,6 +5461,21 @@
         "type": "named"
       }
     },
+    "hydraOAuth2DeviceFlow": {
+      "request": {
+        "url": "/oauth2/device/auth",
+        "method": "post",
+        "response": {
+          "contentType": "application/json"
+        }
+      },
+      "arguments": {},
+      "description": "The OAuth 2.0 Device Authorize Endpoint",
+      "result_type": {
+        "name": "HydraDeviceAuthorization",
+        "type": "named"
+      }
+    },
     "hydraPatchOAuth2Client": {
       "request": {
         "url": "/admin/clients/{id}",
@@ -5471,11 +5733,35 @@
             }
           }
         },
+        "consent_request_id": {
+          "description": "Consent Request ID  If set, revoke all token chains derived from this particular consent request ID.",
+          "type": {
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
+          },
+          "http": {
+            "style": "form",
+            "explode": true,
+            "name": "consent_request_id",
+            "in": "query",
+            "schema": {
+              "type": [
+                "string"
+              ]
+            }
+          }
+        },
         "subject": {
           "description": "OAuth 2.0 Consent Subject  The subject whose consent sessions should be deleted.",
           "type": {
-            "name": "String",
-            "type": "named"
+            "type": "nullable",
+            "underlying_type": {
+              "name": "String",
+              "type": "named"
+            }
           },
           "http": {
             "style": "form",
